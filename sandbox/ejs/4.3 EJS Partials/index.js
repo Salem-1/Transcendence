@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 app.post("/upload", upload.single("file"), (req, res) => {
   // Run a Bash command using the exec function
   console.log("loading the response");
-  exec("python3 icare.py", (error, stdout, stderr) => {
+  exec("python3 icare.py " + req.file.path, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing command: ${error.message}`);
       return;
