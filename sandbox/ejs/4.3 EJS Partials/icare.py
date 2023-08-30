@@ -12,7 +12,7 @@ def prompt_me(msg, text):
     response = palm.chat(messages=msg)
     print(response.last)
 
-palm.configure(api_key='AIzaSyDWpZxzuFAW8FPH2GDzb3ei2Gmu2qSU7J8')
+palm.configure(api_key=os.environ.get('PALM'))
 image_path = '/Users/ahsalem/projects/cursus/transcendence/sandbox/ejs/4.3 EJS Partials/uploads/Laboratory-test-results.png'
 image = Image.open(image_path)
 text = pytesseract.image_to_string(image)
