@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Create project directory
+mkdir test_node_project
+cd test_node_project
+
+# Initialize npm project
+# npm init -y
+
+# Create directories
+mkdir src public data tests
+
+# Create files
+touch src/index.js public/index.html tests/test.js  README.md
+
+# Populate .gitignore file
+# echo "node_modules/" >> .gitignore
+
+# Populate README.md
+echo "# test Node.js Project" >> README.md
+
+# Display success message
+echo "Node.js project file tree has been initialized."
+
+# Display directory tree
+echo "Project File Tree:"
+tree
+
+# Done
+exit 0
