@@ -1,0 +1,11 @@
+							Bism Ellah Elrahman Elraheem.
+
+
+Objective: creating pong game
+
+Backend 			Nestjs
+Frontend latest 	NextJS typescript
+Database			PostgerSQL
+create single page webapplication with ability to use forward and backward
+Compatible with google chrome
+Launch by docker compose up --build
