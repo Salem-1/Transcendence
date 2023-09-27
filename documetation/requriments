@@ -8,4 +8,45 @@ Frontend latest 	NextJS typescript
 Database			PostgerSQL
 create single page webapplication with ability to use forward and backward
 Compatible with google chrome
-Launch by docker compose up --build
+
+Docker:
+	Launch by docker compose up --build
+	Use docker in rootless mode
+	<I didn't understand the mount and VM requriment>
+
+Security:
+	Hash all passwords in the Database
+	Protect against SQL injections
+	Server side validation for any user input
+	Store all needed credwentials in .env file
+	2 Factor authentication 
+
+User account:
+	O2Auth 42 system
+	Choose unique name 
+	Upload an Avatar and has default one
+	Add other users as friends
+	See other friend status(online/offline/ingame)
+	Match history(Dashboard)
+
+Chat:
+	User can create chatroom (public/private/protected with password)
+	Send Direct Message to other users
+	Block other users
+	Channel creator is the Admin till he leave it
+	Admins manage passwords
+	Admins can assign other members as admins
+	Admins can kick
+			   ban
+			   mute
+			others for  limited time 
+		but not the channel owner
+	Can invite other users to play using the chat
+	Can access other users profile through chat
+
+Game:
+	Play live pong vs other players
+	Matchmaking for pick rivals
+	Can be canvus, 3d, ugly
+	Customize options (power ups/ speed ..../original)
+	Game must be responsive

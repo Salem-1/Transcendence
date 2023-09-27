@@ -5,3 +5,9 @@ https://themeforest.net/
 faker    to gnerate data to the frontend, then you can build the bacxkend
 piscsum.photos/200    generates random images
 airbnb react style guide is consider best practice guide
+
+TS quick and to the point tutorial:
+https://www.freecodecamp.org/news/learn-typescript-beginners-guide/
+
+Cost of skipping TDD:
+https://medium.com/javascript-scene/the-outrageous-cost-of-skipping-tdd-code-reviews-57887064c412
