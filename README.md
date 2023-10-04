@@ -1,4 +1,14 @@
 # Transcendence
+
+### Flowchart Parts
+
+* [Main Flowchart](./documetation/flowcharts/main.md)
+* [Game Flowchart](./documetation/flowcharts/game.md)
+* [Chat FlowChart](./documetation/flowcharts/chat.md)
+* [Search FlowChart](./documetation/flowcharts/search.md)
+* [Profile settings](./documetation/flowcharts/profile.md)
+
+#### Full Flowchart
 ``` mermaid
 %%{init: {'theme': 'default', "flowchart" : { "curve" : "catmullRom" } } }%%
 flowchart LR
