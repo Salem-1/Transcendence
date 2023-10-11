@@ -4,11 +4,12 @@
 flowchart LR
 		classDef start fill:#00ff80
 		
-
-		dash((Dashboard))
-		dash --> gbtn[play game]:::start
+		subgraph Main
+			dash((Dashboard))
+		end
 		
 		subgraph  Game
+			gbtn[play game]:::start
 			gbtn --> online{paly online?}
 			online -- No --> offGame(offline Game)
 			online -- Yes --> matching[Match making]

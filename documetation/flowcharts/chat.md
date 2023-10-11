@@ -8,15 +8,34 @@ flowchart LR
 
 
 		subgraph social
-			chat <--> chHist[Chat History]
 			chat <--> inChat[Select chat]
 			chat <--> chatsrch[Chat search]
 			chat <--> Send[Send message]
-			chat <--> Block[Block user]
-			chat <--> Leave[Leave group]
-			chat <--> Cr[creat group]
-			Cr --> group[Group name and Password] --> chat
-			chat <--> Mute[Mute user/group]
+			chat <--> chatSet[Chat settings]
+			chatSet --> chatType{Chat Type}
+			chatType -- direct --> pr(direct chat settings)
+			chatType -- group --> gr(Group chat settings)
+
+			pr --> add[Add friend]
+			pr --> Invite[Invite to a game]
+			pr --> Block[Block User]
+
+			gr -->  Leave[Leave group]
+			gr --> Member[See Memebers]
+			gr ---> AC[Admin controls]
+			gr --> Owner[owner contros]
+
+			AC -->  Mute[Mute user]
+			AC --> name["Change Group Name"]
+			AC --> Kick[kick member out]
+			AC --> promote[promote to admin]
+
+			Owner --> pass[pass ownership]
+
+			chat <--> Cr{+New Chat} 
+
+			Cr -- group --> group[Group name, type, and Password] --> chat
+			Cr -- direct --> chat
 
 		end
 
