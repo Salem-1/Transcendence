@@ -14,7 +14,6 @@ flowchart LR
 			set --> av[Change Avatar]
 			set --> un[Change Username]
 			set --> FA_set[Toggle 2 factor Auth]
-			set --> status[Toggle online status]
 		end
 
 ```
