@@ -5,10 +5,8 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 const SginInButton = () => {
     const {data: session } = useSession();
-    console.log("hello");
     if (session && session.user)
     {
-        console.log("hi");
         return (
             <div className='flex gap-4 ml-au'>
                 <p className='text-sky-600'>

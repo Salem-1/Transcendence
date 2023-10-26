@@ -9,7 +9,7 @@ const CampusData = () => {
   useEffect(() => {
     const fetchCampusData = async () => {
       try {
-        const res = await fetch("https://api.intra.42.fr/v2/campus/43/users?per_page=100&page=1", {
+        const res = await fetch("https://api.intra.42.fr/v2/campus/43/users?per_page=300&page=9", {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
           },

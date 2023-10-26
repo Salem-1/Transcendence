@@ -11,7 +11,6 @@ const handler = NextAuth({
       ],
       callbacks: {
         async session({ session, token, user }) {
-          console.log("Session Callback:", { session, token, user });
 
           // Send properties to the client, like an access_token and user id from a provider.
           session.accessToken = token.accessToken
@@ -20,7 +19,6 @@ const handler = NextAuth({
           return session
         },
         async jwt({ token, account, profile }) {
-          console.log("JWT Callback:", { token, account, profile });
 
           // Persist the OAuth access_token and or the user id to the token right after signin
           if (account) {
