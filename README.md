@@ -1,5 +1,7 @@
 # Transcendence
 
+
+[New subject changes](https://docs.google.com/document/d/13zzBVyW_n0g6kLEIZSaNZ5P-s-HjMHZVkuSDid5z7FE/edit?usp=sharing)
 ### Flowchart Parts
 
 * [Main Flowchart](./documetation/flowcharts/main.md)
