@@ -1,8 +1,7 @@
 {
   "name": "tests",
   "version": "1.0.0",
-  "description": "",
-  "main": "test_register.js",
+  "main": "index.test.js",
   "scripts": {
     "test": "jest"
   },
@@ -11,8 +10,11 @@
   "license": "ISC",
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
-    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/jest-dom": "^5.14.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.15.0"
   }
 }
