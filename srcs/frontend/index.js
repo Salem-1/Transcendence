@@ -44,6 +44,11 @@ async function register() {
     }
 }
 
+async function registerAuth(){
+  alert("intra register pressed.");
+  return ;
+}
+
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -94,6 +99,8 @@ function isValidRegeistrationIput(username, password, confirmPassword)
 {
     if (username.length < 1)
       alert("Choose longer username");
+    else if (username.includes('@'))
+      alert("Registration failed: Username cannot contain @");
       else if ((password.length < 8))
         alert("Passwords too short, should be 8 cahr at leaset");
     else if (password !== confirmPassword)
