@@ -9,28 +9,30 @@ import json
 
 @csrf_exempt
 def register_user(request):
-    print("register user called")
     if request.method =='POST':
-        data = json.loads(request.body)
-        username  = data.get('username')
-        password  = data.get('password')
-        print(f"post request recieved regestring username={username} pass={password}")
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'error': "Username already taken"}, status=400)
-        
-        user = User.objects.create_user(username=username, password=password)
-        return JsonResponse({'message': "Registration successful"})
-    
+        try:
+            data = json.loads(request.body)
+            username  = data.get('username')
+            password  = data.get('password')
+            if not username or username == "":
+                return JsonResponse({'error': 'Username cannot be empty'}, status=400)
+            elif len(password) < 8:
+                return JsonResponse({'error': 'Passwords too short, should be 8 cahr at leaset'}, status=400)
+            elif User.objects.filter(username=username).exists():
+                return JsonResponse({'error': "Username already taken"}, status=400)
+
+            user = User.objects.create_user(username=username, password=password)
+            return JsonResponse({'message': "Registration successful"})
+        except Exception as e:
+            return JsonResponse({'error': "Internal server error"}, status=500)  
     return JsonResponse({}, status=400)  
 
 @csrf_exempt
 def login_user(request):
-    print("register user called")
     if request.method =='POST':
         data = json.loads(request.body)
         username  = data.get('username')
         password  = data.get('password')
-        print(f"post request recieved loggin in username={username} pass={password}")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
