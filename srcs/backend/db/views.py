@@ -33,6 +33,7 @@ def login_user(request):
         data = json.loads(request.body)
         username  = data.get('username')
         password  = data.get('password')
+        print(f"username {username}, {password}");
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -40,3 +41,12 @@ def login_user(request):
         else:
             return JsonResponse({'error': 'Invalid request username or password'}, status=401)
     return JsonResponse({}, status=400)  
+
+@csrf_exempt
+def auth_intra(request):
+    if request.method =='POST':
+        data = json.loads(request.body)
+        code  = data.get('code')
+        print(f"code {code}");
+        if code:
+            return JsonResponse({'message': 'Login Successful'})
