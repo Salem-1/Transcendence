@@ -7,6 +7,8 @@ from django.views.decorators.http import require_POST
 import json
 import requests
 import os
+from db.views_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user
+
 
 @csrf_exempt
 def register_user(request):
@@ -46,59 +48,21 @@ def login_user(request):
 @csrf_exempt
 def auth_intra(request):
     if request.method =='POST':
-        data = json.loads(request.body)
-        code  = data.get('code')
-        if not code:
-            return JsonResponse({'error': 'Intra authentication failed'}, status=400)
         try:
-            url = "https://api.intra.42.fr/oauth/token"
-            data = {
-                'grant_type': 'authorization_code',
-                'client_id': os.getenv('intra_client_id'),
-                'client_secret': os.getenv('intra_client_secret'),
-                'code': code,
-                'redirect_uri': 'http://localhost:3000/auth',
-            }
-            response = requests.post(url, data=data)
-
-            if response.status_code != 200:
-                print("response:", response.json()) 
-                print("Access Token:", response.json()['access_token'])
-
-                bearer_token =  "Bearer " +response.json()['access_token']
-                headers = {
-                    "Authorization":  bearer_token,
-                }
-                url = "https://api.intra.42.fr/v2/me"
-                response = requests.get(url, headers=headers)
-                username = response.json()['email']
-                password = os.getenv('secret_pass')
-                if not username:
-                    return JsonResponse({'message': response.json()['access_token']}, status=500)
-
-                print("\n\n")
-                if response.status_code == 200:
-                    print(f"\n\nrecieved email = {username}")
-                    if User.objects.filter(username=username).exists():
-                        user = authenticate(request, username=username, password=password)
-                        if user is not None:
-                            login(request, user)
-                            print(f"Successful login via intra {username} finally Alhamdolelah")
-                            print(f"Successful login via intra {response.json()} finally Alhamdolelah")
-                            return JsonResponse({'message': username })
-                    else:
-                        user = User.objects.create_user(username=username, password=password)
-                        user = authenticate(request, username=username, password=password)
-                        if user is not None:
-                            login(request, user)
-                            return JsonResponse({'message': username + 'Login Successful'})
-                    return JsonResponse({'error': "couldn't register or login " + response.json()['email']})
-                else:
-                    print(f"Recieved error in the second call {response.status_code}");
-                return JsonResponse({'message': response.json()['access_token']}, status=500)
-            else:
-                print(f"error code {response.status_code}")
+            request_body = json.loads(request.body)
+            url_auth_code  = request_body.get('code')
+            auth_token_response = fetch_auth_token(url_auth_code)
+            if auth_token_response.status_code != 200:
+                return JsonResponse({'error': "couldn't register or login "})
+            intra_user_data_response = fetch_intra_user_data(auth_token_response)
+            username = intra_user_data_response.json()['email']
+            if intra_user_data_response.status_code == 200:
+                if (User.objects.filter(username=username).exists()\
+                            and login_intra_user(request, username)) \
+                    or (create_intra_user(username) \
+                            and login_intra_user(request, username)):
+                    return JsonResponse({'message': username })
+                return JsonResponse({'error': "couldn't register or login!"})
         except Exception as e:
-            print(f"error {e}")
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
