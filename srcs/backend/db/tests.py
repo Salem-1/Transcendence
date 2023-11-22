@@ -45,7 +45,7 @@ class YourAppViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.post('/login/', json.dumps({'username': 'newuser', 'password': 'newpassword'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(str(response.content, encoding='utf-8'), {'message': 'Login Successful'})
+        self.assertJSONEqual(str(response.content, encoding='utf-8'), {'message': 'newuser'})
     
     def test_lgoin_empty_user(self):
         # Test registration with a new username
@@ -62,4 +62,10 @@ class YourAppViewsTest(TestCase):
         response = self.client.post('/login/', json.dumps({'username': 'newuser', 'password': ''}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         self.assertJSONEqual(str(response.content, encoding='utf-8'), {'error': 'Invalid request username or password'})
+    
+    def test_intra_auth(self):
+        # Test registration with a new username
+        response = self.client.post('/auth/', json.dumps({'code': 'generate code for this test'}), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        
 

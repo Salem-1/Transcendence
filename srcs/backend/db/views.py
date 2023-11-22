@@ -53,16 +53,16 @@ def auth_intra(request):
             url_auth_code  = request_body.get('code')
             auth_token_response = fetch_auth_token(url_auth_code)
             if auth_token_response.status_code != 200:
-                return JsonResponse({'error': "couldn't register or login "})
+                return JsonResponse({'error': "couldn't register or login "}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
-            if intra_user_data_response.status_code == 200:
-                if (User.objects.filter(username=username).exists()\
+            if intra_user_data_response.status_code == 200:        
+                if (User.objects.filter(username=username).exists() \
                             and login_intra_user(request, username)) \
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
                     return JsonResponse({'message': username })
-                return JsonResponse({'error': "couldn't register or login!"})
+                return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
