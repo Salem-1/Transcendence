@@ -18,6 +18,7 @@ def register_user(request):
             data = json.loads(request.body)
             username  = data.get('username')
             password  = data.get('password')
+
             if not username or username == "":
                 return JsonResponse({'error': 'Username cannot be empty'}, status=400)
             elif len(password) < 8:
