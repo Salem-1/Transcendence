@@ -67,8 +67,9 @@ async function login() {
       const result = await response.json();
 
       if (response.ok) {
-        alert('Successful! log in.');
+        alert(`Successful! log in welcome ${result.message}.`);
         window.location.href = 'landing.html';
+        // greetUser(username, "username");
       } else {
         alert(`Login failed: ${result.error}`);
       }
@@ -100,7 +101,7 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     if (username.length < 1)
       alert("Choose longer username");
     else if (username.includes('@'))
-      alert("Registration failed: Username cannot contain @");
+      alert("Registration failed: Username cannot contain @ , it's username not email bro");
       else if ((password.length < 8))
         alert("Passwords too short, should be 8 cahr at leaset");
     else if (password !== confirmPassword)
@@ -117,3 +118,12 @@ function isValidLoginIput(username, password)
     alert("Invalid request username or password");
     return (false);   
 }
+
+
+/**
+ * peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent
+ */
+
+/** Button
+ * relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full
+ */

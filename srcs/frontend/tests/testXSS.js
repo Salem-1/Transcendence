@@ -7,18 +7,8 @@ const yellowColor = '\x1b[33m';
 
 async function runTest() {
 
-    testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration successful! Now you can log in.", 1);
-    testRegister("user", "12345678qwertyui", "12345678qwertyui" ,"Registration failed: Username already taken", 2);
-    testRegister("users@@", "3322122233", "3322122233" ,"Registration failed: Username cannot contain @ , it's username not email bro", 2);
-    testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
-    testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
-    testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
-    testRegister(generateRandomText(8), "asdfasdfdsafasdfasd", "00000000000" ,"Passwords do not match", 6);
-    testRegister("", "3322122233", "3322122233" ,"Choose longer username", 7);
-    testLogin("user", "12345678qwertyui","Successful! log in welcome user.", 8);
-    testLogin("user2", "","Invalid request username or password", 9);
-    testLogin("", "3322122233","Invalid request username or password", 10);
-    // testIntraAuth("intra register pressed.", 11);
+    testRegister("<script>alert('hi')</script>");
+
 }
 
 runTest();
