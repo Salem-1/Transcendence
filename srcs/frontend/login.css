@@ -4,7 +4,7 @@ body {
 }
 
 
-#lgn {
+#login {
 	margin-top: 100px;
     position: absolute;
     top: 55%;
@@ -22,7 +22,7 @@ body {
 	transform: translate(-50%, -50%);
 }
 
-#user{
+#username{
 
     width: 300.02px;
     height: 50.85px;
@@ -33,7 +33,7 @@ body {
     border: 4px #78B5DD solid;
 }
 
-#pass{
+#password{
     margin-top: 80px;
     width: 300.02px;
     height: 50.85px;

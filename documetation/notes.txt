@@ -1,0 +1,50 @@
+meeting notes 18th Nov.
+
+Basheer 1 day workload 
+Mahdy  2 days
+Salem and Ehsan full week 
+What need to do:
+Pages in Figma
+Django project creation
+
+Login and registration:
+Figma all Pages  Ehsan   
+Login and register pages   Ehsan/Mahdy 
+Django setup  Salem 
+Django Database setup  Salem 
+Registration  Salem 
+42 API done 
+Project design  Basheer
+
+
+authorization 
+
+Single page app js
+   
+Success: user is able to register and login with ready pages
+
+
+
+payload
+{
+    sub:  user_ID;
+    NAME: Username
+    iat: expiary_date
+}
+signature(
+    this is the encoded part of the data sent(header and payload),
+    if anyone misses with the data the signature will not be the same
+)
+
+reciepe for making jwt token 
+
+function Tokenize_JWT(header, payload, secret)
+{
+    return (toBase64UrlEncode(header)  + "." 
+            + toBase64UrlEncode(payload) + "."
+            + hash(toBase64UrlEncode(header) 
+                    + "."
+                    + toBase64UrlEncode(payload),
+                    secret)
+            )
+}

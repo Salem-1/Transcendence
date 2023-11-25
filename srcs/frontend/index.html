@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Page</title>
+</head>
+<body>
+
+  <h2>Registration</h2>
+
+  <form id="registrationForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <br>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+    <br>
+
+    <button type="button" onclick="register()">Register</button>
+  </form>
+  <button type="button" ><a href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-0e3d38438ded877257e74e3dc1078913fe2a5e940f4d27c5dafd20eda8ec881b&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code">Register via 42 intra</a>a</button>
+
+  
+</body>
+<script src="index.js"></script>
+</html>
