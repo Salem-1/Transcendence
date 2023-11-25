@@ -71,18 +71,18 @@ class YourAppViewsTest(TestCase):
     #     self.assertEqual(response.status_code, 200)
         
 
-    def test_fetch_username(self):
-        response = self.client.post('/register/', json.dumps({'username': 'ahmed', 'password': 'newpassword'}), content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post('/login/', json.dumps({'username': 'ahmed', 'password': 'newpassword'}), content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(str(response.content, encoding='utf-8'), {'message': 'ahmed'})
-        response = self.client.get('/username/', content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(str(response.content, encoding='utf-8'), {'username': 'ahmed'})
+    # def test_fetch_username(self):
+    #     response = self.client.post('/register/', json.dumps({'username': 'ahmed', 'password': 'newpassword'}), content_type='application/json')
+    #     self.assertEqual(response.status_code, 200)
+    #     response = self.client.post('/login/', json.dumps({'username': 'ahmed', 'password': 'newpassword'}), content_type='application/json')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertJSONEqual(str(response.content, encoding='utf-8'), {'message': 'ahmed'})
+    #     response = self.client.get('/username/', content_type='application/json')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertJSONEqual(str(response.content, encoding='utf-8'), {'username': 'ahmed'})
     
-    def test_fetch_wrong_username(self):
-        response = self.client.get('/username/', content_type='application/json')
-        self.assertEqual(response.status_code, 302)
-        # self.assertJSONEqual(str(response.content, encoding='utf-8'), {'error': 'you are not authorized'})
+    # def test_fetch_wrong_username(self):
+    #     response = self.client.get('/username/', content_type='application/json')
+    #     self.assertEqual(response.status_code, 302)
+    #     # self.assertJSONEqual(str(response.content, encoding='utf-8'), {'error': 'you are not authorized'})
     

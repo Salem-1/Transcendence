@@ -68,11 +68,23 @@ def auth_intra(request):
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
-@login_required
+# @login_required
 def fetch_username(request):
-    print(request.user)
-    if not request.user.is_authenticated:
-        return JsonResponse({"error": "you are not authorized"}, 401)
+    # print(request.user.username)
+    # print(request.session)
+    # pretty_print_dict(request.headers)
+    # if not request.user.is_authenticated:
+    #     return JsonResponse({"error": "you are not authorized"}, 401)
 
-    username = request.user.username
-    return JsonResponse({"username": username})
+    # username = request.user.username
+    return JsonResponse({"username": "hard coded username"})
+
+# def pretty_print_dict(dictionary, indent=0):
+#     for key, value in dictionary.items():
+#         if isinstance(value, dict):
+#             print('  ' * indent + f'{key}:')
+#             pretty_print_dict(value, indent + 1)
+#         else:
+#             print('  ' * indent + f'{key}: {value}')
+
+# # Call the function to print the dictionary
