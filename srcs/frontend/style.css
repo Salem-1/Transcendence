@@ -1,0 +1,52 @@
+body {
+	background-color: #000;
+	margin: 0px;
+}
+
+.div1 {
+	display: flex;
+	justify-content: right;
+}
+
+.btns {
+	display: flex;
+}
+
+#login {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 30%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#login42 {
+	margin-left: 40px;
+	position: absolute;
+	top: 50%;
+	left: 52%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#register {
+	margin-top: 40px;
+	position: absolute;
+	top: 58%;
+	left: 46%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#elii {
+	display: flex;
+	justify-content: end;
+	width: 608.635px;
+	height: 575.288px;
+	border-radius: 608.635px;
+	background-color: #242B3E;
+	margin-top: -150px;
+	margin-left: -220px;
+	box-shadow: 0px 0px 0px 100px black, 0px 0px 0px 200px #242B3E;
+}

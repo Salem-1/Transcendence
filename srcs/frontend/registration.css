@@ -1,0 +1,54 @@
+body {
+	background-color: #000;
+	margin: 0px;
+}
+
+#rgbtn {
+	margin-top: 100px;
+    position: absolute;
+    top: 55%;
+    left: 43%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#lgndiv {
+    margin: 0;
+	position: absolute;
+	top: 30%;
+	left: 40%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#user{
+
+    width: 300.02px;
+    height: 50.85px;
+    position: absolute;
+    background: #514949;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    border: 4px #78B5DD solid;
+}
+
+#pass{
+    margin-top: 80px;
+    width: 300.02px;
+    height: 50.85px;
+    position: absolute;
+    background: #514949;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    border: 4px #78B5DD solid;
+}
+#confirmpass{
+    margin-top: 160px;
+    width: 300.02px;
+    height: 50.85px;
+    position: absolute;
+    background: #514949;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    border: 4px #78B5DD solid;
+}
