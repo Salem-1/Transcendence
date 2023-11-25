@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+
 import json
 import requests
 import os
@@ -53,7 +54,7 @@ def auth_intra(request):
             url_auth_code  = request_body.get('code')
             auth_token_response = fetch_auth_token(url_auth_code)
             if auth_token_response.status_code != 200:
-                return JsonResponse({'error': "couldn't register or login "}, status=400)
+                return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
             if intra_user_data_response.status_code == 200:        
@@ -66,3 +67,12 @@ def auth_intra(request):
         except Exception as e:
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
+
+@login_required
+def fetch_username(request):
+    print(request.user)
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "you are not authorized"}, 401)
+
+    username = request.user.username
+    return JsonResponse({"username": username})

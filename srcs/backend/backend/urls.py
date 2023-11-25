@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from db.views import register_user, login_user, auth_intra
+from db.views import register_user, login_user, auth_intra, fetch_username
 
 
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     path('register/', register_user, name="register_user"),
     path('login/', login_user, name="login_user"),
     path('auth/', auth_intra, name="auth_intra"),
+    path('username/', fetch_username, name="fetch_username"),
 ]
