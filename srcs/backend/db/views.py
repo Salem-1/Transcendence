@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
 import json
 import requests
 import os
@@ -89,3 +88,4 @@ def fetch_username(request):
 #             print('  ' * indent + f'{key}: {value}')
 
 # # Call the function to print the dictionary
+

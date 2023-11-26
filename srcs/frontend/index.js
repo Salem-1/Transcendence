@@ -1,27 +1,14 @@
 
 
-// async function register(){
-//     const username = document.getElementById('username').value;
-//     const password = document.getElementById('password').value;
-//     const confirmPassword = document.getElementById('confirmPassword').value;
-    
-//     try{
-//       const response = await fetch('http://localhost:8000/register');
-//     }
-//     catch (error){
-//       alert(`Error during registration: ${error}`);
-//     }
-// }
-
 async function register() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmpassword').value;
 
+    
     if (!isValidRegeistrationIput(username, password, confirmPassword))
         return ;
-    
-      try {
+    try {
       const response = await fetch('http://localhost:8000/register/', {
         method: "POST",
         headers: {
@@ -40,7 +27,7 @@ async function register() {
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      alert(`Error during registration: ${error}`);
+      alert(`Registration failed: ${error}`);
     }
 }
 
@@ -98,22 +85,28 @@ async function login() {
 
 function isValidRegeistrationIput(username, password, confirmPassword)
 {
+    
     if (username.length < 1)
-      alert("Choose longer username");
-    else if (username.includes('@'))
-      alert("Registration failed: Username cannot contain @ , it's username not email bro");
-      else if ((password.length < 8))
+      alert("Registration failed: Choose longer username");
+    else if ((password.length < 8))
         alert("Passwords too short, should be 8 cahr at leaset");
-    else if (password !== confirmPassword)
-      alert("Passwords do not match");
-    else
+    else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
+      alert("Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'");
+      else if (!(/[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password)))
+      {
+        alert("Registration failed: password must contain at least one upper, lower case letters and number");
+      }
+      
+      else if (password !== confirmPassword)
+      alert("Registration failed: Passwords do not match");
+      else
       return (true);
-    return (false);   
-}
-
-function isValidLoginIput(username, password)
-{
-    if (username.length > 1 && (password.length > 8))
+      return (false);   
+    }
+    
+    function isValidLoginIput(username, password)
+    {
+      if (username.length > 1 && (password.length > 8) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
       return (true);
     alert("Invalid request username or password");
     return (false);   

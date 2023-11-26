@@ -11,6 +11,7 @@ async function greetUser() {
             // alert(responseData);
             
             const username = responseData.username;
+            alert("hello")
             greetElement.textContent = `Hello ${username}`;
         } 
         else if (response.status === 401) {

@@ -6,12 +6,12 @@ python -m venv env
 source env/bin/activate #if you use windows env/scripts/activate
 
 pip install django
-pip freeze > requirements.txt #
+# pip freeze > requirements.txt #
 
-django-admin startproject backend #create new django project
+# django-admin startproject backend #create new django project
 
-python manage.py startapp db   #create databse files in django project
-python manage.py runserver  # you can visit the project from the default localhost:8000
+# python manage.py startapp db   #create databse files in django project
+# python manage.py runserver  # you can visit the project from the default localhost:8000
 
 
 #donw load and install postgresql from ->>https://postgresapp.com/downloads.html
