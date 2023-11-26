@@ -7,8 +7,7 @@ from django.contrib.auth.decorators import login_required
 import json
 import requests
 import os
-from db.views_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user
-
+from db.views_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input
 
 @csrf_exempt
 def register_user(request):
@@ -17,13 +16,9 @@ def register_user(request):
             data = json.loads(request.body)
             username  = data.get('username')
             password  = data.get('password')
-
-            if not username or username == "":
-                return JsonResponse({'error': 'Username cannot be empty'}, status=400)
-            elif len(password) < 8:
-                return JsonResponse({'error': 'Passwords too short, should be 8 cahr at leaset'}, status=400)
-            elif User.objects.filter(username=username).exists():
-                return JsonResponse({'error': "Username already taken"}, status=400)
+            valid_input, error_message = is_valid_input(username, password);
+            if not valid_input:
+                return error_message
 
             user = User.objects.create_user(username=username, password=password)
             return JsonResponse({'message': "Registration successful"})
@@ -37,7 +32,6 @@ def login_user(request):
         data = json.loads(request.body)
         username  = data.get('username')
         password  = data.get('password')
-        print(f"username {username}, {password}");
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)

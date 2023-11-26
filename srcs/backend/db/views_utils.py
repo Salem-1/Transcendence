@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 import json
 import requests
 import os
-
+import re 
 
 def fetch_auth_token(url_auth_code):
     url = "https://api.intra.42.fr/oauth/token"
@@ -41,53 +41,25 @@ def create_intra_user(username):
     user = User.objects.create_user(username=username, password=os.getenv('secret_pass'))
     return True
     
-# # @csrf_exempt
-# # def auth_intras(request):
-# #     if request.method =='POST':
-# #         data = json.loads(request.body)
-# #         code  = data.get('code')
-# #         if not code:
-# #             return JsonResponse({'error': 'Intra authentication failed'}, status=400)
-# # #        try:
-#                url = "https://api.intra.42.fr/oauth/token"
-#                data = {
-#                    'grant_type': 'authorization_code',
-#                    'client_id': os.getenv('intra_client_id'),
-#                    'client_secret': os.getenv('intra_client_secret'),
-#                    'code': code,
-#                    'redirect_uri': 'http://localhost:3000/auth',
-#                }
-#               r esponse =  requests.post(url, data=data)
-# #             if response.status_code != 200:
-# #                 bearer_token =  "Bearer " +response.json()['access_token']
-# #                 headers = {
-# #                     "Authorization":  bearer_token,
-# #                 }
-# #                 url = "https://api.intra.42.fr/v2/me"
-# #                 response = requests.get(url, headers=headers)
-# #                 username = response.json()['email']
-# #                 password = os.getenv('secret_pass')
-# #                 if not username:
-# #                     return JsonResponse({'message': response.json()['access_token']}, status=500)
-# #                 if response.status_code == 200:
-# #                     if User.objects.filter(username=username).exists():
-# #                         user = authenticate(request, username=username, password=password)
-# #                         if user is not None:
-# #                             login(request, user)
-# #                             return JsonResponse({'message': username })
-# #                     else:
-# #                         user = User.objects.create_user(username=username, password=password)
-# #                         user = authenticate(request, username=username, password=password)
-# #                         if user is not None:
-# #                             login(request, user)
-# #                             return JsonResponse({'message': username + 'Login Successful'})
-# #                     return JsonResponse({'error': "couldn't register or login " + response.json()['email']})
-# #                 else:
-# #                     print(f"Recieved error in the second call {response.status_code}");
-# #                 return JsonResponse({'message': response.json()['access_token']}, status=500)
-# #             else:
-# #                 print(f"error code {response.status_code}")
-# #         except Exception as e:
-# #             print(f"error {e}")
-# #             return JsonResponse({'error': f"Internal server error"}, status=500)
-# #     return JsonResponse({'error': "Internal server error"}, status=500)
+def is_valid_input(username, password):
+    if not username or username == "":
+        return False, JsonResponse({'error': 'Username cannot be empty'}, status=400)
+    elif has_special_characters(username) != None:
+        return False, JsonResponse({'error': 'username cannot contain special characters'}, status=400)
+    elif len(password) < 8:
+        return False, JsonResponse({'error': 'Passwords too short, should be 8 cahr at leaset'}, status=400)
+    elif not has_alphanumeric(password):
+        return False, JsonResponse({'error': 'password must contain upper, lower case letter and number'}, status=400)
+    if User.objects.filter(username=username).exists():
+        return False, JsonResponse({'error': "Username already taken"}, status=400)
+    return True, ""
+
+def has_alphanumeric(password):
+    numeric = re.search(r"([0-9])", password)
+    lower = re.search(r"([a-z])", password)
+    upper = re.search("([A-Z])", password)
+    return all((numeric, upper, lower))
+
+def has_special_characters(username):
+    special_characters = r'[!@#$%^&*(),.;?":{}|<>\'\s]'
+    return re.search(special_characters, username)
