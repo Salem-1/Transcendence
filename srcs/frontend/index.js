@@ -49,10 +49,8 @@ async function login() {
 
       const result = await response.json();
 
-      if (response.ok) {
-        // response.headers.forEach((value, header) => {
-        //   console.log(`${header}: ${value}`)});
-        // storeJWTLocally(response);
+      if (response.ok && result.jwt_token){ 
+        await storeJWTInCookies(result);
         alert(`Successful! log in welcome ${result.message}.`);
         window.location.href = 'landing.html';
       } else {
@@ -93,16 +91,17 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     return (false);   
 }
 
-function  storeJWTLocally(response)
+async function  storeJWTInCookies(result)
 {
   // Assuming 'response' is your fetch response
-  const authorizationHeader = response.headers.get('Authorization');
-  const token = authorizationHeader.split(' ')[1];
-  if (!token || token == '')
+  //extract "jwt_token" from response body
+  const jwt_token = result.jwt_token;
+  if (!jwt_token)
     return (false);
-  localStorage.setItem('jwtToken', token);
+  document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
   return (true);
 }
+
 
 function  addJWTToRrequest()
 {

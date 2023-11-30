@@ -65,28 +65,20 @@ def auth_intra(request):
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
-# @login_required
+@csrf_exempt
+@csrf_exempt
 def fetch_username(request):
-    # print(request.user.username)
-    # print(request.session)
-    # pretty_print_dict(request.headers)
-    # if not request.user.is_authenticated:
-    #     return JsonResponse({"error": "you are not authorized"}, 401)
-
-    # username = request.user.username
-    return JsonResponse({"username": "hard coded username"})
-
-# def pretty_print_dict(dictionary, indent=0):
-#     for key, value in dictionary.items():
-#         if isinstance(value, dict):
-#             print('  ' * indent + f'{key}:')
-#             pretty_print_dict(value, indent + 1)
-#         else:
-#             print('  ' * indent + f'{key}: {value}')
-
-# # Call the function to print the dictionary
-
-# import jwt
-# encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
-# print(encoded_jwt)
-# jwt.decode(encoded_jwt, "secret", algorithms=["HS256"])
+    try:
+        jwt_token = request.COOKIES.get('Authorization')
+        if jwt_token and jwt_token.startswith('Bearer '):
+            jwt_token = jwt_token.split('Bearer ')[1]
+            decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+            user_id = decoded_payload.get('id')
+            user = User.objects.get(id=user_id)
+            fetched_username = user.username
+            return JsonResponse({"username": fetched_username, "id": user_id})
+        else:
+            raise ValueError("Invalid or missing Authorization header")
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({"error": "Invalid or missing token"}, status=401)

@@ -5,7 +5,13 @@ async function greetUser() {
 
     try {
         // alert("sending request")
-        const response = await fetch('http://localhost:8000/username/');
+        const response = await fetch('http://localhost:8000/username/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // Add this line
+        });
         if (response.ok) {
             const responseData = await response.json();
             // alert(responseData);

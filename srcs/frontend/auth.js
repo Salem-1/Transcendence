@@ -1,12 +1,12 @@
 // Get the current URL
 
-// import storeJWTLocally from index 
+// import storeJWTInCookies from index 
 
 intraAuthenticate();
 
 async function intraAuthenticate(){
-    let code =  extractIntraAuthCode();
-  
+  let code =  extractIntraAuthCode();
+    
     try {
         if (code == null || code == "")
         {
@@ -22,9 +22,8 @@ async function intraAuthenticate(){
         });
   
         const result = await response.json();
-        if (response.ok) {
-          // printResponseHeaders(response);
-          // storeJWTLocally(response);
+        if (response.ok && result.jwt_token) { 
+          await storeJWTInCookies(result);
           window.location.href = 'landing.html';
         } else {
           alert(`Login failed: ${result.error}`);
@@ -46,23 +45,15 @@ function extractIntraAuthCode(){
 
 
 
-async function  storeJWTLocally(response)
+async function  storeJWTInCookies(result)
 {
   // Assuming 'response' is your fetch response
-  const authorizationHeader = response.('Authorization');
-  alert("authorization header is null, will log you in anyway");
-  if (!authorizationHeader)
-  {
-    alert("authorization header is null, will log you in anyway");
-    return ;
-  }
-  alert(`authorization header ${authorizationHeader}`);
-  const token = authorizationHeader.split(' ')[1];
-  alert(`authorization toke  ${token}`);
-  // if (!token || token == '')
-  //   return (false);
-  localStorage.setItem('jwtToken', token);
-  // return (true);
+  //extract "jwt_token" from response body
+  const jwt_token = result.jwt_token;
+  if (!jwt_token)
+    return (false);
+    document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
+    return (true);
 }
 
 
