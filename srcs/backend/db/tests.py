@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 import json
-
+import jwt
+import os
 class YourAppViewsTest(TestCase):
     def setUp(self):
         # Create a test user
@@ -72,7 +73,31 @@ class YourAppViewsTest(TestCase):
         response = self.client.post('/register/', json.dumps({'username': "newuser'---", 'password': 'newA0password'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertJSONEqual(str(response.content, encoding='utf-8'), {'error': 'username cannot contain special characters'})
+
+    def test_login_invalid_request_method(self):
+        # Test login with an invalid request method
+        response = self.client.get('/login/')
+        self.assertEqual(response.status_code, 400)
+        self.assertNotIn('Authorization', response)
     
+    def test_login_tokenized_jwt(self):
+        # Test login with valid credentials
+        credentials = {'username': 'testuser', 'password': 'testpassword'}
+        response = self.client.post('/login/', json.dumps(credentials), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Authorization', response)
+
+        # Decode and verify the JWT token
+        token = response['Authorization'].split(' ')[1]
+        decoded_payload = jwt.decode(token, os.environ['secret_pass'], algorithms=['HS256'])
+        self.assertEqual(decoded_payload['username'], 'testuser')
+
+    def test_login_invalid_credentials(self):
+        # Test login with invalid credentials
+        credentials = {'username': 'testuser', 'password': 'wrongpassword'}
+        response = self.client.post('/login/', json.dumps(credentials), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        self.assertNotIn('Authorization', response)
     # def test_intra_auth(self):
     #     # Test registration with a new username
     #     dummy_token = '25d704ac7fae9310177e61608b14346ff97669de1cb1e12d5e42106ffbf2ebf6'
@@ -96,3 +121,9 @@ class YourAppViewsTest(TestCase):
     #     self.assertEqual(response.status_code, 302)
     #     # self.assertJSONEqual(str(response.content, encoding='utf-8'), {'error': 'you are not authorized'})
     
+# >>> import jwt
+# >>> encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+# >>> print(encoded_jwt)
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb21lIjoicGF5bG9hZCJ9.4twFt5NiznN84AWoo1d7KO1T_yoc0Z6XOpOVswacPZg
+# >>> jwt.decode(encoded_jwt, "secret", algorithms=["HS256"])
+# {'some': 'payload'}

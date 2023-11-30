@@ -31,10 +31,6 @@ async function register() {
     }
 }
 
-async function registerAuth(){
-  alert("intra register pressed.");
-  return ;
-}
 
 async function login() {
     const username = document.getElementById('username').value;
@@ -54,9 +50,11 @@ async function login() {
       const result = await response.json();
 
       if (response.ok) {
+        // response.headers.forEach((value, header) => {
+        //   console.log(`${header}: ${value}`)});
+        // storeJWTLocally(response);
         alert(`Successful! log in welcome ${result.message}.`);
         window.location.href = 'landing.html';
-        // greetUser(username, "username");
       } else {
         alert(`Login failed: ${result.error}`);
       }
@@ -65,23 +63,6 @@ async function login() {
       alert(`Error during registration: ${error}`);
     }
   }
-
-
-//   function hash(s) {
-//     /* Simple hash function. */
-//     var a = 1, c = 0, h, o;
-//     if (s) {
-//         a = 0;
-//         /*jshint plusplus:false bitwise:false*/
-//         for (h = s.length - 1; h >= 0; h--) {
-//             o = s.charCodeAt(h);
-//             a = (a<<6&268435455) + o + (o<<14);
-//             c = a & 266338304;
-//             a = c!==0?a^c>>21:a;
-//         }
-//     }
-//     return String(a);
-// };
 
 function isValidRegeistrationIput(username, password, confirmPassword)
 {
@@ -112,7 +93,33 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     return (false);   
 }
 
+function  storeJWTLocally(response)
+{
+  // Assuming 'response' is your fetch response
+  const authorizationHeader = response.headers.get('Authorization');
+  const token = authorizationHeader.split(' ')[1];
+  if (!token || token == '')
+    return (false);
+  localStorage.setItem('jwtToken', token);
+  return (true);
+}
 
+function  addJWTToRrequest()
+{
+    const token = localStorage.getItem('jwtToken');
+  fetch('/some-protected-endpoint', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+}
+
+function removeJWTFromStorage(){
+  localStorage.removeItem('jwtToken');
+
+}
 /**
  * peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent
  */

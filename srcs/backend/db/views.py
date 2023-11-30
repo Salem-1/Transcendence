@@ -4,10 +4,13 @@ from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
 import json
+import jwt
 import requests
 import os
-from db.views_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input
+from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response
 
 @csrf_exempt
 def register_user(request):
@@ -35,7 +38,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({'message': username})
+            return tokenize_login_response(username)
         else:
             return JsonResponse({'error': 'Invalid request username or password'}, status=401)
     return JsonResponse({}, status=400)  
@@ -56,7 +59,7 @@ def auth_intra(request):
                             and login_intra_user(request, username)) \
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
-                    return JsonResponse({'message': username })
+                    return tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:
             return JsonResponse({'error': f"Internal server error"}, status=500)
@@ -83,3 +86,7 @@ def fetch_username(request):
 
 # # Call the function to print the dictionary
 
+# import jwt
+# encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+# print(encoded_jwt)
+# jwt.decode(encoded_jwt, "secret", algorithms=["HS256"])

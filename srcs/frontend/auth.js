@@ -1,9 +1,12 @@
 // Get the current URL
 
+// import storeJWTLocally from index 
+
+intraAuthenticate();
 
 async function intraAuthenticate(){
     let code =  extractIntraAuthCode();
-
+  
     try {
         if (code == null || code == "")
         {
@@ -19,8 +22,9 @@ async function intraAuthenticate(){
         });
   
         const result = await response.json();
-  
         if (response.ok) {
+          // printResponseHeaders(response);
+          // storeJWTLocally(response);
           window.location.href = 'landing.html';
         } else {
           alert(`Login failed: ${result.error}`);
@@ -40,7 +44,27 @@ function extractIntraAuthCode(){
     return (codeValue);
 }
 
-intraAuthenticate();
+
+
+async function  storeJWTLocally(response)
+{
+  // Assuming 'response' is your fetch response
+  const authorizationHeader = response.('Authorization');
+  alert("authorization header is null, will log you in anyway");
+  if (!authorizationHeader)
+  {
+    alert("authorization header is null, will log you in anyway");
+    return ;
+  }
+  alert(`authorization header ${authorizationHeader}`);
+  const token = authorizationHeader.split(' ')[1];
+  alert(`authorization toke  ${token}`);
+  // if (!token || token == '')
+  //   return (false);
+  localStorage.setItem('jwtToken', token);
+  // return (true);
+}
+
 
 
 /*
