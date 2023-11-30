@@ -51,7 +51,7 @@ async function login() {
 
       if (response.ok && result.jwt_token){ 
         await storeJWTInCookies(result);
-        alert(`Successful! log in welcome ${result.message}.`);
+        alert(`Successful! log in welcome ${username}.`);
         window.location.href = 'landing.html';
       } else {
         alert(`Login failed: ${result.error}`);
