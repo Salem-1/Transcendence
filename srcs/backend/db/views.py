@@ -65,7 +65,7 @@ def auth_intra(request):
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
-@csrf_exempt
+
 @csrf_exempt
 def fetch_username(request):
     try:
