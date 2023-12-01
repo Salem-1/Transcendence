@@ -1,8 +1,11 @@
 import pyotp
-import time
 import base64
 
 secret = "werty23FG"
-secret = base64.b64encode(secret.encode('utf-8'))
-totp = pyotp.TOTP('base32secret3232')
-print(totp.now()) # => '492039'
+
+# Encode the secret in base32
+secret_base32 = base64.b32encode(secret.encode('utf-8')).decode('utf-8')
+
+totp = pyotp.TOTP(secret_base32)
+print(f"secret is {secret_base32}")
+print(totp.now())  # This should work now

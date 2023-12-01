@@ -92,3 +92,11 @@ def tokenize_login_response(username):
                 status=200,
                 content_type="application/json"
                 )
+
+def get_user_id(username):
+    try:
+        user = User.objects.get(username=username)
+        user_id = user.id
+        return user_id
+    except User.DoesNotExist:
+        return None
