@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+   'django.contrib.sites', # must
+    'allauth', # must
+    'allauth.socialaccount', # must
+    'allauth.socialaccount.providers.google', # new
+    # 'allauth.account', # must
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -5,7 +5,7 @@ from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
+from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_page, fetch_otp_secret, verify_OTP
 import json
 import jwt
 import requests
@@ -37,6 +37,10 @@ def login_user(request):
         password  = data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            if is_2fa_enabled(username):
+                return authenticate_otp_page(username)
+            
+                #2fA_authenticate()
             login(request, user)
             return tokenize_login_response(username)
         else:
@@ -59,7 +63,7 @@ def auth_intra(request):
                             and login_intra_user(request, username)) \
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
-                    return tokenize_login_response(username)
+                    return  
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:
             return JsonResponse({'error': f"Internal server error"}, status=500)
@@ -82,3 +86,45 @@ def fetch_username(request):
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({"error": "Invalid or missing token"}, status=401)
+
+@csrf_exempt
+def double_factor_auth(request):
+    if request.method == "POST":
+        try:
+            jwt_token = request.COOKIES.get('Authorization')
+            if jwt_token and jwt_token.startswith('Bearer '):
+                jwt_token = jwt_token.split('Bearer ')[1]
+                decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+                token_type = decoded_payload.get('type')
+                username = decoded_payload.get('username')
+                user = User.objects.get(username=username)
+                if not token_type or token_type != "otp" or not user:
+                    raise Exception("Invalid jwt token")
+                secret = fetch_otp_secret(username)
+                if verify_OTP(username, secret):
+                    tokenize_login_response(username)
+                else:
+                    return JsonResponse({"error": "Invalid OTP"}, status=401)
+            else:
+                raise ValueError("Invalid or missing Authorization header")
+        except Exception as e:
+            print(f"Error: {e}")
+            return JsonResponse({"error": "Invalid or missing token"}, status=401)
+    return JsonResponse({'error': "Method not allowed"}, status=405)
+    
+    ##
+    response_data = {
+        "auth": "true"
+        }
+    json_response = json.dumps(response_data)
+    return HttpResponse(
+                json_response,
+                status=302,
+                content_type="application/json"
+                )
+    
+# import pyotp
+# import time
+
+# totp = pyotp.TOTP('base32secret3232')
+# totp.now() # => '492039'

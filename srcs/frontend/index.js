@@ -49,12 +49,15 @@ async function login() {
 
       const result = await response.json();
 
-      if (response.ok && result.jwt_token){ 
+      if (response.status == 200 && result.jwt_token){ 
         await storeJWTInCookies(result);
         alert(`Successful! log in welcome ${username}.`);
         window.location.href = 'landing.html';
-      } else {
-        alert(`Login failed: ${result.error}`);
+      } else if (response.status == 302 && result.otp_token){
+          double_factor_authenticate();
+      }
+      else{
+          alert(`Login failed: ${result.error}`);
       }
     } catch (error) {
       console.error('Error during registration:', error);
@@ -119,10 +122,44 @@ function removeJWTFromStorage(){
   localStorage.removeItem('jwtToken');
 
 }
+
+async function  double_factor_authenticate()
+{
+  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "xxxxxx");
+    const otpPattern = /^\d{6}$/;
+    if (otpPattern.test(otp)) {
+      try{
+        const response = await fetch('http://localhost:8000/double_factor_auth/', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({otp}),
+        });
+
+        const result = await response.json();
+
+        if (response.ok){ 
+          alert("succesfull login congrats");
+        }
+          else{
+          alert(`Entered OTP is valid`);
+          }
+      } catch (error) {
+        console.log('Error during registration:', error);
+        alert(`Error during registration: ${error}`);
+      }
+      } else {
+      alert("Invalid OTP. Please enter a 6-digit numeric code.");
+
+    }
+}
+
 /**
  * peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent
  */
 
 /** Button
  * relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full
- */
+WdcssW werty23FG gsadf32KL:Mlm
+*/
