@@ -88,7 +88,7 @@ class YourAppViewsTest(unittest.TestCase):
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json()['error'], 'Invalid or missing token')
+        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
    
     def test_otp_token_privilage(self):
         login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
@@ -98,7 +98,7 @@ class YourAppViewsTest(unittest.TestCase):
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json()['error'], 'Invalid or missing token')
+        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
     
     def test_otp_token(self):
         login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
@@ -154,6 +154,21 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.put(f'{self.base_url}/login/', json=request_data)
         self.assertEqual(response.status_code, 405)
         self.assertEqual(response.json()['error'], 'Method not allowed')
+
+    def test_bad_intra(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/auth/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
+        login_data = {'username': "", 'password': ""}
+        login_response = requests.post(f'{self.base_url}/auth/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
+        login_data = {"code": "ERTCYVUybunmisoubcvyastts234567890NJBKHVGCFXDGSrtdhyfjvghb"}
+        login_response = requests.post(f'{self.base_url}/auth/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
+
 
 def randomize_string(length):
     if length < 3:
