@@ -108,3 +108,10 @@ def ready_packet(body, status_code=200):
                 status=status_code,
                 content_type="application/json"
                 )
+
+def validate_jwt(request):
+    jwt_token = request.COOKIES.get('Authorization')
+    if jwt_token and jwt_token.startswith('Bearer '):
+        jwt_token = jwt_token.split('Bearer ')[1]
+        return jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+    raise jwt.exceptions.InvalidTokenError()

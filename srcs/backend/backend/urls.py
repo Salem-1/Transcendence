@@ -26,6 +26,5 @@ urlpatterns = [
     path('auth/', auth_intra, name="auth_intra"),
     path('username/', fetch_username, name="fetch_username"),
     path('double_factor_auth/', double_factor_auth, name="double_factor_auth"),
-    path('double_factor_auth/', double_factor_auth, name="double_factor_auth"),
     path('set_2fa/', set_double_factor_auth, name="set_double_factor_auth"),
 ]

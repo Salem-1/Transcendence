@@ -10,7 +10,7 @@ import json
 import jwt
 import requests
 import os
-from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response
+from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
 
 @csrf_exempt
 def register_user(request):
@@ -75,89 +75,55 @@ def auth_intra(request):
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
-
 @csrf_exempt
 def fetch_username(request):
     try:
-        jwt_token = request.COOKIES.get('Authorization')
-        if jwt_token and jwt_token.startswith('Bearer '):
-            jwt_token = jwt_token.split('Bearer ')[1]
-            decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
-            print(f"fetched username {decoded_payload}")
-            user_id = decoded_payload.get('id')
-            user = User.objects.get(id=user_id)
-            fetched_username = user.username
-            return JsonResponse({"username": fetched_username, "id": user_id})
-        else:
-            raise ValueError("Invalid or missing Authorization header")
+        decoded_payload = validate_jwt(request)
+        user_id = decoded_payload.get('id')
+        user = User.objects.get(id=user_id)
+        fetched_username = user.username
+        return JsonResponse({"username": fetched_username, "id": user_id})
     except Exception as e:
         print(f"Error: {e}")
-        return JsonResponse({"error": "Invalid or missing token"}, status=401)
+        return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 
 @csrf_exempt
 def double_factor_auth(request):
     if request.method == "POST":
         try:
-            jwt_token = request.COOKIES.get('Authorization')
-            print(f"requst for auth recieved {jwt_token}")
-            if jwt_token and jwt_token.startswith('Bearer '):
-                jwt_token = jwt_token.split('Bearer ')[1]
-                decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
-                token_type = decoded_payload.get('type')
-                username = decoded_payload.get('username')
-                request_body = json.loads(request.body)
-                otp = request_body.get("otp")
-                secret = fetch_otp_secret(username)
-                if verify_OTP(secret, otp):
-                    return tokenize_login_response(username)
-                else:
-                    return JsonResponse({"error": "Invalid OTP"}, status=401)
+            decoded_payload = validate_jwt(request)
+            token_type = decoded_payload.get('type')
+            username = decoded_payload.get('username')
+            request_body = json.loads(request.body)
+            otp = request_body.get("otp")
+            secret = fetch_otp_secret(username)
+            if verify_OTP(secret, otp):
+                return tokenize_login_response(username)
             else:
-                raise ValueError("Invalid or missing Authorization header")
+                return JsonResponse({"error": "Invalid OTP"}, status=401)
         except Exception as e:
-            print(f"Error: {e}")
-            return JsonResponse({"error": "Invalid or missing token"}, status=401)
+            return JsonResponse({"error": "Invalid Authorization token"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
-    
-    ##
-    response_data = {
-        "auth": "true"
-        }
-    json_response = json.dumps(response_data)
-    return HttpResponse(
-                json_response,
-                status=302,
-                content_type="application/json"
-                )
     
 @csrf_exempt
 def set_double_factor_auth(request):
     if request.method == "POST":
         try:
-            jwt_token = request.COOKIES.get('Authorization')
-            if jwt_token and jwt_token.startswith('Bearer '):
-                jwt_token = jwt_token.split('Bearer ')[1]
-                decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
-                print(f"fetched username {decoded_payload}")
-                user_id = decoded_payload.get('id')
-                user = User.objects.get(id=user_id)
-                request_body = json.loads(request.body)
-                print(f"request body = {request_body}")
-                if request_body['enable2fa'] == "true":
-                    user.enabled_2fa = True
-                    print(f"2fa state {user.enabled_2fa}")
-                    user.two_factor_secret = fetch_otp_secret(user.username)
-                    user.save()
-                    return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
-                elif request_body['enable2fa'] == "false":
-                    user.enabled_2fa = False
-                    user.two_factor_secret = ""
-                    user.save()
-                    return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
-                else:
-                   return JsonResponse({"error": "couldn't set 2fa"}, status=500)
+            decoded_payload = validate_jwt(request)
+            user_id = decoded_payload.get('id')
+            user = User.objects.get(id=user_id)
+            request_body = json.loads(request.body)
+            if request_body['enable2fa'] == "true":
+                user.enabled_2fa = True
+                user.two_factor_secret = fetch_otp_secret(user.username)
+                user.save()
+                return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
+            elif request_body['enable2fa'] == "false":
+                user.enabled_2fa = False
+                user.two_factor_secret = ""
+                user.save()
+                return JsonResponse({"message": "user disabled ", "id": user_id})
             else:
-                raise ValueError("Invalid or missing Authorization header")
+               return JsonResponse({"error": "couldn't set 2fa"}, status=500)
         except Exception as e:
-            print(f"Error: {e}")
-            return JsonResponse({"error": "Invalid or missing token"}, status=401)
+            return JsonResponse({"error": "Invalid or missing Authorization header"}, status=401)
