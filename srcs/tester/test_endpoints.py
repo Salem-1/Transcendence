@@ -47,6 +47,27 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], 'Bad request body')
 
+    def test_wrong_request(self):
+        # Test registration with a new username
+        request_data = {'username': randomize_string(8), 'password': 'newpassA0word', "malicous": "0x\4\4\4\df"}
+        response = requests.get(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+        response = requests.delete(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+        response = requests.put(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+
+
+    def test_register_spoofed_user(self):
+        # Test registration with a new username
+        request_data = {}
+        response = requests.post(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Bad request body')
+
 
     def test_fetch_username(self):
         # Assuming login endpoint returns a JWT token

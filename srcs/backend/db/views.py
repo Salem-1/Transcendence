@@ -22,12 +22,13 @@ def register_user(request):
             valid_input, error_message = is_valid_input(username, password, data);
             if not valid_input:
                 return error_message
-
+            elif User.objects.filter(username=username).exists():
+                return JsonResponse({'error': "Username already taken"}, status=400)
             user = User.objects.create_user(username=username, password=password)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
             return JsonResponse({'error': "Internal server error"}, status=500)  
-    return JsonResponse({}, status=400)  
+    return JsonResponse({'error': "Method not allowed"}, status=405)  
 
 @csrf_exempt
 def login_user(request):

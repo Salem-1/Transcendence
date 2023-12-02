@@ -102,3 +102,11 @@ def get_user_id(username):
         return user_id
     except User.DoesNotExist:
         return None
+
+def ready_packet(body, status_code=200):
+    json_response = json.dumps(body)
+    return HttpResponse(
+                json_response,
+                status=status_code,
+                content_type="application/json"
+                )
