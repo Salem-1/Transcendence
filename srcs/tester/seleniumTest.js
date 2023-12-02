@@ -15,11 +15,10 @@ async function runTest() {
         testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
         testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
         await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testLogin("user", "12345678qwertyui","Successful! log in welcome user.", 8);
         testLogin("user2", "","Invalid request username or password", 9);
         testLogin("", "3322122233","Invalid request username or password", 10);
         await (new Promise(resolve => setTimeout(resolve, 1000)));
-        // testIntraAuth("hello", 11);
+        testIntraAuth("hello", 11);
         testLogin("user'---", "3cC322122233","Invalid request username or password", 12);
         testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
         testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);

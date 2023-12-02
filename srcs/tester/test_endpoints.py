@@ -13,6 +13,8 @@ class YourAppViewsTest(unittest.TestCase):
         # Create a test user
         username , password = "TESTuser12", "TESTuser12"
         self.test_user = {'username': username, 'password': password}
+        username , password = "TESTuser122", "TESTuser122"
+        self.otp_user = {'username': username , 'password': password}
 
     def test_register_user(self):
         # Test registration with a new username
@@ -47,9 +49,9 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], 'Bad request body')
 
-    def test_wrong_request(self):
+    def test_register_wrong_request_method(self):
         # Test registration with a new username
-        request_data = {'username': randomize_string(8), 'password': 'newpassA0word', "malicous": "0x\4\4\4\df"}
+        request_data = {'username': randomize_string(8), 'password': 'newpassA0word'}
         response = requests.get(f'{self.base_url}/register/', json=request_data)
         self.assertEqual(response.status_code, 405)
         self.assertEqual(response.json()['error'], 'Method not allowed')
@@ -70,30 +72,88 @@ class YourAppViewsTest(unittest.TestCase):
 
 
     def test_fetch_username(self):
-        # Assuming login endpoint returns a JWT token
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
         jwt_token = login_response.json().get('jwt_token')
-
-
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['username'], self.test_user['username'])
     
     def test_spoofed_token(self):
-        # Assuming login endpoint returns a JWT token
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        jwt_token = login_response.json().get('jwt_token') + 'a'
+        jwt_token = login_response.json().get('jwt_token') + 'spoof'
 
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Invalid or missing token')
+   
+    def test_otp_token_privilage(self):
+        login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        jwt_token = login_response.json().get('jwt_token')
 
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = requests.get(f'{self.base_url}/username/', headers=headers)
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], 'Invalid or missing token')
+    
+    def test_otp_token(self):
+        login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        jwt_token = login_response.json().get('jwt_token')
+        self.assertEqual(login_response.status_code, 302)
+        self.assertEqual(login_response.json()['type'], 'otp')
 
+    def test_normal_login(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 200)
+        self.assertEqual(login_response.json()['username'], self.test_user['username'])
 
+    def test_otp_half_login(self):
+        login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 302)
+        # self.assertEqual(login_response.json()['username'], self.test_user['username'])
+    
+    def test_empty_login(self):
+        login_data = {'username': "", 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], 'Username cannot be empty')
+
+        login_data = {'username': self.test_user['username'], 'password': ""}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], 'Passwords too short, should be 8 characters at least')
+
+    def test_empty_login(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password'], "smuggle" : "some malicous string"}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], 'Bad request body')
+   
+    def test_empty_body_login(self):
+        login_data = {}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 400)
+        self.assertEqual(login_response.json()['error'], 'Bad request body')
+
+    def test_login_wrong_request_method(self):
+        # Test registration with a new username
+        request_data = {'username': randomize_string(8), 'password': 'newpassA0word'}
+        response = requests.get(f'{self.base_url}/login/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+        response = requests.delete(f'{self.base_url}/login/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+        response = requests.put(f'{self.base_url}/login/', json=request_data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
 
 def randomize_string(length):
     if length < 3:

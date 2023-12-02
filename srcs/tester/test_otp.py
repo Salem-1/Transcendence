@@ -1,7 +1,7 @@
 import pyotp
 import base64
 
-secret = "werty23FG"
+secret = "ahsalem@student.42abudhabi.ae"
 
 # Encode the secret in base32
 secret_base32 = base64.b32encode(secret.encode('utf-8')).decode('utf-8')
