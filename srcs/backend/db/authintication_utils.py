@@ -53,13 +53,15 @@ def create_intra_user(username):
     user = User.objects.create_user(username=username, password=os.getenv('secret_pass'))
     return True
     
-def is_valid_input(username, password):
+def is_valid_input(username, password, data):
+    if len(data) != 2:
+        return False, JsonResponse({'error': 'Bad request body'}, status=400)
     if not username or username == "":
         return False, JsonResponse({'error': 'Username cannot be empty'}, status=400)
     elif has_special_characters(username) != None:
         return False, JsonResponse({'error': 'username cannot contain special characters'}, status=400)
     elif len(password) < 8:
-        return False, JsonResponse({'error': 'Passwords too short, should be 8 cahr at leaset'}, status=400)
+        return False, JsonResponse({'error': 'Passwords too short, should be 8 characters at least'}, status=400)
     elif not has_alphanumeric(password):
         return False, JsonResponse({'error': 'password must contain upper, lower case letter and number'}, status=400)
     if User.objects.filter(username=username).exists():

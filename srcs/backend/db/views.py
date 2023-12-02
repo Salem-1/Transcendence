@@ -19,7 +19,7 @@ def register_user(request):
             data = json.loads(request.body)
             username  = data.get('username')
             password  = data.get('password')
-            valid_input, error_message = is_valid_input(username, password);
+            valid_input, error_message = is_valid_input(username, password, data);
             if not valid_input:
                 return error_message
 
