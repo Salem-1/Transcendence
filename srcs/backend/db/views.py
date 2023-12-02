@@ -40,7 +40,6 @@ def login_user(request):
         if user is not None:
             if is_2fa_enabled(user_data):
                 return authenticate_otp_page(username)
-                #2fA_authenticate()
             login(request, user)
             return tokenize_login_response(username)
         else:
@@ -65,7 +64,7 @@ def auth_intra(request):
                             and login_intra_user(request, username)):
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
-        except Exception as e:
+        except Exception as e:  
             return JsonResponse({'error': f"Internal server error"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
@@ -125,8 +124,34 @@ def double_factor_auth(request):
                 content_type="application/json"
                 )
     
-# import pyotp
-# import time
-
-# totp = pyotp.TOTP('base32secret3232')
-# totp.now() # => '492039'
+@csrf_exempt
+def set_double_factor_auth(request):
+    if request.method == "POST":
+        try:
+            jwt_token = request.COOKIES.get('Authorization')
+            if jwt_token and jwt_token.startswith('Bearer '):
+                jwt_token = jwt_token.split('Bearer ')[1]
+                decoded_payload = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+                print(f"fetched username {decoded_payload}")
+                user_id = decoded_payload.get('id')
+                user = User.objects.get(id=user_id)
+                request_body = json.loads(request.body)
+                print(f"request body = {request_body}")
+                if request_body['enable2fa'] == "true":
+                    user.enabled_2fa = True
+                    print(f"2fa state {user.enabled_2fa}")
+                    user.two_factor_secret = fetch_otp_secret(user.username)
+                    user.save()
+                    return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
+                elif request_body['enable2fa'] == "false":
+                    user.enabled_2fa = False
+                    user.two_factor_secret = ""
+                    user.save()
+                    return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
+                else:
+                   return JsonResponse({"error": "couldn't set 2fa"}, status=500)
+            else:
+                raise ValueError("Invalid or missing Authorization header")
+        except Exception as e:
+            print(f"Error: {e}")
+            return JsonResponse({"error": "Invalid or missing token"}, status=401)

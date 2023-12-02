@@ -53,8 +53,9 @@ async function login() {
         await storeJWTInCookies(result);
         alert(`Successful! log in welcome ${username}.`);
         window.location.href = 'landing.html';
-      } else if (response.status == 302 && result.otp_token){
-          double_factor_authenticate();
+      } else if (response.status == 302 && result.type == "otp"){
+        
+          double_factor_authenticate(result);
       }
       else{
           alert(`Login failed: ${result.error}`);
@@ -118,14 +119,11 @@ function  addJWTToRrequest()
 
 }
 
-function removeJWTFromStorage(){
-  localStorage.removeItem('jwtToken');
 
-}
-
-async function  double_factor_authenticate()
+async function  double_factor_authenticate(result)
 {
-  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "xxxxxx");
+  await storeJWTInCookies(result);
+  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "000000");
     const otpPattern = /^\d{6}$/;
     if (otpPattern.test(otp)) {
       try{
@@ -135,12 +133,15 @@ async function  double_factor_authenticate()
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({otp}),
+          credentials: 'include'
         });
 
         const result = await response.json();
 
         if (response.ok){ 
-          alert("succesfull login congrats");
+          await storeJWTInCookies(result);
+          alert(`Successful! log in welcome .`);
+          window.location.href = 'landing.html';
         }
           else{
           alert(`Entered OTP is valid`);
@@ -154,6 +155,8 @@ async function  double_factor_authenticate()
 
     }
 }
+
+
 
 /**
  * peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent
