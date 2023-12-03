@@ -122,3 +122,11 @@ body {
 	height: 150px;
 	border-radius: 50%;
 }
+
+#logo {
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 140px;
+	height: 130px;
+	border-radius: 20%;
+}
