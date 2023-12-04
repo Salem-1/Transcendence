@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login Page</title>
-	<link rel="stylesheet" href="registration.css">
-</head>
-<body>
-		<!-- <div id="elii"></div> -->
-			<!-- <svg xmlns="http://www.w3.org/2000/svg" id="icn1" fill="none">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Registration Page</title>
+		<link rel="stylesheet" href="css/registration.css">
+		<link href="https://fonts.cdnfonts.com/css/poetsen-one" rel="stylesheet">
+		
+	</head>
+	<body>
+		<div class="div1">
+			<svg xmlns="http://www.w3.org/2000/svg" id="icn1" fill="none">
 				<path d="M360.811 194.816C170.438 212.628 40.9481 72.3604 0 0L1213 4.87041V1004H1077.52C658.024 951.121 728.642 740.302 816.388 641.502C867.632 572.157 960.292 405.079 920.982 291.529C871.844 149.591 598.778 172.552 360.811 194.816Z" fill="#242B3E"/>
-			</svg> -->
-        <div id="lgndiv">
-            <input type="text" id="username" name="username" required placeholder="Username">
-            <input type="password" id="password" name="password" required placeholder="PassWord">
-            <input type="password" id="confirmpassword" name="confirmPassword" required placeholder="Confirm PassWord">
-        </div>
-        <div id="registration-button" onclick="register()" style="cursor: pointer;" >
-            <div  style="width: 219.53px; height: 60.85px; left: 0px; top: 1.43px; position: absolute; background: #82764D; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 24px"></div>
-			<div style="width: 204.11px; height: 53.31px; left: 8.90px; top: 3.94px; position: absolute; background: linear-gradient(180deg, #524040 0%, #070706 100%); box-shadow: 1px 1px 1px; border-radius: 19px; border: 1px white solid; filter: blur(1px)"></div>
-			<div  style="width: 210.12px; height: 35.26px; left: 5px; top: 7.52px; position: absolute; transform: rotate(-0.99deg); transform-origin: 0 0; background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%)"></div>
-        </div>
+			</svg>
+		</div>
+		<!-- <img id="logo" src="assets/logo.jpg" alt=""> -->
+		<div id="elii"></div>
+	<div id="register-div">
+		<img id="Person" src="assets/Person.png" alt="Character" >
+		<input type="text" id="username" name="username" required placeholder="Username">
+		<input type="password" id="password" name="password" required placeholder="Password">
+		<input type="password" id="confirmpassword" name="confirmPassword" required placeholder="Confirm Password">
+		<div id="registration-button" onclick="register()" style="cursor: pointer;" >
+			<div class="button-div-one" style="background: #82764D;"></div>
+			<div class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+			<div class="button-div-three"><h1 class="button-text">REGISTER</h1></div>
+		</div>
+	</div>
 </body>
 <script src="index.js"></script>
 

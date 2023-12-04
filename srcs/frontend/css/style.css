@@ -1,0 +1,97 @@
+body {
+	background-color: #000;
+}
+
+.div1 {
+	display: flex;
+	justify-content: right;
+	height: auto;
+}
+
+#icn1 {
+	width: 1213px;
+	height: 1004px;
+}
+
+.btns {
+	position: absolute;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	top: 45%;
+	left: 40%;
+}
+
+#login {
+	margin: 0;
+}
+
+#login42 {
+	margin-left: 300px;
+}
+
+#register {
+	margin-top: 90px;
+	margin-left: 150px;
+}
+
+#elii {
+	width: 608.635px;
+	height: 575.288px;
+	border-radius: 608.635px;
+	bottom: 0;
+	left: 0;
+	background-color: #242B3E;
+	box-shadow: 0px 0px 0px 100px black, 0px 0px 0px 200px #242B3E;
+	position: absolute;
+}
+
+.button-div-one {
+	width: 280px;
+	height: 70px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.button-div-two {
+	margin-left: 5px;
+	width: 270px;
+	height: 60px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.button-div-three {
+	margin-left: 8px;
+	width: 265px;
+	height: 35px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
+.button-text {
+	text-align: center;
+	color: white;
+	font-size: 25px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	/* line-height: 18px; */
+	/* letter-spacing: 2px; */
+	word-wrap: break-word;
+}
+
+#logo {
+	margin-left: 70%;
+	margin-bottom: 20px;
+	width: 160px;
+	height: 150px;
+	border-radius: 20%;
+}
