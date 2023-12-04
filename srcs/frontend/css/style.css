@@ -1,17 +1,16 @@
 body {
 	background-color: #000;
-	/* margin: 0px; */
 }
 
 .div1 {
 	display: flex;
 	justify-content: right;
-	
+	height: auto;
 }
 
 #icn1 {
-	width: 100%;
-	height: auto;
+	width: 1213px;
+	height: 1004px;
 }
 
 .btns {
@@ -36,9 +35,6 @@ body {
 }
 
 #elii {
-	/* display: flex; */
-	/* display: block; */
-	/* justify-content: end; */
 	width: 608.635px;
 	height: 575.288px;
 	border-radius: 608.635px;
@@ -47,11 +43,6 @@ body {
 	background-color: #242B3E;
 	box-shadow: 0px 0px 0px 100px black, 0px 0px 0px 200px #242B3E;
 	position: absolute;
-	/* margin-left: -200px; */
-	/* margin-bottom: -1000px; */
-	/* margin-top: 150px; */
-	/* margin-bottom: -2000px; */
-	/* margin-left: -220px; */
 }
 
 .button-div-one {
