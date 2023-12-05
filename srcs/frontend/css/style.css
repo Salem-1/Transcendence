@@ -12,25 +12,55 @@ body {
 	height: 100vh;
 }
 
+#quote-text{
+	text-align: center;
+	color: black;
+	font-size: 25px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	width: 80%;
+	margin: auto;
+}
+
+.quote {
+	padding: 60px;
+	margin-top: 250px;
+	width: 715px;
+	height: 100px;
+	border-radius: 100px;
+	background-color: #D9D9D9;
+}
+
+#logo {
+	margin-left: 40%;
+	margin-bottom: 40px;
+	width: 160px;
+	height: 150px;
+	border-radius: 20%;
+}
+
+
 .btns {
 	position: absolute;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
-	top: 45%;
-	left: 40%;
+	top: 50%;
+	left: 50%;
 }
 
 #login {
 	margin: 0;
+	margin-left: 120px;
 }
 
 #login42 {
-	margin-left: 300px;
+	margin-left: 420px;
 }
 
 #register {
 	margin-top: 90px;
-	margin-left: 150px;
+	margin-left: 270px;
 }
 
 .button-div-one {
@@ -77,6 +107,7 @@ body {
 	background: black !important;
 }
 
+
 .button-text {
 	text-align: center;
 	color: white;
@@ -86,10 +117,7 @@ body {
 	word-wrap: break-word;
 }
 
-#logo {
-	margin-left: 70%;
-	margin-bottom: 20px;
-	width: 160px;
-	height: 150px;
-	border-radius: 20%;
+.button-text:active {
+	font-size: 24px;
+	line-height: 35px !important;
 }

@@ -101,6 +101,11 @@ body {
 	background: #F01E1E !important;
 }
 
+.button-text:active {
+	font-size: 24px;
+	line-height: 35px !important;
+}
+
 .button-text {
 	text-align: center;
 	color: white;
@@ -124,15 +129,4 @@ body {
 	width: 140px;
 	height: 130px;
 	border-radius: 20%;
-}
-
-#elii {
-	width: 608.635px;
-	height: 575.288px;
-	border-radius: 608.635px;
-	bottom: 0;
-	left: 0;
-	background-color: #242B3E;
-	box-shadow: 0px 0px 0px 100px black, 0px 0px 0px 200px #242B3E;
-	position: absolute;
 }
