@@ -1,16 +1,15 @@
 body {
 	background-color: #000;
+	margin: 0;
 }
 
-.div1 {
-	display: flex;
-	justify-content: right;
-	height: auto;
-}
-
-#icn1 {
-	width: 1213px;
-	height: 1004px;
+.hero{
+	background-image: url(../assets/hero.svg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	width: 100%;
+	height: 100vh;
 }
 
 .btns {
@@ -32,17 +31,6 @@ body {
 #register {
 	margin-top: 90px;
 	margin-left: 150px;
-}
-
-#elii {
-	width: 608.635px;
-	height: 575.288px;
-	border-radius: 608.635px;
-	bottom: 0;
-	left: 0;
-	background-color: #242B3E;
-	box-shadow: 0px 0px 0px 100px black, 0px 0px 0px 200px #242B3E;
-	position: absolute;
 }
 
 .button-div-one {
@@ -77,14 +65,24 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
+#red.button-div-two:hover {
+	background: #F01E1E !important;
+}
+
+#yellow.button-div-two:hover {
+	background: #c38b00 !important;
+}
+
+#black.button-div-two:hover {
+	background: black !important;
+}
+
 .button-text {
 	text-align: center;
 	color: white;
 	font-size: 25px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
-	/* line-height: 18px; */
-	/* letter-spacing: 2px; */
 	word-wrap: break-word;
 }
 
