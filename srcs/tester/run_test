@@ -1,0 +1,4 @@
+#!/bin/bash
+python3 ../backend/manage.py test db 
+python3 test_endpoints.py 
+node seleniumTest.js

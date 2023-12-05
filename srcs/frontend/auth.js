@@ -1,9 +1,12 @@
 // Get the current URL
 
+// import storeJWTInCookies from index 
+
+intraAuthenticate();
 
 async function intraAuthenticate(){
-    let code =  extractIntraAuthCode();
-
+  let code =  extractIntraAuthCode();
+    
     try {
         if (code == null || code == "")
         {
@@ -19,10 +22,14 @@ async function intraAuthenticate(){
         });
   
         const result = await response.json();
-  
-        if (response.ok) {
+        if (response.status == 200 && result.jwt_token) { 
+          await storeJWTInCookies(result);
           window.location.href = 'landing.html';
-        } else {
+         }
+          else if (response.status == 302 && result.type == "otp"){
+          double_factor_authenticate(result);
+        }
+        else {
           alert(`Login failed: ${result.error}`);
         }
     }
@@ -40,7 +47,57 @@ function extractIntraAuthCode(){
     return (codeValue);
 }
 
-intraAuthenticate();
+
+
+async function  storeJWTInCookies(result)
+{
+  // Assuming 'response' is your fetch response
+  //extract "jwt_token" from response body
+  const jwt_token = result.jwt_token;
+  if (!jwt_token)
+    return (false);
+    document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
+    return (true);
+}
+
+
+async function  double_factor_authenticate(result)
+{
+  await storeJWTInCookies(result);
+  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "000000");
+    const otpPattern = /^\d{6}$/;
+    if (otpPattern.test(otp)) {
+      try{
+        const response = await fetch('http://localhost:8000/double_factor_auth/', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({otp}),
+          credentials: 'include'
+        });
+
+        const result = await response.json();
+
+        if (response.ok){
+          await storeJWTInCookies(result);
+          alert(`Successful! log in welcome .`);
+          window.location.href = 'landing.html';
+        }
+        else{
+          alert(`Entered OTP is valid`);
+          window.location.href = 'landing_page.html';
+          
+        }
+      } catch (error) {
+        console.log('Error during registration:', error);
+        alert(`Error during registration: ${error}`);
+      }
+    } else {
+      alert("Invalid OTP. Please enter a 6-digit numeric code.");
+      window.location.href = 'landing_page.html';
+    }
+}
 
 
 /*

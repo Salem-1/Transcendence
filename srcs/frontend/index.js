@@ -31,10 +31,6 @@ async function register() {
     }
 }
 
-async function registerAuth(){
-  alert("intra register pressed.");
-  return ;
-}
 
 async function login() {
     const username = document.getElementById('username').value;
@@ -53,35 +49,22 @@ async function login() {
 
       const result = await response.json();
 
-      if (response.ok) {
-        alert(`Successful! log in welcome ${result.message}.`);
+      if (response.status == 200 && result.jwt_token){ 
+        await storeJWTInCookies(result);
+        alert(`Successful! log in welcome ${username}.`);
         window.location.href = 'landing.html';
-        // greetUser(username, "username");
-      } else {
-        alert(`Login failed: ${result.error}`);
+      } else if (response.status == 302 && result.type == "otp"){
+        
+          double_factor_authenticate(result);
+      }
+      else{
+          alert(`Login failed: ${result.error}`);
       }
     } catch (error) {
       console.error('Error during registration:', error);
       alert(`Error during registration: ${error}`);
     }
   }
-
-
-//   function hash(s) {
-//     /* Simple hash function. */
-//     var a = 1, c = 0, h, o;
-//     if (s) {
-//         a = 0;
-//         /*jshint plusplus:false bitwise:false*/
-//         for (h = s.length - 1; h >= 0; h--) {
-//             o = s.charCodeAt(h);
-//             a = (a<<6&268435455) + o + (o<<14);
-//             c = a & 266338304;
-//             a = c!==0?a^c>>21:a;
-//         }
-//     }
-//     return String(a);
-// };
 
 function isValidRegeistrationIput(username, password, confirmPassword)
 {
@@ -106,11 +89,73 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     
     function isValidLoginIput(username, password)
     {
-      if (username.length > 1 && (password.length > 8) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
+      if (username.length > 1 && (password.length > 7) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
       return (true);
     alert("Invalid request username or password");
     return (false);   
 }
+
+async function  storeJWTInCookies(result)
+{
+  // Assuming 'response' is your fetch response
+  //extract "jwt_token" from response body
+  const jwt_token = result.jwt_token;
+  if (!jwt_token)
+    return (false);
+  document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
+  return (true);
+}
+
+
+function  addJWTToRrequest()
+{
+    const token = localStorage.getItem('jwtToken');
+  fetch('/some-protected-endpoint', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+}
+
+
+async function  double_factor_authenticate(result)
+{
+  await storeJWTInCookies(result);
+  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "000000");
+    const otpPattern = /^\d{6}$/;
+    if (otpPattern.test(otp)) {
+      try{
+        const response = await fetch('http://localhost:8000/double_factor_auth/', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({otp}),
+          credentials: 'include'
+        });
+
+        const result = await response.json();
+
+        if (response.ok){ 
+          await storeJWTInCookies(result);
+          alert(`Successful! log in welcome .`);
+          window.location.href = 'landing.html';
+        }
+          else{
+          alert(`Wrong OTP 🥲`);
+          }
+      } catch (error) {
+        console.log('Error during registration:', error);
+        alert(`Error during registration: ${error}`);
+      }
+      } else {
+      alert("Invalid OTP. Please enter a 6-digit numeric code.");
+
+    }
+}
+
 
 
 /**
@@ -119,4 +164,5 @@ function isValidRegeistrationIput(username, password, confirmPassword)
 
 /** Button
  * relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full
- */
+WdcssW werty23FG gsadf32KL:Mlm
+*/
