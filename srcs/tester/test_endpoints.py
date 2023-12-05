@@ -5,6 +5,7 @@ import jwt
 import os
 import random
 import string
+import datetime
 
 class YourAppViewsTest(unittest.TestCase):
     base_url = 'http://localhost:8000'  # Update with your actual base URL
@@ -15,6 +16,53 @@ class YourAppViewsTest(unittest.TestCase):
         self.test_user = {'username': username, 'password': password}
         username , password = "TESTuser122", "TESTuser122"
         self.otp_user = {'username': username , 'password': password}
+
+    def test_expired_jwt(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 200)
+        
+        jwt_token = login_response.json().get('jwt_token')
+        jwt_token = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        exp_jwt_token = gen_jwt_token(self.test_user['username'], jwt_token['type'], 0, jwt_token['id'])
+        headers = {'Cookie': f'Authorization=Bearer {exp_jwt_token}'}
+        response = requests.get(f'{self.base_url}/username/', headers=headers)
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], "Invalid Authorization token")
+
+    def test_otp_token_privilage(self):
+        login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        jwt_token = login_response.json().get('jwt_token')
+
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = requests.get(f'{self.base_url}/username/', headers=headers)
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
+    
+    def test_fetch_username(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 200)
+        
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = requests.get(f'{self.base_url}/username/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['username'], self.test_user['username'])
+    
+ 
+    
+    def test_fetch_username(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 200)
+        
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = requests.get(f'{self.base_url}/username/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['username'], self.test_user['username'])
 
     def test_register_user(self):
         # Test registration with a new username
@@ -71,29 +119,12 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.json()['error'], 'Bad request body')
 
 
-    def test_fetch_username(self):
-        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
-        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        jwt_token = login_response.json().get('jwt_token')
-        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/username/', headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['username'], self.test_user['username'])
+
     
     def test_spoofed_token(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
         jwt_token = login_response.json().get('jwt_token') + 'spoof'
-
-        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/username/', headers=headers)
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
-   
-    def test_otp_token_privilage(self):
-        login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
-        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        jwt_token = login_response.json().get('jwt_token')
 
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
@@ -189,6 +220,17 @@ def randomize_string(length):
     shuffled_string = ''.join(random.sample(random_string, len(random_string)))
     
     return shuffled_string
+
+def gen_jwt_token(username, type, exp_mins, id):
+    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=exp_mins)
+    exp_unix_timestamp = int(expiration_time.timestamp())
+    encoded_jwt = jwt.encode({
+                                "username": username,
+                                "id": id,
+                                "exp": exp_unix_timestamp,
+                                "type": type,
+                            }, os.environ['secret_pass'], algorithm="HS256")
+    return encoded_jwt.decode('utf-8')  
 
 if __name__ == '__main__':
     unittest.main()

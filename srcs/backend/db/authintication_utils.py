@@ -12,6 +12,7 @@ import requests
 import os
 import re 
 from django.contrib.auth.models import User
+import datetime
 
 def get_user_id(username):
     try:
@@ -76,14 +77,23 @@ def has_special_characters(username):
     special_characters = r'[!@#$%^&*(),.;?":{}|<>\'\s]'
     return re.search(special_characters, username)
 
-def tokenize_login_response(username):
+def gen_jwt_token(username, type, exp_mins):
+    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=exp_mins)
+    exp_unix_timestamp = int(expiration_time.timestamp())
     encoded_jwt = jwt.encode({
                                 "username": username,
                                 "id": get_user_id(username),
+                                "exp": exp_unix_timestamp,
+                                "type": type,
                             }, os.environ['secret_pass'], algorithm="HS256")
-    encoded_jwt = encoded_jwt.decode('utf-8')  
+    return encoded_jwt.decode('utf-8')  
+
+def tokenize_login_response(username):
+    encoded_jwt = gen_jwt_token(username, "Bearer",  2)  
+    refresh_jwt = gen_jwt_token(username, "Refresh",10)  
     response_data = {
         'jwt_token': encoded_jwt,
+        'refresh-token': refresh_jwt,
         'username': username,
         }
     json_response = json.dumps(response_data)
@@ -110,8 +120,13 @@ def ready_packet(body, status_code=200):
                 )
 
 def validate_jwt(request):
+    expiration_time = datetime.datetime.utcnow()
+    current_unix_timestamp = int(expiration_time.timestamp())
     jwt_token = request.COOKIES.get('Authorization')
     if jwt_token and jwt_token.startswith('Bearer '):
         jwt_token = jwt_token.split('Bearer ')[1]
-        return jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        decode_token = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        if (decode_token['exp'] > current_unix_timestamp):
+            return decode_token
+        print("expired token")
     raise jwt.exceptions.InvalidTokenError()

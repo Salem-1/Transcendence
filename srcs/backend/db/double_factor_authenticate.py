@@ -6,7 +6,7 @@ import jwt
 import json
 from django.http import HttpResponse
 import datetime
-
+from .authintication_utils import gen_jwt_token
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
     return totp.verify(given_otp)
@@ -18,16 +18,9 @@ def is_2fa_enabled(user):
     return  user.enabled_2fa
 
 def authenticate_otp_redirect(username):
-    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
-    exp_unix_timestamp = int(expiration_time.timestamp())
-    encoded_jwt = jwt.encode({
-        "username": username,
-        "type": "otp",
-        "exp": exp_unix_timestamp  
-    }, os.environ['secret_pass'], algorithm="HS256")
-    encoded_jwt = encoded_jwt.decode('utf-8')  
+    otp_jwt = gen_jwt_token(username, "otp", 1)
     response_data = {
-        'jwt_token': encoded_jwt,
+        'jwt_token': otp_jwt,
         'username': username,
         'type': "otp"
         }

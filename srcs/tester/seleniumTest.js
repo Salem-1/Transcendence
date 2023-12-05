@@ -18,12 +18,12 @@ async function runTest() {
         testLogin("user2", "","Invalid request username or password", 9);
         testLogin("", "3322122233","Invalid request username or password", 10);
         await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testIntraAuth("hello", 11);
         testLogin("user'---", "3cC322122233","Invalid request username or password", 12);
         testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
         testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
         testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
         testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
+        testIntraAuth("hello", 11);
     }
     catch (e)
     {

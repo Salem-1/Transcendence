@@ -42,6 +42,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         user_data = User.objects.get(username=username) 
         if user is not None:
+            print("user is not autheticated")
             if is_2fa_enabled(user_data):
                 return authenticate_otp_redirect(username)
             login(request, user)
@@ -61,24 +62,28 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
-            user_data = User.objects.get(username=username)
+            print("before searchig username and password")
+            print("user throwed an exception")
             if intra_user_data_response.status_code == 200:        
                 if (User.objects.filter(username=username).exists() \
                             and login_intra_user(request, username)) \
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
+                    user_data = User.objects.get(username=username)
                     if is_2fa_enabled(user_data):
                         return authenticate_otp_redirect(username)
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
-            return JsonResponse({'error': f"Internal server error"}, status=500)
+            return JsonResponse({'error': f"Internal server error couldn't login with intra {e}"}, status=500)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
 @csrf_exempt
 def fetch_username(request):
     try:
         decoded_payload = validate_jwt(request)
+        if decoded_payload['type'] != 'Bearer':
+            raise jwt.exceptions.InvalidTokenError()
         user_id = decoded_payload.get('id')
         user = User.objects.get(id=user_id)
         fetched_username = user.username
@@ -92,7 +97,8 @@ def double_factor_auth(request):
     if request.method == "POST":
         try:
             decoded_payload = validate_jwt(request)
-            token_type = decoded_payload.get('type')
+            if decoded_payload.get('type') != 'otp':
+                raise jwt.exceptions.InvalidTokenError()
             username = decoded_payload.get('username')
             request_body = json.loads(request.body)
             otp = request_body.get("otp")

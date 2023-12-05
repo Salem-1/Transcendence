@@ -89,7 +89,7 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     
     function isValidLoginIput(username, password)
     {
-      if (username.length > 1 && (password.length > 8) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
+      if (username.length > 1 && (password.length > 7) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
       return (true);
     alert("Invalid request username or password");
     return (false);   
