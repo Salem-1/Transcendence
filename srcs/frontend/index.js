@@ -144,7 +144,7 @@ async function  double_factor_authenticate(result)
           window.location.href = 'landing.html';
         }
           else{
-          alert(`Entered OTP is valid`);
+          alert(`Wrong OTP 🥲`);
           }
       } catch (error) {
         console.log('Error during registration:', error);
