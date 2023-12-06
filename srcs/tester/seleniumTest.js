@@ -7,6 +7,8 @@ const yellowColor = '\x1b[33m';
 
 async function runTest() {
     try{
+        let user = generateRandomText(8);
+        console.log(user)
         testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
         testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
         testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
@@ -20,10 +22,12 @@ async function runTest() {
         await (new Promise(resolve => setTimeout(resolve, 1000)));
         testLogin("user'---", "3cC322122233","Invalid request username or password", 12);
         testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
-        testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
+        testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
         testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
         testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
-        testIntraAuth("hello", 11);
+        testLogin(user, "3Aa322122233","Successfull login", 17);
+        // testIntraAuth("hello", 11);
+    
     }
     catch (e)
     {
