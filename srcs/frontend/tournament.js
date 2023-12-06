@@ -96,8 +96,15 @@ showAllPlayers();
 var delete_buttons = document.getElementsByClassName('delete-button');
 
 for (var i = 0; i < delete_buttons.length; i++) {
-    delete_buttons[i].addEventListener("click", function(){
-        alert("delete button clicked"); 
+    delete_buttons[i].addEventListener("click", function(event){
+        let parent_node = this.parentElement;
+        let playerName = parent_node.previousElementSibling.textContent;
+        var players = JSON.parse(localStorage.getItem('players')) || [];
+        //get the name index
+        //Remove it
+        //save the players array in the local storage
+        //delete the parent node
+        alert(`Delete button clicked, parent element is ${playerName}`);
     });
 }
 // function deletePlayer() {
