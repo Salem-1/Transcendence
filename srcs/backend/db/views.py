@@ -33,22 +33,25 @@ def register_user(request):
 @csrf_exempt
 def login_user(request):
     if request.method =='POST':
-        data = json.loads(request.body)
-        username  = data.get('username')
-        password  = data.get('password')
-        valid_input, error_message = is_valid_input(username, password, data)
-        if not valid_input:
-            return error_message
-        user = authenticate(request, username=username, password=password)
-        user_data = User.objects.get(username=username) 
-        if user is not None:
-            print("user is not autheticated")
-            if is_2fa_enabled(user_data):
-                return authenticate_otp_redirect(username)
-            login(request, user)
-            return tokenize_login_response(username)
-        else:
-            return JsonResponse({'error': 'Invalid request username or password'}, status=401)
+        try:
+            data = json.loads(request.body)
+            username  = data.get('username')
+            password  = data.get('password')
+            valid_input, error_message = is_valid_input(username, password, data)
+            if not valid_input:
+                return error_message
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                print("user is not autheticated")
+                user_data = User.objects.get(username=username) 
+                if is_2fa_enabled(user_data):
+                    return authenticate_otp_redirect(username)
+                login(request, user)
+                return tokenize_login_response(username)
+            else:
+                return JsonResponse({'error': 'Invalid request username or password'}, status=401)
+        except Exception as e:    
+            return JsonResponse({"error": "Internal server error while login"}, status=500)  
     return JsonResponse({"error": "Method not allowed"}, status=405)  
 
 @csrf_exempt
