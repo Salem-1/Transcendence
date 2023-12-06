@@ -48,3 +48,13 @@ function Tokenize_JWT(header, payload, secret)
                     secret)
             )
 }
+
+
+Ehsan landing login registration pages
+Mahdy single page, and run with django 
+Salem JWT 2F data_fetching to frontend
+
+Salem pending tasks:
+    modify frontend selenium test
+    password numbers and letters upper and lower frontend and backend same verification
+    
