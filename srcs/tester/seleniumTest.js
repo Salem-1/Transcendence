@@ -17,10 +17,10 @@ async function runTest() {
         testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
         testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
         await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testLogin("user2", "","Invalid request username or password", 9);
-        testLogin("", "3322122233","Invalid request username or password", 10);
+        testLogin("user2", "","Invalid username", 9);
+        testLogin("", "3322122233","Invalid username", 10);
         await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testLogin("user'---", "3cC322122233","Invalid request username or password", 12);
+        testLogin("user'---", "3cC322122233","Invalid username", 12);
         testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
         testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
         testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);

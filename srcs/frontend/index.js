@@ -89,10 +89,17 @@ function isValidRegeistrationIput(username, password, confirmPassword)
     
     function isValidLoginIput(username, password)
     {
-      if (username.length > 1 && (password.length > 7) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)))
-      return (true);
-    alert("Invalid request username or password");
-    return (false);   
+      if (!(username.length > 1 && (password.length > 7) && !(/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))))
+      {  
+        alert("Invalid username");
+        return (false);
+      }
+      else if (!(/[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password)))
+      {
+        alert("Login failed: password must contain at least one upper, lower case letters and number");
+        return (false);
+      }
+    return (true);   
 }
 
 async function  storeJWTInCookies(result)
