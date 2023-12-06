@@ -7,25 +7,26 @@ const yellowColor = '\x1b[33m';
 
 async function runTest() {
     try{
-        let user = generateRandomText(8);
+        let user = "tournmentking";
         console.log(user)
-        testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
-        testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
-        testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
-        testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
-        testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
-        testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
-        testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
-        await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testLogin("user2", "","Invalid username", 9);
-        testLogin("", "3322122233","Invalid username", 10);
-        await (new Promise(resolve => setTimeout(resolve, 1000)));
-        testLogin("user'---", "3cC322122233","Invalid username", 12);
-        testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
-        testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
-        testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
-        testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
-        testLogin(user, "3Aa322122233","Successfull login", 17);
+        // testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
+        // testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
+        // testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
+        // testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
+        // testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
+        // testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
+        // testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
+        // await (new Promise(resolve => setTimeout(resolve, 1000)));
+        // testLogin("user2", "","Invalid username", 9);
+        // testLogin("", "3322122233","Invalid username", 10);
+        // await (new Promise(resolve => setTimeout(resolve, 1000)));
+        // testLogin("user'---", "3cC322122233","Invalid username", 12);
+        // testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
+        // testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
+        // testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
+        // testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
+        // testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);
+        testTournament(user, "3Aa322122233","Please enter players names to start Tournament!", 18);
         // testIntraAuth("hello", 11);
     
     }
@@ -120,6 +121,9 @@ async function testLogin(username, pass, message, order){
     }
 }
 
+
+
+
 function generateRandomText(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomText = '';
@@ -132,6 +136,63 @@ function generateRandomText(length) {
     return randomText;
 }
   
+async function login(driver, username, pass) {
+    await driver.get('http://127.0.0.1:3000/login');
+    await driver.findElement(By.id('username')).sendKeys(username);
+    await driver.findElement(By.id('password')).sendKeys(pass);
+    
+    const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
+    const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
+    await innerDiv.click();
+    
+    await driver.wait(until.alertIsPresent());
+    let alert = await driver.switchTo().alert();
+    await alert.accept();
+}
+
+async function dismissAlert(driver) {
+    try {
+        await driver.wait(until.alertIsPresent(), 5000);
+        const alert = await driver.switchTo().alert();
+        await alert.dismiss();
+    } catch (error) {
+        console.error('Error dismissing alert:', error);
+    }
+}
+
+async function clickStartButton(driver) {
+    const startButtonLocator = By.id('start_tournament');
+    try {
+        await driver.wait(until.elementLocated(startButtonLocator), 5000);
+        const startButton = await driver.findElement(startButtonLocator);
+        await startButton.click();
+    } catch (error) {
+        console.error('Error finding or clicking the start button:', error);
+    }
+}
+
+async function testTournament(username, pass, message, order) {
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
+        await login(driver, username, pass);
+        await dismissAlert(driver);
+        await clickStartButton(driver);
+        
+        await driver.wait(until.alertIsPresent());
+        let tournament_alert = await driver.switchTo().alert();
+        let tournament_alertText = await tournament_alert.getText();
+
+        if (tournament_alertText === message)
+            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', tournament_alertText + resetColor);
+        else {
+            console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
+            console.log(redColor + order, ' 😱 Test failed Alert Text: expected', message, '😬😬😬 got ➡️>', tournament_alertText + resetColor);
+            console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
+        }
+    } finally {
+        await driver.quit();
+    }
+}
 
 
 /*

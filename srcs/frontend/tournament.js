@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let start_tournament_btn = document.getElementById("start_tournament");
     if (!start_tournament_btn)
-    return ; 
+        return ; 
     start_tournament_btn.addEventListener("click", getPlayers);
     var players = JSON.parse(localStorage.getItem('players')) || [];
     var players = [];
@@ -38,11 +38,14 @@ function addPlayer() {
     localStorage.setItem('players', JSON.stringify(players));
     playerNameInput.value = '';
     
-    showPlayerName(playerName, players);
+    // showPlayerName(playerName);
+    var table = document.querySelector("table tbody");
+    showPlayerName(playerName);
 }
 
 
-function showPlayerName(playerName, players) {
+function showPlayerName(playerName) {
+    var players = JSON.parse(localStorage.getItem('players')) || [];
     var table = document.querySelector("table tbody");
     var row = table.insertRow(-1);
     row.id = "playerRow-" + playerName; // Example: playerRow-john-doe
@@ -51,23 +54,29 @@ function showPlayerName(playerName, players) {
     var cell2 = row.insertCell(1);
     var button = document.createElement("button");
     button.textContent = "X";
-    button.onclick = function () {
-        var rowId = row.id;
-        var playerIndex = players.indexOf(playerName);
-        console.log(`${playerName} ${playerIndex}, Id ${row.id}`)
-        if (playerIndex !== -1) {
-            players.splice(playerIndex, 1);
-            localStorage.setItem('players', JSON.stringify(players));
-        }
-        row.parentNode.removeChild(row);
-    };
+    button.classList.add("delete-button")
+    console.log(`players now [${players}]'n`)
+    //make this separate function
+    // button.onclick = function () {
+    // console.log(`players was [${players}], removing player index ${playerIndex}`)
+    // var rowId = row.id;
+    // var playerIndex = players.indexOf(playerName);
+    // console.log(`${playerName} ${playerIndex}, Id ${row.id}`)
+    // if (playerIndex !== -1) {
+    //         players.splice(playerIndex, 1);
+    //         console.log(`\nplayers now [${players}]\n`)
+    //         localStorage.setItem('players', JSON.stringify(players));
+    //     }
+    //     row.parentNode.removeChild(row);
+    // };
+    //
     cell2.appendChild(button);
 }
 
 function showAllPlayers() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
     var table = document.querySelector("table tbody");
-    
+
     // table.innerHTML = '';
     if (players.length > 8)
     {
@@ -77,8 +86,30 @@ function showAllPlayers() {
     }
     // Display all players in the table
     players.forEach(function(player) {
-        showPlayerName(player, players);
+        showPlayerName(player);
     });
 }
 
 showAllPlayers();
+
+
+var delete_buttons = document.getElementsByClassName('delete-button');
+
+for (var i = 0; i < delete_buttons.length; i++) {
+    delete_buttons[i].addEventListener("click", function(){
+        alert("delete button clicked"); 
+    });
+}
+// function deletePlayer() {
+
+//     console.log(`players was [${players}], removing player index ${playerIndex}`)
+//     var rowId = row.id;
+//     var playerIndex = players.indexOf(playerName);
+//     console.log(`${playerName} ${playerIndex}, Id ${row.id}`)
+//     if (playerIndex !== -1) {
+//             players.splice(playerIndex, 1);
+//             console.log(`\nplayers now [${players}]\n`)
+//             localStorage.setItem('players', JSON.stringify(players));
+//         }
+//         row.parentNode.removeChild(row);
+//     };
