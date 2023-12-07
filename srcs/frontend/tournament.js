@@ -93,20 +93,45 @@ function showAllPlayers() {
 showAllPlayers();
 
 
-var delete_buttons = document.getElementsByClassName('delete-button');
 
-for (var i = 0; i < delete_buttons.length; i++) {
-    delete_buttons[i].addEventListener("click", function(event){
+//creating mutant observer
+//1- create callback function 
+let callback = function (MutationList, observer){
+    var delete_buttons = document.getElementsByClassName('delete-button');
+    for (var i = 0; i < delete_buttons.length; i++) {
+        delete_buttons[i].addEventListener("click", function(){
         let parent_node = this.parentElement;
+        let row = parent_node.parentElement;
         let playerName = parent_node.previousElementSibling.textContent;
-        var players = JSON.parse(localStorage.getItem('players')) || [];
-        //get the name index
-        //Remove it
-        //save the players array in the local storage
-        //delete the parent node
-        alert(`Delete button clicked, parent element is ${playerName}`);
+        let players = JSON.parse(localStorage.getItem('players')) || [];
+        let playerIndex = players.indexOf(playerName);
+        if (playerIndex == -1)
+        {
+            return ;
+        }
+        players.splice(playerIndex, 1);
+        localStorage.setItem('players', JSON.stringify(players));
+        row.parentElement.removeChild(row);
     });
 }
+}
+//2- Determine the target node
+let targetNode = document.body;
+//3- Set configurations
+const config = {
+    childList: true,
+    CharacterData: true,
+    subtree: true,
+    attributes: true,
+}
+//4- Initialize observer that take the callbackfunction and
+const observer = new MutationObserver(callback);
+//5- Call the observe and give it the target node and configuration
+observer.observe(targetNode, config);
+
+// let observer = new MutationObserver(callback);
+// observer.observe(node, config);
+
 // function deletePlayer() {
 
 //     console.log(`players was [${players}], removing player index ${playerIndex}`)
