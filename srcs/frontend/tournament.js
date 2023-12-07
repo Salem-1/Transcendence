@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function getPlayers() {
     window.location.href = 'register_players.html';
-    alert("Please enter players names to start Tournament!");
 }
 
 
@@ -25,21 +24,12 @@ function addPlayer() {
     }
     var playerNameInput = document.getElementById("player-name");
     var playerName = playerNameInput.value.trim();
-    if (!playerName || playerName === '' || playerName.length > 35) {
-        alert("Please enter a valid player name.");
-        return;
-    }
-    if (players.indexOf(playerName) !== -1)
-    {
-        alert("Player already added");
-        return;
-    }
+    if (!isvalidPlayerName(players, playerName))
+        return ;
     players.push(playerName);
     localStorage.setItem('players', JSON.stringify(players));
     playerNameInput.value = '';
-    
-    // showPlayerName(playerName);
-    var table = document.querySelector("table tbody");
+    // var table = document.querySelector("table tbody");
     showPlayerName(playerName);
 }
 
@@ -56,28 +46,12 @@ function showPlayerName(playerName) {
     button.textContent = "X";
     button.classList.add("delete-button")
     console.log(`players now [${players}]'n`)
-    //make this separate function
-    // button.onclick = function () {
-    // console.log(`players was [${players}], removing player index ${playerIndex}`)
-    // var rowId = row.id;
-    // var playerIndex = players.indexOf(playerName);
-    // console.log(`${playerName} ${playerIndex}, Id ${row.id}`)
-    // if (playerIndex !== -1) {
-    //         players.splice(playerIndex, 1);
-    //         console.log(`\nplayers now [${players}]\n`)
-    //         localStorage.setItem('players', JSON.stringify(players));
-    //     }
-    //     row.parentNode.removeChild(row);
-    // };
-    //
     cell2.appendChild(button);
 }
 
 function showAllPlayers() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
     var table = document.querySelector("table tbody");
-
-    // table.innerHTML = '';
     if (players.length > 8)
     {
         players = [];
@@ -90,58 +64,49 @@ function showAllPlayers() {
     });
 }
 
-showAllPlayers();
+function isvalidPlayerName(players, playerName){
+    if (!playerName || playerName === '' || playerName.length > 35) {
+        alert("Please enter a valid player name.");
+        return (false) ;
+    }
+    if (players.indexOf(playerName) !== -1)
+    {
+        alert("Player already added");
+        return (false) ;
+    }
+    return (true);
+}
 
 
-
-//creating mutant observer
-//1- create callback function 
 let callback = function (MutationList, observer){
     var delete_buttons = document.getElementsByClassName('delete-button');
     for (var i = 0; i < delete_buttons.length; i++) {
         delete_buttons[i].addEventListener("click", function(){
-        let parent_node = this.parentElement;
-        let row = parent_node.parentElement;
-        let playerName = parent_node.previousElementSibling.textContent;
-        let players = JSON.parse(localStorage.getItem('players')) || [];
-        let playerIndex = players.indexOf(playerName);
-        if (playerIndex == -1)
-        {
-            return ;
-        }
-        players.splice(playerIndex, 1);
-        localStorage.setItem('players', JSON.stringify(players));
-        row.parentElement.removeChild(row);
-    });
+            let parent_node = this.parentElement;
+            let row = parent_node.parentElement;
+            let playerName = parent_node.previousElementSibling.textContent;
+            let players = JSON.parse(localStorage.getItem('players')) || [];
+            let playerIndex = players.indexOf(playerName);
+            if (playerIndex == -1)
+            {
+                return ;
+            }
+            players.splice(playerIndex, 1);
+            localStorage.setItem('players', JSON.stringify(players));
+            row.parentElement.removeChild(row);
+        });
+    }
 }
-}
-//2- Determine the target node
+
 let targetNode = document.body;
-//3- Set configurations
 const config = {
     childList: true,
     CharacterData: true,
     subtree: true,
     attributes: true,
 }
-//4- Initialize observer that take the callbackfunction and
+
 const observer = new MutationObserver(callback);
-//5- Call the observe and give it the target node and configuration
+
+showAllPlayers();
 observer.observe(targetNode, config);
-
-// let observer = new MutationObserver(callback);
-// observer.observe(node, config);
-
-// function deletePlayer() {
-
-//     console.log(`players was [${players}], removing player index ${playerIndex}`)
-//     var rowId = row.id;
-//     var playerIndex = players.indexOf(playerName);
-//     console.log(`${playerName} ${playerIndex}, Id ${row.id}`)
-//     if (playerIndex !== -1) {
-//             players.splice(playerIndex, 1);
-//             console.log(`\nplayers now [${players}]\n`)
-//             localStorage.setItem('players', JSON.stringify(players));
-//         }
-//         row.parentNode.removeChild(row);
-//     };
