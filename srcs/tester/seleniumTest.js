@@ -9,26 +9,13 @@ async function runTest() {
     try{
         let user = "tournmentking";
         console.log(user)
-        // testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
-        // testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
-        // testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
-        // testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
-        // testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
-        // testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
-        // testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
-        // await (new Promise(resolve => setTimeout(resolve, 1000)));
-        // testLogin("user2", "","Invalid username", 9);
-        // testLogin("", "3322122233","Invalid username", 10);
-        // await (new Promise(resolve => setTimeout(resolve, 1000)));
-        // testLogin("user'---", "3cC322122233","Invalid username", 12);
-        // testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
-        // testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
-        // testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
-        // testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
-        // testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);
-        testTournament(user, "3Aa322122233","Please enter players names to start Tournament!", 18);
+        registerTestCases(user);
+        await (new Promise(resolve => setTimeout(resolve, 3000)));
+        lgoinTestCases(user);
+        await (new Promise(resolve => setTimeout(resolve, 3000)));
+        tournamentTestCases(user);
         // testIntraAuth("hello", 11);
-    
+        
     }
     catch (e)
     {
@@ -38,6 +25,62 @@ async function runTest() {
 
 runTest();
 
+async function registerTestCases(user){
+    testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);    
+    await (new Promise(resolve => setTimeout(resolve, 1000)));
+}
+
+async function lgoinTestCases(user){
+    testLogin("user2", "","Invalid username", 9);
+    testLogin("", "3322122233","Invalid username", 10);
+    testLogin("user'---", "3cC322122233","Invalid username", 12);
+}
+
+async function tournamentTestCases(user){
+    // testTournament([""], user, "3Aa322122233","Cannot launch tournament without players", 18);
+    // testTournament(["ahmed"], user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
+    let arr = ["6", "7", "1", "2", "3", "4", "5", "8"];
+    let i = arr.length; let counter = 0;
+    for (; i > -1 ; i--){
+        if (i > 1){
+            testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
+            await (new Promise(resolve => setTimeout(resolve, 3000)));
+        }
+        else if (i == 1){
+            await (new Promise(resolve => setTimeout(resolve, 3000)));
+            testTournament(arr, user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 18 + counter);
+            await (new Promise(resolve => setTimeout(resolve, 3000)));
+        }
+        else{
+            await (new Promise(resolve => setTimeout(resolve, 3000)));
+            testTournament(arr, user, "3Aa322122233","Cannot launch tournament without players", 18 + counter);
+        }
+        arr.pop();
+        counter++;
+    }
+}
 async function testIntraAuth(message, order){
     let driver = await new Builder().forBrowser('chrome').build();
     try {
@@ -171,14 +214,29 @@ async function clickStartButton(driver) {
     }
 }
 
-async function testTournament(username, pass, message, order) {
+async function testTournament(players,username, pass, message, order) {
     let driver = await new Builder().forBrowser('chrome').build();
     try {
         await login(driver, username, pass);
         await dismissAlert(driver);
         await clickStartButton(driver);
         
+        
+        let addPlayer;
+        for (let i = 0; i < players.length; i++){
+            await driver.findElement(By.id('player-name')).sendKeys(players[i]);
+            innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
+            await innerDiv.click();
+        }
+
+        const launch = await driver.wait(until.elementLocated(By.id('launch-tournamet')), 5000);
+        await launch.click();
+
+
+
         await driver.wait(until.alertIsPresent());
+
+
         let tournament_alert = await driver.switchTo().alert();
         let tournament_alertText = await tournament_alert.getText();
 
