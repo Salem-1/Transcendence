@@ -14,8 +14,6 @@ services:
       - services-network
     ports:
       - 5432:5432
-    depends_on:
-      - nginx
 
   nginx:
     image: nginx
@@ -24,6 +22,14 @@ services:
       - 80:80
     networks:
       - services-network
+
+  django:
+    build: .
+    command: python manage.py runserver
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
 
 networks:
   services-network:
