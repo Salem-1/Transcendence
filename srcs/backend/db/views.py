@@ -11,6 +11,21 @@ import jwt
 import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
+from django.http import HttpResponse
+from django.template import loader
+
+
+
+def home(request):
+    return render(request, 'index.html')
+
+def members(request):
+  template = loader.get_template('home.html')
+  return HttpResponse(template.render())
+
+def trial(request):
+  template = loader.get_template('index.html')
+  return HttpResponse(template.render())
 
 @csrf_exempt
 def register_user(request):
