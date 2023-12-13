@@ -4,16 +4,14 @@ services:
   postgres:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: django-db
+    env_file:
+      - .env
     volumes:
       - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     networks:
       - services-network
-    expose:
-      - 5432
 
   nginx:
     image: nginx
@@ -25,19 +23,20 @@ services:
     networks: 
       - services-network
 
-  # django:
-  #   build: .
-  #   restart: always
-  #   networks:
-  #     - services-network
-  #   command: python manage.py runserver
-  #   volumes:
-  #     - .:/code
-  #   ports:
-  #     - 8000:8000
-  #   depends_on:
-  #     - postgres
-
+  django:
+    build: ./srcs/backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    # expose:
+    #   - 8000:8000
+    networks:
+      - services-network
+    depends_on:
+      - postgres
+    
 networks:
   services-network:
     driver: bridge
