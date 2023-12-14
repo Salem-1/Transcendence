@@ -1,0 +1,551 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="application/javascript">
+          // The comments below were written by JS fans in celebration of JavaScript's 25th birthday on December 4, 2020:
+          /*
+            Happy birthday, JavaScript!
+            Someday I will learn this language. - A C# Developer
+            If an application can be developed in JavaScript, it must be developed in JavaScript! - Amen
+            Words are not enough to describe JavaScript. Happy 25 - Abdellah
+            Long Live JS, Hoping to see you creating new Universe
+            document.getElementById("birthday").innerHTML = "Happy Birthday JS!"
+            Wish you all success for us...Thank you JavaScript
+            In 2020 Android,Desktop,IOS, frontend,backend,Scripting all are done with one Language is JAVASCRIPT
+            Happy Birthday JS! Thanks for helping people out of poverty - Tega
+            Thanks for being my stepping stone into the wonderful world of programming. - Zach
+            Happy Birthday JavaScript
+            Happy birthday, JavaScript! I always tell anyone who will listen that you aren't Java. - Danny
+            Every year of JS is a year of staying indoors making Discord bots. -Cade
+            Happy birthday, JavaScript, now you can legally rent a car.
+            JavaScript, you may have reached an age of maturity, but you'll never be boring. - Rebecca
+            Wonderful language one can work both as frontend and backend developer using javascript.
+            I love JS and can't wait to see it commonplace in every software domain. Long live JS! <3 - Joshua B
+            JS is one of the best language and it will continue to have its popularity for several years.
+            Happy Birthday JS! -JMG
+            Happy Birthday js
+            Applications.any(solution => JS)
+            One language to rule them all - Sajee
+            Language with freedom
+            Happy Birthday JS. you are the most used programming language in world
+            console.log('Javascript is the spider of web');
+            Javascript is easy to learn and versatile!
+            Yahoo
+            Thanks for making me love programming. Happy birthday!
+            Long live the King of the Front-end!
+            one of the best languages
+            Happy Birthday JS! Thanks for transforming my career
+            I love javascript
+            Such an annoying language till I can get to grips with asynchronous flow. Just love it. - Vuong.
+            Happy silver jubliee JS! You saved so many peoples life!
+            Lets enjoy 25 anniversary.
+            Javascript, how many more children will you give birth to?
+            Javascript is my lovable language
+            It is a great job for you to have free lessons on your wonderful platform
+            It's a simple and easy language. - Sangeetha
+            function onlyUnique(value, index, self) {   return self.indexOf(value) === index; }
+            I am new to code and learning JavaScript.. I think this might help me a lot
+            Best programming language as i have ever worked
+          */
+        </script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta name="keywords" />
+<meta name="description" content="Learn the different JavaScript conditional statements with full examples of each and a brief explanation of how each conditional works. " />
+<meta property="og:description" content="Learn the different JavaScript conditional statements with full examples of each and a brief explanation of how each conditional works. " />
+<meta name="twitter:description" content="Learn the different JavaScript conditional statements with full examples of each and a brief explanation of how each conditional works. " />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pluralsight" />
+<meta property="og:image" content="https://www.pluralsight.com/content/dam/pluralsight-creative-team/creative_portfolio/dex_unified_website2022program/dex_unified_websitehomeandskills2022project/final/octoberHomepage-socialShareImage1.png" />
+<meta name="twitter:image" content="https://www.pluralsight.com/content/dam/pluralsight-creative-team/creative_portfolio/dex_unified_website2022program/dex_unified_websitehomeandskills2022project/final/octoberHomepage-socialShareImage1.png" />
+<meta name="robots" content="index, follow" />
+<meta name="content-type" content="Other" />
+<meta name="categories" content="generic" />
+<meta name="cludo:category" content="generic" />
+<meta name="unified-tags" />
+<link rel="canonical" href="https://www.javascript.com/learn/conditionals" />
+<script data-cfasync="false" data-prompt="auto" data-privacy-policy="https://www.pluralsight.com/privacy" src="https://cdn.transcend.io/cm/b8abd831-c4a2-4a4f-8fe7-475bb37be895/airgap.js"></script>
+<script data-cfasync="false">window.wcmmodedisabled = true;</script>
+<script data-cfasync="false">
+function getParameterByName(e,n){n||(n=window.location.href),e=e.replace(/[\[\]]/g,"\\$&");var o=new RegExp("[?&]"+e+"(=([^&#]*)|&|#|$)").exec(n);return o&&o[2]?decodeURIComponent(o[2].replace(/\+/g," ")):""}function changeHistoryQueryParam(e,n,o,t,a){if(history.pushState){var i=""==window.location.search?"?":window.location.search;if(-1!==decodeURIComponent(i).indexOf(e+"=")){var d=getParameterByName(e);if(t)if(o){var c=(p=d.split(",")).indexOf(n);if(c>-1&&p.splice(c,1),0===p.length){var r=new RegExp("&?"+e+"=[^&]*","g");i=i.replace(r,"")}else i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(p.join(",")))}else{var p=[];d?p=d.split(","):d="",-1===p.indexOf(n)&&(p.push(n),i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(p.join(","))))}else if(o){r=new RegExp("&?"+e+"=[^&]*","g");i=i.replace(r,"")}else i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(n))}else o||(i+="?"==i?e+"="+encodeURIComponent(n):"&"+e+"="+encodeURIComponent(n));var s=window.location.protocol+"//"+window.location.host+window.location.pathname+(a?decodeURIComponent(i):i);window.history.pushState({path:s},"",s)}}function dtmEventTrigger(e,n){var o=new CustomEvent(e,{bubbles:!0,cancelable:!1,detail:n});document.querySelector("body").dispatchEvent(o)}window.loadRemoteScript=function(e,n,o,t,a){var i=document.createElement("script");i.type=n||"text/javascript",i.id=t||null,1==o&&(i.async=o||1),i.readyState?i.onreadystatechange=function(){"loaded"!=i.readyState&&"complete"!=i.readyState||(i.onreadystatechange=null,a())}:i.onload=function(){a()},i.src=("https:"==document.location.protocol?"https://":"http://")+e,document.getElementsByTagName("head")[0].appendChild(i)};var doNotTrack=document.cookie.indexOf("ps_optout=1")>-1||document.URL.indexOf("dnt=true")>-1,oneHour=36e5,oneYear=24*oneHour*365,trkDate=new Date(Date.now()+oneHour);document.cookie="ps_trk="+(doNotTrack?"0":"1")+"; expires="+trkDate.toUTCString()+"; path=/"+(document.URL.indexOf("pluralsight.com")>-1?"; domain=pluralsight.com":"");var firstVisit=-1==document.cookie.indexOf("fv=");document.cookie="fv="+(firstVisit?"1":"0")+"; expires="+new Date(Date.now()+oneYear).toUTCString()+"; path=/"+(document.URL.indexOf("pluralsight.com")>-1?"; domain=pluralsight.com":""),window.dnbData={},document.cookie.indexOf("ps_trk=1")>-1&&"undefined"!=typeof dnbvid&&dnbvid.getData("api7831","json","T",function(e){window.dnbData=e,window.promoCheck&&!window.promoCheckRan&&window.promoCheck()}),document.addEventListener("at-content-rendering-succeeded",function(){window.targetFinished=!0},!1),document.addEventListener("at-content-rendering-failed",function(){window.targetFinished=!0},!1),document.addEventListener("at-content-rendering-no-offers",function(){window.targetFinished=!0},!1);
+</script>
+<meta name="featureFlags" content="consentautoprompt|munchkin|b2c_cart|b2b_cart|unified|verbosesearch" />
+<script data-cfasync="false" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/js/separates/jquery.min.js"></script>
+<link rel="stylesheet" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-uber.lc-ba6ef77d47f1ff11dfa6f1ff7e5cebcb-lc.min.css" type="text/css">
+<meta data-customer-type="no-type" />
+<meta data-customer-type-ignore="false" />
+<script data-cfasync="false">
+    document.cookie.indexOf("ps_si=")>-1&&(window.selectedInterest=document.cookie.split("ps_si=")[1].split(";")[0]),document.cookie.indexOf("ps_sct=")>-1&&(window.selectedConsumerType=document.cookie.split("ps_sct=")[1].split(";")[0]);var customerType,customerTypeTag=document.head.querySelector("meta[data-customer-type]").getAttribute("data-customer-type"),customerTypeIgnore=document.head.querySelector("meta[data-customer-type-ignore]").getAttribute("data-customer-type-ignore");customerTypeTag&&"true"!==customerTypeIgnore&&"string"==typeof customerTypeTag&&("pluralsight-customer-type:individual"===customerTypeTag?customerType="individual":"pluralsight-customer-type:business"===customerTypeTag&&(customerType="business"),customerType&&"pluralsight-customer-type:escape"!==customerTypeTag&&setSelectedConsumerType(customerType));function setSelectedInterest(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_si="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedInterest=e}function setSelectedConsumerType(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_sct="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedConsumerType=e}function setSelectedBusinessType(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_sbt="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedBusinessType=e}if(document.URL.indexOf("b2c-price=true")>-1?setSelectedConsumerType("individual"):document.URL.indexOf("b2b-price=true")>-1&&setSelectedConsumerType("business"),document.cookie.indexOf("ps_sbt=")>-1&&(window.selectedBusinessType=document.cookie.split("ps_sbt=")[1].split(";")[0]),-1==document.cookie.indexOf("drift_ab")){var driftAbDate=new Date;driftAbDate.setTime(driftAbDate.getTime()+6048e5);var driftAb=0==Math.floor(2*Math.random())?"A":"B";document.cookie="drift_ab="+driftAb+"; expires="+driftAbDate.toUTCString()+"; path=/"}var inflDate=new Date;inflDate.setTime(inflDate.getTime()+18e5);var visNumDate=new Date;if(visNumDate.setTime(visNumDate.getTime()+31536e6),document.cookie.indexOf("ps_infl")>-1){var infl=document.cookie.split("ps_infl=")[1].split(";")[0];document.cookie="ps_infl="+infl+"; expires="+inflDate.toUTCString()+"; path=/"}else{var visNum=1;document.cookie.indexOf("ps_visNum")>-1&&(visNum=parseInt(document.cookie.split("ps_visNum=")[1].split(";")[0])+1),document.cookie="ps_visNum="+visNum+"; expires="+visNumDate.toUTCString()+"; path=/",getParameterByName("aid")||getParameterByName("vid")||""!=document.referrer&&-1==document.referrer.indexOf("pluralsight.com")?document.cookie="ps_infl=1; expires="+inflDate.toUTCString()+"; path=/":document.cookie="ps_infl=0; expires="+inflDate.toUTCString()+"; path=/"}!function(e,t,i,o){function n(){return t.getElementsByTagName("head")[0]}function s(e,i){if(e){var o=t.getElementById(i);o&&e.removeChild(o)}}if(window.location.hostname.endsWith("pluralsight.com")&&("/content/pluralsight/en.html"===window.location.pathname||"/"===window.location.pathname)){!function(e,i,o){if(e){var n=t.createElement("style");n.id=i,n.innerHTML=o,e.appendChild(n)}}(n(),"at-body-style","body {opacity: 0 !important}");const e=setTimeout(function(){s(n(),"at-body-style")},3e3);jQuery("html").on("at-content-rendering-succeeded at-content-rendering-failed",()=>{s(n(),"at-body-style"),clearTimeout(e)})}}(window,document);
+</script>
+<script src="//assets.adobedtm.com/launch-ENa63668859ab045b6a4d02d09935eab68.min.js" async></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/manifest.json">
+<link rel="mask-icon" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/safari-pinned-tab.svg" color="#e71585">
+<link rel="shortcut icon" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#e71585">
+<meta name="msapplication-TileImage" content="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<meta name="facebook-domain-verfication" content="pdyvbn6upvb694o9lvqr0313g2rvcg" />
+<title>JavaScript Conditionals: The Basics with Examples | JavaScript.com</title>
+<meta property="og:title" content="Create JavaScript conditionals with this JavaScript resource" />
+<meta name="twitter:title" content="Create JavaScript conditionals with this JavaScript resource" />
+<meta name="google-site-verification" content="hZ2BPgOWnbcwhl1GR6XTGqE6_yXppDy0OGiA2XFfvwU" />
+<meta name="cludo:content-path" content="/content/pluralsight/jscom/learn/conditionals" />
+</head>
+<body class="mode-disabled javascript-page font-loading">
+<div class="site-wrap">
+<div class="nav-context ">
+<header class="javascript-header header_padding">
+<a href="/"><img class="javascript-logo logo-large" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo.png" alt="JavaScript.com logo" /></a>
+<a href="/"><img class="javascript-logo logo-small" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo-sm.png" alt="JavaScript.com minimal logo" /></a>
+<div class="header_utilities">
+<a href="/learn/strings" class="header-link">Learn</a>
+<a href="/resources" class="header-link">Resources</a>
+<a href="/about" class="header-link">About</a>
+</div>
+</header>
+<div id="site-promo" style="display:none;">
+<div id="site-promo-content"></div>
+<div class="promo-close-button">&times;</div>
+</div>
+<script>
+  var noDBpromo=true;function showPromoIfPermitted(){if(document.cookie.indexOf("site-promo-closed=1")==-1||window.blockPromoHide){if(jQuery("#site-promo .promo-wrapper-contents").length>-1&&jQuery("#site-promo .promo-wrapper-contents").html()!=undefined&&jQuery("#site-promo .promo-wrapper-contents").html().trim()!=""){jQuery("#site-promo").slideDown(300)}jQuery("#site-promo .promo-close-button").click(function(){var d=new Date();d.setTime(d.getTime()+(12*60*60*1000));document.cookie="site-promo-closed=1; expires="+d.toUTCString()+"; path=/";jQuery("#site-promo").slideUp(300)});window.promoShown=true;if(window.setStickies){window.setStickies()}dtmEventTrigger("ps.promoShown",{})}}function promoCheck(){window.promoCheckRan=true;if(document.URL.indexOf("b2b=true")>-1||document.URL.indexOf("nopromos=true")>-1){var d=new Date();d.setTime(d.getTime()+(7*24*60*60*1000));document.cookie="nopromos=1; expires="+d.toUTCString()+"; path=/; domain=pluralsight.com"}if(document.cookie.indexOf("nopromos=1")==-1&&(window.location.host=='www.pluralsight.com'||window.location.host=='www-preview.pluralsight.com'||window.location.host=='www-dev.pluralsight.com'||window.location.host=='www-stage.pluralsight.com'||window.location.host=='learn.pluralsight.com'||window.location.host=='learn-stage.pluralsight.com'||window.location.host=='learn-dev.pluralsight.com'||window.location.host=='www.javascript.com'||window.location.host=='www-stage.javascript.com'||window.location.host=='www-dev.javascript.com'||window.location.host=='www-preview.javascript.com')){var isStage=false;if(window.location.host.indexOf("-stage.")>-1){isStage=true}var company="none";var audience="none";var mstime=(new Date()).valueOf();if(!noDBpromo&&dnbData.companyName){company=dnbData.companyName;audience=dnbData.industryNaics}jQuery.ajax({url:"/discounts/api/global-promo?company="+encodeURIComponent(company)+"&audience="+encodeURIComponent(audience)+"&time="+mstime,headers:{authorization:"aem"}}).done(function(promoData){if(promoData.campaignId||window.forceCampaignCode){window.globalPromos=promoData.promos;window.campaignCode=window.forceCampaignCode||promoData.campaignId;jQuery.ajax({url:"/content/pluralsight/en/global/promos/"+campaignCode+".html?time="+mstime}).done(function(bannerPage){var domainTransform=function(urlString){if(window.location.host=='learn.pluralsight.com'||window.location.host=='learn-stage.pluralsight.com'||window.location.host=='learn-dev.pluralsight.com'||window.location.host=='www.javascript.com'||window.location.host=='www-preview.javascript.com'||window.location.host=='www-dev.javascript.com'||window.location.host=='www-stage.javascript.com'){if(urlString.indexOf("/jscom")==0&&window.location.hostname.indexOf("javascript.com")>-1){urlString=urlString.substring(6,urlString.length)}else if(urlString.indexOf("/landing-pages")==0&&(window.location.hostname=="learn.pluralsight.com"||window.location.hostname=="learn-stage.pluralsight.com"||window.location.hostname=="learn-dev.pluralsight.com")){urlString=urlString.substring(14,urlString.length)}else{urlString="////";}}return urlString};var blockedPaths=jQuery(bannerPage).find(".promo-block-filters").data("blockedpaths");var blockedPathsArray=blockedPaths?blockedPaths.split(","):[];var isBlocked=false;for(i in blockedPathsArray){var blockedPath=blockedPathsArray[i].trim();if(blockedPath.indexOf("=")==0){blockedPath=blockedPath.substring(1,blockedPath.length);if(window.location.pathname==domainTransform(blockedPath)){isBlocked=true;if(isStage){console.log("Promo banners blocked on page.")}}}else if(window.location.pathname.indexOf(domainTransform(blockedPath))==0){isBlocked=true;if(isStage){console.log("Promo banners blocked on page.")}}}if(!isBlocked){var $banners=jQuery(bannerPage).find(".promo-wrapper-filter");var bannerFound=false;jQuery.each($banners,function(key,item){var allowedPaths=jQuery(item).data("allowedpaths");var allowedPathsArray=allowedPaths?allowedPaths.split(","):[];var isAllowed=false;for(i in allowedPathsArray){var allowedPath=allowedPathsArray[i].trim();if(allowedPath.indexOf("=")==0){allowedPath=allowedPath.substring(1,allowedPath.length);if(window.location.pathname==domainTransform(allowedPath)){isAllowed=true}}else if(window.location.pathname.indexOf(domainTransform(allowedPath))==0){isAllowed=true}}if(isAllowed){$content=jQuery(item);jQuery("#site-promo-content").empty().append($content);jQuery("#site-promo-content img[data-lazysrc], #site-promo-content .lazy-bg").each(function(index,item){if(typeof loadLazysrc!="undefined"){loadLazysrc(item)}});window.blockPromoHide=jQuery(item).data("blockhiding");showPromoIfPermitted();bannerFound=true;return false}});if(!bannerFound){if(isStage){console.log("No allowed banner found on promo config page.")}}}}).fail(function(){if(isStage){console.log("No promo page found for campaign code "+campaignCode)}});window.promoTriggered=true;dtmEventTrigger("ps.promoTriggered",{})}window.promoCheckCompleted=true})}}if(window.dnbData.status||noDBpromo){promoCheck()}setTimeout(function(){if(!window.promoCheckRan){window.promoCheck()}},3000);
+</script>
+<div>
+<script type="text/javascript" src="//customer.cludo.com/scripts/bundles/search-script.min.js"></script>
+<script>
+
+        var element = document.createElement("link");
+        element.setAttribute("rel", "stylesheet");
+        element.setAttribute("type", "text/css");
+        element.setAttribute("href", "https://customer.cludo.com/css/templates/v1.1/essentials/cludo-search.min.css");
+        document.getElementsByTagName("head")[0].appendChild(element);
+
+        var CludoSearch;
+        (function () {
+            var cludoSettings = {customerId: 10000847, engineId: 10001278, searchUrl: 'https://www.pluralsight.com/search.html', language: 'en', searchInputs: ['cludo-search-form'], hideSearchFilters: true, type: 'inline'};
+            CludoSearch= new Cludo(cludoSettings);
+            CludoSearch.init();
+        })();
+
+    </script>
+<!--[if lte IE 9]>
+    <script src="https://api.cludo.com/scripts/xdomain.js" slave="https://api.cludo.com/proxy.html" type="text/javascript"></script>
+    <![endif]-->
+</div>
+<div id="content" role="main">
+<div class="contain"><div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg   parallax block block--black block--left generic-block--tall  padding-top-hundred padding-bottom-hundred      clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row large">
+<div class="columns large-4 small-12"><div class="reference parbase section"><div style="display:inline;" class="cq-dd-paragraph"><div class="main parsys"><div class="link-list-text section">
+<div class="linklist-subnav
+        
+        
+        
+        vertical-layout">
+<div class="linklist-subnav--container">
+<div class="linklist-subnav--mobile">
+Menu
+</div>
+<ul>
+<li class="linklist-subnav--desktop-title linklist-subnav--hide">
+Menu:
+</li>
+<li><a href="/learn/strings" target="_self">1. Strings</a></li>
+<li><a href="/learn/numbers" target="_self">2. Numbers</a></li>
+<li><a href="/learn/booleans" target="_self">3. Booleans</a></li>
+<li><a href="/learn/operators" target="_self">4. Operators</a></li>
+<li><a href="/learn/variables" target="_self">5. Variables</a></li>
+<li><a href="/learn/functions" target="_self">6. Functions</a></li>
+<li><a href="/learn/conditionals" target="_self">7. Conditionals</a></li>
+<li><a href="/learn/arrays" target="_self">8. Arrays</a></li>
+<li><a href="/learn/objects" target="_self">9. Objects</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="free-form-component section">
+<style>
+      ul li {background: #181818;}
+ul li.active a {color:#fcdc00 !important;}
+ul li a:hover {color: #ec008c !important}
+
+@media only screen and (min-width: 1025px) {
+.linklist-subnav {position: fixed; max-width: 250px;}
+}
+  </style>
+<script type="text/javascript">
+    jQuery(".linklist-subnav li a").each(function(key,item){
+   if (jQuery(item).attr("href") == window.location.pathname){
+       jQuery(item).css("color","white");
+   }
+});
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns large-8 small-12"><div class="title2 section">
+<div data-emptytext="Title">
+<h1 class="    desk-font-size-3     ">
+Conditionals
+</h1>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-d61ba42f5c" class="cmp-text">
+<p>Conditional statements control behavior in JavaScript and determine whether or not pieces of code can run.</p>
+<p><span style="	color: inherit;
+	font-family: inherit;
+">There are multiple different types of conditionals in JavaScript including:</span></p>
+<ul><li>“If” statements: where if a condition is true it is used to specify execution for a block of code.</li><li><span id="docs-internal-guid-4fbf61b4-7fff-4561-575d-5f57c31631ec">“Else” statements: where if the same condition is false it specifies the execution for a block of code.</span><br/>
+</li><li><span id="docs-internal-guid-48d3a8f7-7fff-849f-e3a9-7c0f0ea8bef2">“Else if” statements: this specifies a new test if the first condition is false.</span></li></ul>
+<p><span id="docs-internal-guid-0dd6779d-7fff-2c54-6257-522984801877">Now that you have the basic JavaScript conditional statement definitions, let’s show you examples of each.</span></p>
+<p><b>//  <b><a href="https://www.pluralsight.com/career/web-developer" target="_blank" rel="noopener noreferrer">Learn How to Become a Web Developer with Pluralsight Skills</a></b></b><br/>
+</p>
+</div>
+</div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h2 class="    desk-font-size-5     disableBottomMargin">
+If Statement Example
+</h2>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-f00b9f3566" class="cmp-text">
+<p><sup></sup>As the most common type of conditional, the if statement only runs if the condition enclosed in parentheses () is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank" rel="noopener noreferrer">truthy</a>.</p>
+<table style="	width: 100.0%;
+"><tbody><tr><th>EXAMPLE</th></tr><tr><td>if (10 &gt; 5) {<!-- --><br/>
+      var outcome &#61; &#34;if block&#34;;<br/>
+}<br/>
+​<br/>
+outcome;</td></tr><tr><th>OUTPUT</th></tr><tr><td>&#34;if block&#34;</td></tr></tbody></table>
+<p><br/>
+Here’s what’s happening in the example above:</p>
+<ul><li>The keyword if tells JavaScript to start the conditional statement.</li><li>(10 &gt; 5) is the condition to test, which in this case is true — 10 is greater than 5.</li><li>The part contained inside curly braces {} is the block of code to run.</li><li>Because the condition passes, the variable outcome is assigned the value &#34;if block&#34;.</li></ul>
+</div>
+</div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h2 class="    desk-font-size-5     disableBottomMargin">
+Else Statement Example
+</h2>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-26eaaddffb" class="cmp-text">
+<p>You can extend an if statement with an else statement, which adds another block to run when the if conditional doesn’t pass.</p>
+<table style="	width: 100.0%;
+"><tbody><tr><th>EXAMPLE</th></tr><tr><td>if (&#34;cat&#34; &#61;&#61;&#61; &#34;dog&#34;) {<!-- --><br/>
+      var outcome &#61; &#34;if block&#34;;<br/>
+} else {<!-- --><br/>
+      var outcome &#61; &#34;else block&#34;;<br/>
+}<br/>
+outcome;</td></tr><tr><th>OUTPUT</th></tr><tr><td>&#34;else block&#34;</td></tr></tbody></table>
+<p>In the example above, &#34;cat&#34; and &#34;dog&#34; are not equal, so the else block runs and the variable outcome gets the value &#34;else block&#34;.</p>
+</div>
+</div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h2 class="    desk-font-size-5     ">
+Else If Statement Example
+</h2>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-59156b5b74" class="cmp-text">
+<p>You can also extend an if statement with an else if statement, which adds another conditional with its own block.</p>
+<table style="	width: 100.0%;
+"><tbody><tr><th>EXAMPLE</th></tr><tr><td>if (false) {<!-- --><br/>
+      var outcome &#61; &#34;if block&#34;;<br/>
+} else if (true) {<!-- --><br/>
+      var outcome &#61; &#34;else if block&#34;;<br/>
+} else {<!-- --><br/>
+      var outcome &#61; &#34;else block&#34;;<br/>
+}<br/>
+<br/>
+outcome;</td></tr><tr><th>OUTPUT</th></tr><tr><td>&#34;else if block&#34;</td></tr></tbody></table>
+<p><span style="	color: inherit;
+	font-family: inherit;
+"><br/>
+You can use multiple if else conditionals, but note that only the first else if block runs. JavaScript skips any remaining conditionals after it runs the first one that passes.</span><br/>
+</p>
+<table style="	width: 100.0%;
+"><tbody><tr><th>EXAMPLE</th></tr><tr><td>if (false) {<!-- --><br/>
+      var outcome &#61; &#34;if block&#34;;<br/>
+} else if (true) {<!-- --><br/>
+      var outcome &#61; &#34;first else if block&#34;;<br/>
+} else if (true) {<!-- --><br/>
+      var outcome &#61; &#34;second else if block&#34;;<br/>
+} else {<!-- --><br/>
+      var outcome &#61; &#34;else block&#34;;<br/>
+}<br/>
+​<br/>
+outcome;</td></tr><tr><th>OUTPUT</th></tr><tr><td>&#34;first else if block&#34;</td></tr></tbody></table>
+<p><br/>
+An else if statement doesn’t need a following else statement to work. If none of the if or else if conditions pass, then JavaScript moves forward and doesn’t run any of the conditional blocks of code.</p>
+<table style="	width: 100.0%;
+"><tbody><tr><th>EXAMPLE</th></tr><tr><td>if (false) {<!-- --><br/>
+      var outcome &#61; &#34;if block&#34;;<br/>
+} else if (false) {<!-- --><br/>
+      var outcome &#61; &#34;else if block&#34;;<br/>
+}<br/>
+​<br/>
+outcome;</td></tr><tr><th>OUTPUT</th></tr><tr><td>&#34;first else if block&#34;</td></tr></tbody></table>
+</div>
+</div>
+<div class="reference parbase section"><div style="display:inline;" class="cq-dd-paragraph"><div class="main parsys"><div class="spacer section">
+<div class="spacer  " style="height:50px"></div>
+</div>
+<div class="column-control section">
+<div class="container column-control-container">
+<div class="row large column-control--wide">
+<div class="columns large-6 small-12"><div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--left">
+<div>
+<a href="/learn/" target="_self" style=" " class="button   9  " data-aa-title="default-cta">
+Previous
+</a>
+</div>
+</div></div>
+</div>
+<div class="columns large-6 small-12"><div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="/learn/" target="_self" style=" " class="button   9  " data-aa-title="default-cta">
+Next
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="free-form-component section">
+<script type="text/javascript">
+    var pages = ['strings', 'numbers', 'booleans', 'operators', 'variables', 'functions', 'conditionals', 'arrays', 'objects'];
+var currentPage = window.location.pathname.split('/')[2];
+var currentIndex = pages.indexOf(currentPage);
+
+if (currentIndex === 0) {
+	$('.psbutton--left a').hide();
+} else {
+	$('.psbutton--left a').click(function(){
+		window.location = 'https://' + window.location.host + '/learn/' + pages[currentIndex - 1];
+	});
+}
+
+if (pages.length - 1 === currentIndex) {
+	$('.psbutton--right a').html('Learn More');
+	$('.psbutton--right a').click(function(){
+		window.open('https://www.pluralsight.com/paths/javascript-core-language');
+	});
+} else {
+	$('.psbutton--right a').click(function(){
+		window.location = 'https://' + window.location.host + '/learn/' + pages[currentIndex + 1];
+	});
+}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:100px"></div>
+</div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg  block--dropshadow  block block--dark-gray-2 block--center generic-block--auto  padding-top-fifty padding-bottom-fifty      clearfix" style="border-radius:10px;">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium">
+<div class="columns medium-12 small-12"><div class="title2 section">
+<div data-emptytext="Title">
+<h3 class="       titleMobile--center  ">
+Ready to learn more?
+</h3>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-c442151dac" class="cmp-text">
+<p><span class="fs--medium">Become a Javascript developer at your own pace!</span></p>
+<p>When you sign up with Pluralsight, you&#39;ll immediately have access to thousands of expert courses, paths to guide your learning, tools to measure your skills and hands-on resources like exercise files. Javascript is just the beginning. There’s no limit on what you can learn and you can cancel at any time.</p>
+</div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--center">
+<div>
+<a href="https://www.pluralsight.com/pricing/free-trial" target="_blank" style=" min-width:260px;" class="button  button--gradient button--large  " data-aa-title="default-cta">
+try for free
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="ps_pro_qty_modal">
+<div class="column-control section">
+<div class="container column-control-container ">
+<div class="row column-control--wide">
+<div class="large-5 columns column_qty large-push-7">
+<h3>Ready to skill up<br/>your entire team?</h3>
+<div class="qty-selector">
+<div class="qty-down"><i class="icons" icon="down-arrow"></i></div>
+<div class="qty-display">
+<div class="qty-display-number">20</div>
+<div class="qty-display-label">Subscriptions</div>
+</div>
+<div class="qty-up"><i class="icons" icon="up-arrow"></i></div>
+</div>
+<div class="qty-sales-message hidden">Need more subscriptions? <a href="https://www.pluralsight.com/product/contact-sales">Contact sales</a>.</div>
+<a class="button button--gradient button--small biz_qty_checkout pilot-hide" data-aa-title="pro-qty-modal-signup" href="https://www.pluralsight.com/buy?sku=PROFESSIONAL-SG&quantity=20">Continue to checkout</a>
+<a class="button button--gradient button--small biz_qty_checkout pilot-show" data-aa-title="pro-qty-modal-trial" href="https://www.pluralsight.com/buy?sku=PROFESSIONAL-SG-PILOT&quantity=20">Continue to checkout</a>
+<div class="ps_pro_qty_modal-cancel">Cancel</div>
+</div>
+<div class="large-7 columns column_feature large-pull-5">
+<h3 class="pilot-hide">With your Pluralsight plan, you can:</h3>
+<h3 class="pilot-show">With your 30-day pilot, you can:</h3>
+<ul>
+<li class="pilot-hide">Access thousands of videos to develop critical skills</li>
+<li class="pilot-show">Give up to 50 users access to thousands of video courses</li>
+<li>Practice and apply skills with interactive courses and projects</li>
+<li>See skills, usage, and trend data for your teams</li>
+<li>Prepare for certifications with industry-leading practice exams</li>
+<li>Measure proficiency across skills and roles</li>
+<li>Align learning to your goals with paths and channels</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="ps_starter_qty_modal">
+<div class="column-control section">
+<div class="container column-control-container ">
+<div class="row column-control--wide">
+<div class="large-5 columns column_qty large-push-7">
+<h3>Ready to skill up<br/>your entire team?</h3>
+<div class="qty-selector">
+<div class="qty-down"><i class="icons" icon="down-arrow"></i></div>
+<div class="qty-display">
+<div class="qty-display-number">10</div>
+<div class="qty-display-label">Subscriptions</div>
+</div>
+<div class="qty-up"><i class="icons" icon="up-arrow"></i></div>
+</div>
+<div class="qty-sales-message hidden">Need more subscriptions? <a href="https://www.pluralsight.com/product/contact-sales">Contact sales</a>.</div>
+<a class="button button--gradient button--small biz_qty_checkout pilot-hide" data-aa-title="starter-qty-modal-signup" href="https://www.pluralsight.com/buy?sku=STARTER-A&quantity=10">Continue to checkout</a>
+<div class="ps_starter_qty_modal-cancel">Cancel</div>
+</div>
+<div class="large-7 columns column_feature large-pull-5">
+<h3 class="pilot-hide">With your Pluralsight plan, you can:</h3>
+<h3 class="pilot-show">With your 30-day pilot, you can:</h3>
+<ul>
+<li class="pilot-hide">Access thousands of videos to develop critical skills</li>
+<li class="pilot-show">Give up to 50 users access to thousands of video courses</li>
+<li>Practice and apply skills with interactive courses and projects</li>
+<li>See skills, usage, and trend data for your teams</li>
+<li>Prepare for certifications with industry-leading practice exams</li>
+<li>Measure proficiency across skills and roles</li>
+<li>Align learning to your goals with paths and channels</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="javascript-footer">
+<div class="right-content">
+<a href="/learn/strings" class="footer-link">Learn</a>
+<span class="footer-divider">/</span>
+<a href="/resources" class="footer-link">Resources</a>
+<span class="footer-divider">/</span>
+<a href="/about" class="footer-link">About</a>
+</div>
+<div class="left-content">
+<a href="/"><img class="javascript-logo logo-large" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo.png" alt="JavaScript.com logo" /></a>
+<a href="/"><img class="javascript-logo logo-small" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo-sm.png" alt="JavaScript.com minimal logo" /></a>
+<p class="copyright">© 2016 - 2023 JavaScript.com</p>
+</div>
+</footer>
+<script>
+jQuery(".text.section, .text-2.section, .text-3.section, .text-4.section, .title.section, .title2.section").each(function(key,item) {
+    if (item.innerHTML.indexOf("\u2028") > -1){
+        item.innerHTML = item.innerHTML.replace(/\u2028/g, ' ');
+    }
+});
+</script>
+<script>
+function isElementInViewport (el) {
+  var rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+  );
+}
+function loadLazysrc(item){
+  var $item = jQuery(item);
+  if ($item.hasClass("lazy-bg")){
+    $item.removeClass("lazy-bg");
+  } else {
+    var src = $item.attr('data-lazysrc');
+    $item.attr('src',src);
+    $item.removeAttr('data-lazysrc');
+  }
+}
+
+//lazy load images above the fold
+jQuery('img[data-lazysrc],.lazy-bg').each(function(index,item){
+  if ( jQuery(item).is(":visible") && isElementInViewport(item) ){
+    loadLazysrc(item);
+  } else if (document.URL.indexOf("lazyLoadOff=true") > -1){
+    loadLazysrc(item);
+  }
+});
+
+//lazy load images below the fold. Keep function available for promo service or others that may need it.
+window.addEventListener('load', function(){
+  jQuery('img[data-lazysrc],.lazy-bg').each(function(index,item){
+    loadLazysrc(item);
+  });
+});
+</script>
+<script type="text/javascript" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-uber.lc-1570fd495fa2381a4715a208df65c367-lc.min.js" defer></script>
+</div>
+</div>
+</body>
+</html>

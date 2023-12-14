@@ -8,13 +8,13 @@ const yellowColor = '\x1b[33m';
 async function runTest() {
     try{
         let user = "tournmentking";
-        console.log(user)
         registerTestCases(user);
         await (new Promise(resolve => setTimeout(resolve, 3000)));
         lgoinTestCases(user);
         await (new Promise(resolve => setTimeout(resolve, 3000)));
         tournamentTestCases(user);
-        // testIntraAuth("hello", 11);
+        tournamentInputTestCases(user);
+        testIntraAuth("hello", 11);
         
     }
     catch (e)
@@ -252,6 +252,60 @@ async function testTournament(players,username, pass, message, order) {
     }
 }
 
+
+async function testInputTournament(players,username, pass, message, order) {
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
+        await login(driver, username, pass);
+        await dismissAlert(driver);
+        await clickStartButton(driver);
+        
+        
+        let addPlayer;
+        let tournament_alert;
+        let tournament_alertText;
+        for (let i = 0; i < players.length; i++){
+            await driver.findElement(By.id('player-name')).sendKeys(players[i]);
+            innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
+            await innerDiv.click();
+            if (i == 1){
+                await driver.wait(until.alertIsPresent());
+                tournament_alert = await driver.switchTo().alert();
+                tournament_alertText = await tournament_alert.getText();              
+            }
+        }
+        if (players.length == 1){
+
+            await driver.wait(until.alertIsPresent());
+            tournament_alert = await driver.switchTo().alert();
+             tournament_alertText = await tournament_alert.getText();
+        }
+
+        if (tournament_alertText === message)
+            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', tournament_alertText + resetColor);
+        else {
+            console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
+            console.log(redColor + order, ' 😱 Test failed Alert Text: expected', message, '😬😬😬 got ➡️>', tournament_alertText + resetColor);
+            console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
+        }
+    } finally {
+        await driver.quit();
+    }
+}
+async function tournamentInputTestCases(user){
+    // testTournament([""], user, "3Aa322122233","Cannot launch tournament without players", 18);
+    // testTournament(["ahmed"], user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
+    let arr = ["6", "6"];
+    testInputTournament(arr, user, "3Aa322122233","Player already added", 27);
+    await (new Promise(resolve => setTimeout(resolve, 3000)));
+    arr = ["     "];
+    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
+    arr = ["     \n"];
+    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
+    arr = ["     \t"];
+    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
+    await (new Promise(resolve => setTimeout(resolve, 3000)));
+}
 
 /*
   https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d3951b4aa9c63bfcc57b80e22872c5b27607beb50bb6f5eb315114be173f0b83

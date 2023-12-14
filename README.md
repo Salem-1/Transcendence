@@ -11,6 +11,8 @@
 * [Profile settings](./documetation/flowcharts/profileSettings.md)
 * [Profile page](./documetation/flowcharts/profilePage.md)
 
+this is simple guide to test the project
+
 #### Full Flowchart
 
 
@@ -47,3 +49,20 @@ flowchart TD
 
 ```
 
+
+# How to run testers?
+
+This the test file for django server  endpoints 
+
+    python srcs/tester/test_endpoints.py   
+-------------
+Run test cases for functions inside db app (related to authentication and authorization)
+
+    python srcs/backend/manage.py test db  /
+----------------
+Run test cases related to frontend, where the selenium library will act as human user
+
+    
+    node srcs/tester seleniumTest.js . 
+
+-----------

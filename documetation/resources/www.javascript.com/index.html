@@ -1,0 +1,1689 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="application/javascript">
+          // The comments below were written by JS fans in celebration of JavaScript's 25th birthday on December 4, 2020:
+          /*
+            Happy birthday, JavaScript!
+            Someday I will learn this language. - A C# Developer
+            If an application can be developed in JavaScript, it must be developed in JavaScript! - Amen
+            Words are not enough to describe JavaScript. Happy 25 - Abdellah
+            Long Live JS, Hoping to see you creating new Universe
+            document.getElementById("birthday").innerHTML = "Happy Birthday JS!"
+            Wish you all success for us...Thank you JavaScript
+            In 2020 Android,Desktop,IOS, frontend,backend,Scripting all are done with one Language is JAVASCRIPT
+            Happy Birthday JS! Thanks for helping people out of poverty - Tega
+            Thanks for being my stepping stone into the wonderful world of programming. - Zach
+            Happy Birthday JavaScript
+            Happy birthday, JavaScript! I always tell anyone who will listen that you aren't Java. - Danny
+            Every year of JS is a year of staying indoors making Discord bots. -Cade
+            Happy birthday, JavaScript, now you can legally rent a car.
+            JavaScript, you may have reached an age of maturity, but you'll never be boring. - Rebecca
+            Wonderful language one can work both as frontend and backend developer using javascript.
+            I love JS and can't wait to see it commonplace in every software domain. Long live JS! <3 - Joshua B
+            JS is one of the best language and it will continue to have its popularity for several years.
+            Happy Birthday JS! -JMG
+            Happy Birthday js
+            Applications.any(solution => JS)
+            One language to rule them all - Sajee
+            Language with freedom
+            Happy Birthday JS. you are the most used programming language in world
+            console.log('Javascript is the spider of web');
+            Javascript is easy to learn and versatile!
+            Yahoo
+            Thanks for making me love programming. Happy birthday!
+            Long live the King of the Front-end!
+            one of the best languages
+            Happy Birthday JS! Thanks for transforming my career
+            I love javascript
+            Such an annoying language till I can get to grips with asynchronous flow. Just love it. - Vuong.
+            Happy silver jubliee JS! You saved so many peoples life!
+            Lets enjoy 25 anniversary.
+            Javascript, how many more children will you give birth to?
+            Javascript is my lovable language
+            It is a great job for you to have free lessons on your wonderful platform
+            It's a simple and easy language. - Sangeetha
+            function onlyUnique(value, index, self) {   return self.indexOf(value) === index; }
+            I am new to code and learning JavaScript.. I think this might help me a lot
+            Best programming language as i have ever worked
+          */
+        </script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta name="keywords" />
+<meta name="description" content="JavaScript.com is a resource for the JavaScript community. You will find resources and examples for JavaScript beginners as well as support for JavaScript experts. Learn JavaScript or free with our easy to use input output machine." />
+<meta property="og:description" content="JavaScript.com is a resource for the JavaScript community. You will find resources and examples for JavaScript beginners as well as support for JavaScript experts. Learn JavaScript or free with our easy to use input output machine." />
+<meta name="twitter:description" content="JavaScript.com is a resource for the JavaScript community. You will find resources and examples for JavaScript beginners as well as support for JavaScript experts. Learn JavaScript or free with our easy to use input output machine." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pluralsight" />
+<meta property="og:image" content="https://www.pluralsight.com/content/dam/aem-icons/javascript-com-icon.png" />
+<meta name="twitter:image" content="https://www.pluralsight.com/content/dam/aem-icons/javascript-com-icon.png" />
+<meta name="robots" content="index, follow" />
+<meta name="content-type" content="Other" />
+<meta name="categories" content="generic" />
+<meta name="cludo:category" content="generic" />
+<meta name="unified-tags" />
+<link rel="canonical" href="https://www.javascript.com/" />
+<script data-cfasync="false" data-prompt="auto" data-privacy-policy="https://www.pluralsight.com/privacy" src="https://cdn.transcend.io/cm/b8abd831-c4a2-4a4f-8fe7-475bb37be895/airgap.js"></script>
+<script data-cfasync="false">window.wcmmodedisabled = true;</script>
+<script data-cfasync="false">
+function getParameterByName(e,n){n||(n=window.location.href),e=e.replace(/[\[\]]/g,"\\$&");var o=new RegExp("[?&]"+e+"(=([^&#]*)|&|#|$)").exec(n);return o&&o[2]?decodeURIComponent(o[2].replace(/\+/g," ")):""}function changeHistoryQueryParam(e,n,o,t,a){if(history.pushState){var i=""==window.location.search?"?":window.location.search;if(-1!==decodeURIComponent(i).indexOf(e+"=")){var d=getParameterByName(e);if(t)if(o){var c=(p=d.split(",")).indexOf(n);if(c>-1&&p.splice(c,1),0===p.length){var r=new RegExp("&?"+e+"=[^&]*","g");i=i.replace(r,"")}else i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(p.join(",")))}else{var p=[];d?p=d.split(","):d="",-1===p.indexOf(n)&&(p.push(n),i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(p.join(","))))}else if(o){r=new RegExp("&?"+e+"=[^&]*","g");i=i.replace(r,"")}else i=i.replace(e+"="+encodeURIComponent(d),e+"="+encodeURIComponent(n))}else o||(i+="?"==i?e+"="+encodeURIComponent(n):"&"+e+"="+encodeURIComponent(n));var s=window.location.protocol+"//"+window.location.host+window.location.pathname+(a?decodeURIComponent(i):i);window.history.pushState({path:s},"",s)}}function dtmEventTrigger(e,n){var o=new CustomEvent(e,{bubbles:!0,cancelable:!1,detail:n});document.querySelector("body").dispatchEvent(o)}window.loadRemoteScript=function(e,n,o,t,a){var i=document.createElement("script");i.type=n||"text/javascript",i.id=t||null,1==o&&(i.async=o||1),i.readyState?i.onreadystatechange=function(){"loaded"!=i.readyState&&"complete"!=i.readyState||(i.onreadystatechange=null,a())}:i.onload=function(){a()},i.src=("https:"==document.location.protocol?"https://":"http://")+e,document.getElementsByTagName("head")[0].appendChild(i)};var doNotTrack=document.cookie.indexOf("ps_optout=1")>-1||document.URL.indexOf("dnt=true")>-1,oneHour=36e5,oneYear=24*oneHour*365,trkDate=new Date(Date.now()+oneHour);document.cookie="ps_trk="+(doNotTrack?"0":"1")+"; expires="+trkDate.toUTCString()+"; path=/"+(document.URL.indexOf("pluralsight.com")>-1?"; domain=pluralsight.com":"");var firstVisit=-1==document.cookie.indexOf("fv=");document.cookie="fv="+(firstVisit?"1":"0")+"; expires="+new Date(Date.now()+oneYear).toUTCString()+"; path=/"+(document.URL.indexOf("pluralsight.com")>-1?"; domain=pluralsight.com":""),window.dnbData={},document.cookie.indexOf("ps_trk=1")>-1&&"undefined"!=typeof dnbvid&&dnbvid.getData("api7831","json","T",function(e){window.dnbData=e,window.promoCheck&&!window.promoCheckRan&&window.promoCheck()}),document.addEventListener("at-content-rendering-succeeded",function(){window.targetFinished=!0},!1),document.addEventListener("at-content-rendering-failed",function(){window.targetFinished=!0},!1),document.addEventListener("at-content-rendering-no-offers",function(){window.targetFinished=!0},!1);
+</script>
+<meta name="featureFlags" content="consentautoprompt|munchkin|b2c_cart|b2b_cart|unified|verbosesearch" />
+<script data-cfasync="false" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/js/separates/jquery.min.js"></script>
+<link rel="stylesheet" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-uber.lc-ba6ef77d47f1ff11dfa6f1ff7e5cebcb-lc.min.css" type="text/css">
+<meta data-customer-type="no-type" />
+<meta data-customer-type-ignore="false" />
+<script data-cfasync="false">
+    document.cookie.indexOf("ps_si=")>-1&&(window.selectedInterest=document.cookie.split("ps_si=")[1].split(";")[0]),document.cookie.indexOf("ps_sct=")>-1&&(window.selectedConsumerType=document.cookie.split("ps_sct=")[1].split(";")[0]);var customerType,customerTypeTag=document.head.querySelector("meta[data-customer-type]").getAttribute("data-customer-type"),customerTypeIgnore=document.head.querySelector("meta[data-customer-type-ignore]").getAttribute("data-customer-type-ignore");customerTypeTag&&"true"!==customerTypeIgnore&&"string"==typeof customerTypeTag&&("pluralsight-customer-type:individual"===customerTypeTag?customerType="individual":"pluralsight-customer-type:business"===customerTypeTag&&(customerType="business"),customerType&&"pluralsight-customer-type:escape"!==customerTypeTag&&setSelectedConsumerType(customerType));function setSelectedInterest(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_si="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedInterest=e}function setSelectedConsumerType(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_sct="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedConsumerType=e}function setSelectedBusinessType(e){var t=new Date;t.setTime(t.getTime()+6048e5),document.cookie="ps_sbt="+e+"; expires="+t.toUTCString()+"; path=/",window.selectedBusinessType=e}if(document.URL.indexOf("b2c-price=true")>-1?setSelectedConsumerType("individual"):document.URL.indexOf("b2b-price=true")>-1&&setSelectedConsumerType("business"),document.cookie.indexOf("ps_sbt=")>-1&&(window.selectedBusinessType=document.cookie.split("ps_sbt=")[1].split(";")[0]),-1==document.cookie.indexOf("drift_ab")){var driftAbDate=new Date;driftAbDate.setTime(driftAbDate.getTime()+6048e5);var driftAb=0==Math.floor(2*Math.random())?"A":"B";document.cookie="drift_ab="+driftAb+"; expires="+driftAbDate.toUTCString()+"; path=/"}var inflDate=new Date;inflDate.setTime(inflDate.getTime()+18e5);var visNumDate=new Date;if(visNumDate.setTime(visNumDate.getTime()+31536e6),document.cookie.indexOf("ps_infl")>-1){var infl=document.cookie.split("ps_infl=")[1].split(";")[0];document.cookie="ps_infl="+infl+"; expires="+inflDate.toUTCString()+"; path=/"}else{var visNum=1;document.cookie.indexOf("ps_visNum")>-1&&(visNum=parseInt(document.cookie.split("ps_visNum=")[1].split(";")[0])+1),document.cookie="ps_visNum="+visNum+"; expires="+visNumDate.toUTCString()+"; path=/",getParameterByName("aid")||getParameterByName("vid")||""!=document.referrer&&-1==document.referrer.indexOf("pluralsight.com")?document.cookie="ps_infl=1; expires="+inflDate.toUTCString()+"; path=/":document.cookie="ps_infl=0; expires="+inflDate.toUTCString()+"; path=/"}!function(e,t,i,o){function n(){return t.getElementsByTagName("head")[0]}function s(e,i){if(e){var o=t.getElementById(i);o&&e.removeChild(o)}}if(window.location.hostname.endsWith("pluralsight.com")&&("/content/pluralsight/en.html"===window.location.pathname||"/"===window.location.pathname)){!function(e,i,o){if(e){var n=t.createElement("style");n.id=i,n.innerHTML=o,e.appendChild(n)}}(n(),"at-body-style","body {opacity: 0 !important}");const e=setTimeout(function(){s(n(),"at-body-style")},3e3);jQuery("html").on("at-content-rendering-succeeded at-content-rendering-failed",()=>{s(n(),"at-body-style"),clearTimeout(e)})}}(window,document);
+</script>
+<script src="//assets.adobedtm.com/launch-ENa63668859ab045b6a4d02d09935eab68.min.js" async></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/manifest.json">
+<link rel="mask-icon" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/safari-pinned-tab.svg" color="#e71585">
+<link rel="shortcut icon" href="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#e71585">
+<meta name="msapplication-TileImage" content="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<meta name="facebook-domain-verfication" content="pdyvbn6upvb694o9lvqr0313g2rvcg" />
+<title>Learn JavaScript Online - Courses for Beginners - javascript.com</title>
+<meta property="og:title" content="Learn JavaScript Online - Courses for Beginners - javascript.com" />
+<meta name="twitter:title" content="Learn JavaScript Online - Courses for Beginners - javascript.com" />
+<meta name="google-site-verification" content="hZ2BPgOWnbcwhl1GR6XTGqE6_yXppDy0OGiA2XFfvwU" />
+<meta name="cludo:content-path" content="/content/pluralsight/jscom" />
+</head>
+<body class="mode-disabled javascript-page font-loading">
+<div class="site-wrap">
+<div class="nav-context ">
+<header class="javascript-header header_padding">
+<a href="/"><img class="javascript-logo logo-large" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo.png" alt="JavaScript.com logo" /></a>
+<a href="/"><img class="javascript-logo logo-small" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo-sm.png" alt="JavaScript.com minimal logo" /></a>
+<div class="header_utilities">
+<a href="/learn/strings" class="header-link">Learn</a>
+<a href="/resources" class="header-link">Resources</a>
+<a href="/about" class="header-link">About</a>
+</div>
+</header>
+<div id="site-promo" style="display:none;">
+<div id="site-promo-content"></div>
+<div class="promo-close-button">&times;</div>
+</div>
+<script>
+  var noDBpromo=true;function showPromoIfPermitted(){if(document.cookie.indexOf("site-promo-closed=1")==-1||window.blockPromoHide){if(jQuery("#site-promo .promo-wrapper-contents").length>-1&&jQuery("#site-promo .promo-wrapper-contents").html()!=undefined&&jQuery("#site-promo .promo-wrapper-contents").html().trim()!=""){jQuery("#site-promo").slideDown(300)}jQuery("#site-promo .promo-close-button").click(function(){var d=new Date();d.setTime(d.getTime()+(12*60*60*1000));document.cookie="site-promo-closed=1; expires="+d.toUTCString()+"; path=/";jQuery("#site-promo").slideUp(300)});window.promoShown=true;if(window.setStickies){window.setStickies()}dtmEventTrigger("ps.promoShown",{})}}function promoCheck(){window.promoCheckRan=true;if(document.URL.indexOf("b2b=true")>-1||document.URL.indexOf("nopromos=true")>-1){var d=new Date();d.setTime(d.getTime()+(7*24*60*60*1000));document.cookie="nopromos=1; expires="+d.toUTCString()+"; path=/; domain=pluralsight.com"}if(document.cookie.indexOf("nopromos=1")==-1&&(window.location.host=='www.pluralsight.com'||window.location.host=='www-preview.pluralsight.com'||window.location.host=='www-dev.pluralsight.com'||window.location.host=='www-stage.pluralsight.com'||window.location.host=='learn.pluralsight.com'||window.location.host=='learn-stage.pluralsight.com'||window.location.host=='learn-dev.pluralsight.com'||window.location.host=='www.javascript.com'||window.location.host=='www-stage.javascript.com'||window.location.host=='www-dev.javascript.com'||window.location.host=='www-preview.javascript.com')){var isStage=false;if(window.location.host.indexOf("-stage.")>-1){isStage=true}var company="none";var audience="none";var mstime=(new Date()).valueOf();if(!noDBpromo&&dnbData.companyName){company=dnbData.companyName;audience=dnbData.industryNaics}jQuery.ajax({url:"/discounts/api/global-promo?company="+encodeURIComponent(company)+"&audience="+encodeURIComponent(audience)+"&time="+mstime,headers:{authorization:"aem"}}).done(function(promoData){if(promoData.campaignId||window.forceCampaignCode){window.globalPromos=promoData.promos;window.campaignCode=window.forceCampaignCode||promoData.campaignId;jQuery.ajax({url:"/content/pluralsight/en/global/promos/"+campaignCode+".html?time="+mstime}).done(function(bannerPage){var domainTransform=function(urlString){if(window.location.host=='learn.pluralsight.com'||window.location.host=='learn-stage.pluralsight.com'||window.location.host=='learn-dev.pluralsight.com'||window.location.host=='www.javascript.com'||window.location.host=='www-preview.javascript.com'||window.location.host=='www-dev.javascript.com'||window.location.host=='www-stage.javascript.com'){if(urlString.indexOf("/jscom")==0&&window.location.hostname.indexOf("javascript.com")>-1){urlString=urlString.substring(6,urlString.length)}else if(urlString.indexOf("/landing-pages")==0&&(window.location.hostname=="learn.pluralsight.com"||window.location.hostname=="learn-stage.pluralsight.com"||window.location.hostname=="learn-dev.pluralsight.com")){urlString=urlString.substring(14,urlString.length)}else{urlString="////";}}return urlString};var blockedPaths=jQuery(bannerPage).find(".promo-block-filters").data("blockedpaths");var blockedPathsArray=blockedPaths?blockedPaths.split(","):[];var isBlocked=false;for(i in blockedPathsArray){var blockedPath=blockedPathsArray[i].trim();if(blockedPath.indexOf("=")==0){blockedPath=blockedPath.substring(1,blockedPath.length);if(window.location.pathname==domainTransform(blockedPath)){isBlocked=true;if(isStage){console.log("Promo banners blocked on page.")}}}else if(window.location.pathname.indexOf(domainTransform(blockedPath))==0){isBlocked=true;if(isStage){console.log("Promo banners blocked on page.")}}}if(!isBlocked){var $banners=jQuery(bannerPage).find(".promo-wrapper-filter");var bannerFound=false;jQuery.each($banners,function(key,item){var allowedPaths=jQuery(item).data("allowedpaths");var allowedPathsArray=allowedPaths?allowedPaths.split(","):[];var isAllowed=false;for(i in allowedPathsArray){var allowedPath=allowedPathsArray[i].trim();if(allowedPath.indexOf("=")==0){allowedPath=allowedPath.substring(1,allowedPath.length);if(window.location.pathname==domainTransform(allowedPath)){isAllowed=true}}else if(window.location.pathname.indexOf(domainTransform(allowedPath))==0){isAllowed=true}}if(isAllowed){$content=jQuery(item);jQuery("#site-promo-content").empty().append($content);jQuery("#site-promo-content img[data-lazysrc], #site-promo-content .lazy-bg").each(function(index,item){if(typeof loadLazysrc!="undefined"){loadLazysrc(item)}});window.blockPromoHide=jQuery(item).data("blockhiding");showPromoIfPermitted();bannerFound=true;return false}});if(!bannerFound){if(isStage){console.log("No allowed banner found on promo config page.")}}}}).fail(function(){if(isStage){console.log("No promo page found for campaign code "+campaignCode)}});window.promoTriggered=true;dtmEventTrigger("ps.promoTriggered",{})}window.promoCheckCompleted=true})}}if(window.dnbData.status||noDBpromo){promoCheck()}setTimeout(function(){if(!window.promoCheckRan){window.promoCheck()}},3000);
+</script>
+<div>
+<script type="text/javascript" src="//customer.cludo.com/scripts/bundles/search-script.min.js"></script>
+<script>
+
+        var element = document.createElement("link");
+        element.setAttribute("rel", "stylesheet");
+        element.setAttribute("type", "text/css");
+        element.setAttribute("href", "https://customer.cludo.com/css/templates/v1.1/essentials/cludo-search.min.css");
+        document.getElementsByTagName("head")[0].appendChild(element);
+
+        var CludoSearch;
+        (function () {
+            var cludoSettings = {customerId: 10000847, engineId: 10001278, searchUrl: 'https://www.pluralsight.com/search.html', language: 'en', searchInputs: ['cludo-search-form'], hideSearchFilters: true, type: 'inline'};
+            CludoSearch= new Cludo(cludoSettings);
+            CludoSearch.init();
+        })();
+
+    </script>
+<!--[if lte IE 9]>
+    <script src="https://api.cludo.com/scripts/xdomain.js" slave="https://api.cludo.com/proxy.html" type="text/javascript"></script>
+    <![endif]-->
+</div>
+<div id="content" role="main">
+<div class="contain"><div class="free-form-component section">
+<style>
+      .page-hero { display: block !important; }
+//#site-promo { display: none !important; ; }
+
+  </style>
+</div>
+<div class="free-form-component section">
+<style>
+      @font-face {
+  font-family: 'PS Commons';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PS Commons Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PS Commons Extra Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_ExtraBold.woff') format('woff');
+}
+  
+.title2 h1, 
+.text-4 h1, 
+.title2 h2, 
+.text-4 h2, 
+.title2 h3, 
+.text-4 h3, 
+.title2 h4, 
+.text-4 h4, 
+.title2 h5, 
+.text-4 h5, 
+.title2 h6, 
+.text-4 h6 {
+  margin: 0 0 20px 0;
+}
+  
+.title2 h6, 
+.text-4 h6,
+.text-4 .fs--tiny, 
+.rte-editor .fs--tiny {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  font-weight: unset;
+} 
+
+.text-3 .fs--eighteen, 
+.rte-editor .fs--eighteen,
+.text-4 .fs--medium, 
+.rte-editor .fs--medium,
+.text-4 .fs--thirty,
+.rte-editor .fs--thirty,
+.accordion.section .accordion-title {
+  font-size: 20px;
+  font-weight: unset;
+  line-height: 1.2;
+}
+
+p,
+.text-3 p,
+.text-4 p,
+.link.section a,
+a.fourteen-px,
+.text-3 .fs--fourteen, 
+.rte-editor .fs--fourteen,
+.text-3 .fs--sixteen, 
+.rte-editor .fs--sixteen,
+.text-4 .fs--normal, 
+.rte-editor .fs--normal,
+.image-text-component-3 .text-3 p, 
+.image-text-component-3 .text-4 p,
+.section ul,
+.section ol,
+.section dl,
+.section li {
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: unset;
+}
+
+.text-4 .fs--large, 
+.rte-editor .fs--large {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: unset;
+}
+  
+.title2 h1.title--ultra, 
+.title2 h2.title--ultra, 
+.title2 h3.title--ultra, 
+.title2 h4.title--ultra, 
+.title2 h5.title--ultra, 
+.title2 h6.title--ultra,
+.text-3 .fw-four, 
+.rte-editor .fw-four,
+.title2 h1.title--heavier, 
+.title2 h2.title--heavier, 
+.title2 h3.title--heavier, 
+.title2 h4.title--heavier, 
+.title2 h5.title--heavier, 
+.title2 h6.title--heavier {
+  font-weight: unset;
+  text-transform: unset;
+}
+  
+h1,
+h2,
+h6,
+strong, 
+b,
+.title2 h1.title--ultra, 
+.title2 h2.title--ultra, 
+.title2 h3.title--ultra, 
+.title2 h4.title--ultra, 
+.title2 h5.title--ultra, 
+.title2 h6.title--ultra,
+.title2 h1, 
+.text-4 h1, 
+.title2 h2, 
+.text-4 h2, 
+.title2 h6, 
+.text-4 h6,
+.link.section a,
+.link-list-text .linklist-subnav ul li a,
+.text-4 .fs--thirty,
+.rte-editor .fs--thirty,
+.text-4 .fs--tiny, 
+.rte-editor .fs--tiny,
+.title2 h1.title--heavier, 
+.title2 h2.title--heavier, 
+.title2 h3.title--heavier, 
+.title2 h4.title--heavier, 
+.title2 h5.title--heavier, 
+.title2 h6.title--heavier,
+.title2 h6, 
+.text-4 h6 {
+  font-family: 'PS Commons Extra Bold';
+}
+
+.title2 h2, 
+.text-4 h2 {
+  letter-spacing: -2px;
+}
+  
+p,
+h3,
+h4,
+h5,
+.section ul,
+.section ol,
+.section dl,
+.section li,
+.text-3 p,
+.title2 h3, 
+.text-4 h3, 
+.title2 h4, 
+.text-4 h4, 
+.text-4 .fs--large, 
+.rte-editor .fs--large,
+.accordion.section .accordion-title {
+  font-family: 'PS Commons';
+}
+
+.slider-wrapper {
+  border: 2px solid #000;
+}
+
+h1,
+.title2 h1, 
+.text-4 h1 {
+  font-size: 90px;
+  letter-spacing: -5px;
+  line-height: unset; 
+  font-weight: unset;
+  text-transform: none;
+}
+  
+.content > .generic-block > .block {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.title2 .title--yellow {
+  color: #fcdc00 !important;
+}
+
+.text-4.section {
+  margin-bottom: 0;
+}
+
+.page-hero h5,
+.page-hero .title2 h5 {
+  display: inline-block;
+  background: #000;
+  color: #fcdc00;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-size: 20px;
+  font-family: 'PS Commons Extra Bold';
+}
+
+.slider-wrapper h3 {
+  display: inline-block;
+  background: #fff;
+  color: #fcdc00;
+  padding: 10px 40px;
+  letter-spacing: -3px;
+  font-size: 60px;
+  font-family: 'PS Commons Extra Bold';
+  margin-top: -45px;
+  position: relative;
+}
+
+.slider-wrapper-cta {
+  margin-top: -30px;
+}
+
+.slider-wrapper-cta .ps-button {
+  display: inline-block;
+}
+
+.slider-wrapper h3,
+.slider-wrapper-cta .ps-button {
+  border-width: 0 10px;
+  border-style: solid;
+  border-color: #fcdc00;
+}
+
+.ps-button .button {
+  margin-bottom: 0;
+}
+
+.page-hero h2 {
+  margin-top: -20px;
+  font-family: 'PS Commons Bold';
+  font-size: 68px;
+  font-style: italic;
+}
+
+.page-hero h2 small {
+  font-family: 'PS Commons';
+  font-style: italic;
+  letter-spacing: -1px;
+  margin-left: 10px;
+  font-size: 45%;
+  color: #363636;
+}
+
+.title2 h3 small, 
+.text-4 h3 small {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-family: 'PS Commons Bold';
+}
+
+.event-wrapper {
+  border: 1px solid #000;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+}
+.event-wrapper.on-demand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background-color: #000;
+  color: #fcdc00;
+}
+
+.event-wrapper h5 {
+  color: #fcdc00 !important;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family: 'PS Commons Bold';
+}
+
+.goodies-wrapper {
+  border-top: 15px solid #000;
+}
+
+.goodies-wrapper .title2 {
+  margin-bottom: 40px;
+}
+
+.goodies-wrapper h4 {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 85%, rgba(0,0,0,0) 100%);
+  font-family: 'PS Commons Extra Bold';
+  color: #fff;
+  display: inline;
+  font-size: 50px;
+  line-height: 100%;
+  letter-spacing: -1px;
+}
+
+.goodies-wrapper .button.button--black {
+  color: #000 !important;
+  background: #fff !important;
+  border: 3px solid #000;
+}
+
+@media (max-width: 1250px) {
+  .slider-wrapper h3 {
+    letter-spacing: -1px;
+    font-size: 5vw;
+  }
+  .title2 h3 small, 
+  .text-4 h3 small {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  h1,
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 8vw;
+    line-height: 90%;
+    margin-top: 20px;
+  }
+  .page-hero h2 {
+    margin-top: 0;
+    font-size: 54px;
+  }
+  .js-events .title2 h4, 
+  .js-events .text-4 h4 {
+    font-size: 24px;
+  }
+  .js-events .goodies-wrapper h4 {
+    font-size: 44px;
+    line-height: 90%;
+  }
+  .js-events .medium-3 {
+    width: 140px;
+  }
+  .js-events .medium-9 {
+    width: calc(100% - 140px);
+  }
+  .js-events .psbutton--right {
+    text-align: left;
+  }
+}
+
+@media (max-width: 992px) {
+  .content > .generic-block > .block {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .slider-wrapper h3 {
+    width: 90%;
+  }
+  
+  .slider-wrapper-cta {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  h1,
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 68px;
+    line-height: 90%;
+  }
+  .page-hero h5, 
+  .page-hero .title2 h5 {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  .page-hero h2 {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  .slider-wrapper h3 {
+    font-size: 32px;
+    line-height: 100%;
+  }
+  h1, 
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 58px;
+  }
+  .page-hero h2 small {
+    display: block;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .page-hero h2 {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-wrapper h3 {
+    font-size: 24px;
+  }
+  .js-events .medium-3,
+  .js-events .medium-9,
+  .js-events .medium-12 {
+    width: 100%;
+    text-align: center;
+  }
+  .event-wrapper {
+    margin: auto auto 20px;
+  }
+  .js-events .title2 h3, 
+  .js-events .text-4 h3,
+  .js-events .psbutton--right {
+    text-align: center;
+  }
+  .page-hero h2 {
+    font-size: 32px;
+  }
+}
+
+.block {
+    color: #000 !important;
+}
+  </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.min.css">
+<style>
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner, .odometer.odometer-theme-default .odometer-digit .odometer-digit-inner {
+   overflow-x: unset;
+}
+</style>
+</div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg    block block--custom-color block--light block--left generic-block--auto  padding-top-zero padding-bottom-zero      clearfix" style="background: #fcdc00;">
+<div class="main clearfix">
+<div class="content clearfix"><div class="generic-block section">
+<div id="page-hero_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-hundred padding-bottom-hundred page-hero     clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="free-form-component section">
+<style>
+      @font-face {
+  font-family: 'PS Commons';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PS Commons Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PS Commons Extra Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/content/dam/pluralsight2/font/ps-commons/PS_TT_Commons_ExtraBold.woff') format('woff');
+}
+  
+.title2 h1, 
+.text-4 h1, 
+.title2 h2, 
+.text-4 h2, 
+.title2 h3, 
+.text-4 h3, 
+.title2 h4, 
+.text-4 h4, 
+.title2 h5, 
+.text-4 h5, 
+.title2 h6, 
+.text-4 h6 {
+  margin: 0 0 20px 0;
+}
+  
+.title2 h6, 
+.text-4 h6,
+.text-4 .fs--tiny, 
+.rte-editor .fs--tiny {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  font-weight: unset;
+} 
+
+.text-3 .fs--eighteen, 
+.rte-editor .fs--eighteen,
+.text-4 .fs--medium, 
+.rte-editor .fs--medium,
+.text-4 .fs--thirty,
+.rte-editor .fs--thirty,
+.accordion.section .accordion-title {
+  font-size: 20px;
+  font-weight: unset;
+  line-height: 1.2;
+}
+
+p,
+.text-3 p,
+.text-4 p,
+.link.section a,
+a.fourteen-px,
+.text-3 .fs--fourteen, 
+.rte-editor .fs--fourteen,
+.text-3 .fs--sixteen, 
+.rte-editor .fs--sixteen,
+.text-4 .fs--normal, 
+.rte-editor .fs--normal,
+.image-text-component-3 .text-3 p, 
+.image-text-component-3 .text-4 p,
+.section ul,
+.section ol,
+.section dl,
+.section li {
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: unset;
+}
+
+.text-4 .fs--large, 
+.rte-editor .fs--large {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: unset;
+}
+  
+.title2 h1.title--ultra, 
+.title2 h2.title--ultra, 
+.title2 h3.title--ultra, 
+.title2 h4.title--ultra, 
+.title2 h5.title--ultra, 
+.title2 h6.title--ultra,
+.text-3 .fw-four, 
+.rte-editor .fw-four,
+.title2 h1.title--heavier, 
+.title2 h2.title--heavier, 
+.title2 h3.title--heavier, 
+.title2 h4.title--heavier, 
+.title2 h5.title--heavier, 
+.title2 h6.title--heavier {
+  font-weight: unset;
+  text-transform: unset;
+}
+  
+h1,
+h2,
+h6,
+strong, 
+b,
+.title2 h1.title--ultra, 
+.title2 h2.title--ultra, 
+.title2 h3.title--ultra, 
+.title2 h4.title--ultra, 
+.title2 h5.title--ultra, 
+.title2 h6.title--ultra,
+.title2 h1, 
+.text-4 h1, 
+.title2 h2, 
+.text-4 h2, 
+.title2 h6, 
+.text-4 h6,
+.link.section a,
+.link-list-text .linklist-subnav ul li a,
+.text-4 .fs--thirty,
+.rte-editor .fs--thirty,
+.text-4 .fs--tiny, 
+.rte-editor .fs--tiny,
+.title2 h1.title--heavier, 
+.title2 h2.title--heavier, 
+.title2 h3.title--heavier, 
+.title2 h4.title--heavier, 
+.title2 h5.title--heavier, 
+.title2 h6.title--heavier,
+.title2 h6, 
+.text-4 h6 {
+  font-family: 'PS Commons Extra Bold';
+}
+
+.title2 h2, 
+.text-4 h2 {
+  letter-spacing: -2px;
+}
+  
+p,
+h3,
+h4,
+h5,
+.section ul,
+.section ol,
+.section dl,
+.section li,
+.text-3 p,
+.title2 h3, 
+.text-4 h3, 
+.title2 h4, 
+.text-4 h4, 
+.text-4 .fs--large, 
+.rte-editor .fs--large,
+.accordion.section .accordion-title {
+  font-family: 'PS Commons';
+}
+
+.slider-wrapper {
+  border: 2px solid #000;
+}
+
+h1,
+.title2 h1, 
+.text-4 h1 {
+  font-size: 90px;
+  letter-spacing: -5px;
+  line-height: unset; 
+  font-weight: unset;
+  text-transform: none;
+}
+  
+.content > .generic-block > .block {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.title2 .title--yellow {
+  color: #fcdc00 !important;
+}
+
+.text-4.section {
+  margin-bottom: 0;
+}
+
+.page-hero h5,
+.page-hero .title2 h5 {
+  display: inline-block;
+  background: #000;
+  color: #fcdc00;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-size: 20px;
+  font-family: 'PS Commons Extra Bold';
+}
+
+.slider-wrapper h3 {
+  display: inline-block;
+  background: #fff;
+  color: #fcdc00;
+  padding: 10px 40px;
+  letter-spacing: -3px;
+  font-size: 60px;
+  font-family: 'PS Commons Extra Bold';
+  margin-top: -45px;
+  position: relative;
+}
+
+.slider-wrapper-cta {
+  margin-top: -30px;
+}
+
+.slider-wrapper-cta .ps-button {
+  display: inline-block;
+}
+
+.slider-wrapper h3,
+.slider-wrapper-cta .ps-button {
+  border-width: 0 10px;
+  border-style: solid;
+  border-color: #fcdc00;
+}
+
+.ps-button .button {
+  margin-bottom: 0;
+}
+
+.page-hero h2 {
+  margin-top: -20px;
+  font-family: 'PS Commons Bold';
+  font-size: 68px;
+  font-style: italic;
+}
+
+.page-hero h2 small {
+  font-family: 'PS Commons';
+  font-style: italic;
+  letter-spacing: -1px;
+  margin-left: 10px;
+  font-size: 45%;
+  color: #363636;
+}
+
+.title2 h3 small, 
+.text-4 h3 small {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-family: 'PS Commons Bold';
+}
+
+.event-wrapper {
+  border: 1px solid #000;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+}
+.event-wrapper.on-demand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background-color: #000;
+  color: #fcdc00;
+}
+
+.event-wrapper h5 {
+  color: #fcdc00 !important;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family: 'PS Commons Bold';
+}
+
+.goodies-wrapper {
+  border-top: 15px solid #000;
+}
+
+.goodies-wrapper .title2 {
+  margin-bottom: 40px;
+}
+
+.goodies-wrapper h4 {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 85%, rgba(0,0,0,0) 100%);
+  font-family: 'PS Commons Extra Bold';
+  color: #fff;
+  display: inline;
+  font-size: 50px;
+  line-height: 100%;
+  letter-spacing: -1px;
+}
+
+.goodies-wrapper .button.button--black {
+  color: #000 !important;
+  background: #fff !important;
+  border: 3px solid #000;
+}
+
+@media (max-width: 1250px) {
+  .slider-wrapper h3 {
+    letter-spacing: -1px;
+    font-size: 5vw;
+  }
+  .title2 h3 small, 
+  .text-4 h3 small {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  h1,
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 8vw;
+    line-height: 90%;
+    margin-top: 20px;
+  }
+  .page-hero h2 {
+    margin-top: 0;
+    font-size: 54px;
+  }
+  .js-events .title2 h4, 
+  .js-events .text-4 h4 {
+    font-size: 24px;
+  }
+  .js-events .goodies-wrapper h4 {
+    font-size: 44px;
+    line-height: 90%;
+  }
+  .js-events .medium-3 {
+    width: 140px;
+  }
+  .js-events .medium-9 {
+    width: calc(100% - 140px);
+  }
+  .js-events .psbutton--right {
+    text-align: left;
+  }
+}
+
+@media (max-width: 992px) {
+  .content > .generic-block > .block {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .slider-wrapper h3 {
+    width: 90%;
+  }
+  
+  .slider-wrapper-cta {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  h1,
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 68px;
+    line-height: 90%;
+  }
+  .page-hero h5, 
+  .page-hero .title2 h5 {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  .page-hero h2 {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  .slider-wrapper h3 {
+    font-size: 32px;
+    line-height: 100%;
+  }
+  h1, 
+  .title2 h1, 
+  .text-4 h1 {
+    font-size: 58px;
+  }
+  .page-hero h2 small {
+    display: block;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .page-hero h2 {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-wrapper h3 {
+    font-size: 24px;
+  }
+  .js-events .medium-3,
+  .js-events .medium-9,
+  .js-events .medium-12 {
+    width: 100%;
+    text-align: center;
+  }
+  .event-wrapper {
+    margin: auto auto 20px;
+  }
+  .js-events .title2 h3, 
+  .js-events .text-4 h3,
+  .js-events .psbutton--right {
+    text-align: center;
+  }
+  .page-hero h2 {
+    font-size: 32px;
+  }
+}
+  </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.min.css">
+<style>
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner, .odometer.odometer-theme-default .odometer-digit .odometer-digit-inner {
+   overflow-x: unset;
+}
+</style>
+</div>
+<div class="column-control section">
+<div class="container column-control-container">
+<div class="row large column-control--super-wide">
+<div class="columns large-12 small-12"><div class="title2 section">
+<div data-emptytext="Title">
+<h5 class="         disableBottomMargin">
+Celebrating
+</h5>
+</div></div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h1 class="         disableBottomMargin">
+27 years of JavaScript
+</h1>
+</div></div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h2 class="         ">
+<span class="library-count"><span class="odometer"></span> libraries</span><small>and counting...</small>
+</h2>
+</div></div>
+<div class="spacer section">
+<div class="spacer hide-for-small-only hide-for-medium-only" style="height:50px"></div>
+<div class="spacer show-for-medium-only" style="height:30px"></div>
+<div class="spacer show-for-small-only" style="height:30px"></div></div>
+<div class="generic-block section">
+<div id="javascript-hero_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero javascript-hero     clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="title2 section">
+<div data-emptytext="Title">
+<h3 class="     title--center    ">
+<span style="	font-family: &#34;PS Commons Bold&#34; !important;
+	letter-spacing: -2.0px;
+">Ready to try JavaScript?</span>
+</h3>
+</div></div>
+<div class="free-form-component section">
+<style>
+      .javascript-hero h1 {font-size: 72px; font-weight: 700; margin-top: 0; line-height: 1;}
+.javascript-hero h2 {font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #aaaaaa; margin: 0;}
+.javascript-hero .text-3 p {font-weight: 200; font-size: 18px; line-height: 1.8;}
+.javascript-hero .text-3 .break {display: block;}
+.javascript-hero code {color: #555; padding: 5px; border-radius: 3px;}
+.javascript-input {position: relative; margin-top: 30px;}
+.javascript-hero .javascript-input input {background: rgba(18,18,18,.9); height: 60px; padding: 10px 10px 15px 40px; border: 0; color: white; font-size: 22px; font-weight: 500; transition: background .4s linear; font-family:monospace; }
+.javascript-hero .javascript-input input:focus {background: rgba(18,18,18,.9); border: 0;}
+.javascript-hero .javascript-input input.incorrect{background: rgba(155,28,32,.9);}
+.javascript-hero .javascript-input input.correct{background: rgba(155,200,80,.9);}
+.javascript-hero .javascript-input .javascript-input--arrow {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(45deg);
+    top: 50%;
+    left: 5px;
+    margin-top: -9px;
+    position: absolute;
+}
+.javascript-hero .javascript-input .javascript-input--arrow.checkmark {
+    height: 20px;
+    width: 10px;
+    border: solid white;
+    border-width: 0px 2px 2px 0px;
+    margin-top: -12px;
+    left: 15px;
+}
+.javascript-hero .button--next.button--small {
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    background: #6d8d3b;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    margin: 0;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 887px) {
+.javascript-hero h1  {font-size: 60px;}
+.javascript-hero .text-3 .break {display: inline-block;}
+}
+.javascript-hero {position: relative;}
+.hero--gradient-transparent {
+width: 100%;
+height: 100px;
+background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+position: absolute;
+bottom: 0;
+}
+  </style>
+</div>
+<div class="column-control section">
+<div class="container column-control-container">
+<div class="row large column-control--narrow">
+<div class="columns large-12 small-12"><div class="text-3 text section">
+<div id="text-3-a671a6f48d" class="cmp-text">
+<p>Begin learning here by typing in your first name surrounded by quotation marks, and ending with a semicolon. For example, you could type the name <code>&#34;Jamie&#34;;</code>  and then hit enter.</p>
+</div>
+</div>
+<div class="free-form-component section">
+<div class="javascript-input">
+<input type="text" id="inputJS" />
+<span class="javascript-input--arrow"></span>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+var homepageChallengeAnswer = /^('|")[^'"]+\1;?$/;
+var $javascriptInput = jQuery('.javascript-input input');
+setTimeout(function(){
+       jQuery('#inputJS').focus();
+},600);
+
+$javascriptInput.on("keyup", function(event){
+   if (event.keyCode === 13){
+      if ( $javascriptInput.val().match(homepageChallengeAnswer)){
+           jQuery('.javascript-input input').addClass('correct');
+           jQuery('.javascript-input--arrow').addClass('checkmark');
+           jQuery('<a href="/try" class="button--next button--small">Next Challenge</a>').appendTo('.javascript-input');
+           var name = $javascriptInput.val().replace(/['";]/g, "");
+           document.cookie = "try_name=" + name
+       } else {
+            jQuery('.javascript-input input').removeClass('correct');
+            jQuery('.javascript-input input').addClass('incorrect');
+            jQuery('.javascript-input--arrow').removeClass('checkmark');
+            jQuery('.button--next.button--small').remove();
+            setTimeout(function(){ jQuery('.javascript-input input').removeClass('incorrect'); }, 600);
+       }
+   }
+});
+});
+  </script>
+</div>
+<div class="text-4 text section">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:100px"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--center">
+<div>
+<a href="https://www.pluralsight.com/offer/free-tech-skills" target="_self" style=" " class="button   8  " data-aa-title="default-cta">
+Try These Free Courses!
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="generic-block section">
+<div id="js-events_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-hundred js-events     clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row large column-control--super-wide">
+<div class="columns customPadding large-6 small-12" style="padding-right: 50px; "><div class="title2 section">
+<div data-emptytext="Title">
+<h3 class="         ">
+Celebrate with these events
+</h3>
+</div></div>
+<div class="horizontal-rule section">
+<hr class="horizontal-rule aem-component  hr_color_black" />
+</div>
+<div class="spacer section">
+<div class="spacer hide-for-small-only hide-for-medium-only" style="height:40px"></div>
+<div class="spacer show-for-medium-only" style="height:20px"></div>
+<div class="spacer show-for-small-only" style="height:20px"></div></div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero      clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium fullwidth">
+<div class="columns customPadding medium-3 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="generic-block section">
+<div id="event-wrapper on-demand_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero event-wrapper on-demand     clearfix" style="border-radius:50%;">
+<div class="main clearfix">
+<div class="content clearfix"><div class="title2 section">
+<div data-emptytext="Title">
+<h5 class="     title--left    disableBottomMargin">
+on demand
+</h5>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns customPadding medium-9 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+JS meditation session
+</h4>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-79b35fcd24" class="cmp-text">
+<p>Breathe in. Breathe out. Turn your JavaScript frustrations into 3 minutes of Zen.</p>
+</div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.youtube.com/embed/a7movncpOQc?autoplay=1&hd=1&rel=0&autohide=1&modestbranding=1&iv_load_policy=3" target="_self" style=" min-width:220px;" class="button  button--black 12  fancybox fancybox.iframe" data-aa-title="watch-meditation-cta">
+Watch now
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:75px"></div>
+</div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero      clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium fullwidth">
+<div class="columns customPadding medium-3 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="generic-block section">
+<div id="event-wrapper on-demand_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero event-wrapper on-demand     clearfix" style="border-radius:50%;">
+<div class="main clearfix">
+<div class="content clearfix"><div class="title2 section">
+<div data-emptytext="Title">
+<h5 class="     title--left    disableBottomMargin">
+on demand
+</h5>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns customPadding medium-9 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+Live build with Cassidy Williams
+</h4>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-ec3088eb38" class="cmp-text">
+<p>Join Cassidy as she does a live build to celebrate JavaScript&#39;s 25th birthday. Warning: There might be cake.</p>
+</div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.youtube.com/embed/KHOAr2o3sKk?autoplay=1&hd=1&rel=0&autohide=1&modestbranding=1&iv_load_policy=3" target="_self" style=" min-width:220px;" class="button  button--black 12  fancybox fancybox.iframe" data-aa-title="live-cassidy-cta">
+Watch now
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:75px"></div>
+</div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero      clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium fullwidth">
+<div class="columns customPadding medium-3 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="generic-block section">
+<div id="event-wrapper on-demand_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero event-wrapper on-demand     clearfix" style="border-radius:50%;">
+<div class="main clearfix">
+<div class="content clearfix"><div class="title2 section">
+<div data-emptytext="Title">
+<h5 class="     title--left    disableBottomMargin">
+on demand
+</h5>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns customPadding medium-9 small-12" style="padding-right: 0 !important; padding-left: 0 !important; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+Panel: The state of JavaScript
+</h4>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-89d287e1dd" class="cmp-text">
+<p>Join some of the most influential minds in JavaScript for a live discussion on what the future holds for the language.</p>
+</div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.youtube.com/embed/yujvSHFbWR8?autoplay=1&hd=1&rel=0&autohide=1&modestbranding=1&iv_load_policy=3" target="_self" style=" min-width:220px;" class="button  button--black 12  fancybox fancybox.iframe" data-aa-title="live-event-cta">
+Watch now
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns customPadding large-6 small-12" style="padding-left: 50px; "><div class="spacer section">
+<div class="spacer hide-for-small-only hide-for-medium-only" style="height:0px"></div>
+<div class="spacer show-for-medium-only" style="height:60px"></div>
+<div class="spacer show-for-small-only" style="height:60px"></div></div>
+<div class="title2 section">
+<div data-emptytext="Title">
+<h3 class="         ">
+More JavaScript goodies <small>powered by pluralsight</small>
+</h3>
+</div></div>
+<div class="horizontal-rule section">
+<hr class="horizontal-rule aem-component  hr_color_black" />
+</div>
+<div class="spacer section">
+<div class="spacer hide-for-small-only hide-for-medium-only" style="height:40px"></div>
+<div class="spacer show-for-medium-only" style="height:20px"></div>
+<div class="spacer show-for-small-only" style="height:20px"></div></div>
+<div class="generic-block section">
+<div id="goodies-wrapper_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero goodies-wrapper     clearfix" style="background-image: url('/content/pluralsight/jscom/jcr:content/main/generic_block_copy_c_1959881321/parsys/generic_block_1398242984/parsys/columns/column-parsys-2/generic_block_copy_254037847/image-res.img.aba32e09-2d64-4861-9e94-dbbf86c31232.jpg');">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium padding-top-forty padding-bottom-forty fullwidth">
+<div class="columns customPadding medium-12 small-12" style="padding-right: 40px; padding-left: 40px; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+Courses &amp; paths to get you going
+</h4>
+</div></div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.pluralsight.com/paths/javascript-core-language" target="_self" style=" min-width:220px;" class="button  button--black 11  " data-aa-title="courses-paths-cta">
+get started
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:40px"></div>
+</div>
+<div class="generic-block section">
+<div id="goodies-wrapper_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero goodies-wrapper     clearfix" style="background-image: url('/content/pluralsight/jscom/jcr:content/main/generic_block_copy_c_1959881321/parsys/generic_block_1398242984/parsys/columns/column-parsys-2/generic_block_copy_1670164237/image-res.img.ede81306-ed80-4d24-a144-a96b88f61f77.jpg');">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium padding-top-forty padding-bottom-forty fullwidth">
+<div class="columns customPadding medium-12 small-12" style="padding-right: 40px; padding-left: 40px; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+Know where your skills stand
+</h4>
+</div></div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.pluralsight.com/product/skill-iq" target="_self" style=" min-width:220px;" class="button  button--black 11  " data-aa-title="measure-skills-cta">
+measure your skills
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:40px"></div>
+</div>
+<div class="generic-block section">
+<div id="goodies-wrapper_" class="hidden"></div>
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-zero padding-bottom-zero goodies-wrapper     clearfix" style="background-image: url('/content/pluralsight/jscom/jcr:content/main/generic_block_copy_c_1959881321/parsys/generic_block_1398242984/parsys/columns/column-parsys-2/generic_block_copy/image-res.img.bb915423-d79e-4e04-bf01-0760bdfec7eb.jpg');">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row medium padding-top-forty padding-bottom-forty fullwidth">
+<div class="columns customPadding medium-12 small-12" style="padding-right: 40px; padding-left: 40px; "><div class="title2 section">
+<div data-emptytext="Title">
+<h4 class="         ">
+Just how popular is JavaScript really?
+</h4>
+</div></div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--right">
+<div>
+<a href="https://www.pluralsight.com/tech-index" target="_self" style=" min-width:220px;" class="button  button--black 11  " data-aa-title="tech-index-cta">
+see the data
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="generic-block section">
+<div class="generic-block-wrapper lazy-bg    block block--transparent block--left generic-block--auto  padding-top-hundred padding-bottom-hundred      clearfix">
+<div class="main clearfix">
+<div class="content clearfix"><div class="column-control section">
+<div class="container column-control-container">
+<div class="row large column-control--super-wide">
+<div class="columns large-12 small-12"><div class="title2 section">
+<div data-emptytext="Title">
+<h2 class="     title--center    disableBottomMargin">
+Celebrate #JavaScript25 with stronger skills
+</h2>
+</div></div>
+<div class="text-4 text section">
+<div id="text-4-e793634ddb" class="cmp-text">
+<p style="	text-align: center;
+">The free 25 Javascript courses are gone, but sign-up here to get access to 50 free courses</p>
+</div>
+</div>
+<div class="spacer section">
+<div class="spacer  " style="height:10px"></div>
+</div>
+<div class="ps-button section">
+<div data-emptytext="Button" class="psbutton--center">
+<div>
+<a href="https://www.pluralsight.com/offer/free-tech-skills" target="_self" style=" " class="button  button--black button--large  " data-aa-title="footer-cta-sign-up">
+Sign up for free
+</a>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="free-form-component section">
+<style>
+.odometer.odometer-animating-up, .odometer.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+	    -webkit-transition-duration: 5s !important;
+	    -moz-transition-duration: 5s !important;
+	    -ms-transition-duration: 5s !important;
+	    -o-transition-duration: 5s !important;
+	    transition-duration: 5s !important
+}
+.odometer.odometer-auto-theme, 
+.odometer.odometer-theme-default {
+   margin-top: -10px; 
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/odometer.min.js"></script>
+<script>
+
+var el = document.querySelector('.odometer');
+od = new Odometer({
+  el: el,
+  value: 0,
+});
+
+od.update(1444231);
+</script>
+</div>
+</div>
+</div>
+
+<div id="ps_pro_qty_modal">
+<div class="column-control section">
+<div class="container column-control-container ">
+<div class="row column-control--wide">
+<div class="large-5 columns column_qty large-push-7">
+<h3>Ready to skill up<br/>your entire team?</h3>
+<div class="qty-selector">
+<div class="qty-down"><i class="icons" icon="down-arrow"></i></div>
+<div class="qty-display">
+<div class="qty-display-number">20</div>
+<div class="qty-display-label">Subscriptions</div>
+</div>
+<div class="qty-up"><i class="icons" icon="up-arrow"></i></div>
+</div>
+<div class="qty-sales-message hidden">Need more subscriptions? <a href="https://www.pluralsight.com/product/contact-sales">Contact sales</a>.</div>
+<a class="button button--gradient button--small biz_qty_checkout pilot-hide" data-aa-title="pro-qty-modal-signup" href="https://www.pluralsight.com/buy?sku=PROFESSIONAL-SG&quantity=20">Continue to checkout</a>
+<a class="button button--gradient button--small biz_qty_checkout pilot-show" data-aa-title="pro-qty-modal-trial" href="https://www.pluralsight.com/buy?sku=PROFESSIONAL-SG-PILOT&quantity=20">Continue to checkout</a>
+<div class="ps_pro_qty_modal-cancel">Cancel</div>
+</div>
+<div class="large-7 columns column_feature large-pull-5">
+<h3 class="pilot-hide">With your Pluralsight plan, you can:</h3>
+<h3 class="pilot-show">With your 30-day pilot, you can:</h3>
+<ul>
+<li class="pilot-hide">Access thousands of videos to develop critical skills</li>
+<li class="pilot-show">Give up to 50 users access to thousands of video courses</li>
+<li>Practice and apply skills with interactive courses and projects</li>
+<li>See skills, usage, and trend data for your teams</li>
+<li>Prepare for certifications with industry-leading practice exams</li>
+<li>Measure proficiency across skills and roles</li>
+<li>Align learning to your goals with paths and channels</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="ps_starter_qty_modal">
+<div class="column-control section">
+<div class="container column-control-container ">
+<div class="row column-control--wide">
+<div class="large-5 columns column_qty large-push-7">
+<h3>Ready to skill up<br/>your entire team?</h3>
+<div class="qty-selector">
+<div class="qty-down"><i class="icons" icon="down-arrow"></i></div>
+<div class="qty-display">
+<div class="qty-display-number">10</div>
+<div class="qty-display-label">Subscriptions</div>
+</div>
+<div class="qty-up"><i class="icons" icon="up-arrow"></i></div>
+</div>
+<div class="qty-sales-message hidden">Need more subscriptions? <a href="https://www.pluralsight.com/product/contact-sales">Contact sales</a>.</div>
+<a class="button button--gradient button--small biz_qty_checkout pilot-hide" data-aa-title="starter-qty-modal-signup" href="https://www.pluralsight.com/buy?sku=STARTER-A&quantity=10">Continue to checkout</a>
+<div class="ps_starter_qty_modal-cancel">Cancel</div>
+</div>
+<div class="large-7 columns column_feature large-pull-5">
+<h3 class="pilot-hide">With your Pluralsight plan, you can:</h3>
+<h3 class="pilot-show">With your 30-day pilot, you can:</h3>
+<ul>
+<li class="pilot-hide">Access thousands of videos to develop critical skills</li>
+<li class="pilot-show">Give up to 50 users access to thousands of video courses</li>
+<li>Practice and apply skills with interactive courses and projects</li>
+<li>See skills, usage, and trend data for your teams</li>
+<li>Prepare for certifications with industry-leading practice exams</li>
+<li>Measure proficiency across skills and roles</li>
+<li>Align learning to your goals with paths and channels</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="javascript-footer">
+<div class="right-content">
+<a href="/learn/strings" class="footer-link">Learn</a>
+<span class="footer-divider">/</span>
+<a href="/resources" class="footer-link">Resources</a>
+<span class="footer-divider">/</span>
+<a href="/about" class="footer-link">About</a>
+</div>
+<div class="left-content">
+<a href="/"><img class="javascript-logo logo-large" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo.png" alt="JavaScript.com logo" /></a>
+<a href="/"><img class="javascript-logo logo-small" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/px.png" data-lazysrc="/etc.clientlibs/pluralsight/clientlibs/clientlib-main/resources/images/js-logo-sm.png" alt="JavaScript.com minimal logo" /></a>
+<p class="copyright">© 2016 - 2023 JavaScript.com</p>
+</div>
+</footer>
+<script>
+jQuery(".text.section, .text-2.section, .text-3.section, .text-4.section, .title.section, .title2.section").each(function(key,item) {
+    if (item.innerHTML.indexOf("\u2028") > -1){
+        item.innerHTML = item.innerHTML.replace(/\u2028/g, ' ');
+    }
+});
+</script>
+<script>
+function isElementInViewport (el) {
+  var rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+  );
+}
+function loadLazysrc(item){
+  var $item = jQuery(item);
+  if ($item.hasClass("lazy-bg")){
+    $item.removeClass("lazy-bg");
+  } else {
+    var src = $item.attr('data-lazysrc');
+    $item.attr('src',src);
+    $item.removeAttr('data-lazysrc');
+  }
+}
+
+//lazy load images above the fold
+jQuery('img[data-lazysrc],.lazy-bg').each(function(index,item){
+  if ( jQuery(item).is(":visible") && isElementInViewport(item) ){
+    loadLazysrc(item);
+  } else if (document.URL.indexOf("lazyLoadOff=true") > -1){
+    loadLazysrc(item);
+  }
+});
+
+//lazy load images below the fold. Keep function available for promo service or others that may need it.
+window.addEventListener('load', function(){
+  jQuery('img[data-lazysrc],.lazy-bg').each(function(index,item){
+    loadLazysrc(item);
+  });
+});
+</script>
+<script type="text/javascript" src="/etc.clientlibs/pluralsight/clientlibs/clientlib-uber.lc-1570fd495fa2381a4715a208df65c367-lc.min.js" defer></script>
+</div>
+</div>
+</body>
+</html>

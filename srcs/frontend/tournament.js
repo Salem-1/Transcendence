@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
 });
 
+function launchTournament(){
+    var players = JSON.parse(localStorage.getItem('players')) || [];
+    if (players.length <  2)
+    {
+        if (players.length == 0)
+            alert(`Cannot launch tournament without players`);
+        if (players.length == 1)
+            alert(`You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.`);
+        return;
+    }
+    alert("starting tournament")
+    window.location.href = "tournament_intro.html";
+}
+
 function getPlayers() {
     window.location.href = 'register_players.html';
 }
@@ -107,6 +121,7 @@ const config = {
 }
 
 const observer = new MutationObserver(callback);
+
 
 showAllPlayers();
 observer.observe(targetNode, config);

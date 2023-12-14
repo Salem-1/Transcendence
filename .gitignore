@@ -10,3 +10,4 @@ db/__pycache_
 data
 *node_modules*
 migrations
+resources
