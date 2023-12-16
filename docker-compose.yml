@@ -17,13 +17,15 @@ services:
     image: nginx
     restart: always
     volumes:
-      - ./srcs/nginx/frontend:/usr/share/nginx/html
+      - ./srcs/frontend:/usr/share/nginx/html
     ports:
       - 80:80
     networks: 
       - services-network
 
   django:
+    depends_on:
+      - postgres
     build: ./srcs/backend
     restart: always
     env_file:
@@ -34,8 +36,7 @@ services:
     #   - 8000:8000
     networks:
       - services-network
-    depends_on:
-      - postgres
+    
     
 networks:
   services-network:

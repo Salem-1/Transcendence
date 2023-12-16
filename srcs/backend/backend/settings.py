@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'db',
 #    'django.contrib.sites', # must
     'allauth', # must
     'allauth.socialaccount', # must
