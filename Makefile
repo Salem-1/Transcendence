@@ -26,6 +26,9 @@ restart:
 	docker compose restart
 
 clean: down
-	docker system prune
+	docker rmi transcendence-django
+	yes | docker system prune
+
+reset: clean build
 
 .PHONY: help up down build rebuild restart clean

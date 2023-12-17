@@ -19,7 +19,7 @@ services:
     volumes:
       - ./srcs/frontend:/usr/share/nginx/html
     ports:
-      - 80:80
+      - 3000:80
     networks: 
       - services-network
 
@@ -31,7 +31,7 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - 8000:8000
     # expose:
     #   - 8000:8000
     networks:
