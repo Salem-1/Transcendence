@@ -3,15 +3,14 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-# from models import get_user_id
+# from .models import User_2fa
+# from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.http import require_POST
 import jwt
 import json
 import requests
 import os
 import re 
-from django.contrib.auth.models import User
 import datetime
 
 def get_user_id(username):

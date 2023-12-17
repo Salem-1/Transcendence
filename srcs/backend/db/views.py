@@ -11,6 +11,7 @@ import jwt
 import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
+from .models import User_2fa
 
 @csrf_exempt
 def register_user(request):
@@ -123,13 +124,13 @@ def set_double_factor_auth(request):
             user = User.objects.get(id=user_id)
             request_body = json.loads(request.body)
             if request_body['enable2fa'] == "true":
-                user.enabled_2fa = True
-                user.two_factor_secret = fetch_otp_secret(user.username)
+                user.user_2fa.enabled_2fa = True
+                user.user_2fa.two_factor_secret = fetch_otp_secret(user.username)
                 user.save()
-                return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
+                return JsonResponse({"secret": user.user_2fa.two_factor_secret, "id": user_id})
             elif request_body['enable2fa'] == "false":
-                user.enabled_2fa = False
-                user.two_factor_secret = ""
+                user.user_2fa.enabled_2fa = False
+                user.user_2fa.two_factor_secret = ""
                 user.save()
                 return JsonResponse({"message": "user disabled ", "id": user_id})
             else:

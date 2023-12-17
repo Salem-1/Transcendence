@@ -7,6 +7,8 @@ import json
 from django.http import HttpResponse
 import datetime
 from .authintication_utils import gen_jwt_token
+from .models import User_2fa
+
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
     return totp.verify(given_otp)
@@ -15,7 +17,7 @@ def fetch_otp_secret(username):
     return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
 
 def is_2fa_enabled(user):
-    return  user.enabled_2fa
+    return  user.user_2fa.enabled_2fa
 
 def authenticate_otp_redirect(username):
     otp_jwt = gen_jwt_token(username, "otp", 1)
