@@ -36,8 +36,9 @@ services:
     #   - 8000:8000
     networks:
       - services-network
-    
-    
+    volumes:
+      - ./srcs/backend:/app
+
 networks:
   services-network:
     driver: bridge

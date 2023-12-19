@@ -23,7 +23,7 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         
         jwt_token = login_response.json().get('jwt_token')
-        jwt_token = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        jwt_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'], algorithms=['HS256'])
         exp_jwt_token = gen_jwt_token(self.test_user['username'], jwt_token['type'], 0, jwt_token['id'])
         headers = {'Cookie': f'Authorization=Bearer {exp_jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
@@ -229,7 +229,7 @@ def gen_jwt_token(username, type, exp_mins, id):
                                 "id": id,
                                 "exp": exp_unix_timestamp,
                                 "type": type,
-                            }, os.environ['secret_pass'], algorithm="HS256")
+                            }, os.environ['SECRET_PASS'], algorithm="HS256")
     return encoded_jwt.decode('utf-8')  
 
 if __name__ == '__main__':

@@ -41,16 +41,16 @@ def fetch_intra_user_data(response):
     return requests.get(url, headers=headers)
 
 def login_intra_user(request, username):
-    user = authenticate(request, username=username, password=os.getenv('secret_pass'))
+    user = authenticate(request, username=username, password=os.getenv('SECRET_PASS'))
     if user is not None:
         login(request, user)
         return True
     return False
 
 def create_intra_user(username):
-    if not username or username == "" or os.getenv('secret_pass') == "":
+    if not username or username == "" or os.getenv('SECRET_PASS') == "":
         return False
-    user = User.objects.create_user(username=username, password=os.getenv('secret_pass'))
+    user = User.objects.create_user(username=username, password=os.getenv('SECRET_PASS'))
     return True
     
 def is_valid_input(username, password, data):
@@ -84,7 +84,7 @@ def gen_jwt_token(username, type, exp_mins):
                                 "id": get_user_id(username),
                                 "exp": exp_unix_timestamp,
                                 "type": type,
-                            }, os.environ['secret_pass'], algorithm="HS256")
+                            }, os.environ['SECRET_PASS'], algorithm="HS256")
     return encoded_jwt.decode('utf-8')  
 
 def tokenize_login_response(username):
@@ -124,7 +124,7 @@ def validate_jwt(request):
     jwt_token = request.COOKIES.get('Authorization')
     if jwt_token and jwt_token.startswith('Bearer '):
         jwt_token = jwt_token.split('Bearer ')[1]
-        decode_token = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        decode_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'], algorithms=['HS256'])
         if (decode_token['exp'] > current_unix_timestamp):
             return decode_token
         print("expired token")

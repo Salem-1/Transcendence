@@ -37,7 +37,7 @@ class YourAppViewsTest(unittest.TestCase):
             json_response = json.loads(response.content.decode('utf-8'))
 
             # Decode the JWT token and verify its claims
-            decoded_token = jwt.decode(json_response['jwt_token'], os.environ['secret_pass'], algorithms=['HS256'])
+            decoded_token = jwt.decode(json_response['jwt_token'], os.environ['SECRET_PASS'], algorithms=['HS256'])
             self.assertEqual(decoded_token['username'], username)
             self.assertEqual(decoded_token['type'], 'otp')
 
@@ -156,7 +156,7 @@ class YourAppViewsTest(unittest.TestCase):
     #     self.assertEqual(response.status_code, 200)
     #     json_response = json.loads(str(response.content, encoding='utf-8'))
     #     token = json_response['jwt_token']
-    #     decoded_payload = jwt.decode(token, os.environ['secret_pass'], algorithms=['HS256'])
+    #     decoded_payload = jwt.decode(token, os.environ['SECRET_PASS'], algorithms=['HS256'])
     #     self.assertEqual(decoded_payload['username'], 'testuser')
 
     # def test_login_invalid_credentials(self):

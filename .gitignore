@@ -9,3 +9,4 @@ db/__pycache_
 *.pyc
 data
 *node_modules*
+migrations

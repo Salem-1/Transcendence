@@ -43,10 +43,9 @@ def login_user(request):
                 return error_message
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                print("user is not autheticated")
                 user_data = User.objects.get(username=username) 
-                if is_2fa_enabled(user_data):
-                    return authenticate_otp_redirect(username)
+                # if is_2fa_enabled(user_data):
+                #     return authenticate_otp_redirect(username)
                 login(request, user)
                 return tokenize_login_response(username)
             else:
