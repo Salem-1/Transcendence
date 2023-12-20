@@ -31,4 +31,13 @@ clean: down
 
 reset: clean build
 
-.PHONY: help up down build rebuild restart clean
+fclean: down
+	rm -rf data
+	docker rmi django
+	docker rmi postgres
+	docker rmi nginx
+	yes | docker system prune
+
+fresh: fclean build
+
+.PHONY: help up down build rebuild restart clean reset fclean fresh
