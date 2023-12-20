@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .bracket {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .round {
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .matchup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Additional styles for team information, footer, etc. */
+  
+  
