@@ -56,12 +56,18 @@ def login_user(request):
 
 @csrf_exempt
 def auth_intra(request):
+    print(f"recieved {request.method}")
     if request.method =='POST':
         try:
+            print("proccessing post request")
             request_body = json.loads(request.body)
+            print("dejosinify")
             url_auth_code  = request_body.get('code')
+            print(f"extracted code {url_auth_code}")
             auth_token_response = fetch_auth_token(url_auth_code)
+            print(f"fetched token {auth_token_response}")
             if auth_token_response.status_code != 200:
+                print(f"failed fetching intra user data")
                 return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
@@ -73,8 +79,8 @@ def auth_intra(request):
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
                     user_data = User.objects.get(username=username)
-                    if is_2fa_enabled(user_data):
-                        return authenticate_otp_redirect(username)
+                    # if is_2fa_enabled(user_data):
+                    #     return authenticate_otp_redirect(username)
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  

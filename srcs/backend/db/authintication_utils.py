@@ -23,12 +23,13 @@ def get_user_id(username):
 
 def fetch_auth_token(url_auth_code):
     url = "https://api.intra.42.fr/oauth/token"
+    print(f"clientid={os.getenv('intra_client_id')}\nclient_secret={os.getenv('intra_client_secret')}")
     data = {
         'grant_type': 'authorization_code',
         'client_id': os.getenv('intra_client_id'),
         'client_secret': os.getenv('intra_client_secret'),
         'code': url_auth_code,
-        'redirect_uri': 'http://localhost:3000/auth',
+        'redirect_uri': 'http://localhost:3000/auth.html',
     }
     return requests.post(url, data=data)
 
