@@ -29,7 +29,7 @@ def fetch_auth_token(url_auth_code):
         'client_id': os.getenv('intra_client_id'),
         'client_secret': os.getenv('intra_client_secret'),
         'code': url_auth_code,
-        'redirect_uri': 'http://localhost:3000/auth.html',
+        'redirect_uri': 'http://localhost:3000/auth',
     }
     return requests.post(url, data=data)
 

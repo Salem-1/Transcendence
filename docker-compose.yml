@@ -18,6 +18,7 @@ services:
     restart: always
     volumes:
       - ./srcs/frontend:/usr/share/nginx/html
+      - ./srcs/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 3000:80
     networks: 
