@@ -135,4 +135,6 @@ def set_double_factor_auth(request):
             else:
                return JsonResponse({"error": "couldn't set 2fa"}, status=500)
         except Exception as e:
-            return JsonResponse({"error": "Invalid or missing Authorization header"}, status=401)
+            print(e)
+            return JsonResponse({"error": f"Invalid or missing Authorization header, got exception {e}"}, status=401)
+    return JsonResponse({'error': "Method not allowed"}, status=405)

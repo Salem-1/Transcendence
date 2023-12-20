@@ -40,7 +40,9 @@ async function intraAuthenticate(){
       }
 }
 
+
 function extractIntraAuthCode(){
+  //nginx is blocking this
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     const codeValue = url.searchParams.get("code");
