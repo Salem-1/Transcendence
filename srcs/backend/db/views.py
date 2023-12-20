@@ -44,8 +44,8 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 user_data = User.objects.get(username=username) 
-                # if is_2fa_enabled(user_data):
-                #     return authenticate_otp_redirect(username)
+                if is_2fa_enabled(user_data):
+                    return authenticate_otp_redirect(username)
                 login(request, user)
                 return tokenize_login_response(username)
             else:
@@ -71,16 +71,14 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
-            print("before searchig username and password")
-            print("user throwed an exception")
             if intra_user_data_response.status_code == 200:        
                 if (User.objects.filter(username=username).exists() \
                             and login_intra_user(request, username)) \
                     or (create_intra_user(username) \
                             and login_intra_user(request, username)):
                     user_data = User.objects.get(username=username)
-                    # if is_2fa_enabled(user_data):
-                    #     return authenticate_otp_redirect(username)
+                    if is_2fa_enabled(user_data):
+                        return authenticate_otp_redirect(username)
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  

@@ -17,7 +17,9 @@ def fetch_otp_secret(username):
     return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
 
 def is_2fa_enabled(user):
-    return  user.user_2fa.enabled_2fa
+    if not User_2fa.objects.filter(user=user).exists():
+          User_2fa.objects.create(user=user, enabled_2fa=False)
+    return User_2fa.objects.get(user=user).enabled_2fa
 
 def authenticate_otp_redirect(username):
     otp_jwt = gen_jwt_token(username, "otp", 1)
