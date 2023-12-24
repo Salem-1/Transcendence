@@ -125,16 +125,17 @@ def set_double_factor_auth(request):
             decoded_payload = validate_jwt(request)
             user_id = decoded_payload.get('id')
             user = User.objects.get(id=user_id)
+            user_2fa = User_2fa.objects.get(user=user)
             request_body = json.loads(request.body)
             if request_body['enable2fa'] == "true":
-                user.user_2fa.enabled_2fa = True
-                user.user_2fa.two_factor_secret = fetch_otp_secret(user.username)
-                user.save()
-                return JsonResponse({"secret": user.user_2fa.two_factor_secret, "id": user_id})
+                user_2fa.enabled_2fa = True
+                user_2fa.two_factor_secret = fetch_otp_secret(user.username)
+                user_2fa.save()
+                return JsonResponse({"secret": user_2fa.two_factor_secret, "id": user_id})
             elif request_body['enable2fa'] == "false":
-                user.user_2fa.enabled_2fa = False
-                user.user_2fa.two_factor_secret = ""
-                user.save()
+                user_2fa.enabled_2fa = False
+                user_2fa.two_factor_secret = ""
+                user_2fa.save()
                 return JsonResponse({"message": "user disabled ", "id": user_id})
             else:
                return JsonResponse({"error": "couldn't set 2fa"}, status=500)
