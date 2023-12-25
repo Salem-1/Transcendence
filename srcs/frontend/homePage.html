@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>HOME PAGE</title>
+		<link rel="stylesheet" href="css/homePage.css">
+		<link href="https://fonts.cdnfonts.com/css/poetsen-one" rel="stylesheet">
+	</head>
+	<body>
+		<div class="hero">
+			<div class="top-bar">
+				<img id="logo" src="assets/logo1.png" alt="">
+				<div class="drp">
+					<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
+					<div class="dropdown-content" id="myDropdown">
+						<div class="drrp">
+							<a class="button-text" href="#">PROFILE</a>
+							<hr>
+							<a class="button-text" href="#">SETTINGS</a>
+							<hr>
+							<a class="button-text" href="#">LOG OUT</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btns">
+				<div class="buttons">
+					<a href="login.html">
+						<div id="single-player">
+							<div class="button-div-one" style="	background: #F01E1E;"></div>
+							<div id="red" class="button-div-two" style="background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
+							<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
+						</div>
+					</a>
+				</div>
+				<div class="buttons">
+					<a href="registration.html">
+						<div id="tournament">
+							<div class="button-div-one" style="background: #82764D;"></div>
+							<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+							<div class="button-div-three"><h1 class="button-text">TOURNAMENT</h1></div>
+						</div>
+					</a>
+				</div>
+				<div class="quote"><h1 id="quote-text">Quote: When someone says “Expect the 
+					Unexpected” slap them and say : “You
+					 didn't expect that, did you?”</h1></div>
+			</div>
+		</div>
+	</body>
+	<script src="dropDown.js"></script>
+</html>
