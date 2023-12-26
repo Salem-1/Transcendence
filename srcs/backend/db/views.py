@@ -56,18 +56,12 @@ def login_user(request):
 
 @csrf_exempt
 def auth_intra(request):
-    print(f"recieved {request.method}")
     if request.method =='POST':
         try:
-            print("proccessing post request")
             request_body = json.loads(request.body)
-            print("dejosinify")
             url_auth_code  = request_body.get('code')
-            print(f"extracted code {url_auth_code}")
             auth_token_response = fetch_auth_token(url_auth_code)
-            print(f"fetched token {auth_token_response}")
             if auth_token_response.status_code != 200:
-                print(f"failed fetching intra user data")
                 return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
@@ -96,7 +90,6 @@ def fetch_username(request):
         fetched_username = user.username
         return JsonResponse({"username": fetched_username, "id": user_id})
     except Exception as e:
-        print(f"Error: {e}")
         return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 
 @csrf_exempt
@@ -140,6 +133,5 @@ def set_double_factor_auth(request):
             else:
                return JsonResponse({"error": "couldn't set 2fa"}, status=500)
         except Exception as e:
-            print(e)
             return JsonResponse({"error": f"Invalid or missing Authorization header, got exception {e}"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
