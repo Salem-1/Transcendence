@@ -1,14 +1,20 @@
-
-all: help
-
 help:
 	@echo "Usage:"
-	@echo "- make up"
-	@echo "- make down"
-	@echo "- make build"
-	@echo "- make rebuild"
-	@echo "- make restart"
-	@echo "- make clean"
+	@echo "- make [help|up|down|build|rebuild|restart|clean|reset|fclean|fresh]"
+	@echo ""
+	@echo "Commands:"
+	@echo "  help     : Show this help"
+	@echo "  up       : Start containers"
+	@echo "  down     : Stop containers"
+	@echo "  build    : Build containers"
+	@echo "  rebuild  : Rebuild containers"
+	@echo "  restart  : Restart containers"
+	@echo "  clean    : Stop containers and remove django images"
+	@echo "  reset    : Clean and build containers"
+	@echo "  fclean   : Clean and remove images"
+	@echo "  fresh    : Full clean and build containers"
+	@echo "  ps       : Show containers status"
+	@echo ""
 
 up:
 	docker compose up -d
@@ -40,4 +46,7 @@ fclean: down
 
 fresh: fclean build
 
-.PHONY: help up down build rebuild restart clean reset fclean fresh
+ps:
+	@docker compose ps
+
+.PHONY: help up down build rebuild restart clean reset fclean fresh ps
