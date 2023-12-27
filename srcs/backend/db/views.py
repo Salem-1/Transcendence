@@ -11,6 +11,7 @@ import jwt
 import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
+from .models import User_2fa
 
 @csrf_exempt
 def register_user(request):
@@ -42,7 +43,6 @@ def login_user(request):
                 return error_message
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                print("user is not autheticated")
                 user_data = User.objects.get(username=username) 
                 if is_2fa_enabled(user_data):
                     return authenticate_otp_redirect(username)
@@ -65,8 +65,6 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't fetch intra user data"}, status=400)
             intra_user_data_response = fetch_intra_user_data(auth_token_response)
             username = intra_user_data_response.json()['email']
-            print("before searchig username and password")
-            print("user throwed an exception")
             if intra_user_data_response.status_code == 200:        
                 if (User.objects.filter(username=username).exists() \
                             and login_intra_user(request, username)) \
@@ -92,7 +90,6 @@ def fetch_username(request):
         fetched_username = user.username
         return JsonResponse({"username": fetched_username, "id": user_id})
     except Exception as e:
-        print(f"Error: {e}")
         return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 
 @csrf_exempt
@@ -121,18 +118,20 @@ def set_double_factor_auth(request):
             decoded_payload = validate_jwt(request)
             user_id = decoded_payload.get('id')
             user = User.objects.get(id=user_id)
+            user_2fa = User_2fa.objects.get(user=user)
             request_body = json.loads(request.body)
             if request_body['enable2fa'] == "true":
-                user.enabled_2fa = True
-                user.two_factor_secret = fetch_otp_secret(user.username)
-                user.save()
-                return JsonResponse({"secret": user.two_factor_secret, "id": user_id})
+                user_2fa.enabled_2fa = True
+                user_2fa.two_factor_secret = fetch_otp_secret(user.username)
+                user_2fa.save()
+                return JsonResponse({"secret": user_2fa.two_factor_secret, "id": user_id})
             elif request_body['enable2fa'] == "false":
-                user.enabled_2fa = False
-                user.two_factor_secret = ""
-                user.save()
+                user_2fa.enabled_2fa = False
+                user_2fa.two_factor_secret = ""
+                user_2fa.save()
                 return JsonResponse({"message": "user disabled ", "id": user_id})
             else:
                return JsonResponse({"error": "couldn't set 2fa"}, status=500)
         except Exception as e:
-            return JsonResponse({"error": "Invalid or missing Authorization header"}, status=401)
+            return JsonResponse({"error": f"Invalid or missing Authorization header, got exception {e}"}, status=401)
+    return JsonResponse({'error': "Method not allowed"}, status=405)

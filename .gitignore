@@ -1,9 +1,12 @@
 sandbox
 .DS_Store
-env
+*env
 node_modules/*
 .vscode
 __pycache__/*
 __pycache__
 db/__pycache_
 *.pyc
+data
+*node_modules*
+migrations
