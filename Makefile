@@ -1,6 +1,6 @@
 help:
 	@echo "Usage:"
-	@echo "- make [help|up|down|build|rebuild|restart|clean|reset|fclean|fresh]"
+	@echo "- make [help|up|down|build|rebuild|restart|clean|reset|fclean|fresh|ps]"
 	@echo ""
 	@echo "Commands:"
 	@echo "  help     : Show this help"
@@ -39,9 +39,9 @@ reset: clean build
 
 fclean: down
 	rm -rf data
-	docker rmi django
-	docker rmi postgres
-	docker rmi nginx
+	docker rmi -f transcendence-django
+	docker rmi -f transcendence-postgres
+	docker rmi -f transcendence-nginx
 	yes | docker system prune
 
 fresh: fclean build
