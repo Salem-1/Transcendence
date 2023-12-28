@@ -5,7 +5,34 @@
 function    fillRound(players){
     if (!players || players.length < 2 || players.length > 8)
         throw new Error("Invalid players array size");
-    return (players);
+    let local_players = [...players];
+    let match = [];
+    let rounds = {};
+    let i = 0;
+    let random_player = 0;
+    while (local_players.length > 0){
+        random_player = Math.floor(Math.random() * local_players.length);
+        match[0] = local_players[random_player];
+        local_players.splice(random_player, 1);
+        if (local_players.includes(match[0]))
+            throw new Error("Repeated player!")
+            if (Object.keys(local_players).length != 0){
+                random_player = Math.floor(Math.random() * local_players.length);
+                match[1] = local_players[random_player];
+                local_players.splice(random_player, 1);
+                if (local_players.includes(match[1]))
+                    throw new Error("Repeated player!")
+        }
+        else{
+            match[1] = null;
+        }
+        rounds[i] = match;
+        match = []
+        i++;
+    }
+    // console.log(players);
+    // console.log({rounds});
+    return (rounds);
 }
 
 function displayFirstRound(){
