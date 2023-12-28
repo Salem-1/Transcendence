@@ -1,4 +1,26 @@
-showAllPlayers();
+// displayFirstRound();
+
+
+// throw new Error('Invalid input')
+function    fillRound(players){
+    if (!players || players.length < 2 || players.length > 8)
+        throw new Error("Invalid players array size");
+    return (players);
+}
+
+function displayFirstRound(){
+    var players = JSON.parse(localStorage.getItem('players')) || [];
+    if (players.length < 2)
+    {
+        alert("error: not enough players for the tournament");
+        window.location.href = "http://localhost:3000/register_players.html";
+        return ;
+    }
+    round1 = fillRound(plyaers);
+    alert(`we have ${players.length} players let's start the game`)
+}
+
+
 
 function showAllPlayers() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
@@ -29,3 +51,10 @@ function showPlayerName(playerName) {
     console.log(`players now [${players}]'n`)
     cell2.appendChild(button);
 }
+
+module.exports = {
+    fillRound: fillRound,
+
+};
+
+// //["1","2","3","4","5","6","7","8"]

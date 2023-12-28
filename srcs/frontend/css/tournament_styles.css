@@ -23,6 +23,9 @@ body {
     align-items: center;
   }
   
+  .team-name {
+    display: none;
+  }
   /* Additional styles for team information, footer, etc. */
   
   
