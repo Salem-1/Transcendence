@@ -1,4 +1,4 @@
-var { fillRound } = require('../frontend/tournament_algorithm.js');
+var { fillRound, getLevel } = require('../frontend/tournament_algorithm.js');
 
 
 let players = ["1", "2"];
@@ -48,5 +48,27 @@ test('repeated player', () => {
     expect(() => fillRound(players)).toThrow("Repeated player!");
     players = ["1", "1", "2", "3" ]
     expect(() => fillRound(players)).toThrow("Repeated player!");
- 
+    
+})
+
+test('getLevel of the tournament start', ()=> {
+    players = ["1","2","3","4","5","6","7","8"];
+    expect(getLevel(fillRound(players))).toBe(3);
+    players = ["1","2","3","4","5","6","7"];
+    expect(getLevel(fillRound(players))).toBe(3);
+    players = ["1","2","3","4","5","6"];
+    expect(getLevel(fillRound(players))).toBe(3);
+    players = ["1","2","3","4","5"];
+    expect(getLevel(fillRound(players))).toBe(3);
+    players = ["1","2","3","4"];
+    expect(getLevel(fillRound(players))).toBe(2);
+    players = ["1","2","3"];
+    expect(getLevel(fillRound(players))).toBe(2);
+    players = ["1","2"];
+    expect(getLevel(fillRound(players))).toBe(1);
+    players = ["1"];
+    expect(() => getLevel(fillRound(players))).toThrow("Invalid players array size");
+    expect(() => getLevel({})).toThrow("incorrect number of matches in the round");
+    players = ["1","2","3","4","5","6","7","8", "9", "10"];
+    expect(() => getLevel(fillRound(players))).toThrow("Invalid players array size");
 })

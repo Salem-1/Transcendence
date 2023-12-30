@@ -1,6 +1,81 @@
-// displayFirstRound();
+startTournament();
 
 
+function startTournament(){
+    var players = JSON.parse(localStorage.getItem('players')) || [];
+    if (players.length < 2)
+    {
+        alert("error: not enough players for the tournament");
+        window.location.href = "http://localhost:3000/register_players.html";
+        return ;
+    }
+    let round = fillRound(players);
+    let level = getLevel(round);
+    let winner = "";
+    if (level == 1){
+        displayFinals(round);
+        winner = playGame(round[0][0], round[0][1]);
+        alert(`The player is ${winner}`);
+    }
+    else if (level == 2){
+        displaySemiFinal(round);
+    }
+    else if (level == 3){
+        displayQuarterFinal(round);
+    }
+    alert(`we have ${players.length} players let's start the game, level = ${level}, round = ${round[0]}`)
+}
+
+function playGame(player1, player2){
+    if (confirm(`Player1 wins ${player1}`))
+        return (player1);
+    else 
+        return (player2);
+}
+function displayQuarterFinal(round){
+    let player1 = document.getElementById("quarter-final-t1")
+    let player2 = document.getElementById("quarter-final-t2")
+    let player3 = document.getElementById("quarter-final-t3")
+    let player4 = document.getElementById("quarter-final-t4")
+    let player5 = document.getElementById("quarter-final-t5")
+    let player6 = document.getElementById("quarter-final-t6")
+    let player7 = document.getElementById("quarter-final-t7")
+    let player8 = document.getElementById("quarter-final-t8")
+
+    showOnePlayer(player1, round[0][0]);
+    showOnePlayer(player2, round[0][1]);
+    showOnePlayer(player3, round[1][0]);
+    showOnePlayer(player4, round[1][1]);
+    showOnePlayer(player5, round[2][0]);
+    showOnePlayer(player6, round[2][1]);
+    showOnePlayer(player7, round[3][0]);
+    showOnePlayer(player8, round[3][1]);
+}
+function displaySemiFinal(round){
+    let player1 = document.getElementById("semi-final-t1")
+    let player2 = document.getElementById("semi-final-t2")
+    let player3 = document.getElementById("semi-final-t3")
+    let player4 = document.getElementById("semi-final-t4")
+
+    showOnePlayer(player1, round[0][0]);
+    showOnePlayer(player2, round[0][1]);
+    showOnePlayer(player3, round[1][0]);
+    showOnePlayer(player4, round[1][1]);
+}
+
+function showOnePlayer(player_place, playername){
+    if (!playername)
+        playername = "";
+    player_place.innerText  = playername;
+    player_place.style.display  = 'inline';
+}
+
+function displayFinals(round){
+    let player1 = document.getElementById("final-t1")
+    let player2 = document.getElementById("final-t2")
+    showOnePlayer(player1, round[0][0]);
+    showOnePlayer(player2, round[0][1]);
+}
 // throw new Error('Invalid input')
 function    fillRound(players){
     if (!players || players.length < 2 || players.length > 8)
@@ -9,45 +84,36 @@ function    fillRound(players){
     let match = [];
     let rounds = {};
     let i = 0;
-    let random_player = 0;
-    while (local_players.length > 0){
-        random_player = Math.floor(Math.random() * local_players.length);
-        match[0] = local_players[random_player];
-        local_players.splice(random_player, 1);
-        if (local_players.includes(match[0]))
-            throw new Error("Repeated player!")
-            if (Object.keys(local_players).length != 0){
-                random_player = Math.floor(Math.random() * local_players.length);
-                match[1] = local_players[random_player];
-                local_players.splice(random_player, 1);
-                if (local_players.includes(match[1]))
-                    throw new Error("Repeated player!")
-        }
-        else{
+    while (local_players.length > 0)
+    {
+        allocatePlayer(local_players, match, 0)
+        if (Object.keys(local_players).length != 0)
+            allocatePlayer(local_players, match, 1)
+        else
             match[1] = null;
-        }
         rounds[i] = match;
         match = []
         i++;
     }
-    // console.log(players);
-    // console.log({rounds});
     return (rounds);
 }
 
-function displayFirstRound(){
-    var players = JSON.parse(localStorage.getItem('players')) || [];
-    if (players.length < 2)
-    {
-        alert("error: not enough players for the tournament");
-        window.location.href = "http://localhost:3000/register_players.html";
-        return ;
-    }
-    round1 = fillRound(plyaers);
-    alert(`we have ${players.length} players let's start the game`)
+function getLevel(rounds){
+    let num_rounds = Object.keys(rounds).length;
+    if (num_rounds < 1 || num_rounds > 4)
+        throw new Error("incorrect number of matches in the round");
+    return (num_rounds == 4 ? 3 : num_rounds )
 }
 
 
+function allocatePlayer(local_players, match, index){
+    let random_player = 0;
+    random_player = Math.floor(Math.random() * local_players.length);
+    match[index] = local_players[random_player];
+    local_players.splice(random_player, 1);
+    if (local_players.includes(match[index]))
+        throw new Error("Repeated player!")
+}
 
 function showAllPlayers() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
@@ -79,9 +145,10 @@ function showPlayerName(playerName) {
     cell2.appendChild(button);
 }
 
-module.exports = {
-    fillRound: fillRound,
+// module.exports = {
+//     fillRound: fillRound,
+//     getLevel: getLevel,
 
-};
+// };
 
 // //["1","2","3","4","5","6","7","8"]
