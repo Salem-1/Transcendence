@@ -1,4 +1,27 @@
+// Get oauth link from auth service
+async function oauthRedirect() {
+	try {
+		const response = await fetch('http://localhost:8000/redirect_uri/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		const result = await response.json();
+		if (response.ok) {
+			const item = document.getElementById('oauth'); // Fix typo here
+			item.href = result.oauth_link;
+		} else {
+			console.error(`Failed to get oauth link: ${result.error}`);
+		}
+	} catch (error) {
+		console.error('Error during oauth redirect:', error);
+	}
+}
 
+window.onload = (event) => {
+	oauthRedirect();
+}
 
 async function register() {
     const username = document.getElementById('username').value;

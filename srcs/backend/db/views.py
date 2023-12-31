@@ -135,3 +135,11 @@ def set_double_factor_auth(request):
         except Exception as e:
             return JsonResponse({"error": f"Invalid or missing Authorization header, got exception {e}"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
+
+@csrf_exempt
+def redirect_uri(request):
+	if request.method == "POST":
+		intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+			.format(os.environ.get('INTRA_CLIENT_ID'))
+		return JsonResponse({"oauth_link": intra_link})
+	return JsonResponse({'error': "Method not allowed"}, status=405)
