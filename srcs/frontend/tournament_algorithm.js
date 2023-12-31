@@ -14,8 +14,6 @@ function startTournament(){
     let winner = "";
     if (level == 1){
         displayFinals(round);
-        winner = playGame(round[0][0], round[0][1]);
-        alert(`The player is ${winner}`);
     }
     else if (level == 2){
         displaySemiFinal(round);
@@ -23,7 +21,6 @@ function startTournament(){
     else if (level == 3){
         displayQuarterFinal(round);
     }
-    alert(`we have ${players.length} players let's start the game, level = ${level}, round = ${round[0]}`)
 }
 
 function playGame(player1, player2){
