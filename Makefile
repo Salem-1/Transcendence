@@ -43,6 +43,7 @@ fclean: down
 	docker rmi -f transcendence-postgres
 	docker rmi -f transcendence-nginx
 	yes | docker system prune
+	yes | docker volume prune
 
 fresh: fclean build
 

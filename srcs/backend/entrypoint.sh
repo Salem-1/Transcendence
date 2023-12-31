@@ -1,11 +1,13 @@
 #!/bin/sh
 
+echo "Waiting for postgresql to be ready..."
 nc -z postgres 5432
 while [ $? -ne 0 ]; do
-    echo "Waiting for postgresql to be ready..."
     sleep 1
     nc -z postgres 5432
 done
+
+echo "PostgreSQL is ready"
 
 # Apply database migrations
 python manage.py makemigrations

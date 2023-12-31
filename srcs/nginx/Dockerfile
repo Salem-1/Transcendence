@@ -14,8 +14,4 @@ RUN chown -R nginx:nginx /var/www/html
 EXPOSE 80 3000
 # EXPOSE 443
 
-COPY ./conf/setup.sh ./
-
-RUN ["sh", "./setup.sh"]
-
 CMD ["nginx", "-g", "daemon off;"]
