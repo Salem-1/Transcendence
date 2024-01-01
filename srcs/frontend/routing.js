@@ -50,6 +50,7 @@ const urlRoutes = {
 		description: "This is the Home page",
 		theme: "/css/style.css",
 		script: "greet.js",
+		requiresAuth: true,
 	},
 	"/game": {
 		template: "/templates/game-page-body.html",
@@ -60,7 +61,7 @@ const urlRoutes = {
 	},
 };
 
-function callRoute(route) {
+async function callRoute(route) {
 	window.history.pushState({}, "", route);
 	urlLocationHandler();
 }
@@ -74,6 +75,26 @@ const route = (event) => {
 	urlLocationHandler();
 };
 
+const isVerified = async () => {
+	const response = await fetch(
+		"http://localhost:8000/api/loginVerfication/",
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include", // Add this line
+		}
+	);
+	console.log("response: ", response);
+	console.log("response.status: ", response.status);
+	if (!response.ok) {
+		callRoute("/login");
+		return false;
+	}
+	return true;
+};
+
 // create a function that handles the url location
 const urlLocationHandler = async () => {
 	const location = window.location.pathname; // get the url path
@@ -81,9 +102,12 @@ const urlLocationHandler = async () => {
 	if ((location.length = 0)) {
 		location = "/";
 	}
-	console.log("location: ", location);
+	// console.log("location: ", location);
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
+	if (route.requiresAuth && !(await isVerified())) return;
+	// return true;
+
 	// get the html from the template
 	const html = await fetch(route.template).then((response) =>
 		response.text()
