@@ -32,12 +32,12 @@ function    playFinals(round, level){
     newButton.onclick = function () {
        let winner =  playGame(round[0][0], round[0][1]);
        localStorage.setItem("winner", winner);
-       displayWinner(winner);
+    //    displayWinner(winner);
     };
-    // winner = localStorage.getItem("winner");
-    // if (!winner)
-    //     return ("no body wins");    
-    // alert(`the winner is ${winner}`);
+    winner = localStorage.getItem("winner");
+    if (!winner)
+        return ("no body wins");    
+    alert(`the winner is ${winner}`);
     return (winner);
 }
 
