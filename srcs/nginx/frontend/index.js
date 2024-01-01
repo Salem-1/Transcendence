@@ -1,3 +1,28 @@
+// Get oauth link from auth service
+async function oauthRedirect() {
+	try {
+		const response = await fetch("http://localhost:8000/redirect_uri/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		const result = await response.json();
+		if (response.ok) {
+			const item = document.getElementById("oauth");
+			item.href = result.oauth_link;
+		} else {
+			console.error(`Failed to get oauth link: ${result.error}`);
+		}
+	} catch (error) {
+		console.error("Error during oauth redirect:", error);
+	}
+}
+
+window.onload = (event) => {
+	oauthRedirect();
+};
+
 async function register() {
 	const username = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
@@ -18,7 +43,6 @@ async function register() {
 		if (response.ok) {
 			alert("Registration successful! Now you can log in.");
 			callRoute("/login");
-			// window.location.href = "login.html";
 		} else {
 			alert(`Registration failed: ${result.error}`);
 		}
@@ -47,8 +71,7 @@ async function login() {
 		if (response.status == 200 && result.jwt_token) {
 			await storeJWTInCookies(result);
 			alert(`Successful! log in welcome ${username}.`);
-			callRoute("/home");
-			// window.location.href = "landing.html";
+			callRoute("/login");
 		} else if (response.status == 302 && result.type == "otp") {
 			double_factor_authenticate(result);
 		} else {
@@ -156,7 +179,6 @@ async function double_factor_authenticate(result) {
 				await storeJWTInCookies(result);
 				alert(`Successful! log in welcome .`);
 				callRoute("/home");
-				// window.location.href = "landing.html";
 			} else {
 				alert(`Wrong OTP 🥲`);
 			}

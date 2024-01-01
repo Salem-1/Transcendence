@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from db.views import register_user, login_user, auth_intra, fetch_username, double_factor_auth, set_double_factor_auth
-from db.views import loginVerf
+from db.views import loginVerf, redirect_uri
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('double_factor_auth/', double_factor_auth, name="double_factor_auth"),
     path('set_2fa/', set_double_factor_auth, name="set_double_factor_auth"),
 	path('api/loginVerfication/', loginVerf, name='loginVerfication'),
+	path('redirect_uri/', redirect_uri, name='redirect_uri')
 ]
