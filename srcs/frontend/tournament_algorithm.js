@@ -1,7 +1,7 @@
-startTournament();
 
+initTournament();
 
-function startTournament(){
+function initTournament(){
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length < 2)
     {
@@ -11,7 +11,63 @@ function startTournament(){
     }
     let round = fillRound(players);
     let level = getLevel(round);
+    displayFirstRound(round, level);
+    startTournament(round, level);
+
+}
+
+function playGame(player1, player2){
+    if (!player2)
+        return (player1);
+    else if (confirm(`${player1} wins?`))
+        return (player1);
+    else 
+        return (player2);
+}
+
+function    playFinals(round, level){
+    const newButton = document.createElement('button');
+    newButton.textContent = 'Play next game';
+    document.body.appendChild(newButton);
+    newButton.onclick = function () {
+       let winner =  playGame(round[0][0], round[0][1]);
+       localStorage.setItem("winner", winner);
+       displayWinner(winner);
+    };
+    // winner = localStorage.getItem("winner");
+    // if (!winner)
+    //     return ("no body wins");    
+    // alert(`the winner is ${winner}`);
+    return (winner);
+}
+
+
+
+function    startTournament(round, level){
     let winner = "";
+    if (level == 1)
+        winner = playFinals(round, level);
+    else if (level == 2){
+
+    }
+    else if (level == 3){
+
+    }
+    else{
+        throw new Error("Invalid number of players");
+    }
+    displayWinner(winner);
+}
+
+
+
+function    displayWinner(winner){
+    let winning_element = document.getElementById("winner");
+    showOnePlayer(winning_element, winner);
+}
+
+
+function displayFirstRound(round, level){
     if (level == 1){
         displayFinals(round);
     }
@@ -23,21 +79,16 @@ function startTournament(){
     }
 }
 
-function playGame(player1, player2){
-    if (confirm(`Player1 wins ${player1}`))
-        return (player1);
-    else 
-        return (player2);
-}
+
 function displayQuarterFinal(round){
-    let player1 = document.getElementById("quarter-final-t1")
-    let player2 = document.getElementById("quarter-final-t2")
-    let player3 = document.getElementById("quarter-final-t3")
-    let player4 = document.getElementById("quarter-final-t4")
-    let player5 = document.getElementById("quarter-final-t5")
-    let player6 = document.getElementById("quarter-final-t6")
-    let player7 = document.getElementById("quarter-final-t7")
-    let player8 = document.getElementById("quarter-final-t8")
+    let player1 = document.getElementById("quarter-final-t1");
+    let player2 = document.getElementById("quarter-final-t2");
+    let player3 = document.getElementById("quarter-final-t3");
+    let player4 = document.getElementById("quarter-final-t4");
+    let player5 = document.getElementById("quarter-final-t5");
+    let player6 = document.getElementById("quarter-final-t6");
+    let player7 = document.getElementById("quarter-final-t7");
+    let player8 = document.getElementById("quarter-final-t8");
 
     showOnePlayer(player1, round[0][0]);
     showOnePlayer(player2, round[0][1]);
