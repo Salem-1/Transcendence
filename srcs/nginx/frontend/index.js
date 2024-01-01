@@ -9,7 +9,7 @@ async function oauthRedirect() {
 		});
 		const result = await response.json();
 		if (response.ok) {
-			const item = document.getElementById('oauth'); // Fix typo here
+			const item = document.getElementById('oauth');
 			item.href = result.oauth_link;
 		} else {
 			console.error(`Failed to get oauth link: ${result.error}`);
