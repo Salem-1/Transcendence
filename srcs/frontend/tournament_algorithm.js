@@ -1,6 +1,14 @@
 
 initTournament();
 
+const newButton = document.createElement('button');
+newButton.textContent = 'Start tournament';
+document.body.appendChild(newButton);
+newButton.onclick = function () {
+    startTournament();
+   
+};
+
 function initTournament(){
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length < 2)
@@ -11,55 +19,83 @@ function initTournament(){
     }
     let round = fillRound(players);
     let level = getLevel(round);
-    displayFirstRound(round, level);
-    startTournament(round, level);
-
+    let roundJSON = JSON.stringify(round);
+    localStorage.setItem('round', roundJSON);
+    localStorage.setItem('level', level.toString());
+    displayRound(round, level);
 }
 
 function playGame(player1, player2){
     if (!player2)
         return (player1);
-    else if (confirm(`${player1} wins?`))
+    else if (confirm(`${player1} wins ${player2}?`))
         return (player1);
     else 
         return (player2);
 }
 
-function    playFinals(round, level){
-    const newButton = document.createElement('button');
-    newButton.textContent = 'Play next game';
-    document.body.appendChild(newButton);
-    newButton.onclick = function () {
-       let winner =  playGame(round[0][0], round[0][1]);
-       localStorage.setItem("winner", winner);
-    //    displayWinner(winner);
-    };
+function    playFinals(round, level){    
+    let winner =  playGame(round[0][0], round[0][1]);
+    localStorage.setItem("winner", winner);
+    displayWinner(winner);
     winner = localStorage.getItem("winner");
     if (!winner)
         return ("no body wins");    
-    alert(`the winner is ${winner}`);
     return (winner);
 }
 
 
 
-function    startTournament(round, level){
+function    startTournament(){
+    var players = JSON.parse(localStorage.getItem('players')) || [];
+    let storedRoundJSON = localStorage.getItem('round');
+    let storedLevelString = localStorage.getItem('level');
+    let round = JSON.parse(storedRoundJSON);
+    let level = parseInt(storedLevelString);
+    if (!players || players.length < 2 || players.length > 8 || !round || !level){
+
+        alert("error: fetching players for the tournament");
+        window.location.href = "http://localhost:3000/register_players.html";
+        return ;
+    }
     let winner = "";
     if (level == 1)
         winner = playFinals(round, level);
     else if (level == 2){
-
+        // playSemiFinals(round, winner);
+        let round2 = {"0": [playGame(round['0'][0], round['0'][1]),
+        playGame(round['1'][0], round['1'][1])]};
+        winner = playFinals(round2, level);
     }
     else if (level == 3){
-
+        console.log({round});
+        let round3 = {"0": [
+                            playGame(round[0][0], round[0][1]), 
+                            playGame(round[1][0], round[1][1])
+                        ],
+                        "1": [
+                            playGame(round[2][0], round[2][1]), 
+                            round[3] ? playGame(round[3][0], round[3][1]) : null ,
+                        ], 
+                        }
+        // playSemiFinals(round, winner)
+        let round2 = {"0": [
+                            playGame(round3['0'][0], round3['0'][1]),
+                            playGame(round3['1'][0], round3['1'][1])
+                            ]};
+        winner = playFinals(round2, level);
     }
     else{
         throw new Error("Invalid number of players");
     }
-    displayWinner(winner);
+    // displayWinner(winner);
 }
 
-
+function playSemiFinals(round, winner){
+    let round2 = {"0": [playGame(round['0'][0], round['0'][1]),
+    playGame(round['1'][0], round['1'][1])]};
+    winner = playFinals(round2, level);
+}
 
 function    displayWinner(winner){
     let winning_element = document.getElementById("winner");
@@ -67,7 +103,7 @@ function    displayWinner(winner){
 }
 
 
-function displayFirstRound(round, level){
+function displayRound(round, level){
     if (level == 1){
         displayFinals(round);
     }
