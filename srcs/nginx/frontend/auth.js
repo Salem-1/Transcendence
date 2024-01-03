@@ -1,7 +1,3 @@
-// Get the current URL
-
-// import storeJWTInCookies from index
-
 intraAuthenticate();
 
 async function intraAuthenticate() {
@@ -23,7 +19,7 @@ async function intraAuthenticate() {
 		const result = await response.json();
 		if (response.status == 200 && result.jwt_token) {
 			await storeJWTInCookies(result);
-			window.location.href = "landing.html";
+			callRoute("/home");
 		} else if (response.status == 302 && result.type == "otp") {
 			double_factor_authenticate(result);
 		} else {
@@ -32,7 +28,7 @@ async function intraAuthenticate() {
 	} catch (error) {
 		console.error("Error during registration:", error);
 		alert(`Error during registration: ${error}`);
-		window.location.href = "index.html";
+		callRoute("/");
 	}
 }
 
@@ -79,10 +75,10 @@ async function double_factor_authenticate(result) {
 			if (response.ok) {
 				await storeJWTInCookies(result);
 				alert(`Successful! log in welcome .`);
-				window.location.href = "landing.html";
+				callRoute("/home")
 			} else {
-				alert(`Entered OTP is valid`);
-				window.location.href = "landing_page.html";
+				alert(`Entered OTP is invalid`);
+				callRoute("/")
 			}
 		} catch (error) {
 			console.log("Error during registration:", error);
@@ -90,7 +86,7 @@ async function double_factor_authenticate(result) {
 		}
 	} else {
 		alert("Invalid OTP. Please enter a 6-digit numeric code.");
-		window.location.href = "landing_page.html";
+		callRoute("/")
 	}
 }
 

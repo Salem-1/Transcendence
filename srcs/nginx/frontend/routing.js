@@ -1,18 +1,5 @@
 const urlPageTitle = "Pong Game";
 
-// // create document click that watches the nav links only
-// document.addEventListener("click", (e) => {
-// 	const { target } = e;
-// 	console.log("target: ", target);
-// 	e.preventDefault();
-// 	// return;
-// 	if (!target.matches("nav a") && !target.matches("btns a")) {
-// 		return;
-// 	}
-// 	e.preventDefault();
-// 	route();
-// });
-
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
 	404: {
@@ -58,6 +45,13 @@ const urlRoutes = {
 		description: "This is the Game page",
 		theme: "/css/style.css",
 		script: "game.js",
+	},
+	"/auth": {
+		template: "/templates/auth.html",
+		title: "auth | " + urlPageTitle,
+		description: "This is the authentacation page",
+		theme: "/css/style.css",
+		script: "auth.js",
 	},
 };
 
