@@ -1,4 +1,5 @@
 const urlPageTitle = "Pong Game";
+const defaulttheme = "/css/style.css";
 
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
@@ -11,13 +12,11 @@ const urlRoutes = {
 		template: "/templates/landing-page-body.html",
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
-		theme: "/css/style.css",
 	},
 	"/frontend/": {
 		template: "/templates/landing-page-body.html",
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
-		theme: "/css/style.css",
 	},
 	"/login": {
 		template: "/templates/login-body.html",
@@ -35,7 +34,6 @@ const urlRoutes = {
 		template: "/templates/home-page-body.html",
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
-		theme: "/css/style.css",
 		script: "greet.js",
 		requiresAuth: true,
 	},
@@ -43,14 +41,12 @@ const urlRoutes = {
 		template: "/templates/game-page-body.html",
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
-		theme: "/css/style.css",
 		script: "game.js",
 	},
 	"/auth": {
 		template: "/templates/auth.html",
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
-		theme: "/css/style.css",
 		script: "auth.js",
 	},
 };
@@ -110,7 +106,8 @@ const urlLocationHandler = async () => {
 	document
 		.querySelector('meta[name="description"]')
 		.setAttribute("content", route.description);
-	theme.setAttribute("href", route.theme);
+	if (route.theme) theme.setAttribute("href", route.theme);
+	else theme.setAttribute("href", defaulttheme);
 	if (route.script) {
 		const script = document.createElement("script");
 		script.src = route.script;
