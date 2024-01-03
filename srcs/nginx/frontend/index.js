@@ -71,7 +71,7 @@ async function login() {
 		if (response.status == 200 && result.jwt_token) {
 			await storeJWTInCookies(result);
 			alert(`Successful! log in welcome ${username}.`);
-			callRoute("/login");
+			callRoute("/home");
 		} else if (response.status == 302 && result.type == "otp") {
 			double_factor_authenticate(result);
 		} else {

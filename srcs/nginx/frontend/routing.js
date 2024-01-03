@@ -80,13 +80,11 @@ const isVerified = async () => {
 			credentials: "include", // Add this line
 		}
 	);
-	console.log("response: ", response);
-	console.log("response.status: ", response.status);
-	if (!response.ok) {
-		callRoute("/login");
-		return false;
+	if (response.ok) {
+		return true;
 	}
-	return true;
+	callRoute("/login");
+	return false;
 };
 
 // create a function that handles the url location
@@ -96,11 +94,9 @@ const urlLocationHandler = async () => {
 	if ((location.length = 0)) {
 		location = "/";
 	}
-	// console.log("location: ", location);
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
 	if (route.requiresAuth && !(await isVerified())) return;
-	// return true;
 
 	// get the html from the template
 	const html = await fetch(route.template).then((response) =>
