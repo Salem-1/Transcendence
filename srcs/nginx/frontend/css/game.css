@@ -1,17 +1,45 @@
-@import url('httpsL//fonts.googleapis.com/css2?family-Poppins&display=swap');
+*, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-* {
-    font-family: 'Poppins', sans-serif;
+:root {
+    --background: rgb(20, 20, 20);
+    --paddle-color: rgb(200, 200, 200);
+    --ball-color: rgb(200, 200, 200);
+    --paddle-height: 20vh;
+    --ball-width: 1vw;
+    --ball-height: 1vw;
 }
 
 body {
-    text-align: center;
-    background-color: ghostwhite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    position: fixed;
-    width: 100%;
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+.p {
+    position: absolute;
+    background-color: var(--paddle-color);
+    width: 1vw;
+    height: var(--paddle-height);
+    /* top: 40vh; 50vh - 10vh */
+}
+
+#p1 {
+    left: 0.5vw;
+}
+
+#p2 {
+    right: 0.5vw;
+}
+
+.ball {
+    position: absolute;
+    background-color: var(--ball-color);
+    width: var(--ball-width);
+    height: var(--ball-height);
+    top: 50vh;
+    left: 50vw;
+    border-radius: 50%;
 }
