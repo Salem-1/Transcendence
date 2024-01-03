@@ -1,4 +1,4 @@
-import { BALL_HEIGHT, BALL_WIDTH, BALL_SPEED } from './constants.js';
+import { BALL_HEIGHT, BALL_WIDTH, BALL_SPEED, PADDLE_HEIGHT } from './constants.js';
 
 export default class Ball {
     constructor(element) {
@@ -23,7 +23,7 @@ export default class Ball {
         this.direction.y = 0;
     }
 
-    update(dt) {
+    update(dt, p1, p2) {
         const dx = this.direction.x * BALL_SPEED * dt;
         const dy = this.direction.y * BALL_SPEED * dt;
         const topPosition = this.position.y - 0.5 * BALL_HEIGHT;
@@ -38,13 +38,24 @@ export default class Ball {
             this.position.y += dy;
         }
         if (leftPosition + dx <= 0) {
-            this.direction.x = 1;
+            if (topPosition + dy >= p1.y && bottomPosition + dy <= p1.y + PADDLE_HEIGHT) {
+				this.direction.x = 1;
+			} else {
+				p2.score += 1;
+				this.reset();
+			}
         } else if (rightPosition + dx >= 100) {
-            this.direction.x = -1;
+            if (topPosition + dy >= p2.y && bottomPosition + dy <= p2.y + PADDLE_HEIGHT) {
+				this.direction.x = -1;
+			} else {
+				p1.score += 1;
+				this.reset();
+			}
         } else {
             this.position.x += dx;
         }
         this.element.style.setProperty('left', `${this.position.x}vw`);
         this.element.style.setProperty('top', `${this.position.y}vh`);
+		console.log(p1.score, p2.score);
     }
 }

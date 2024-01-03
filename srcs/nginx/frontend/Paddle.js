@@ -5,6 +5,7 @@ export default class Paddle {
         this.element = element;
         this.direction = {x: 0, y: 0};
         this.y = 0;
+		this.score = 0;
         this.reset();
     }
 

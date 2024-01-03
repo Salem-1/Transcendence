@@ -43,7 +43,7 @@ function gameLoop(currentTime) {
         const dt = (currentTime - t2);
         p1.update(dt);
         p2.update(dt);
-        ball.update(dt);
+        ball.update(dt, p1, p2);
     }
     t2 = currentTime;
     
