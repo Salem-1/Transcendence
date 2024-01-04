@@ -10,9 +10,10 @@ try {
 }
 catch (e){
     alert(`${e}`);
-    // window.location.href = "http://localhost:3000/register_players.html";
+    window.location.href = "http://localhost:3000/landing.html";
 
 }
+
 function initTournament(){
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (!players || players.length < 2 || players.length > 8)
@@ -46,24 +47,17 @@ function    startTournament(){
     let storedLevelString = localStorage.getItem('level');
     let round = JSON.parse(storedRoundJSON);
     let level = parseInt(storedLevelString);
-    if (!players || players.length < 2 || players.length > 8 || !round || !level){
-
-        alert("error: fetching players for the tournament");
-        window.location.href = "http://localhost:3000/register_players.html";
-        return ;
-    }
+    if (!players || players.length < 2 || players.length > 8 || !round || !level)
+        throw new Error("error: fetching players for the tournament");
     let winner = "";
     if (level == 1)
         winner = playFinals(round);
-    else if (level == 2){
+    else if (level == 2)
         winner = playSemiFinals(round);
-    }
-    else if (level == 3){
+    else if (level == 3)
         winner = playQuarterFinals(round);
-    }
-    else{
+    else
         throw new Error("Invalid number of players");
-    }
     displayWinner(winner);
 }
 
