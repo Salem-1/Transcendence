@@ -1,9 +1,10 @@
 body {
 	background-color: #000;
 	margin: 0px;
+	overflow: hidden;
 }
 
-.hero{
+.hero {
 	background-image: url(../assets/hero.svg);
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -35,21 +36,21 @@ body {
 	border-radius: 50%;
 }
 
-#quote-text{
+#quote-text {
 	text-align: center;
 	color: black;
 	font-size: 22px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
-	width: 60%;
+	width: 70%;
 	margin: auto;
 }
 
 .quote {
-	padding: 50px;
+	padding: 30px;
 	margin-top: 290px;
-	width: 715px;
+	width: 615px;
 	height: 90px;
 	border-radius: 100px;
 	background-color: #D9D9D9;
@@ -64,7 +65,7 @@ body {
 }
 
 .buttons {
-	margin-left: 30%;
+	margin-left: 28%;
 }
 
 
@@ -104,7 +105,45 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
-#red.button-div-two:hover {
+
+#add-player {
+	margin-top: -30px;
+	margin-left: 100px;
+}
+
+.add-button-div-one {
+	width: 100px;
+	height: 50px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.add-button-div-two {
+	margin-left: 5px;
+	width: 90px;
+	height: 45px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.add-button-div-three {
+	margin-left: 8px;
+	width: 86px;
+	height: 30px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
+#red.add-button-div-two:hover {
 	background: #F01E1E !important;
 }
 
@@ -130,11 +169,26 @@ body {
 	line-height: 35px !important;
 }
 
+.add-button-text {
+	text-align: center;
+	color: white;
+	font-size: 22px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	line-height: 20px;
+}
+
+.add-button-text:active {
+	font-size: 20px;
+	line-height: 22px !important;
+}
+
 .drrp {
 	margin: 20px;
 }
 
-#Person:hover{
+#Person:hover {
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
@@ -219,40 +273,54 @@ body {
 	margin-left: 25%;
 }
 
-.player-add {
+.player-table {
 	width: 80%;
-	/* display: flex; */
-	margin: auto;
-	margin-left: 10%;
+	margin-left: 10% !important;
 	margin-top: 50px;
 }
 
-.player-list {
-	width: 50%;
-	height: 100px;
-	border-radius: 20px;
-	border: #000 solid 2px;
-	margin-top: 22%;
-	margin-left: 10%;
+.delete-button {
+	margin-left: 70px;
 }
 
-#Player-Name{
+tr {
+	color: black;
+	font-size: 25px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+}
+
+tbody {
+	display: block;
+    border: 2px solid black;
+    border-collapse: separate;
+    border-spacing: 4px; 
+	border-radius: 20px;
+	margin-top: 20px;
+	max-width: 260px;
+	max-height: 150px;
+	width: 260px;
+	overflow: auto;
+	padding: 10px 10px 10px 25px;
+}
+
+#player-name {
 	color: black;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	padding-left: 20px;
-	width: 300px;
-	height: 50px;
-	position: absolute;
-	background: #514949;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 15px;
-	border: 4px #78B5DD solid;
+	width: 270px;
+	height: 45px;
+	background: #7E7E7E;
+	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.25);
+	border-radius: 20px;
+	border: 4px #D9D9D9 solid;
 }
 
 ::placeholder {
-    color: gray;
+    color: #CCCCCC;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
@@ -275,6 +343,27 @@ body {
 	word-wrap: break-word;
 }
 
-#add-btn {
-	margin-left: 50px !important	;
+/* width */
+::-webkit-scrollbar {
+	width: 40px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+	border-radius: 25px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #7E7E7E;
+	border-radius: 25px;
+    background-clip: content-box;
+    border: 12px solid transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #616161;
+	border: 12px solid transparent;
+	background-clip: content-box;
 }

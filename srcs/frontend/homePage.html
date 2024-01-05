@@ -50,30 +50,67 @@
 								<h1 class="heading-text">Tournament Players</h1>
 							</div>
 							<div id="close-btn" class="close">
-								<div class="button-div-one" style="	background: #F01E1E; width:60px; height: 55px;"></div>
+								<div class="button-div-one" style="	background: #F01E1E; width:60px; height: 50px;"></div>
 								<div id="red-btn" class="button-div-two" style="width:50px; height:45px; background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
 								<div class="button-div-three" style="width: 50px; height: 25px;"><h1 class="button-text" style="font-size: 25px; line-height: 15px;">X</h1></div>
 							</div>
 						</div>
-						<div class="player-add">
-							<div class="">
-								<input type="text" id="Player-Name" name="Player Name" required placeholder="Player Name">
-							</div>
-							<div id="add-btn" class="close">
-								<div class="button-div-one" style="	background: #F01E1E; width:60px; height: 55px;"></div>
-								<div id="add-btnn" class="button-div-two" style="width:50px; height:45px; background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
-								<div class="button-div-three" style="width: 50px; height: 25px;"><h1 class="button-text" style="font-size: 25px; line-height: 15px;">X</h1></div>
-							</div>
-						</div>
-						<div class="player-list">
+						<div class="player-table">
+							<table>
+								<thead>
+									<tr>
+										<th>
+											<input type="text" id="player-name" name="player-name" required placeholder="Player Name" maxlength="35">
+										</th>
+										<th>
+											<div id="add-player" onclick="addPlayer()">
+												<div class="add-button-div-one" style="background: #C7A940;"></div>
+												<div id="add-yellow" class="add-button-div-two" style="background: linear-gradient(180deg, #EDA800 0%, #FFBB0B 100%);"></div>
+												<div class="add-button-div-three"><h1 class="add-button-text">ADD</h1></div>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
 				<div class="quote"><h1 id="quote-text">Quote: When someone says “Expect the 
 					Unexpected” slap them and say : “You
-					 didn't expect that, did you?”</h1></div>
+					didn't expect that, did you?”</h1></div>
+				</div>
 			</div>
-		</div>
-	</body>
+		</body>
+	<script src="tournament.js"></script>
 	<script src="dropDown.js"></script>
 </html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Add Players</title>
+<link rel="stylesheet" href="css/tournament.css">
+</head>
+<body>
+<table>
+  <thead>
+    <tr>
+      <th>Player Name</th>
+      <th>ADD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="text" id="player-name" maxlength="35"></td>
+      <td><button type="button" id="add-player"  onclick="addPlayer()">ADD</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<button type="button" id="launch-tournamet" onclick="launchTournament()">Launch Tournament</button></td>
+
+</body>
+<script src="tournament.js"></script>
+</html> -->
