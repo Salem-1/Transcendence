@@ -23,6 +23,7 @@ const urlRoutes = {
 		title: "Login | " + urlPageTitle,
 		description: "This is the login page",
 		theme: "/css/login.css",
+		loggedIn: true,
 	},
 	"/register": {
 		template: "/templates/registration-body.html",
@@ -79,7 +80,6 @@ const isVerified = async () => {
 	if (response.ok) {
 		return true;
 	}
-	callRoute("/login");
 	return false;
 };
 
@@ -92,7 +92,14 @@ const urlLocationHandler = async () => {
 	}
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
-	if (route.requiresAuth && !(await isVerified())) return;
+	if (route.requiresAuth && !(await isVerified())){
+		callRoute("/login");
+		return;
+	}
+	if (route.loggedIn && (await isVerified())){
+		callRoute("/home");
+		return;
+	}
 
 	// get the html from the template
 	const html = await fetch(route.template).then((response) =>
