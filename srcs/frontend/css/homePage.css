@@ -105,6 +105,42 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
+#start-tournament {
+	margin-top: 150px;
+}
+
+.tour-button-div-one {
+	width: 150px;
+	height: 50px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.tour-button-div-two {
+	margin-left: 5px;
+	width: 140px;
+	height: 45px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.tour-button-div-three {
+	margin-left: 8px;
+	width: 130px;
+	height: 30px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
 
 #add-player {
 	margin-top: -30px;
@@ -180,6 +216,21 @@ body {
 }
 
 .add-button-text:active {
+	font-size: 20px;
+	line-height: 22px !important;
+}
+
+.tour-button-text {
+	text-align: center;
+	color: white;
+	font-size: 22px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	line-height: 20px;
+}
+
+.tour-button-text:active {
 	font-size: 20px;
 	line-height: 22px !important;
 }
@@ -277,6 +328,7 @@ body {
 	width: 80%;
 	margin-left: 10% !important;
 	margin-top: 50px;
+	display: flex;
 }
 
 .delete-button {
