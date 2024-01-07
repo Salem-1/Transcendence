@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - services-network
+
+  nginx:
+    build: ./srcs/nginx
+    restart: always
+    volumes:
+      - ./srcs/nginx/frontend:/var/www/html
+    ports:
+      - 3000:80
+    networks: 
+      - services-network
+
+  django:
+    depends_on:
+      - postgres
+    build: ./srcs/backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    # expose:
+    #   - 8000:8000
+    networks:
+      - services-network
+    volumes:
+      - ./srcs/backend:/app
+
+networks:
+  services-network:
+    driver: bridge

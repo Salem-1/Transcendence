@@ -3,15 +3,14 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-# from models import get_user_id
+# from .models import User_2fa
+# from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.http import require_POST
 import jwt
 import json
 import requests
 import os
 import re 
-from django.contrib.auth.models import User
 import datetime
 
 def get_user_id(username):
@@ -24,10 +23,11 @@ def get_user_id(username):
 
 def fetch_auth_token(url_auth_code):
     url = "https://api.intra.42.fr/oauth/token"
+    print(f"clientid={os.getenv('INTRA_CLIENT_ID')}\nclient_secret={os.getenv('INTRA_CLIENT_SECRET')}")
     data = {
         'grant_type': 'authorization_code',
-        'client_id': os.getenv('intra_client_id'),
-        'client_secret': os.getenv('intra_client_secret'),
+        'client_id': os.getenv('INTRA_CLIENT_ID'),
+        'client_secret': os.getenv('INTRA_CLIENT_SECRET'),
         'code': url_auth_code,
         'redirect_uri': 'http://localhost:3000/auth',
     }
@@ -42,16 +42,16 @@ def fetch_intra_user_data(response):
     return requests.get(url, headers=headers)
 
 def login_intra_user(request, username):
-    user = authenticate(request, username=username, password=os.getenv('secret_pass'))
+    user = authenticate(request, username=username, password=os.getenv('SECRET_PASS'))
     if user is not None:
         login(request, user)
         return True
     return False
 
 def create_intra_user(username):
-    if not username or username == "" or os.getenv('secret_pass') == "":
+    if not username or username == "" or os.getenv('SECRET_PASS') == "":
         return False
-    user = User.objects.create_user(username=username, password=os.getenv('secret_pass'))
+    user = User.objects.create_user(username=username, password=os.getenv('SECRET_PASS'))
     return True
     
 def is_valid_input(username, password, data):
@@ -85,7 +85,7 @@ def gen_jwt_token(username, type, exp_mins):
                                 "id": get_user_id(username),
                                 "exp": exp_unix_timestamp,
                                 "type": type,
-                            }, os.environ['secret_pass'], algorithm="HS256")
+                            }, os.environ['SECRET_PASS'], algorithm="HS256")
     return encoded_jwt.decode('utf-8')  
 
 def tokenize_login_response(username):
@@ -125,7 +125,7 @@ def validate_jwt(request):
     jwt_token = request.COOKIES.get('Authorization')
     if jwt_token and jwt_token.startswith('Bearer '):
         jwt_token = jwt_token.split('Bearer ')[1]
-        decode_token = jwt.decode(jwt_token, os.environ['secret_pass'], algorithms=['HS256'])
+        decode_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'], algorithms=['HS256'])
         if (decode_token['exp'] > current_unix_timestamp):
             return decode_token
         print("expired token")

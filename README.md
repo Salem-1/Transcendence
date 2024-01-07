@@ -66,3 +66,7 @@ Run test cases related to frontend, where the selenium library will act as human
     node srcs/tester seleniumTest.js . 
 
 -----------
+<<<<<<< HEAD
+=======
+
+>>>>>>> master

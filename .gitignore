@@ -10,3 +10,7 @@ db/__pycache_
 resources
 *cpython*
 data
+*.pyc
+data
+*node_modules*
+migrations
