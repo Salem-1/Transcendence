@@ -3,10 +3,10 @@ sandbox
 *env
 node_modules/*
 .vscode
-__pycache__/*
+*/__pycache__/*
 __pycache__
 db/__pycache_
-*.pyc
+**.pyc
 resources
 *cpython*
 data
