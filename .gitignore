@@ -9,3 +9,4 @@ db/__pycache_
 *.pyc
 resources
 *cpython*
+data
