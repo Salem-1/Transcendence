@@ -106,7 +106,7 @@ body {
 }
 
 #start-tournament {
-	margin-top: 150px;
+	margin-top: 70px;
 }
 
 .tour-button-div-one {
@@ -132,7 +132,7 @@ body {
 
 .tour-button-div-three {
 	margin-left: 8px;
-	width: 130px;
+	width: 130px;	
 	height: 30px;
 	position: absolute;
 	text-align: center;
@@ -332,7 +332,7 @@ body {
 }
 
 .delete-button {
-	margin-left: 100px;
+	margin-left: 50px;
 }
 
 tr {
@@ -366,7 +366,6 @@ tbody {
 	width: 270px;
 	height: 45px;
 	background: #7E7E7E;
-	/* background: #7E7E7E; */
 	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
 	border: 4px #D9D9D9 solid;
