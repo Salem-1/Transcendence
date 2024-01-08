@@ -341,13 +341,19 @@ tr {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	border: 1px solid black;
+}
+
+td {
+	border-bottom: 1px solid black;
+	padding-left: 5px;
 }
 
 tbody {
 	display: block;
-    border: 2px solid black;
-    border-collapse: separate;
-    border-spacing: 4px; 
+	border: 2px solid black;
+	border-collapse: separate;
+	border-spacing: 4px; 
 	border-radius: 20px;
 	margin-top: 20px;
 	max-width: 260px;
@@ -409,8 +415,8 @@ tbody {
 ::-webkit-scrollbar-thumb {
 	background: #7E7E7E;
 	border-radius: 25px;
-    background-clip: content-box;
-    border: 12px solid transparent;
+	background-clip: content-box;
+	border: 12px solid transparent;
 }
 
 /* Handle on hover */
