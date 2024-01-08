@@ -37,6 +37,13 @@ clean: down
 
 reset: clean build
 
+# test:
+# 	docker exec -it transcendence-django-1 python3 manage.py testdb
+# 	docker exec -it test-1 python3 test_endpoint.py 
+# 	docker exec -it test-1 node selenium.js 
+
+
+
 fclean: down
 	rm -rf data
 	docker rmi -f transcendence-django
