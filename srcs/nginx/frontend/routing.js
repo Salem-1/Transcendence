@@ -35,20 +35,20 @@ const urlRoutes = {
 		template: "/templates/home-page-body.html",
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
-		script: "greet.js",
+		script: ["greet.js", "tournament.js"],
 		requiresAuth: true,
 	},
 	"/game": {
 		template: "/templates/game-page-body.html",
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
-		script: "game.js",
+		script: ["game.js"],
 	},
 	"/auth": {
 		template: "/templates/auth.html",
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
-		script: "auth.js",
+		script: ["auth.js"],
 	},
 };
 
@@ -116,9 +116,13 @@ const urlLocationHandler = async () => {
 	if (route.theme) theme.setAttribute("href", route.theme);
 	else theme.setAttribute("href", defaulttheme);
 	if (route.script) {
-		const script = document.createElement("script");
-		script.src = route.script;
-		document.body.appendChild(script);
+		for (let i = 0; i < route.script.length; i++) {
+			const script = document.createElement("script");
+			script.src = route.script[i];
+			document.body.appendChild(script);
+		}
+		// script.src = route.script;
+		// document.body.appendChild(script);
 	}
 };
 

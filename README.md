@@ -11,6 +11,8 @@
 * [Profile settings](./documetation/flowcharts/profileSettings.md)
 * [Profile page](./documetation/flowcharts/profilePage.md)
 
+this is simple guide to test the project
+
 #### Full Flowchart
 
 
@@ -64,4 +66,7 @@ Run test cases related to frontend, where the selenium library will act as human
     node srcs/tester seleniumTest.js . 
 
 -----------
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
