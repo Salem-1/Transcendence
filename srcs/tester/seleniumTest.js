@@ -5,16 +5,28 @@ const redColor = '\x1b[31m';
 const greenColor = '\x1b[32m';
 const yellowColor = '\x1b[33m';
 
-async function runTest() {
+async function runTest(testtype) {
+	if (testtype == undefined || testtype == ".")
+		testtype = "all";
     try{
         let user = "tournmentking";
-        registerTestCases(user);
-        await (new Promise(resolve => setTimeout(resolve, 3000)));
-        lgoinTestCases(user);
-        await (new Promise(resolve => setTimeout(resolve, 3000)));
-        tournamentTestCases(user);
-        tournamentInputTestCases(user);
-        testIntraAuth("hello", 11);
+		if (testtype == "reg" || testtype == "all" || testtype == "register" || testtype == 1)
+		{
+			registerTestCases(user);
+        	await (new Promise(resolve => setTimeout(resolve, 3000)));
+		}
+		if (testtype == "login" || testtype == "all" || testtype == 2)
+        {
+			lgoinTestCases(user);
+        	await (new Promise(resolve => setTimeout(resolve, 3000)));
+		}
+		if (testtype == "tor" || testtype == "tournament" || testtype == "all" || testtype == 3)
+		{
+			tournamentTestCases(user);
+        	tournamentInputTestCases(user);
+		}
+		if (testtype == "intraauth" || testtype == "all")
+        	testIntraAuth("hello", 11);
         
     }
     catch (e)
@@ -23,7 +35,7 @@ async function runTest() {
     }
 }
 
-runTest();
+runTest(process.argv[2]);
 
 async function registerTestCases(user){
     testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
@@ -62,8 +74,10 @@ async function tournamentTestCases(user){
     // testTournament([""], user, "3Aa322122233","Cannot launch tournament without players", 18);
     // testTournament(["ahmed"], user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
     let arr = ["6", "7", "1", "2", "3", "4", "5", "8"];
-    let i = arr.length; let counter = 0;
-    for (; i > -1 ; i--){
+    let counter = 0;
+	i = arr.length;
+    while (i > 0) {
+		i = arr.length;
         if (i > 1){
             testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
             await (new Promise(resolve => setTimeout(resolve, 3000)));
@@ -222,7 +236,6 @@ async function testTournament(players,username, pass, message, order) {
         await clickStartButton(driver);
         
         
-        let addPlayer;
         for (let i = 0; i < players.length; i++){
             await driver.findElement(By.id('player-name')).sendKeys(players[i]);
             innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
