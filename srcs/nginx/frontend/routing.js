@@ -4,16 +4,11 @@ const defaulttheme = "/css/style.css";
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
 	404: {
-		template: "/404.html",
+		template: "/templates/404.html",
 		title: "404 | " + urlPageTitle,
 		description: "Page not found",
 	},
 	"/": {
-		template: "/templates/landing-page-body.html",
-		title: "Home | " + urlPageTitle,
-		description: "This is the home page",
-	},
-	"/frontend/": {
 		template: "/templates/landing-page-body.html",
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
@@ -49,6 +44,20 @@ const urlRoutes = {
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
 		script: ["auth.js"],
+	},
+	"/register_players": {
+		template: "/templates/register_players.html",
+		title: "register_players | " + urlPageTitle,
+		description: "This is the registeration page for the tournament",
+		theme: "/css/tournament.css",
+		script: ["tournament.js"],
+	},
+	"/tournament": {
+		template: "/templates/tournament.html",
+		title: "tournament | " + urlPageTitle,
+		description: "This is the tournament page",
+		theme: "/css/tournament_styles.css",
+		script: ["tournament_algorithm.js"],
 	},
 };
 
@@ -115,6 +124,13 @@ const urlLocationHandler = async () => {
 		.setAttribute("content", route.description);
 	if (route.theme) theme.setAttribute("href", route.theme);
 	else theme.setAttribute("href", defaulttheme);
+	// for (let i = 0; i < document.script.length; i++) {
+	// 	console.log(document.script[i]);
+	// 	document.script[i].remove();
+	// }
+	// const script = document.createElement("script");
+	// script.src = route.script;
+	// document.body.appendChild(script);
 	if (route.script) {
 		for (let i = 0; i < route.script.length; i++) {
 			const script = document.createElement("script");

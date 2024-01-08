@@ -1,5 +1,15 @@
-
-
+// try{
+// 	// var players = JSON.parse(localStorage.getItem('players')) || [];
+// 	// localStorage.setItem('players', JSON.stringify(players));
+// 	const tempbutton = document.getElementById("start-tournament");
+// 	if (tempbutton)
+// 		tempbutton.remove();
+// 	var players = [];
+//     localStorage.setItem('players', JSON.stringify(players));
+// }
+// catch (e){
+// 	alert (e);
+// }
 document.addEventListener('DOMContentLoaded', function() {
     let start_tournament_btn = document.getElementById("start_tournament");
     if (!start_tournament_btn)
@@ -26,11 +36,13 @@ function launchTournament(){
         return;
     }
     alert("starting tournament")
-    window.location.href = "tournament_intro.html";
+	callRoute("/tournament");
+    // window.location.href = "tournament_intro.html";
 }
 
 function getPlayers() {
-    window.location.href = 'register_players.html';
+	callRoute("/register_players")
+    // window.location.href = 'register_players.html';
 }
 
 
