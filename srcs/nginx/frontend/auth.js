@@ -1,106 +1,94 @@
-// Get the current URL
-
-// import storeJWTInCookies from index 
-
 intraAuthenticate();
 
-async function intraAuthenticate(){
-  let code =  extractIntraAuthCode();
-    
-    try {
-        if (code == null || code == "")
-        {
-            alert(`Registration or login failed`);
-            throw new Error("Erro while intra authentication");
-        }
-        const response = await fetch('http://localhost:8000/auth/', {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({code}),
-        });
-  
-        const result = await response.json();
-        if (response.status == 200 && result.jwt_token) { 
-          await storeJWTInCookies(result);
-          window.location.href = 'landing.html';
-         }
-          else if (response.status == 302 && result.type == "otp"){
-          double_factor_authenticate(result);
-        }
-        else {
-          alert(`Login failed: ${result.error}`);
-        }
-    }
-    catch (error) {
-        console.error('Error during registration:', error);
-        alert(`Error during registration: ${error}`);
-        window.location.href = 'index.html';
-      }
+async function intraAuthenticate() {
+	let code = extractIntraAuthCode();
+
+	try {
+		if (code == null || code == "") {
+			alert(`Registration or login failed`);
+			throw new Error("Erro while intra authentication");
+		}
+		const response = await fetch("http://localhost:8000/auth/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ code }),
+		});
+
+		const result = await response.json();
+		if (response.status == 200 && result.jwt_token) {
+			await storeJWTInCookies(result);
+			callRoute("/home");
+		} else if (response.status == 302 && result.type == "otp") {
+			double_factor_authenticate(result);
+		} else {
+			alert(`Login failed: ${result.error}`);
+		}
+	} catch (error) {
+		console.error("Error during registration:", error);
+		alert(`Error during registration: ${error}`);
+		callRoute("/");
+	}
 }
 
-
-function extractIntraAuthCode(){
-  //nginx is blocking this
-    const currentUrl = window.location.href;
-    const url = new URL(currentUrl);
-    const codeValue = url.searchParams.get("code");
-    return (codeValue);
+function extractIntraAuthCode() {
+	//nginx is blocking this
+	const currentUrl = window.location.href;
+	const url = new URL(currentUrl);
+	const codeValue = url.searchParams.get("code");
+	return codeValue;
 }
 
-
-
-async function  storeJWTInCookies(result)
-{
-  // Assuming 'response' is your fetch response
-  //extract "jwt_token" from response body
-  const jwt_token = result.jwt_token;
-  if (!jwt_token)
-    return (false);
-    document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
-    return (true);
+async function storeJWTInCookies(result) {
+	// Assuming 'response' is your fetch response
+	//extract "jwt_token" from response body
+	const jwt_token = result.jwt_token;
+	if (!jwt_token) return false;
+	document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
+	return true;
 }
 
+async function double_factor_authenticate(result) {
+	await storeJWTInCookies(result);
+	const otp = prompt(
+		"Enter 6 digits OTP from your authenticator app:",
+		"000000"
+	);
+	const otpPattern = /^\d{6}$/;
+	if (otpPattern.test(otp)) {
+		try {
+			const response = await fetch(
+				"http://localhost:8000/double_factor_auth/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ otp }),
+					credentials: "include",
+				}
+			);
 
-async function  double_factor_authenticate(result)
-{
-  await storeJWTInCookies(result);
-  const otp = prompt("Enter 6 digits OTP from your authenticator app:", "000000");
-    const otpPattern = /^\d{6}$/;
-    if (otpPattern.test(otp)) {
-      try{
-        const response = await fetch('http://localhost:8000/double_factor_auth/', {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({otp}),
-          credentials: 'include'
-        });
+			const result = await response.json();
 
-        const result = await response.json();
-
-        if (response.ok){
-          await storeJWTInCookies(result);
-          alert(`Successful! log in welcome .`);
-          window.location.href = 'landing.html';
-        }
-        else{
-          alert(`Entered OTP is valid`);
-          window.location.href = 'landing_page.html';
-          
-        }
-      } catch (error) {
-        console.log('Error during registration:', error);
-        alert(`Error during registration: ${error}`);
-      }
-    } else {
-      alert("Invalid OTP. Please enter a 6-digit numeric code.");
-      window.location.href = 'landing_page.html';
-    }
+			if (response.ok) {
+				await storeJWTInCookies(result);
+				alert(`Successful! log in welcome .`);
+				callRoute("/home")
+			} else {
+				alert(`Entered OTP is invalid`);
+				callRoute("/")
+			}
+		} catch (error) {
+			console.log("Error during registration:", error);
+			alert(`Error during registration: ${error}`);
+		}
+	} else {
+		alert("Invalid OTP. Please enter a 6-digit numeric code.");
+		callRoute("/")
+	}
 }
-
 
 /*
 

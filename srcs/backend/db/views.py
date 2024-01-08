@@ -93,6 +93,16 @@ def fetch_username(request):
         return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 
 @csrf_exempt
+def loginVerf(request):
+    try:
+        decoded_payload = validate_jwt(request)
+        if decoded_payload['type'] != 'Bearer':
+            raise jwt.exceptions.InvalidTokenError()
+        return JsonResponse({"message": "valid token"})
+    except Exception as e:
+        return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+
+@csrf_exempt
 def double_factor_auth(request):
     if request.method == "POST":
         try:
