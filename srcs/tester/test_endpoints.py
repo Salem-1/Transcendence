@@ -255,7 +255,7 @@ def gen_jwt_token(username, type, exp_mins, id):
                                 "exp": exp_unix_timestamp,
                                 "type": type,
                             }, os.environ['SECRET_PASS'], algorithm="HS256")
-    return encoded_jwt.decode('utf-8')  
+    return encoded_jwt
 
 if __name__ == '__main__':
     unittest.main()
