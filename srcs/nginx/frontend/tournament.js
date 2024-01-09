@@ -1,3 +1,11 @@
+
+// window.onpopstate = deleteStoredPlayers;
+
+function deleteStoredPlayers(){
+    var players = [];
+    localStorage.setItem('players', JSON.stringify(players));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     let start_tournament_btn = document.getElementById("start_tournament");
     if (!start_tournament_btn)
@@ -132,6 +140,7 @@ observer = new MutationObserver(callback);
 
 
 try{
+    deleteStoredPlayers();
     showAllPlayers();
     observer.observe(targetNode, config);
 }
