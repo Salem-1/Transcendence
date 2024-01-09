@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Copy the requirements file into the container
 COPY requirements.txt .
-
+COPY backend_tests .
+#add backend tests
 # Install the project dependencies
 RUN apk update \
   && apk add gcc libc-dev g++ libffi-dev libxml2 \
