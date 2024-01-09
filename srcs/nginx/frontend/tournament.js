@@ -1,9 +1,16 @@
+
+
 document.addEventListener('DOMContentLoaded', function() {
     let start_tournament_btn = document.getElementById("start_tournament");
     if (!start_tournament_btn)
         return ; 
     start_tournament_btn.addEventListener("click", getPlayers);
-    var players = JSON.parse(localStorage.getItem('players')) || [];
+    try{
+        var players = JSON.parse(localStorage.getItem('players')) || [];
+    }
+    catch (e){
+        alert (e);
+    }
     var players = [];
     localStorage.setItem('players', JSON.stringify(players));
 });
@@ -28,8 +35,13 @@ function getPlayers() {
 
 
 function addPlayer() {
-    var players = JSON.parse(localStorage.getItem('players')) || [];
-    if (players.length > 7)
+    try{
+        var players = JSON.parse(localStorage.getItem('players')) || [];
+    }
+    catch (e){
+        alert (e);
+    }
+    if (! players ||  players.length > 7)
     {
         alert("Max 8 players allowed");
         return;
@@ -64,7 +76,7 @@ function showPlayerName(playerName) {
 function showAllPlayers() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
     var table = document.querySelector("table tbody");
-    if (players.length > 8)
+    if (!players ||  players.length > 8)
     {
         players = [];
         localStorage.setItem('players', JSON.stringify(players));
@@ -120,6 +132,10 @@ const config = {
 
 const observer = new MutationObserver(callback);
 
-
-showAllPlayers();
-observer.observe(targetNode, config);
+try{
+    showAllPlayers();
+    observer.observe(targetNode, config);
+}
+catch (e){
+    alert(e)
+}

@@ -1,5 +1,14 @@
 {
   "dependencies": {
-    "selenium-webdriver": "^4.15.0"
+    "npm": "^10.2.5",
+    "selenium": "^2.20.0",
+    "selenium-webdriver": "^4.16.0",
+    "webdriver": "^8.27.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }

@@ -55,7 +55,7 @@ var Game = {
         this.ai = Ai.new.call(this, 'right');
         this.ball = Ball.new.call(this);
  
-        this.ai.speed = 5;
+        this.ai.speed = 3;
         this.running = this.over = false;
         this.turn = this.ai;
         this.timer = this.round = 0;
@@ -129,8 +129,8 @@ var Game = {
             if (this.ball.y >= this.canvas.height - this.ball.height) this.ball.moveY = DIRECTION.UP;
  
             // Move player if they player.move value was updated by a keyboard event
-            if (this.player.move === DIRECTION.UP) this.player.y -= this.player.speed;
-            else if (this.player.move === DIRECTION.DOWN) this.player.y += this.player.speed;
+            if (this.player.move === DIRECTION.UP) this.player.y -= this.player.speed  + 2;
+            else if (this.player.move === DIRECTION.DOWN) this.player.y += this.player.speed + 2;
  
             // On new serve (start of each turn) move the ball to the correct side
             // and randomize the direction to add some challenge.
