@@ -124,7 +124,7 @@ async function testRegister(username, pass, repass, message, order)
 {
     let driver = await new Builder().forBrowser('chrome').build();
     try {
-        await driver.get('http://localhost:3000/registration.html');
+        await driver.get('http://localhost:3000/register');
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
         await driver.findElement(By.id('confirmpassword')).sendKeys(repass);
