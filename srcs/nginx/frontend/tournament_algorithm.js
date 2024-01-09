@@ -4,21 +4,22 @@ try {
 	// if (location === "/tournament")
 	// {
 		initTournament();
+		
 		// const tempbutton = document.getElementById("start-tournament");
 		// if (tempbutton)
 		// 	tempbutton.remove();
-		const newButton = document.createElement('button');
-		newButton.textContent = 'Start tournament';
+		// const newButton = document.createElement('button');
+		// newButton.textContent = 'Start tournament';
 		// newButton.id = "start-tournament";
-		document.body.appendChild(newButton);
-		newButton.onclick = function () {
-			startTournament(); 
-		};
+		// document.body.appendChild(newButton);
+		// newButton.onclick = function () {
+		// 	startTournament(); 
+		// };
 	// }
 }
 catch (e){
     alert(`${e}`);
-	callRoute("/home");
+	callRoute("/register_players");
     // window.location.href = "http://localhost:3000/landing.html";
 
 }
