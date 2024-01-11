@@ -11,20 +11,22 @@ const urlRoutes = {
 	"/": {
 		template: "/templates/landing-page-body.html",
 		title: "Home | " + urlPageTitle,
-		description: "This is the home page",
+		description: "This iof s the home page",
+		IntroPages: true,
 	},
 	"/login": {
 		template: "/templates/login-body.html",
 		title: "Login | " + urlPageTitle,
 		description: "This is the login page",
 		theme: "/css/login.css",
-		loggedIn: true,
+		IntroPages: true,
 	},
 	"/register": {
 		template: "/templates/registration-body.html",
 		title: "Registration | " + urlPageTitle,
 		description: "This is the registration page",
 		theme: "/css/registration.css",
+		IntroPages: true,
 	},
 	"/home": {
 		template: "/templates/home-page-body.html",
@@ -97,7 +99,10 @@ const urlLocationHandler = async () => {
 	const location = window.location.pathname; // get the url path
 	// if the path length is 0, set it to primary page route
 	if ((location.length = 0)) {
-		location = "/";
+		if (await isVerified()) 
+			location = "/home";
+		else
+			location = "/";
 	}
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
@@ -105,7 +110,7 @@ const urlLocationHandler = async () => {
 		callRoute("/login");
 		return;
 	}
-	if (route.loggedIn && (await isVerified())){
+	if (route.IntroPages && (await isVerified())){
 		callRoute("/home");
 		return;
 	}
