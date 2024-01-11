@@ -76,24 +76,25 @@ async function tournamentTestCases(user){
     let arr = ["6", "7", "1", "2", "3", "4", "5", "8"];
     let counter = 0;
 	i = arr.length;
-    while (i > 0) {
-		i = arr.length;
-        if (i > 1){
-            testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
-            await (new Promise(resolve => setTimeout(resolve, 3000)));
-        }
-        else if (i == 1){
-            await (new Promise(resolve => setTimeout(resolve, 3000)));
-            testTournament(arr, user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 18 + counter);
-            await (new Promise(resolve => setTimeout(resolve, 3000)));
-        }
-        else{
-            await (new Promise(resolve => setTimeout(resolve, 3000)));
-            testTournament(arr, user, "3Aa322122233","Cannot launch tournament without players", 18 + counter);
-        }
-        arr.pop();
-        counter++;
-    }
+    testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
+    // while (i > 0) {
+	// 	i = arr.length;
+    //     if (i > 1){
+    //         testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
+    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
+    //     }
+    //     else if (i == 1){
+    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
+    //         testTournament(arr, user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 18 + counter);
+    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
+    //     }
+    //     else{
+    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
+    //         testTournament(arr, user, "3Aa322122233","Cannot launch tournament without players", 18 + counter);
+    //     }
+    //     arr.pop();
+    //     counter++;
+    // }
 }
 async function testIntraAuth(message, order){
     let driver = await new Builder().forBrowser('chrome').build();
@@ -268,7 +269,7 @@ async function testTournament(players,username, pass, message, order) {
         //     console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
         // }
     } finally {
-        await driver.quit();
+        // await driver.quit();
     }
 }
 

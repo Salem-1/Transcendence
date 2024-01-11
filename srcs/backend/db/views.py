@@ -95,6 +95,8 @@ def fetch_username(request):
 @csrf_exempt
 def loginVerf(request):
     try:
+        for key in request.headers:
+            print(f"{key} = {request.headers[key]}")
         decoded_payload = validate_jwt(request)
         if decoded_payload['type'] != 'Bearer':
             raise jwt.exceptions.InvalidTokenError()

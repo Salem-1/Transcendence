@@ -4,56 +4,58 @@ const defaulttheme = "/css/style.css";
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
 	404: {
-		template: "/templates/404.html",
+		template: error_404(),
 		title: "404 | " + urlPageTitle,
 		description: "Page not found",
 	},
 	"/": {
-		template: "/templates/landing-page-body.html",
+		template: landingPageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
 	},
 	"/login": {
-		template: "/templates/login-body.html",
+		template: loginBody(),
 		title: "Login | " + urlPageTitle,
 		description: "This is the login page",
 		theme: "/css/login.css",
 		loggedIn: true,
 	},
 	"/register": {
-		template: "/templates/registration-body.html",
+		template: registration_body(),
 		title: "Registration | " + urlPageTitle,
 		description: "This is the registration page",
 		theme: "/css/registration.css",
 	},
 	"/home": {
-		template: "/templates/home-page-body.html",
+		template: homePageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
 		script: ["greet.js", "tournament.js"],
 		requiresAuth: true,
 	},
 	"/game": {
-		template: "/templates/game-page-body.html",
+		template: gamePageBody(),
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
 		script: ["game.js"],
+		// loggedIn: true,
 	},
 	"/auth": {
-		template: "/templates/auth.html",
+		template: auth(),
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
 		script: ["auth.js"],
 	},
 	"/register_players": {
-		template: "/templates/register_players.html",
+		template: registerPlayers(),
 		title: "register_players | " + urlPageTitle,
 		description: "This is the registeration page for the tournament",
 		theme: "/css/tournament.css",
 		script: ["tournament.js"],
+		// loggedIn: true,
 	},
 	"/tournament": {
-		template: "/templates/tournament.html",
+		template: tournamentBody(),
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
@@ -111,9 +113,7 @@ const urlLocationHandler = async () => {
 	}
 
 	// get the html from the template
-	const html = await fetch(route.template).then((response) =>
-		response.text()
-	);
+	const html = route.template;
 	// set the content of the content div to the html
 	document.getElementById("content").innerHTML = html;
 	// set the title of the document to the title of the route
@@ -122,8 +122,10 @@ const urlLocationHandler = async () => {
 	document
 		.querySelector('meta[name="description"]')
 		.setAttribute("content", route.description);
-	if (route.theme) theme.setAttribute("href", route.theme);
-	else theme.setAttribute("href", defaulttheme);
+	if (route.theme)
+		theme.setAttribute("href", route.theme);
+	else
+		theme.setAttribute("href", defaulttheme);
 	// for (let i = 0; i < document.script.length; i++) {
 	// 	console.log(document.script[i]);
 	// 	document.script[i].remove();
@@ -148,3 +150,4 @@ window.onpopstate = urlLocationHandler;
 window.route = route;
 // call the urlLocationHandler function to handle the initial url
 urlLocationHandler();
+
