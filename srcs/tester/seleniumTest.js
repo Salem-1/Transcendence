@@ -12,21 +12,21 @@ async function runTest(testtype) {
         let user = "tournmentking";
 		if (testtype == "reg" || testtype == "all" || testtype == "register" || testtype == 1)
 		{
-			registerTestCases(user);
-        	await (new Promise(resolve => setTimeout(resolve, 3000)));
+			await registerTestCases(user);
+        	// await (new Promise(resolve => setTimeout(resolve, 7000)));
 		}
 		if (testtype == "login" || testtype == "all" || testtype == 2)
         {
-			lgoinTestCases(user);
-        	await (new Promise(resolve => setTimeout(resolve, 3000)));
+			await lgoinTestCases(user);
+        	// await (new Promise(resolve => setTimeout(resolve, 3000)));
 		}
 		if (testtype == "tor" || testtype == "tournament" || testtype == "all" || testtype == 3)
 		{
 			// tournamentTestCases(user);
         	// tournamentInputTestCases(user);
 		}
-		if (testtype == "intraauth" || testtype == "all")
-        	testIntraAuth("hello", 11);
+		if (testtype == "intra" || testtype == "all")
+        	await testIntraAuth("hello", 11);
         
     }
     catch (e)
@@ -38,36 +38,39 @@ async function runTest(testtype) {
 runTest(process.argv[2]);
 
 async function registerTestCases(user){
-    testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
-    testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);    
-    await (new Promise(resolve => setTimeout(resolve, 1000)));
+    await testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);    
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 
 async function lgoinTestCases(user){
-    testLogin("user2", "","Invalid username", 9);
-    testLogin("", "3322122233","Invalid username", 10);
-    testLogin("user'---", "3cC322122233","Invalid username", 12);
+    await testLogin("user2", "","Invalid username", 9);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testLogin("", "3322122233","Invalid username", 10);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+    await testLogin("user'---", "3cC322122233","Invalid username", 12);
+    // await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 
 async function tournamentTestCases(user){
@@ -101,8 +104,11 @@ async function testIntraAuth(message, order){
     try {
         await driver.get('http://127.0.0.1:3000');
       //find the intraauth link and click it here , id login42
-      const login42Link = await driver.findElement(By.linkText('LOGIN 42'));
+    //   await (new Promise(resolve => setTimeout(resolve, 4000)));
+      
+      const login42Link = await driver.wait(until.elementLocated(By.id('login42')), 5000);;
       await driver.executeScript("arguments[0].click();", login42Link);
+      await (new Promise(resolve => setTimeout(resolve, 3000)));
 
 
         await driver.wait(until.alertIsPresent());
@@ -126,7 +132,7 @@ async function testRegister(username, pass, repass, message, order)
     let driver = await new Builder().forBrowser('chrome').build();
     try {
         await driver.get('http://localhost:3000/register');
-        await (new Promise(resolve => setTimeout(resolve, 1500)));
+        await (new Promise(resolve => setTimeout(resolve, 300)));
 
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
@@ -135,7 +141,7 @@ async function testRegister(username, pass, repass, message, order)
         const innerDiv = await driver.wait(until.elementLocated(By.css('#registration-button > div:last-child')), 5000);
         await innerDiv.click();
 
-        await (new Promise(resolve => setTimeout(resolve, 3000)));
+        await (new Promise(resolve => setTimeout(resolve, 300)));
 
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
@@ -159,7 +165,7 @@ async function testLogin(username, pass, message, order){
     let driver = await new Builder().forBrowser('chrome').build();
     try {
         await driver.get('http://127.0.0.1:3000/login');
-        await (new Promise(resolve => setTimeout(resolve, 1500)));
+        await (new Promise(resolve => setTimeout(resolve, 300)));
         
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
@@ -167,7 +173,9 @@ async function testLogin(username, pass, message, order){
         const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
         const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
         await innerDiv.click();
+
         await (new Promise(resolve => setTimeout(resolve, 300)));
+        
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
         let alertText = await alert.getText();
