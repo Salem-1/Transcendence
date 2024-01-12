@@ -153,7 +153,7 @@ class YourAppViewsTest(unittest.TestCase):
     def test_spoofed_token(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        jwt_token = login_response.json().get('jwt_token') + 'spoof'
+        jwt_token = f"{login_response.json().get('jwt_token')}spoof"
 
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)

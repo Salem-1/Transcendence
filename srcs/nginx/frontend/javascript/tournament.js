@@ -1,4 +1,10 @@
 
+// window.onpopstate = deleteStoredPlayers;
+
+function deleteStoredPlayers(){
+    var players = [];
+    localStorage.setItem('players', JSON.stringify(players));
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     let start_tournament_btn = document.getElementById("start_tournament");
@@ -26,11 +32,11 @@ function launchTournament(){
         return;
     }
     alert("starting tournament")
-    window.location.href = "tournament_intro.html";
+	callRoute("/tournament");
 }
 
 function getPlayers() {
-    window.location.href = 'register_players.html';
+	callRoute("/register_players");
 }
 
 
@@ -102,7 +108,7 @@ function isvalidPlayerName(players, playerName){
 }
 
 
-let callback = function (MutationList, observer){
+callback = function (MutationList, observer){
     var delete_buttons = document.getElementsByClassName('delete-button');
     for (var i = 0; i < delete_buttons.length; i++) {
         delete_buttons[i].addEventListener("click", function(){
@@ -122,17 +128,19 @@ let callback = function (MutationList, observer){
     }
 }
 
-let targetNode = document.body;
-const config = {
+targetNode = document.body;
+config = {
     childList: true,
     CharacterData: true,
     subtree: true,
     attributes: true,
 }
 
-const observer = new MutationObserver(callback);
+observer = new MutationObserver(callback);
+
 
 try{
+    deleteStoredPlayers();
     showAllPlayers();
     observer.observe(targetNode, config);
 }
