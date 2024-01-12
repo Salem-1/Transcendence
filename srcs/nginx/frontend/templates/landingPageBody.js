@@ -22,10 +22,8 @@ function landingPageBody()
 				</div>
 			</div>
 	
-			<a
-				href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e3d56b28d94563203a40bdd0c97c550a7a7c6cc6529e13b93bf47f4451dcbca3&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"
-			>
-				<div id="login42">
+		
+				<div id="login42" onclick="oauthRedirect()">
 					<div class="button-div-one" style="background: #c7a940"></div>
 					<div
 						id="yellow"
@@ -42,7 +40,7 @@ function landingPageBody()
 						<h1 class="button-text">LOGIN 42</h1>
 					</div>
 				</div>
-			</a>
+		
 			<div id="register" onclick="callRoute('/register')">
 				<div class="button-div-one" style="background: #82764d"></div>
 				<div

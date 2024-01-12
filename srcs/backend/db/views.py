@@ -151,7 +151,11 @@ def set_double_factor_auth(request):
 @csrf_exempt
 def redirect_uri(request):
 	if request.method == "POST":
-		intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
-			.format(os.environ.get('INTRA_CLIENT_ID'))
+		client_id = os.environ.get("INTRA_CLIENT_ID", "")
+		if (len(client_id) == 0):
+			intra_link = "#"
+		else:
+			intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+				.format(client_id)
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)

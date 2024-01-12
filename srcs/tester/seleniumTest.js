@@ -135,7 +135,7 @@ async function testRegister(username, pass, repass, message, order)
         const innerDiv = await driver.wait(until.elementLocated(By.css('#registration-button > div:last-child')), 5000);
         await innerDiv.click();
 
-        await (new Promise(resolve => setTimeout(resolve, 2000)));
+        await (new Promise(resolve => setTimeout(resolve, 3000)));
 
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
@@ -167,7 +167,7 @@ async function testLogin(username, pass, message, order){
         const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
         const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
         await innerDiv.click();
-        await (new Promise(resolve => setTimeout(resolve, 1500)));
+        await (new Promise(resolve => setTimeout(resolve, 300)));
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
         let alertText = await alert.getText();
