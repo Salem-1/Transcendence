@@ -12,54 +12,57 @@ const urlRoutes = {
 		template: landingPageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
+		IntroPages: true,
 	},
 	"/login": {
 		template: loginBody(),
 		title: "Login | " + urlPageTitle,
 		description: "This is the login page",
 		theme: "/css/login.css",
-		loggedIn: true,
+		IntroPages: true,
+	
 	},
 	"/register": {
 		template: registration_body(),
 		title: "Registration | " + urlPageTitle,
 		description: "This is the registration page",
 		theme: "/css/registration.css",
+		IntroPages: true,
 	},
 	"/home": {
 		template: homePageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
-		script: ["greet.js", "tournament.js"],
+		script: ["/javascript/greet.js", "/javascript/tournament.js"],
 		requiresAuth: true,
 	},
 	"/game": {
 		template: gamePageBody(),
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
-		script: ["game.js"],
-		// loggedIn: true,
+		script: ["/javascript/game.js"],
+		requiresAuth: true,
 	},
 	"/auth": {
 		template: auth(),
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
-		script: ["auth.js"],
+		script: ["/javascript/auth.js"],
 	},
 	"/register_players": {
 		template: registerPlayers(),
 		title: "register_players | " + urlPageTitle,
 		description: "This is the registeration page for the tournament",
 		theme: "/css/tournament.css",
-		script: ["tournament.js"],
-		// loggedIn: true,
+		script: ["/javascript/tournament.js"],
+		//
 	},
 	"/tournament": {
 		template: tournamentBody(),
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
-		script: ["tournament_algorithm.js"],
+		script: ["/javascript/tournament_algorithm.js"],
 	},
 };
 
@@ -107,7 +110,7 @@ const urlLocationHandler = async () => {
 		callRoute("/login");
 		return;
 	}
-	if (route.loggedIn && (await isVerified())){
+	if (route.IntroPages && (await isVerified())){
 		callRoute("/home");
 		return;
 	}

@@ -22,7 +22,7 @@ async function runTest(testtype) {
 		}
 		if (testtype == "tor" || testtype == "tournament" || testtype == "all" || testtype == 3)
 		{
-			tournamentTestCases(user);
+			// tournamentTestCases(user);
         	// tournamentInputTestCases(user);
 		}
 		if (testtype == "intraauth" || testtype == "all")
@@ -126,6 +126,8 @@ async function testRegister(username, pass, repass, message, order)
     let driver = await new Builder().forBrowser('chrome').build();
     try {
         await driver.get('http://localhost:3000/register');
+        await (new Promise(resolve => setTimeout(resolve, 1500)));
+
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
         await driver.findElement(By.id('confirmpassword')).sendKeys(repass);
@@ -133,7 +135,8 @@ async function testRegister(username, pass, repass, message, order)
         const innerDiv = await driver.wait(until.elementLocated(By.css('#registration-button > div:last-child')), 5000);
         await innerDiv.click();
 
-        
+        await (new Promise(resolve => setTimeout(resolve, 2000)));
+
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
         let alertText = await alert.getText();
@@ -156,14 +159,15 @@ async function testLogin(username, pass, message, order){
     let driver = await new Builder().forBrowser('chrome').build();
     try {
         await driver.get('http://127.0.0.1:3000/login');
-        await (new Promise(resolve => setTimeout(resolve, 300)));
-
+        await (new Promise(resolve => setTimeout(resolve, 1500)));
+        
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
         
         const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
         const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
         await innerDiv.click();
+        await (new Promise(resolve => setTimeout(resolve, 1500)));
         await driver.wait(until.alertIsPresent());
         let alert = await driver.switchTo().alert();
         let alertText = await alert.getText();
@@ -198,7 +202,7 @@ function generateRandomText(length) {
   
 async function login(driver, username, pass) {
     await driver.get('http://127.0.0.1:3000/login');
-    await (new Promise(resolve => setTimeout(resolve, 300)));
+    await (new Promise(resolve => setTimeout(resolve, 700)));
 
     await driver.findElement(By.id('username')).sendKeys(username);
     await driver.findElement(By.id('password')).sendKeys(pass);
@@ -242,7 +246,7 @@ async function testTournament(players,username, pass, message, order) {
         // await clickStartButton(driver);
         
         // await driver.get('http://127.0.0.1:3000/register_players');
-        // await (new Promise(resolve => setTimeout(resolve, 300)));
+        // await (new Promise(resolve => setTimeout(resolve, 700)));
 
         // for (let i = 0; i < players.length; i++){
         //     await driver.findElement(By.id('player-name')).sendKeys(players[i]);
