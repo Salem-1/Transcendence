@@ -37,16 +37,15 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-let t2 = -1;
-function gameLoop(currentTime) {
-    if (t2 !== -1) {
-        const dt = (currentTime - t2);
-        p1.update(dt);
-        p2.update(dt);
-        ball.update(dt, p1, p2);
-    }
-    t2 = currentTime;
-    
+let lastTimestamp = 0;
+function gameLoop(timestamp) {
+    const deltaTime = (timestamp - lastTimestamp) / 1000;
+
+    p1.update(deltaTime);
+    p2.update(deltaTime);
+    ball.update(deltaTime, p1, p2);
+
+    lastTimestamp = timestamp;
     window.requestAnimationFrame(gameLoop);
 }
 window.requestAnimationFrame(gameLoop);

@@ -1,4 +1,4 @@
-*, *::before {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,6 +9,8 @@
     --paddle-color: rgb(200, 200, 200);
     --ball-color: rgb(200, 200, 200);
     --paddle-height: 20vh;
+    --paddle-width: 1vw;
+    --paddle-margin: 1vw;
     --ball-width: 1vw;
     --ball-height: 1vw;
 }
@@ -21,20 +23,21 @@ body {
 .p {
     position: absolute;
     background-color: var(--paddle-color);
-    width: 1vw;
+    width: var(--paddle-width);
     height: var(--paddle-height);
-    /* top: 40vh; 50vh - 10vh */
 }
 
 #p1 {
-    left: 0.5vw;
+    left: var(--paddle-margin);
 }
 
 #p2 {
-    right: 0.5vw;
+    right: var(--paddle-margin);
 }
 
 .ball {
+    padding: 0;
+    margin: 0;
     position: absolute;
     background-color: var(--ball-color);
     width: var(--ball-width);

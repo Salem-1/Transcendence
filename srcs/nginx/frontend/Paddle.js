@@ -4,13 +4,15 @@ export default class Paddle {
     constructor(element) {
         this.element = element;
         this.direction = {x: 0, y: 0};
-        this.y = 0;
+        const x = parseFloat(getComputedStyle(element).getPropertyValue('left'));
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        this.position = {x: (x / vw) * 100 , y: 0};
 		this.score = 0;
         this.reset();
     }
 
     reset() {
-        this.y = 40;
+        this.position.y = 40;
     }
 
     moveUp() {
@@ -27,14 +29,14 @@ export default class Paddle {
 
     update(dt) {
         const dy = this.direction.y * PADDLE_SPEED * dt;
-        if (this.y + dy < 0) {
-            this.y = 1;
-        } else if (this.y + dy > 100 - PADDLE_HEIGHT) {
-            this.y = 99 - PADDLE_HEIGHT;
+        if (this.position.y + dy < 0) {
+            this.position.y = 1;
+        } else if (this.position.y + dy > 100 - PADDLE_HEIGHT) {
+            this.position.y = 99 - PADDLE_HEIGHT;
         } else {
-            this.y += dy;
+            this.position.y += dy;
         }
-        this.y += dy;
-        this.element.style.setProperty('top', `${this.y}vh`);
+        this.position.y += dy;
+        this.element.style.setProperty('top', `${this.position.y}vh`);
     }
 }

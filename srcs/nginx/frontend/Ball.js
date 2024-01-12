@@ -1,4 +1,10 @@
-import { BALL_HEIGHT, BALL_WIDTH, BALL_SPEED, PADDLE_HEIGHT } from './constants.js';
+import {
+    BALL_HEIGHT,
+    BALL_WIDTH,
+    BALL_SPEED,
+    PADDLE_HEIGHT,
+    PADDLE_WIDTH
+} from './constants.js';
 
 export default class Ball {
     constructor(element) {
@@ -11,6 +17,7 @@ export default class Ball {
     reset() {
         this.position.x = 50;
         this.position.y = 50;
+        this.direction = {x: 0, y: 0};
         while (Math.abs(this.direction.x) < 0.25 || Math.abs(this.direction.x) > 0.95) {
             this.direction.x = Math.random() * Math.sign(Math.random() - 0.5);
         }
@@ -23,39 +30,43 @@ export default class Ball {
         this.direction.y = 0;
     }
 
+    isColliding(paddle) {
+        const ballLeft = this.position.x;
+        const ballRight = this.position.x + BALL_WIDTH;
+        const ballTop = this.position.y;
+        const ballBottom = this.position.y + BALL_HEIGHT;
+
+        const paddleLeft = paddle.position.x;
+        const paddleRight = paddle.position.x + PADDLE_WIDTH;
+        const paddleTop = paddle.position.y;
+        const paddleBottom = paddle.position.y + PADDLE_HEIGHT;
+
+        return (ballLeft < paddleRight && ballRight > paddleLeft
+            && ballTop < paddleBottom && ballBottom > paddleTop);
+    }
+
     update(dt, p1, p2) {
+        if (this.isColliding(p1) || this.isColliding(p2)) {
+            this.direction.x *= -1;
+        }
         const dx = this.direction.x * BALL_SPEED * dt;
         const dy = this.direction.y * BALL_SPEED * dt;
-        const topPosition = this.position.y - 0.5 * BALL_HEIGHT;
-        const bottomPosition = this.position.y + 0.5 * BALL_HEIGHT;
-        const leftPosition = this.position.x - 0.5 * BALL_WIDTH;
-        const rightPosition = this.position.x + 0.5 * BALL_WIDTH;
-        if (topPosition + dy <= 0) {
-            this.direction.y = 1;
-        } else if (bottomPosition + dy >= 100) {
-            this.direction.y = -1;
-        } else {
-            this.position.y += dy;
+        
+        if (this.position.y + dy <= 0 || this.position.y + BALL_HEIGHT + dy >= 100) {
+            this.direction.y *= -1;
         }
-        if (leftPosition + dx <= 0) {
-            if (topPosition + dy >= p1.y && bottomPosition + dy <= p1.y + PADDLE_HEIGHT) {
-				this.direction.x = 1;
-			} else {
-				p2.score += 1;
-				this.reset();
-			}
-        } else if (rightPosition + dx >= 100) {
-            if (topPosition + dy >= p2.y && bottomPosition + dy <= p2.y + PADDLE_HEIGHT) {
-				this.direction.x = -1;
-			} else {
-				p1.score += 1;
-				this.reset();
-			}
-        } else {
-            this.position.x += dx;
+        if (this.position.x + dx < 0) {
+            p2.score++;
+            this.reset();
         }
+        if (this.position.x + BALL_WIDTH + dx > 100) {
+            p1.score++;
+            this.reset();
+        }
+
+        this.position.x += dx;
+        this.position.y += dy;
         this.element.style.setProperty('left', `${this.position.x}vw`);
         this.element.style.setProperty('top', `${this.position.y}vh`);
-		console.log(p1.score, p2.score);
     }
 }

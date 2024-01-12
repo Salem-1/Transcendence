@@ -1,8 +1,10 @@
-export const PADDLE_SPEED = 0.05;
-export const BALL_SPEED = 0.03;
-export const PADDLE_HEIGHT = parseInt(getComputedStyle(document.body).
+export const PADDLE_SPEED = 50;
+export const BALL_SPEED = 50;
+export const PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--paddle-height"));
-export const BALL_WIDTH = parseInt(getComputedStyle(document.body).
+export const PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
+    getPropertyValue("--paddle-width"));
+export const BALL_WIDTH = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--ball-width"));
-export const BALL_HEIGHT = parseInt(getComputedStyle(document.body).
+export const BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--ball-height"));
