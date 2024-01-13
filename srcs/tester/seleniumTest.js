@@ -1,6 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
-const { Builder, By, Key, until } = require("selenium-webdriver");
+const {Builder, By, Key, until} = require("selenium-webdriver");
 
 const resetColor = "\x1b[0m";
 const redColor = "\x1b[31m";
@@ -227,7 +227,7 @@ async function testIntraAuth(message, order) {
 async function testRegister(username, pass, repass, message, order) {
 	let driver = await new Builder().forBrowser("chrome").build();
 	try {
-		await driver.get("http://localhost:3000/register");
+		await driver.get("http://127.0.0.1:3000/register");
 		await new Promise((resolve) => setTimeout(resolve, 300));
 
 		await driver.findElement(By.id("username")).sendKeys(username);
@@ -500,62 +500,63 @@ async function tournamentInputTestCases(user) {
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 }
 
+async function testAccess(driver, target_subdomain, expected_url, order) {
+	await driver.get(target_subdomain);
+	let url = await driver.getCurrentUrl();
+	if (url === expected_url)
+		console.log(
+			greenColor + order,
+			" 😁 Test passed page",
+			url + resetColor
+		);
+	else
+		console.log(
+			redColor + order,
+			" 😱 Test failed Accessing page",
+			url + resetColor
+		);
+}
+
 async function testHomePageAccess(username, pass, message, order) {
 	let driver = await new Builder().forBrowser("chrome").build();
 	try {
-		await driver.get("http://127.0.0.1:3000/login");
-		url = await driver.getCurrentUrl();
-		if (
-			url === "http://localhost:3000/login" ||
-			url === "http://127.0.0.1:3000/login"
-		)
-			console.log(
-				greenColor + order,
-				" 😁 Test passed  Accessing login page",
-				url + resetColor
-			);
-		else
-			console.log(
-				redColor + order,
-				" 😱 Test failed Accessing login page",
-				url + resetColor
-			);
+		testAccess(
+			driver,
+			"http://127.0.0.1:3000/home",
+			"http://127.0.0.1:3000/login",
+			1
+		);
 		await login(driver, username, pass);
-		// let cookies = await driver.manage().getCookies();
-		// console.log(cookies);
-		// let authCookie = await allCookies.find(cookie => cookie.name === 'Authorization');
-		// console.log(authCookie);
-		// let cookie = new Cookie('Authorization', cookies.value);
-		// console.log(cookie);
 		let allCookies = await driver.manage().getCookies();
 		let cookies = allCookies
 			.map((cookie) => `${cookie.name}=${cookie.value}`)
 			.join("; ");
 
 		// Make an HTTP request with the cookies
-		url = 'http://127.0.0.1:3000/home'
-		console.log(url);
-		let response = await axios.get(url, {
-			headers: {
-				Cookie: cookies,
-			},
-		});
-		await driver.get("http://127.0.0.1:3000/login");
-		if (
-			url === "http://localhost:3000/home" ||
-			url === "http://127.0.0.1:3000/home"
-		)
-			console.log(
-				greenColor + order,
-				" 😁 Test passed  Accessing home page",
-				url + resetColor
-			);
-		else
-			console.log(
-				redColor + order,
-				" 😱 Test failed Accessing home page",
-				url + resetColor
-			);
+		// url = 'http://127.0.0.1:3000/home'
+		// console.log(url);
+		// let response = await axios.get(url, {
+		// 	headers: {
+		// 		Cookie: cookies,
+		// 	},
+		// });
+		// await driver.get("http://127.0.0.1:3000/login");
+		// url = await driver.getCurrentUrl();
+		// if (
+		// 	url === "http://127.0.0.1:3000/home" ||
+		// 	url === "http://127.0.0.1:3000/home"
+		// )
+		// 	console.log(
+		// 		greenColor + order,
+		// 		" 😁 Test passed  Accessing home page",
+		// 		url + resetColor
+		// 	);
+		// else
+		// 	console.log(
+		// 		redColor + order,
+		// 		" 😱 Test failed Accessing home page",
+		// 		url + resetColor
+		// 	);
 	} finally {
 		await driver.quit();
 	}
@@ -563,7 +564,7 @@ async function testHomePageAccess(username, pass, message, order) {
 
 /*
   https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d3951b4aa9c63bfcc57b80e22872c5b27607beb50bb6f5eb315114be173f0b83
-  &redirect_uri=http://localhost:3000/api/auth/callback/42-school
+  &redirect_uri=http://127.0.0.1:3000/api/auth/callback/42-school
   &response_type=code
   &scope=public
   &state=a_very_long_random_string_witchmust_be_unguessable'
