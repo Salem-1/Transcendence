@@ -11,8 +11,8 @@
     --paddle-height: 20vh;
     --paddle-width: 1vw;
     --paddle-margin: 1vw;
-    --ball-width: 1vw;
-    --ball-height: 1vw;
+    --ball-width: 2vw;
+    --ball-height: 2vw;
 }
 
 body {
