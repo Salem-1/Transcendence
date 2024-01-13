@@ -1,343 +1,564 @@
-const { Builder, By, Key, until } = require('selenium-webdriver');
+require("dotenv").config();
+const axios = require("axios");
+const { Builder, By, Key, until } = require("selenium-webdriver");
 
-const resetColor = '\x1b[0m';
-const redColor = '\x1b[31m';
-const greenColor = '\x1b[32m';
-const yellowColor = '\x1b[33m';
+const resetColor = "\x1b[0m";
+const redColor = "\x1b[31m";
+const greenColor = "\x1b[32m";
+const yellowColor = "\x1b[33m";
 
 async function runTest(testtype) {
-	if (testtype == undefined || testtype == ".")
-		testtype = "all";
-    try{
-        let user = "tournmentking";
-		if (testtype == "reg" || testtype == "all" || testtype == "register" || testtype == 1)
-		{
+	if (testtype == undefined || testtype == ".") testtype = "all";
+	try {
+		let user = process.env.TEST_USERNAME; //"tournmentking";
+		let pass = process.env.TEST_PASSWORD; //"A12345678qwertyui";
+		if (
+			testtype == "reg" ||
+			testtype == "all" ||
+			testtype == "register" ||
+			testtype == 1
+		) {
 			await registerTestCases(user);
-        	// await (new Promise(resolve => setTimeout(resolve, 7000)));
+			// await (new Promise(resolve => setTimeout(resolve, 7000)));
 		}
-		if (testtype == "login" || testtype == "all" || testtype == 2)
-        {
+		if (testtype == "login" || testtype == "all" || testtype == 2) {
 			await lgoinTestCases(user);
-        	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+			// await (new Promise(resolve => setTimeout(resolve, 3000)));
 		}
-		if (testtype == "tor" || testtype == "tournament" || testtype == "all" || testtype == 3)
-		{
+		if (
+			testtype == "tor" ||
+			testtype == "tournament" ||
+			testtype == "all" ||
+			testtype == 3
+		) {
 			// tournamentTestCases(user);
-        	// tournamentInputTestCases(user);
+			// tournamentInputTestCases(user);
 		}
-		if (testtype == "intra" || testtype == "all")
-        	await testIntraAuth("hello", 11);
-        
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
+		if (testtype == "access" || testtype == "all" || testtype == 4) {
+			await testHomePageAccess(user, pass, "Invalid username", 10);
+		}
+		if (testtype == "intra" || testtype == "all" || testtype == 5)
+			await testIntraAuth("hello", 11);
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 runTest(process.argv[2]);
 
-async function registerTestCases(user){
-    await testRegister(generateRandomText(8), "3322122233", "3322122233" ,"Registration failed: password must contain at least one upper, lower case letters and number", 1);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister("user", "A12345678qwertyui", "A12345678qwertyui" ,"Registration failed: Username already taken", 2);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister("usedfgdfsgdsr", "", "3322122233" ,"Passwords too short, should be 8 cahr at leaset", 3);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(generateRandomText(8), "3333", "3333" ,"Passwords too short, should be 8 cahr at leaset", 4);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(generateRandomText(8), "", "" ,"Passwords too short, should be 8 cahr at leaset", 5);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(generateRandomText(8), "aA0sdfasdfdsafasdfasd", "000Aa00000000" ,"Registration failed: Passwords do not match", 6);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister("", "3322122233", "3322122233" ,"Registration failed: Choose longer username", 7);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister("users'-4-$'-", "3cC322122233", "3cC322122233" ,"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'", 13);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(generateRandomText(8), "33221222Aa33", "33221222Aa33" ,"Registration successful! Now you can log in.", 15);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister("users@@", "33221Aa22233","33221Aa22233", "Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'" , 16);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(generateRandomText(8), "3Aa322122233", "3Aa322122233" ,"Registration successful! Now you can log in.", 14);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testRegister(user, "3Aa322122233", "3Aa322122233" ,"Registration failed: Username already taken", 17);    
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+async function registerTestCases(user) {
+	await testRegister(
+		generateRandomText(8),
+		"3322122233",
+		"3322122233",
+		"Registration failed: password must contain at least one upper, lower case letters and number",
+		1
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		"user",
+		"A12345678qwertyui",
+		"A12345678qwertyui",
+		"Registration failed: Username already taken",
+		2
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		"usedfgdfsgdsr",
+		"",
+		"3322122233",
+		"Passwords too short, should be 8 cahr at leaset",
+		3
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		generateRandomText(8),
+		"3333",
+		"3333",
+		"Passwords too short, should be 8 cahr at leaset",
+		4
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		generateRandomText(8),
+		"",
+		"",
+		"Passwords too short, should be 8 cahr at leaset",
+		5
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		generateRandomText(8),
+		"aA0sdfasdfdsafasdfasd",
+		"000Aa00000000",
+		"Registration failed: Passwords do not match",
+		6
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		"",
+		"3322122233",
+		"3322122233",
+		"Registration failed: Choose longer username",
+		7
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		"users'-4-$'-",
+		"3cC322122233",
+		"3cC322122233",
+		"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'",
+		13
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		generateRandomText(8),
+		"33221222Aa33",
+		"33221222Aa33",
+		"Registration successful! Now you can log in.",
+		15
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		"users@@",
+		"33221Aa22233",
+		"33221Aa22233",
+		"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'",
+		16
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		generateRandomText(8),
+		process.env.TEST_PASSWORD,
+		process.env.TEST_PASSWORD,
+		"Registration successful! Now you can log in.",
+		14
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testRegister(
+		user,
+		process.env.TEST_PASSWORD,
+		process.env.TEST_PASSWORD,
+		"Registration failed: Username already taken",
+		17
+	);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 
-async function lgoinTestCases(user){
-    await testLogin("user2", "","Invalid username", 9);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testLogin("", "3322122233","Invalid username", 10);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
-    await testLogin("user'---", "3cC322122233","Invalid username", 12);
-    // await (new Promise(resolve => setTimeout(resolve, 3000)));
+async function lgoinTestCases(user) {
+	await testLogin("user2", "", "Invalid username", 9);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testLogin("", "3322122233", "Invalid username", 10);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
+	await testLogin("user'---", "3cC322122233", "Invalid username", 12);
+	// await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 
-async function tournamentTestCases(user){
-    // testTournament([""], user, "3Aa322122233","Cannot launch tournament without players", 18);
-    // testTournament(["ahmed"], user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
-    let arr = ["6", "7", "1", "2", "3", "4", "5", "8"];
-    let counter = 0;
+async function tournamentTestCases(user) {
+	// testTournament([""], user, process.env.TEST_PASSWORD,"Cannot launch tournament without players", 18);
+	// testTournament(["ahmed"], user, process.env.TEST_PASSWORD,"You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
+	let arr = ["6", "7", "1", "2", "3", "4", "5", "8"];
+	let counter = 0;
 	i = arr.length;
-    testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
-    // while (i > 0) {
+	testTournament(
+		arr,
+		user,
+		process.env.TEST_PASSWORD,
+		"starting tournament",
+		18 + counter
+	);
+	// while (i > 0) {
 	// 	i = arr.length;
-    //     if (i > 1){
-    //         testTournament(arr, user, "3Aa322122233","starting tournament", 18 + counter);
-    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
-    //     }
-    //     else if (i == 1){
-    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
-    //         testTournament(arr, user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 18 + counter);
-    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
-    //     }
-    //     else{
-    //         await (new Promise(resolve => setTimeout(resolve, 3000)));
-    //         testTournament(arr, user, "3Aa322122233","Cannot launch tournament without players", 18 + counter);
-    //     }
-    //     arr.pop();
-    //     counter++;
-    // }
+	//     if (i > 1){
+	//         testTournament(arr, user, process.env.TEST_PASSWORD,"starting tournament", 18 + counter);
+	//         await (new Promise(resolve => setTimeout(resolve, 3000)));
+	//     }
+	//     else if (i == 1){
+	//         await (new Promise(resolve => setTimeout(resolve, 3000)));
+	//         testTournament(arr, user, process.env.TEST_PASSWORD,"You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 18 + counter);
+	//         await (new Promise(resolve => setTimeout(resolve, 3000)));
+	//     }
+	//     else{
+	//         await (new Promise(resolve => setTimeout(resolve, 3000)));
+	//         testTournament(arr, user, process.env.TEST_PASSWORD,"Cannot launch tournament without players", 18 + counter);
+	//     }
+	//     arr.pop();
+	//     counter++;
+	// }
 }
-async function testIntraAuth(message, order){
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await driver.get('http://127.0.0.1:3000');
-      //find the intraauth link and click it here , id login42
-    //   await (new Promise(resolve => setTimeout(resolve, 4000)));
-      
-      const login42Link = await driver.wait(until.elementLocated(By.id('login42')), 5000);;
-      await driver.executeScript("arguments[0].click();", login42Link);
-      await (new Promise(resolve => setTimeout(resolve, 3000)));
+async function testIntraAuth(message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await driver.get("http://127.0.0.1:3000");
+		//find the intraauth link and click it here , id login42
+		//   await (new Promise(resolve => setTimeout(resolve, 4000)));
 
+		const login42Link = await driver.wait(
+			until.elementLocated(By.id("login42")),
+			5000
+		);
+		await driver.executeScript("arguments[0].click();", login42Link);
+		await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        await driver.wait(until.alertIsPresent());
-        let alert = await driver.switchTo().alert();
-        let alertText = await alert.getText();
-        if (alertText === message)
-            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', alertText +  resetColor);
-        else
-            {
-                console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
-                console.log(redColor + order,  ' 😱 Test  failed Alert Text: expected', message, '😬😬😬 got ➡️>', alertText + resetColor);
-                console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
-            }
-        }
-    finally {
-        await driver.quit();
-    }
+		await driver.wait(until.alertIsPresent());
+		let alert = await driver.switchTo().alert();
+		let alertText = await alert.getText();
+		if (alertText === message)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Alert Text:",
+				alertText + resetColor
+			);
+		else {
+			console.log("👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇");
+			console.log(
+				redColor + order,
+				" 😱 Test  failed Alert Text: expected",
+				message,
+				"😬😬😬 got ➡️>",
+				alertText + resetColor
+			);
+			console.log("👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆");
+		}
+	} finally {
+		await driver.quit();
+	}
 }
-async function testRegister(username, pass, repass, message, order)
-{
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await driver.get('http://localhost:3000/register');
-        await (new Promise(resolve => setTimeout(resolve, 300)));
+async function testRegister(username, pass, repass, message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await driver.get("http://localhost:3000/register");
+		await new Promise((resolve) => setTimeout(resolve, 300));
 
-        await driver.findElement(By.id('username')).sendKeys(username);
-        await driver.findElement(By.id('password')).sendKeys(pass);
-        await driver.findElement(By.id('confirmpassword')).sendKeys(repass);
-        const registrationButton = await driver.wait(until.elementLocated(By.id('registration-button')), 5000);
-        const innerDiv = await driver.wait(until.elementLocated(By.css('#registration-button > div:last-child')), 5000);
-        await innerDiv.click();
+		await driver.findElement(By.id("username")).sendKeys(username);
+		await driver.findElement(By.id("password")).sendKeys(pass);
+		await driver.findElement(By.id("confirmpassword")).sendKeys(repass);
+		const registrationButton = await driver.wait(
+			until.elementLocated(By.id("registration-button")),
+			5000
+		);
+		const innerDiv = await driver.wait(
+			until.elementLocated(
+				By.css("#registration-button > div:last-child")
+			),
+			5000
+		);
+		await innerDiv.click();
 
-        await (new Promise(resolve => setTimeout(resolve, 300)));
+		await new Promise((resolve) => setTimeout(resolve, 300));
 
-        await driver.wait(until.alertIsPresent());
-        let alert = await driver.switchTo().alert();
-        let alertText = await alert.getText();
-        if (alertText === message)
-            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', alertText +  resetColor);
-        else
-            {
-                console.log('===================👇==================');
-                console.log(redColor + order,  ' 😱 Test  failed Alert Text: expected', message, '😬😬😬 got ➡️>', alertText + resetColor);
-                console.log('-------------------👆------------------');
-            }    
-        }
-    finally {
-        await driver.quit();
-    }
-}
-
-async function testLogin(username, pass, message, order){
-
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await driver.get('http://127.0.0.1:3000/login');
-        await (new Promise(resolve => setTimeout(resolve, 300)));
-        
-        await driver.findElement(By.id('username')).sendKeys(username);
-        await driver.findElement(By.id('password')).sendKeys(pass);
-        
-        const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
-        const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
-        await innerDiv.click();
-
-        await (new Promise(resolve => setTimeout(resolve, 300)));
-        
-        await driver.wait(until.alertIsPresent());
-        let alert = await driver.switchTo().alert();
-        let alertText = await alert.getText();
-        if (alertText === message)
-            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', alertText +  resetColor);
-            else
-            {
-                console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
-                console.log(redColor + order,  ' 😱 Test  failed Alert Text: expected', message, '😬😬😬 got ➡️>', alertText + resetColor);
-                console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
-            } 
-    }
-    finally {
-        await driver.quit();
-    }
+		await driver.wait(until.alertIsPresent());
+		let alert = await driver.switchTo().alert();
+		let alertText = await alert.getText();
+		if (alertText === message)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Alert Text:",
+				alertText + resetColor
+			);
+		else {
+			console.log("===================👇==================");
+			console.log(
+				redColor + order,
+				" 😱 Test  failed Alert Text: expected",
+				message,
+				"😬😬😬 got ➡️>",
+				alertText + resetColor
+			);
+			console.log("-------------------👆------------------");
+		}
+	} finally {
+		await driver.quit();
+	}
 }
 
+async function testLogin(username, pass, message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await driver.get("http://127.0.0.1:3000/login");
+		await new Promise((resolve) => setTimeout(resolve, 300));
 
+		await driver.findElement(By.id("username")).sendKeys(username);
+		await driver.findElement(By.id("password")).sendKeys(pass);
 
+		const registrationButton = await driver.wait(
+			until.elementLocated(By.id("login")),
+			5000
+		);
+		const innerDiv = await driver.wait(
+			until.elementLocated(By.css("#login > div:last-child")),
+			5000
+		);
+		await innerDiv.click();
+
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		await driver.wait(until.alertIsPresent());
+		let alert = await driver.switchTo().alert();
+		let alertText = await alert.getText();
+		if (alertText === message)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Alert Text:",
+				alertText + resetColor
+			);
+		else {
+			console.log("👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇");
+			console.log(
+				redColor + order,
+				" 😱 Test  failed Alert Text: expected",
+				message,
+				"😬😬😬 got ➡️>",
+				alertText + resetColor
+			);
+			console.log("👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆");
+		}
+	} finally {
+		await driver.quit();
+	}
+}
 
 function generateRandomText(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomText = '';
-  
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomText += characters.charAt(randomIndex);
-    }
-  
-    return randomText;
-}
-  
-async function login(driver, username, pass) {
-    await driver.get('http://127.0.0.1:3000/login');
-    await (new Promise(resolve => setTimeout(resolve, 700)));
+	const characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	let randomText = "";
 
-    await driver.findElement(By.id('username')).sendKeys(username);
-    await driver.findElement(By.id('password')).sendKeys(pass);
-    
-    const registrationButton = await driver.wait(until.elementLocated(By.id('login')), 5000);
-    const innerDiv = await driver.wait(until.elementLocated(By.css('#login > div:last-child')), 5000);
-    await innerDiv.click();
-    
-    await driver.wait(until.alertIsPresent());
-    let alert = await driver.switchTo().alert();
-    await alert.accept();
+	for (let i = 0; i < length; i++) {
+		const randomIndex = Math.floor(Math.random() * characters.length);
+		randomText += characters.charAt(randomIndex);
+	}
+
+	return randomText;
+}
+
+async function login(driver, username, pass) {
+	await driver.get("http://127.0.0.1:3000/login");
+	await new Promise((resolve) => setTimeout(resolve, 700));
+
+	await driver.findElement(By.id("username")).sendKeys(username);
+	await driver.findElement(By.id("password")).sendKeys(pass);
+
+	const registrationButton = await driver.wait(
+		until.elementLocated(By.id("login")),
+		5000
+	);
+	const innerDiv = await driver.wait(
+		until.elementLocated(By.css("#login > div:last-child")),
+		5000
+	);
+	await innerDiv.click();
+
+	await driver.wait(until.alertIsPresent());
+	let alert = await driver.switchTo().alert();
+	await alert.accept();
 }
 
 async function dismissAlert(driver) {
-    try {
-        await driver.wait(until.alertIsPresent(), 5000);
-        const alert = await driver.switchTo().alert();
-        await alert.dismiss();
-    } catch (error) {
-        console.error('Error dismissing alert:', error);
-    }
+	try {
+		await driver.wait(until.alertIsPresent(), 5000);
+		const alert = await driver.switchTo().alert();
+		await alert.dismiss();
+	} catch (error) {
+		console.error("Error dismissing alert:", error);
+	}
 }
 
 async function clickStartButton(driver) {
-    const startButtonLocator = By.id('start_tournament');
-    try {
-        await driver.wait(until.elementLocated(startButtonLocator), 5000);
-        const startButton = await driver.findElement(startButtonLocator);
-        await startButton.click();
-    } catch (error) {
-        console.error('Error finding or clicking the start button:', error);
-    }
+	const startButtonLocator = By.id("start_tournament");
+	try {
+		await driver.wait(until.elementLocated(startButtonLocator), 5000);
+		const startButton = await driver.findElement(startButtonLocator);
+		await startButton.click();
+	} catch (error) {
+		console.error("Error finding or clicking the start button:", error);
+	}
 }
 
-async function testTournament(players,username, pass, message, order) {
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await login(driver, username, pass);
-        await (new Promise(resolve => setTimeout(resolve, 3000)));
-        await dismissAlert(driver);
-        // await clickStartButton(driver);
-        
-        // await driver.get('http://127.0.0.1:3000/register_players');
-        // await (new Promise(resolve => setTimeout(resolve, 700)));
+async function testTournament(players, username, pass, message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await login(driver, username, pass);
+		await new Promise((resolve) => setTimeout(resolve, 3000));
+		await dismissAlert(driver);
+		// await clickStartButton(driver);
 
-        // for (let i = 0; i < players.length; i++){
-        //     await driver.findElement(By.id('player-name')).sendKeys(players[i]);
-        //     innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
-        //     await innerDiv.click();
-        // }
+		// await driver.get('http://127.0.0.1:3000/register_players');
+		// await (new Promise(resolve => setTimeout(resolve, 700)));
 
-        // const launch = await driver.wait(until.elementLocated(By.id('launch-tournamet')), 5000);
-        // await launch.click();
+		// for (let i = 0; i < players.length; i++){
+		//     await driver.findElement(By.id('player-name')).sendKeys(players[i]);
+		//     innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
+		//     await innerDiv.click();
+		// }
 
+		// const launch = await driver.wait(until.elementLocated(By.id('launch-tournamet')), 5000);
+		// await launch.click();
 
+		// await driver.wait(until.alertIsPresent());
 
-        // await driver.wait(until.alertIsPresent());
+		// let tournament_alert = await driver.switchTo().alert();
+		// let tournament_alertText = await tournament_alert.getText();
 
-
-        // let tournament_alert = await driver.switchTo().alert();
-        // let tournament_alertText = await tournament_alert.getText();
-
-        // if (tournament_alertText === message)
-        //     console.log(greenColor + order, ' 😁 Test passed  Alert Text:', tournament_alertText + resetColor);
-        // else {
-        //     console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
-        //     console.log(redColor + order, ' 😱 Test failed Alert Text: expected', message, '😬😬😬 got ➡️>', tournament_alertText + resetColor);
-        //     console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
-        // }
-    } finally {
-        // await driver.quit();
-    }
+		// if (tournament_alertText === message)
+		//     console.log(greenColor + order, ' 😁 Test passed  Alert Text:', tournament_alertText + resetColor);
+		// else {
+		//     console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
+		//     console.log(redColor + order, ' 😱 Test failed Alert Text: expected', message, '😬😬😬 got ➡️>', tournament_alertText + resetColor);
+		//     console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
+		// }
+	} finally {
+		// await driver.quit();
+	}
 }
 
+async function testInputTournament(players, username, pass, message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await login(driver, username, pass);
+		await dismissAlert(driver);
+		await clickStartButton(driver);
 
-async function testInputTournament(players,username, pass, message, order) {
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await login(driver, username, pass);
-        await dismissAlert(driver);
-        await clickStartButton(driver);
-        
-        
-        let addPlayer;
-        let tournament_alert;
-        let tournament_alertText;
-        for (let i = 0; i < players.length; i++){
-            await driver.findElement(By.id('player-name')).sendKeys(players[i]);
-            innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
-            await innerDiv.click();
-            if (i == 1){
-                await driver.wait(until.alertIsPresent());
-                tournament_alert = await driver.switchTo().alert();
-                tournament_alertText = await tournament_alert.getText();              
-            }
-        }
-        if (players.length == 1){
+		let addPlayer;
+		let tournament_alert;
+		let tournament_alertText;
+		for (let i = 0; i < players.length; i++) {
+			await driver.findElement(By.id("player-name")).sendKeys(players[i]);
+			innerDiv = await driver.wait(
+				until.elementLocated(By.id("add-player")),
+				5000
+			);
+			await innerDiv.click();
+			if (i == 1) {
+				await driver.wait(until.alertIsPresent());
+				tournament_alert = await driver.switchTo().alert();
+				tournament_alertText = await tournament_alert.getText();
+			}
+		}
+		if (players.length == 1) {
+			await driver.wait(until.alertIsPresent());
+			tournament_alert = await driver.switchTo().alert();
+			tournament_alertText = await tournament_alert.getText();
+		}
 
-            await driver.wait(until.alertIsPresent());
-            tournament_alert = await driver.switchTo().alert();
-             tournament_alertText = await tournament_alert.getText();
-        }
-
-        if (tournament_alertText === message)
-            console.log(greenColor + order, ' 😁 Test passed  Alert Text:', tournament_alertText + resetColor);
-        else {
-            console.log('👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇');
-            console.log(redColor + order, ' 😱 Test failed Alert Text: expected', message, '😬😬😬 got ➡️>', tournament_alertText + resetColor);
-            console.log('👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆');
-        }
-    } finally {
-        await driver.quit();
-    }
+		if (tournament_alertText === message)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Alert Text:",
+				tournament_alertText + resetColor
+			);
+		else {
+			console.log("👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇");
+			console.log(
+				redColor + order,
+				" 😱 Test failed Alert Text: expected",
+				message,
+				"😬😬😬 got ➡️>",
+				tournament_alertText + resetColor
+			);
+			console.log("👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆");
+		}
+	} finally {
+		await driver.quit();
+	}
 }
-async function tournamentInputTestCases(user){
-    // testTournament([""], user, "3Aa322122233","Cannot launch tournament without players", 18);
-    // testTournament(["ahmed"], user, "3Aa322122233","You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
-    let arr = ["6", "6"];
-    testInputTournament(arr, user, "3Aa322122233","Player already added", 27);
-    await (new Promise(resolve => setTimeout(resolve, 3000)));
-    arr = ["     "];
-    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
-    arr = ["     \n"];
-    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
-    arr = ["     \t"];
-    testInputTournament(arr, user, "3Aa322122233","Please enter a valid player name.", 27);
-    await (new Promise(resolve => setTimeout(resolve, 3000)));
+async function tournamentInputTestCases(user) {
+	// testTournament([""], user, process.env.TEST_PASSWORD,"Cannot launch tournament without players", 18);
+	// testTournament(["ahmed"], user, process.env.TEST_PASSWORD,"You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.", 19);
+	let arr = ["6", "6"];
+	testInputTournament(
+		arr,
+		user,
+		process.env.TEST_PASSWORD,
+		"Player already added",
+		27
+	);
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+	arr = ["     "];
+	testInputTournament(
+		arr,
+		user,
+		process.env.TEST_PASSWORD,
+		"Please enter a valid player name.",
+		27
+	);
+	arr = ["     \n"];
+	testInputTournament(
+		arr,
+		user,
+		process.env.TEST_PASSWORD,
+		"Please enter a valid player name.",
+		27
+	);
+	arr = ["     \t"];
+	testInputTournament(
+		arr,
+		user,
+		process.env.TEST_PASSWORD,
+		"Please enter a valid player name.",
+		27
+	);
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+}
+
+async function testHomePageAccess(username, pass, message, order) {
+	let driver = await new Builder().forBrowser("chrome").build();
+	try {
+		await driver.get("http://127.0.0.1:3000/login");
+		url = await driver.getCurrentUrl();
+		if (
+			url === "http://localhost:3000/login" ||
+			url === "http://127.0.0.1:3000/login"
+		)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Accessing login page",
+				url + resetColor
+			);
+		else
+			console.log(
+				redColor + order,
+				" 😱 Test failed Accessing login page",
+				url + resetColor
+			);
+		await login(driver, username, pass);
+		// let cookies = await driver.manage().getCookies();
+		// console.log(cookies);
+		// let authCookie = await allCookies.find(cookie => cookie.name === 'Authorization');
+		// console.log(authCookie);
+		// let cookie = new Cookie('Authorization', cookies.value);
+		// console.log(cookie);
+		let allCookies = await driver.manage().getCookies();
+		let cookies = allCookies
+			.map((cookie) => `${cookie.name}=${cookie.value}`)
+			.join("; ");
+
+		// Make an HTTP request with the cookies
+		url = 'http://127.0.0.1:3000/home'
+		console.log(url);
+		let response = await axios.get(url, {
+			headers: {
+				Cookie: cookies,
+			},
+		});
+		await driver.get("http://127.0.0.1:3000/login");
+		if (
+			url === "http://localhost:3000/home" ||
+			url === "http://127.0.0.1:3000/home"
+		)
+			console.log(
+				greenColor + order,
+				" 😁 Test passed  Accessing home page",
+				url + resetColor
+			);
+		else
+			console.log(
+				redColor + order,
+				" 😱 Test failed Accessing home page",
+				url + resetColor
+			);
+	} finally {
+		await driver.quit();
+	}
 }
 
 /*
