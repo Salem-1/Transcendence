@@ -4,9 +4,13 @@ import Ball from "./Ball.js";
 const p1 = new Paddle(document.getElementById('p1'));
 const p2 = new Paddle(document.getElementById('p2'));
 const ball = new Ball(document.getElementById('ball'));
+let pause = false;
 
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
+		case 'p':
+			pause = !pause;
+			break;
         case 'w':
             p1.moveUp();
             break;
@@ -40,11 +44,12 @@ document.addEventListener('keyup', (event) => {
 let lastTimestamp = 0;
 function gameLoop(timestamp) {
     const deltaTime = (timestamp - lastTimestamp) / 1000;
-
-    p1.update(deltaTime);
-    p2.update(deltaTime);
-    ball.update(deltaTime, p1, p2);
-
+	if (!pause)
+	{
+		p1.update(deltaTime);
+		p2.update(deltaTime);
+		ball.update(deltaTime, p1, p2);
+	}
     lastTimestamp = timestamp;
     window.requestAnimationFrame(gameLoop);
 }
