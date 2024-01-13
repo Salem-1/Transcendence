@@ -7,9 +7,18 @@ const ball = new Ball(document.getElementById('ball'));
 let pause = false;
 
 document.addEventListener('keydown', (event) => {
-    switch (event.key) {
+	const key = event.key.length == 1 ?
+		event.key.toLowerCase() : event.key
+    switch (key) {
 		case 'p':
 			pause = !pause;
+			const pauseElement = document.getElementById('pause');
+			if (pause)
+			{
+				pauseElement.style.setProperty('visibility', 'visible');
+			} else {
+				pauseElement.style.setProperty('visibility', 'hidden');
+			}
 			break;
         case 'w':
             p1.moveUp();
@@ -29,7 +38,9 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('keyup', (event) => {
-    switch (event.key) {
+	const key = event.key.length == 1 ?
+		event.key.toLowerCase() : event.key
+    switch (key) {
         case 'w':
         case 's':
             p1.stop();

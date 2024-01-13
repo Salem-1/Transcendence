@@ -18,6 +18,7 @@
 body {
     background-color: var(--background);
     overflow: hidden;
+	color: white;
 }
 
 .p {
@@ -45,4 +46,12 @@ body {
     top: 50vh;
     left: 50vw;
     border-radius: 50%;
+}
+
+.pause {
+	position: absolute;
+	top: 50vh;
+    left: 50vw;
+	color: red;
+	visibility: hidden;
 }
