@@ -28,6 +28,32 @@ async function greetUser() {
 	}
 }
 
+async function disable2FA() {
+	try {
+		const enable2fa = "false";
+		const response = await fetch("http://localhost:8000/set_2fa/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ enable2fa }),
+			credentials: "include",
+		});
+
+		const result = await response.json();
+
+		if (response.ok) {
+			alert(`2FA disabled`);
+		} else {
+			alert(`Failed to disable 2fa`);
+		}
+	} catch (error) {
+		console.log("Failed to disable 2fa:", error);
+		alert(`Failed to disable 2fa: ${error}`);
+	}
+}
+
+
 async function enable2FA() {
 	try {
 		const enable2fa = "true";
@@ -52,30 +78,5 @@ async function enable2FA() {
 	} catch (error) {
 		console.log("Failed to enable 2fa:", error);
 		alert(`Failed to enable 2fa: ${error}`);
-	}
-}
-
-async function disable2FA() {
-	try {
-		const enable2fa = "false";
-		const response = await fetch("http://localhost:8000/set_2fa/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ enable2fa }),
-			credentials: "include",
-		});
-
-		const result = await response.json();
-
-		if (response.ok) {
-			alert(`2FA disabled`);
-		} else {
-			alert(`Failed to disable 2fa`);
-		}
-	} catch (error) {
-		console.log("Failed to disable 2fa:", error);
-		alert(`Failed to disable 2fa: ${error}`);
 	}
 }

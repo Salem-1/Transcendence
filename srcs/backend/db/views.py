@@ -12,6 +12,8 @@ import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
 from .models import User_2fa
+from .send_otp import send_test_email
+from django.core.mail import EmailMessage
 
 @csrf_exempt
 def register_user(request):
@@ -170,3 +172,26 @@ def redirect_uri(request):
 				.format(client_id)
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)
+
+@csrf_exempt
+def send_email(request):
+    if request.method == "GET":
+        try:
+            send_test_email("pong@null.net", "Asta")
+            return JsonResponse({'message': "susseccful email sent to pong@null.net"})
+        except Exception as e:
+            return JsonResponse({'error': f"error: {e}"}, status=400)
+    return JsonResponse({'error': "Method not allowed"}, status=405)
+
+@csrf_exempt
+def jest_test(request):
+    if request.method == "GET":
+        return JsonResponse({"data": "some data"})
+    return JsonResponse({"error": "Method not allowed"})
+
+def submit_2fa_email(request):
+    #takes email
+    #set secret
+    #send otp to the email
+    #send ok or error response accordingly
+    pass
