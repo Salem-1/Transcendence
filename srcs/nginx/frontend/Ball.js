@@ -57,10 +57,14 @@ export default class Ball {
         }
         if (this.position.x + dx < 0) {
             p2.score++;
+			const score2 = document.getElementById('score2');
+			score2.innerHTML = p2.score;
             this.reset();
         }
         if (this.position.x + BALL_WIDTH + dx > 100) {
             p1.score++;
+			const score1 = document.getElementById('score1');
+			score1.innerHTML = p1.score;
             this.reset();
         }
 

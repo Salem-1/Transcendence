@@ -17,7 +17,7 @@
 
 body {
     background-color: var(--background);
-    overflow: hidden;
+	overflow: hidden;
 	color: white;
 }
 
@@ -49,9 +49,21 @@ body {
 }
 
 .pause {
-	position: absolute;
-	top: 50vh;
-    left: 50vw;
-	color: red;
+	color: var(--ball-color);
 	visibility: hidden;
+}
+
+.score {
+	color: var(--ball-color);
+	text-align: center;
+	font-size: 3vw;
+	font-weight: bold;
+}
+
+.text {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
