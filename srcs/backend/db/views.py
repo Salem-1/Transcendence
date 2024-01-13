@@ -93,7 +93,7 @@ def fetch_username(request):
         return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 
 @csrf_exempt
-def loginVerf(request):
+def login_verf(request):
     try:
         decoded_payload = validate_jwt(request)
         if decoded_payload['type'] != 'Bearer':
@@ -101,6 +101,19 @@ def loginVerf(request):
         return JsonResponse({"message": "valid token"})
     except Exception as e:
         return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+
+@csrf_exempt
+def not_logged_in(request):
+    try:
+        decoded_payload = validate_jwt(request)
+        if decoded_payload['type'] != 'Bearer':
+            raise jwt.exceptions.InvalidTokenError()
+        return JsonResponse({"error": "valid token"}, status=401)
+    except Exception as e:
+        return JsonResponse({"message": "Not Logged In"})
+
+
+    
 
 @csrf_exempt
 def double_factor_auth(request):
@@ -149,7 +162,11 @@ def set_double_factor_auth(request):
 @csrf_exempt
 def redirect_uri(request):
 	if request.method == "POST":
-		intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
-			.format(os.environ.get('INTRA_CLIENT_ID'))
+		client_id = os.environ.get("INTRA_CLIENT_ID", "")
+		if (len(client_id) == 0):
+			intra_link = "#"
+		else:
+			intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+				.format(client_id)
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)

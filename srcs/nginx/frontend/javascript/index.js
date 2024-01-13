@@ -9,19 +9,14 @@ async function oauthRedirect() {
 		});
 		const result = await response.json();
 		if (response.ok) {
-			const item = document.getElementById("oauth");
-			item.href = result.oauth_link;
+			window.location.href = result.oauth_link;
 		} else {
-			console.error(`Failed to get oauth link: ${result.error}`);
+			console.log(`Failed to get oauth link: ${result.error}`);
 		}
 	} catch (error) {
-		console.error("Error during oauth redirect:", error);
+		console.log("Error during oauth redirect:", error);
 	}
 }
-
-window.onload = (event) => {
-	oauthRedirect();
-};
 
 async function register() {
 	const username = document.getElementById("username").value;
