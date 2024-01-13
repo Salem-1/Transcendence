@@ -69,7 +69,7 @@ body {
 }
 
 
-#tournament {
+#start_tournament {
 	margin-top: 105px;
 }
 
@@ -105,7 +105,7 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
-#start-tournament {
+#launch-tournamet {
 	margin-top: 70px;
 	margin-left: -3px;
 }

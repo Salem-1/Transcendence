@@ -15,7 +15,7 @@ window.onclick = function(e)
 }
 
 var modal = document.getElementById("myModal");
-var btn = document.getElementById("tournament");
+var btn = document.getElementById("start_tournament");
 var span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function() {
