@@ -46,8 +46,22 @@ export default class Ball {
     }
 
     update(dt, p1, p2) {
-        if (this.isColliding(p1) || this.isColliding(p2)) {
-            this.direction.x *= -1;
+        if (this.isColliding(p1)) {
+			this.direction.x *= -1;
+            if (this.position.y > p1.position.y + (0.5 * PADDLE_HEIGHT))
+			{
+				this.direction.y = 1;
+			} else {
+				this.direction.y = -1;
+			}
+        } else if (this.isColliding(p2)) {
+			this.direction.x *= -1;
+            if (this.position.y > p2.position.y + (0.5 * PADDLE_HEIGHT))
+			{
+				this.direction.y = 1;
+			} else {
+				this.direction.y = -1;
+			}
         }
         const dx = this.direction.x * BALL_SPEED * dt;
         const dy = this.direction.y * BALL_SPEED * dt;
