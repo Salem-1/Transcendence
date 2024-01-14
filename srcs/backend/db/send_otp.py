@@ -3,27 +3,36 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import os
 
-def send_test_email(reciever, name):
+def send_otp_email(reciever, otp):
     message = Mail(
         from_email='pong@null.net',
         to_emails=reciever,
-        subject='Transcnedence otp test email',
-        html_content=f"<strong>Asslamo Alikom ya {name}, This is message is sent by our django server</strong>")
+        subject='Pong otp ',
+        html_content=f"<h4>your one time password is  {otp}</h4> ")
     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
     response = sg.send(message)
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
+    return (response)
 
+def not_valid_email(request_body):
+    forbidden_chars = {"'", "\"", "\\", "#", "$", "%", 
+                        "^", "&", "*", "(", ")", "!"}
+    if (not request_body) or ("email" not  in request_body):
+        return True
+    email = request_body["email"]
+    if (not email) or (len(email) < 5) or (len(email) > 80) \
+            or email.find("@") < 1 or email.find(".") < 3 \
+            or (any(char in forbidden_chars for char in email)):
+        return True
+    return False
 
-def send_smtp_email():
-    send_mail(
-    'Subject',
-    'Message Body',
-    'pong@null.net',
-    ['pong@null.net'],
-    fail_silently=False,
-    )
+# def send_smtp_email():
+#     send_mail(
+#     'Subject',
+#     'Message Body',
+#     'pong@null.net',
+#     ['pong@null.net'],
+#     fail_silently=False,
+#     )
     
     # email = EmailMessage(
     #    'Hello',

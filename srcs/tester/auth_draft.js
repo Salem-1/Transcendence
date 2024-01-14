@@ -28,7 +28,7 @@ function  notValidEmail(email){
 
 function containsForbiddenchar(email){
             
-    forbidden_chars = ["'", "\"", "\\", "#", "$", "%", 
+    let forbidden_chars = ["'", "\"", "\\", "#", "$", "%", 
                         "^", "&", "*", "(", ")", "!"];
 
     return ([...email].some(char => forbidden_chars.includes(char)));

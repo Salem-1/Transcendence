@@ -5,14 +5,14 @@ from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, fetch_otp_secret, verify_OTP
+from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, generate_otp_secret, verify_OTP,  generate_otp
 import json
 import jwt
 import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
 from .models import User_2fa
-from .send_otp import send_test_email
+from .send_otp import send_otp_email, not_valid_email
 from django.core.mail import EmailMessage
 
 @csrf_exempt
@@ -127,7 +127,7 @@ def double_factor_auth(request):
             username = decoded_payload.get('username')
             request_body = json.loads(request.body)
             otp = request_body.get("otp")
-            secret = fetch_otp_secret(username)
+            secret = generate_otp_secret(username)
             if verify_OTP(secret, otp):
                 return tokenize_login_response(username)
             else:
@@ -147,7 +147,7 @@ def set_double_factor_auth(request):
             request_body = json.loads(request.body)
             if request_body['enable2fa'] == "true":
                 user_2fa.enabled_2fa = True
-                user_2fa.two_factor_secret = fetch_otp_secret(user.username)
+                user_2fa.two_factor_secret = generate_otp_secret(user.username)
                 user_2fa.save()
                 return JsonResponse({"secret": user_2fa.two_factor_secret, "id": user_id})
             elif request_body['enable2fa'] == "false":
@@ -173,25 +173,47 @@ def redirect_uri(request):
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)
 
+
 @csrf_exempt
-def send_email(request):
-    if request.method == "GET":
+def submit_2fa_email(request):
+    if request.method == "POST":
         try:
-            send_test_email("pong@null.net", "Asta")
-            return JsonResponse({'message': "susseccful email sent to pong@null.net"})
+            decoded_payload = validate_jwt(request)
+            user_id = decoded_payload.get('id')
+            user = User.objects.get(id=user_id)
+            user_2fa = User_2fa.objects.get(user=user)
+            request_body = json.loads(request.body)
+            if user_2fa.enabled_2fa:
+                return JsonResponse({'error': "Double factor authentication already enabled"}, status=408)
+            if not_valid_email(request_body):
+                return JsonResponse({'error': "bad request body"}, status=400)
+            user_2fa.two_factor_secret = generate_otp_secret(user.username)
+            user_2fa.save()
+            response  = send_otp_email(request_body["email"], generate_otp(user_2fa.two_factor_secret))
+            if (response.status_code != 202):
+                return JsonResponse({'error': "Email sending failed"}, status=response.status_code)
+            user.email = request_body["email"]
+            user_2fa.save()
+            print(user.email)
+            return JsonResponse({'message': "One time password sent to your email"}, status=response.status_code)
         except Exception as e:
-            return JsonResponse({'error': f"error: {e}"}, status=400)
+            return JsonResponse({'error': "Unauthorized acces"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
 @csrf_exempt
-def jest_test(request):
-    if request.method == "GET":
-        return JsonResponse({"data": "some data"})
-    return JsonResponse({"error": "Method not allowed"})
+def enable_2fa_email(request):
+    if request.method != "POST":
+        return JsonResponse({'error': "Method not allowed"}, status=405)
+    request_body = json.loads(request.body)
+    if not request.body or "otp" not in request.body \
+        or "email" not in request.body or len(request.body) != 2:
+        return JsonResponse({'error': "bad request body"}, status=400)
 
-def submit_2fa_email(request):
-    #takes email
-    #set secret
-    #send otp to the email
-    #send ok or error response accordingly
-    pass
+    return JsonResponse({"message": "here iam"})
+
+@csrf_exempt
+def test_send_otp(request):
+    if request.method == "GET":
+        send_otp_email("pong@null.net", "<test for sending emails 0000>")
+        return JsonResponse({"message": "Test email sent"})
+    return JsonResponse({'error': "Method not allowed"}, status=405)

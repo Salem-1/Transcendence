@@ -129,4 +129,5 @@ def validate_jwt(request):
         if (decode_token['exp'] > current_unix_timestamp):
             return decode_token
         print("expired token")
-    raise jwt.exceptions.InvalidTokenError()
+    else:
+        raise jwt.exceptions.InvalidTokenError()

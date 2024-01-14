@@ -13,7 +13,11 @@ def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
     return totp.verify(given_otp)
 
-def fetch_otp_secret(username):
+def generate_otp(secret):
+    totp = pyotp.TOTP(secret)
+    return totp.now()
+
+def generate_otp_secret(username):
     return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
 
 def is_2fa_enabled(user):
@@ -35,6 +39,7 @@ def authenticate_otp_redirect(username):
                 content_type="application/json"
                 )
 
+
 # import pyotp
 
 # hotp = pyotp.HOTP('base32secret3232')
@@ -46,3 +51,34 @@ def authenticate_otp_redirect(username):
 # hotp.verify('316439', 1401) # => True
 # hotp.verify('316439', 1402) # => False
 #enabled_2fa | two_factor_secret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

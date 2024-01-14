@@ -7,10 +7,32 @@ import random
 import string
 import datetime
 import warnings
-
-# Suppress all warnings
+import random
+import string
+import pyotp
+import base64
 warnings.filterwarnings("ignore")
 
+
+
+base_url = 'http://localhost:8000' 
+
+def gen_username():
+    return  ''.join(random.choice(string.ascii_letters) for _ in range(8))
+
+def register_user(name, password):
+    request_data = {'username': name, 'password': password}
+    response = requests.post(f'{base_url}/register/', json=request_data)
+    return response
+
+def login_user(name, password):
+    request_data = {'username': name, 'password': password}
+    response = requests.post(f'{base_url}/login/', json=request_data)
+    return response
+
+def registe_and_login_user(name, password):
+    register_user(name, password)
+    return login_user(name, password)
 class YourAppViewsTest(unittest.TestCase):
     base_url = 'http://localhost:8000'  # Update with your actual base URL
 
@@ -33,18 +55,9 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], 'Username already taken')
 
-     
-    def test_enable2FA(self):
-        login_data = {'username': self.otp_user["username"], 'password': self.otp_user["password"]}
-        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        # self.assertEqual(login_response.status_code, 200)
-        jwt_token = login_response.json().get('jwt_token')
-        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        #enable 2fa request
-        request_data = {"enable2fa": "true"}
-        response = requests.post(f'{self.base_url}/set_2fa/', json=request_data, headers=headers)
-        # self.assertEqual(response.status_code, 200)
-
+    def test_send_otp(self):
+        response = requests.get(f'{self.base_url}/test_send_otp/')
+        self.assertEqual(response.status_code, 200);
     
     def test_expired_jwt(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
@@ -58,6 +71,19 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], "Invalid Authorization token")
+
+
+
+    def test_enable2FA(self):
+        login_data = {'username': self.otp_user["username"], 'password': self.otp_user["password"]}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        # self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        #enable 2fa request
+        request_data = {"enable2fa": "true"}
+        response = requests.post(f'{self.base_url}/set_2fa/', json=request_data, headers=headers)
+        # self.assertEqual(response.status_code, 200)
 
     def test_otp_token_privilage(self):
         login_data = {'username': self.otp_user['username'], 'password': self.otp_user['password']}
@@ -229,6 +255,81 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 400)
         self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
 
+
+    def test_validate_2fa_email(self):
+        user = gen_username()
+        login_response = registe_and_login_user(user, self.test_user["password"])
+        self.assertEqual(login_response.status_code, 200)
+
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        request_data = {"enable2fa": "true"}
+        get_response = requests.get(f'{self.base_url}/submit_2fa_email/', json=request_data, headers=headers)
+        self.assertEqual(get_response.status_code, 405)
+
+        post_response = requests.post(f'{self.base_url}/submit_2fa_email/', json=request_data, headers=headers)
+        self.assertEqual(post_response.status_code, 400)
+        #invalid jwt token
+        self.assertEqual(register_email_in_2fa("email@example.com", self.base_url, headers="").status_code, 401)
+        #invalid jwt emial
+        self.assertEqual(register_email_in_2fa("email@example.com", self.base_url, headers).status_code, 202)
+        self.assertEqual(register_email_in_2fa("", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@.", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("@b.x", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x'--", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x#", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x$", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x$%", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x&", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x*", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x(", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b.x)", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("a@b!.x)", self.base_url, headers).status_code, 400)
+        self.assertEqual(register_email_in_2fa("ajdfblkfjesnflkjgnfdslkjnlkjsdfnblkjbadsflkjbflksadjbflkjdsblkjhfblkahjsdbkjhfbaskjhfbkjahsbfkjhasbdkjfhbaskjhdfbjkahsbfkjhasba@b.x)", self.base_url, headers).status_code, 400)
+        #valid email
+        self.assertEqual(register_email_in_2fa("pong@null.net", self.base_url, headers).status_code, 202)
+        self.assertEqual(register_email_in_2fa("thereisnowaysomeonehasthisemail@null.netdsfkjgbsdlf", self.base_url, headers).status_code, 202)
+    
+    def test_submit_2fa_email(self):
+        user = gen_username()
+        login_response = registe_and_login_user(user, self.test_user["password"])
+        self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        request_data = {"enable2fa": "true"}
+        self.assertEqual(register_email_in_2fa("email@example.com", self.base_url, headers).status_code, 202)
+        response = register_email_in_2fa("email@example.com", self.base_url, headers)
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()["message"], "One time password sent to your email")
+        
+        # data = {"otp": "23423", "email": "pong@null.net"}
+        # response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
+        # self.assertEqual(response.status_code, 401);
+        
+        # data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong@null.net"}
+        # response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
+        # self.assertEqual(response.status_code, 202);
+
+    def test_enable_enabled_already_2fa(self):
+        pass
+
+
+
+
+def generate_otp(secret):
+    totp = pyotp.TOTP(secret)
+    return totp.now()
+
+def generate_otp_secret(username):
+    return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
+
+
+def register_email_in_2fa(email, base_url, headers):
+    request_email = {"email": email}
+    return requests.post(f'{base_url}/submit_2fa_email/', json=request_email, headers=headers)
 
 def randomize_string(length):
     if length < 3:
