@@ -1,11 +1,10 @@
 function homePageBody(){
 	return (`
 
-		<h1>You are logged in ya basha</h1>
-		<h1 id="greet">hsdfsdfged User</h1>
-		<button type="button" onclick="enable2FA()">Enable 2FA</button>
-		<button type="button" onclick="disable2FA()">Disable2 FA</button>
-		<div class="hero">
+		<!-- <h1>You are logged in ya basha</h1> -->
+		<!-- <h1 id="greet">hsdfsdfged User</h1> -->
+		<!-- <button type="button" onclick="enable2FA()">Enable 2FA</button> -->
+		<!-- <button type="button" onclick="disable2FA()">Disable2 FA</button> -->
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
@@ -23,22 +22,18 @@ function homePageBody(){
 			</div>
 			<div class="btns">
 				<div class="buttons">
-					<a href="#">
-						<div id="single-player">
-							<div class="button-div-one" style="	background: #F01E1E;"></div>
-							<div id="red" class="button-div-two" style="background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
-							<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
-						</div>
-					</a>
+					<div id="single-player" onclick="callRoute('/game')">
+						<div class="button-div-one" style="	background: #F01E1E;"></div>
+						<div id="red" class="button-div-two" style="background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
+						<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
+					</div>
 				</div>
 				<div class="buttons">
-					<a href="#">
-						<div id="start_tournament">
-							<div class="button-div-one" style="background: #82764D;"></div>
-							<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
-							<div class="button-div-three"><h1 class="button-text">TOURNAMENT</h1></div>
-						</div>
-					</a>
+					<div id="start_tournament">
+						<div class="button-div-one" style="background: #82764D;"></div>
+						<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+						<div class="button-div-three"><h1 class="button-text">TOURNAMENT</h1></div>
+					</div>
 				</div>
 				<div id="myModal" class="modal">
 					<div class="modal-content">
@@ -86,8 +81,7 @@ function homePageBody(){
 					didn't expect that, did you?”</h1>
 				</div>
 			</div>
-		</div>
-		<button type="button" onclick="callRoute('/game')">Play game</button>
+		<!-- <button type="button" onclick="callRoute('/game')">Play game</button> -->
 
 
 		`)
