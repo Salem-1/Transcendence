@@ -11,6 +11,7 @@ document.addEventListener('keydown', (event) => {
 		event.key.toLowerCase() : event.key
     switch (key) {
 		case 'p':
+		case ' ':
 			pause = !pause;
 			const pauseElement = document.getElementById('pause');
 			if (pause)
