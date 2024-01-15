@@ -12,7 +12,6 @@ def send_otp_email(reciever, otp):
     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
     response = sg.send(message)
     return (response)
-
 try:
     send_otp_email("pong@null.net", "<this is test otp>")
 except Exception as e:

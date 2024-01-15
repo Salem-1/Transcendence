@@ -16,8 +16,24 @@ async function enable2FA(email){
 }
 
 
+async function submit2FaEmail(email) {
+        const response = await fetch('http://localhost:8000/submit_2fa_email/',{
+            method: "POST", 
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            body: JSON.stringify({email}),
+        }
+        );
+        const result = await response.json();
+        if (response.ok)
+            return (true);
+        else
+            throw new Error("Couldn't submit email for double factor authentication");
+  }
 
-  
+
+
 function  notValidEmail(email){
     if (!email || email.length < 5 || email.length > 80  
             || email.indexOf("@") < 1 || email.indexOf(".") < 1 
@@ -33,29 +49,6 @@ function containsForbiddenchar(email){
 
     return ([...email].some(char => forbidden_chars.includes(char)));
 }
-
-
-
-async function submit2FaEmail(email) {
-    try{
-        const response = await fetch('http://localhost:8000/submit_2fa_email/',{
-            method: "POST", 
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            body: JSON.stringify({email}),
-        }
-        );
-        const result = await response.json();
-        if (response.ok)
-            return (true);
-    }
-    catch (e){
-        return (false);
-    }
-    return false;
-  }
-
 
 
 module.exports = {

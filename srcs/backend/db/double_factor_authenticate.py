@@ -21,8 +21,9 @@ def generate_otp_secret(username):
     return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
 
 def is_2fa_enabled(user):
-    if not User_2fa.objects.filter(user=user).exists():
-          User_2fa.objects.create(user=user, enabled_2fa=False)
+    if not User_2fa.objects.filter(user=user).exists():  
+        print("2fa is not enabled")
+        User_2fa.objects.create(user=user, enabled_2fa=False)
     return User_2fa.objects.get(user=user).enabled_2fa
 
 def authenticate_otp_redirect(username):

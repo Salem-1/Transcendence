@@ -3,15 +3,28 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import os
 
+
+class Response:
+    def __init__(self, status_code):
+        self.status_code = status_code
+
+def dummy_send_otp_email_till_fix_smtp_issue(reciever, otp):
+    file_path = 'backend_tests/sent_dummy_emails.txt'
+    with open(file_path, 'a') as file:
+        file.write(f"{reciever} ----> {otp}\n")
+    response = Response(202)
+    return response
+
 def send_otp_email(reciever, otp):
-    message = Mail(
-        from_email='pong@null.net',
-        to_emails=reciever,
-        subject='Pong otp ',
-        html_content=f"<h4>your one time password is  {otp}</h4> ")
-    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-    response = sg.send(message)
-    return (response)
+    return (dummy_send_otp_email_till_fix_smtp_issue(reciever, otp))
+    # message = Mail(
+    #     from_email='pong@null.net',
+    #     to_emails=reciever,
+    #     subject='Pong otp ',
+    #     html_content=f"<h4>your one time password is  {otp}</h4> ")
+    # sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+    # response = sg.send(message)
+    # return (response)
 
 def not_valid_email(request_body):
     forbidden_chars = {"'", "\"", "\\", "#", "$", "%", 
@@ -25,22 +38,22 @@ def not_valid_email(request_body):
         return True
     return False
 
-# def send_smtp_email():
-#     send_mail(
-#     'Subject',
-#     'Message Body',
-#     'pong@null.net',
-#     ['pong@null.net'],
-#     fail_silently=False,
-#     )
+def send_smtp_email():
+    send_mail(
+    'Subject',
+    'Message Body',
+    'rechat.noreply@gmail.com',
+    ['pong@null.net'],
+    fail_silently=False,
+    )
     
-    # email = EmailMessage(
-    #    'Hello',
-    #    'Hello from the other side',
-    #    'pong@null.net',
-    #    ['pong@null.net'],
-    # )
-    # email.send()
+    email = EmailMessage(
+       'Hello',
+       'Hello from the other side',
+       'rechat.noreply@gmail.com',
+       ['pong@null.net'],
+    )
+    email.send()
 
 """
     Bism Ellah
