@@ -19,7 +19,7 @@ try {
 }
 catch (e){
     alert(`${e}`);
-	callRoute("/register_players");
+	callRoute("/home");
     // window.location.href = "http://localhost:3000/landing.html";
 
 }
