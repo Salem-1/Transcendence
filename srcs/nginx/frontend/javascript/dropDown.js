@@ -15,8 +15,8 @@ window.onclick = function(e)
 }
 
 var modal = document.getElementById("myModal");
-var btn = document.getElementById("start_tournament");
-var span = document.getElementsByClassName("close")[0];
+var btn = document.getElementById("start_tournament") || ['#'];
+var span = document.getElementsByClassName("close")[0] || ['#'];
 
 btn.onclick = function() {
 	modal.style.display = "block";
