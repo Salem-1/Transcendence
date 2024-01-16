@@ -23,8 +23,8 @@ function homePageBody(){
 			<div class="btns">
 				<div class="buttons">
 					<div id="single-player" onclick="callRoute('/game')">
-						<div class="button-div-one" style="	background: #F01E1E;"></div>
-						<div id="red" class="button-div-two" style="background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
+						<div class="button-div-one" style="	background: #c7a940"></div>
+						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
 					</div>
 				</div>
