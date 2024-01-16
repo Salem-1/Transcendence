@@ -23,15 +23,15 @@ function loginBody(){
 			/>
 			<input type="submit" hidden />
 			<div id="login" onclick="login()">
-				<div class="button-div-one" style="background: #f01e1e"></div>
+				<div class="button-div-one" style="background: #c7a940"></div>
 				<div
-					id="red"
+					id="yellow"
 					class="button-div-two"
 					style="
 						background: linear-gradient(
 							180deg,
-							#ff2c17 0%,
-							#ff5353 100%
+							#eda800 0%,
+							#ffbb0b 100%
 						);
 					"
 				></div>

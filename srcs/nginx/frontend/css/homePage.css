@@ -188,15 +188,23 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
-#red.add-button-div-two:hover {
-	background: #F01E1E !important;
-}
-
 #red-btn.button-div-two:hover {
 	background: #F01E1E !important;
 }
 
+#yellow.button-div-two:hover {
+	background: #c38b00 !important;
+}
+
+#add-yellow.add-button-div-two:hover {
+	background: #c38b00 !important;
+}
+
 #black.button-div-two:hover {
+	background: black !important;
+}
+
+#black.tour-button-div-two:hover {
 	background: black !important;
 }
 
