@@ -13,6 +13,7 @@ body {
 }
 
 #registration-button {
+	cursor: pointer;
 	margin-top: 220px;
 	margin-left: 25px;
 	position: absolute;
@@ -123,6 +124,7 @@ body {
 }
 
 .button-text {
+	cursor: pointer;
 	text-align: center;
 	color: white;
 	font-size: 25px;
