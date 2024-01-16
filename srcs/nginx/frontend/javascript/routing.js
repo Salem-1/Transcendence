@@ -12,6 +12,7 @@ const urlRoutes = {
 		template: landingPageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the home page",
+		theme: "/css/style.css",
 		IntroPages: true,
 	},
 	"/login": {
@@ -20,7 +21,7 @@ const urlRoutes = {
 		description: "This is the login page",
 		theme: "/css/login.css",
 		IntroPages: true,
-	
+		
 	},
 	"/register": {
 		template: registration_body(),
@@ -33,7 +34,8 @@ const urlRoutes = {
 		template: homePageBody(),
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
-		script: ["/javascript/greet.js", "/javascript/tournament.js"],
+		theme: "/css/homePage.css",
+		script: ["/javascript/greet.js", "/javascript/tournament.js", "/javascript/dropDown.js"],
 		requiresAuth: true,
 	},
 	"/game": {
@@ -47,6 +49,7 @@ const urlRoutes = {
 		template: auth(),
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
+		theme: "/css/style.css",
 		script: ["/javascript/auth.js"],
 	},
 	"/register_players": {

@@ -1,6 +1,6 @@
 require("dotenv").config();
-const axios = require("axios");
-const {Builder, By, Key, until} = require("selenium-webdriver");
+const { Builder, By, Key, until } = require("selenium-webdriver");
+const webdriver = require("selenium-webdriver");
 
 const resetColor = "\x1b[0m";
 const redColor = "\x1b[31m";
@@ -19,11 +19,9 @@ async function runTest(testtype) {
 			testtype == 1
 		) {
 			await registerTestCases(user);
-			// await (new Promise(resolve => setTimeout(resolve, 7000)));
 		}
 		if (testtype == "login" || testtype == "all" || testtype == 2) {
 			await lgoinTestCases(user);
-			// await (new Promise(resolve => setTimeout(resolve, 3000)));
 		}
 		if (
 			testtype == "tor" ||
@@ -35,7 +33,7 @@ async function runTest(testtype) {
 			// tournamentInputTestCases(user);
 		}
 		if (testtype == "access" || testtype == "all" || testtype == 4) {
-			await testHomePageAccess(user, pass, "Invalid username", 10);
+			await testHomePageAccess(user, pass, "Invalid username", 20);
 		}
 		if (testtype == "intra" || testtype == "all" || testtype == 5)
 			await testIntraAuth("hello", 11);
@@ -191,7 +189,6 @@ async function testIntraAuth(message, order) {
 	try {
 		await driver.get("http://127.0.0.1:3000");
 		//find the intraauth link and click it here , id login42
-		//   await (new Promise(resolve => setTimeout(resolve, 4000)));
 
 		const login42Link = await driver.wait(
 			until.elementLocated(By.id("login42")),
@@ -199,24 +196,24 @@ async function testIntraAuth(message, order) {
 		);
 		await driver.executeScript("arguments[0].click();", login42Link);
 		await new Promise((resolve) => setTimeout(resolve, 3000));
-
-		await driver.wait(until.alertIsPresent());
-		let alert = await driver.switchTo().alert();
-		let alertText = await alert.getText();
-		if (alertText === message)
+		while (1) {
+			url = await driver.getCurrentUrl();
+			if (url.includes(":3000") && !url.includes(":3000/auth")) break;
+			await driver.sleep(300);
+		}
+		url = await driver.getCurrentUrl();
+		if (url.includes("/home"))
 			console.log(
 				greenColor + order,
-				" 😁 Test passed  Alert Text:",
-				alertText + resetColor
+				" 😁 Test passed  url Text:",
+				url + resetColor
 			);
 		else {
 			console.log("👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇");
 			console.log(
 				redColor + order,
-				" 😱 Test  failed Alert Text: expected",
-				message,
-				"😬😬😬 got ➡️>",
-				alertText + resetColor
+				" 😱 Test  failed url Text: expected /home path 😬😬😬 got ➡️>",
+				url + resetColor
 			);
 			console.log("👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆");
 		}
@@ -233,10 +230,6 @@ async function testRegister(username, pass, repass, message, order) {
 		await driver.findElement(By.id("username")).sendKeys(username);
 		await driver.findElement(By.id("password")).sendKeys(pass);
 		await driver.findElement(By.id("confirmpassword")).sendKeys(repass);
-		const registrationButton = await driver.wait(
-			until.elementLocated(By.id("registration-button")),
-			5000
-		);
 		const innerDiv = await driver.wait(
 			until.elementLocated(
 				By.css("#registration-button > div:last-child")
@@ -290,7 +283,6 @@ async function testLogin(username, pass, message, order) {
 			5000
 		);
 		await innerDiv.click();
-
 		await new Promise((resolve) => setTimeout(resolve, 300));
 
 		await driver.wait(until.alertIsPresent());
@@ -334,6 +326,8 @@ function generateRandomText(length) {
 async function login(driver, username, pass) {
 	await driver.get("http://127.0.0.1:3000/login");
 	await new Promise((resolve) => setTimeout(resolve, 700));
+	await driver.get("http://127.0.0.1:3000/login");
+	await new Promise((resolve) => setTimeout(resolve, 700));
 
 	await driver.findElement(By.id("username")).sendKeys(username);
 	await driver.findElement(By.id("password")).sendKeys(pass);
@@ -351,16 +345,6 @@ async function login(driver, username, pass) {
 	await driver.wait(until.alertIsPresent());
 	let alert = await driver.switchTo().alert();
 	await alert.accept();
-}
-
-async function dismissAlert(driver) {
-	try {
-		await driver.wait(until.alertIsPresent(), 5000);
-		const alert = await driver.switchTo().alert();
-		await alert.dismiss();
-	} catch (error) {
-		console.error("Error dismissing alert:", error);
-	}
 }
 
 async function clickStartButton(driver) {
@@ -390,12 +374,22 @@ async function testTournament(players, username, pass, message, order) {
 		//     innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
 		//     await innerDiv.click();
 		// }
+		// for (let i = 0; i < players.length; i++){
+		//     await driver.findElement(By.id('player-name')).sendKeys(players[i]);
+		//     innerDiv = await driver.wait(until.elementLocated(By.id('add-player')), 5000);
+		//     await innerDiv.click();
+		// }
 
+		// const launch = await driver.wait(until.elementLocated(By.id('launch-tournamet')), 5000);
+		// await launch.click();
 		// const launch = await driver.wait(until.elementLocated(By.id('launch-tournamet')), 5000);
 		// await launch.click();
 
 		// await driver.wait(until.alertIsPresent());
+		// await driver.wait(until.alertIsPresent());
 
+		// let tournament_alert = await driver.switchTo().alert();
+		// let tournament_alertText = await tournament_alert.getText();
 		// let tournament_alert = await driver.switchTo().alert();
 		// let tournament_alertText = await tournament_alert.getText();
 
