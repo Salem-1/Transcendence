@@ -50,15 +50,18 @@ body {
 }
 
 #login {
+	cursor: pointer;
 	margin: 0;
 	margin-left: 50px;
 }
 
 #login42 {
+	cursor: pointer;
 	margin-left: 350px;
 }
 
 #register {
+	cursor: pointer;
 	margin-top: 90px;
 	margin-left: 200px;
 }
@@ -109,6 +112,7 @@ body {
 
 
 .button-text {
+	cursor: pointer;
 	text-align: center;
 	color: white;
 	font-size: 25px;
