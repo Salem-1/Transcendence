@@ -94,6 +94,7 @@ def fetch_username(request):
 
 @csrf_exempt
 def login_verf(request):
+    
     try:
         decoded_payload = validate_jwt(request)
         if decoded_payload['type'] != 'Bearer':

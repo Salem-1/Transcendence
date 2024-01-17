@@ -233,9 +233,20 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/api/loginVerfication')
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Invalid Authorization token')
+        
         response = requests.get(f'{self.base_url}/api/notLoggedIn')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['message'], 'Not Logged In')
+
+    def test_forbidden_not_logged_in(self):
+        response = requests.get(f'{self.base_url}/api/notLoggedIn')
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+
+    def test_forbidden_method_login_verf(self):
+        response = requests.get(f'{self.base_url}/api/loginVerfication')
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
         
     def test_access_home_loggedin(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
