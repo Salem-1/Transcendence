@@ -8,15 +8,21 @@ class Response:
     def __init__(self, status_code):
         self.status_code = status_code
 
-def email_logging(reciever, otp):
+def email_logging(reciever, otp, sent):
+    if sent:
+        message =  "Email sent 😃"
+    else:
+        message =  "Failed to send 🥲"
     file_path = 'backend_tests/sent_dummy_emails.txt'
     with open(file_path, 'a') as file:
-        file.write(f"{reciever} ----> {otp}\n")
-    response = Response(202)
+        file.write(f"{message} {reciever} ----> {otp}\n")
+    response = Response(sent)
     return response
 
 def send_otp_email(reciever, otp):
-    return (email_logging(reciever, otp))
+    return (send_smtp_email(reciever, otp))
+
+# def send_sendgrid_email(reciever, otp):
     # message = Mail(
     #     from_email='pong@null.net',
     #     to_emails=reciever,
@@ -38,17 +44,19 @@ def not_valid_email(request_body):
         return True
     return False
 
-def send_smtp_email():
-    
-    send_mail(
-    'Test email from malik email server',
-    'this is a test email for smtp',
-    'pong@alqanaha.com',
-    ['pong@null.net'],
+def send_smtp_email(reciever, otp):
+    sent = send_mail(
+    'Pong one time password',
+    f"your otp is {otp}",
+    os.environ.get("EMAIL_HOST_USER"),
+    [reciever],
     fail_silently=False,
     )
-    email_logging("pong@null.net", 00000)
-    
+    if sent:
+        return email_logging("pong@null.net", 00000, 202)
+    else:
+        return email_logging("pong@null.net", 00000, 401)
+        
     # email = EmailMessage(
     #    'Hello',
     #    'Hello from the other side',
