@@ -5,14 +5,12 @@ async function enable2FA(email){
         throw new Error("Please enter a valid email address.");
     if ((await submit2FaEmail(email)))
         throw new Error("Internal server error");
-    else
-        return (true);
-    //send email to the backend
+    
     //prompt for otp
     //send the otp along with the email to the back end
-    //validate the otp if correct enabled 2fa and store email
-    //else error message
-    return (email);
+
+
+    return (true);
 }
 
 

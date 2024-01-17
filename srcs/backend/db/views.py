@@ -237,6 +237,7 @@ def test_send_otp(request):
     if request.method == "GET":
         try:
             send_otp_email("pong@null.bet", "000000 this is a test 0top")
+            # send_smtp_email()
         except Exception as e:
             return JsonResponse({"error": f"{e}"}, status=401)
         # send_otp_email("pong@null.net", "<test for sending emails 0000>")

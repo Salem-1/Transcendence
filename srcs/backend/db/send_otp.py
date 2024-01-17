@@ -8,7 +8,7 @@ class Response:
     def __init__(self, status_code):
         self.status_code = status_code
 
-def dummy_send_otp_email_till_fix_smtp_issue(reciever, otp):
+def email_logging(reciever, otp):
     file_path = 'backend_tests/sent_dummy_emails.txt'
     with open(file_path, 'a') as file:
         file.write(f"{reciever} ----> {otp}\n")
@@ -16,7 +16,7 @@ def dummy_send_otp_email_till_fix_smtp_issue(reciever, otp):
     return response
 
 def send_otp_email(reciever, otp):
-    return (dummy_send_otp_email_till_fix_smtp_issue(reciever, otp))
+    return (email_logging(reciever, otp))
     # message = Mail(
     #     from_email='pong@null.net',
     #     to_emails=reciever,
@@ -39,21 +39,23 @@ def not_valid_email(request_body):
     return False
 
 def send_smtp_email():
+    
     send_mail(
-    'Subject',
-    'Message Body',
-    'rechat.noreply@gmail.com',
+    'Test email from malik email server',
+    'this is a test email for smtp',
+    'pong@alqanaha.com',
     ['pong@null.net'],
     fail_silently=False,
     )
+    email_logging("pong@null.net", 00000)
     
-    email = EmailMessage(
-       'Hello',
-       'Hello from the other side',
-       'rechat.noreply@gmail.com',
-       ['pong@null.net'],
-    )
-    email.send()
+    # email = EmailMessage(
+    #    'Hello',
+    #    'Hello from the other side',
+    #    'pong@alqanaha.com',
+    #    ['pong@null.net'],
+    # )
+    # email.send()
 
 """
     Bism Ellah

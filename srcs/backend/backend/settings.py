@@ -53,12 +53,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 try: EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
 except ValueError: EMAIL_PORT = 587
-# EMAIL_PORT=465
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER ")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD ")
-
-
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
