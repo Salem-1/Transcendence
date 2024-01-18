@@ -301,11 +301,11 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = register_email_in_2fa("enable@2fa.test", self.base_url, headers)
+        response = register_email_in_2fa("pong42abudhabi@gmail.com", self.base_url, headers)
         self.assertEqual(response.status_code, 202)
         self.assertEqual(response.json()["message"], "One time password sent to your email")
 
-        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
         response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
         self.assertEqual(response.json()["message"], "2FA enabled!");
         self.assertEqual(response.status_code, 200);
@@ -335,14 +335,14 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = register_email_in_2fa("enable@2fa.test", self.base_url, headers)
+        response = register_email_in_2fa("pong42abudhabi@gmail.com", self.base_url, headers)
         self.assertEqual(response.status_code, 202)
         self.assertEqual(response.json()["message"], "One time password sent to your email")
-        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
         response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
         self.assertEqual(response.json()["message"], "2FA enabled!");
         self.assertEqual(response.status_code, 200);
-        # data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        # data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
         # response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
         # self.assertEqual(response.json()["message"], "2FA already enabled!");
         # self.assertEqual(response.status_code, 208);
@@ -355,11 +355,11 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = register_email_in_2fa("enable@2fa.test", self.base_url, headers)
+        response = register_email_in_2fa("pong42abudhabi@gmail.com", self.base_url, headers)
         self.assertEqual(response.status_code, 202)
         self.assertEqual(response.json()["message"], "One time password sent to your email")
 
-        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
         response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
         self.assertEqual(response.json()["message"], "2FA enabled!");
         self.assertEqual(response.status_code, 200);
@@ -378,11 +378,11 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = register_email_in_2fa("enable@2fa.test", self.base_url, headers)
+        response = register_email_in_2fa("pong42abudhabi@gmail.com", self.base_url, headers)
         self.assertEqual(response.status_code, 202)
         self.assertEqual(response.json()["message"], "One time password sent to your email")
 
-        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
         response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
         self.assertEqual(response.json()["message"], "2FA enabled!");
         self.assertEqual(response.status_code, 200);

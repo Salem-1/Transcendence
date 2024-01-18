@@ -11,6 +11,7 @@ from .models import User_2fa
 
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
+    print(f"{given_otp} == {totp.now()}")
     return totp.verify(given_otp)
 
 def generate_otp(secret):
