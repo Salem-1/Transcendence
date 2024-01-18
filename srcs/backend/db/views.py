@@ -75,7 +75,15 @@ def auth_intra(request):
                             and login_intra_user(request, username)):
                     user_data = User.objects.get(username=username)
                     if is_2fa_enabled(user_data):
-                        send_otp_email(User.objects.get(user=username).email, generate_otp(User_2fa.objects.get(user=username).two_factor_secret))
+                        print("getting user")
+                        user = User.objects.get(username=username)
+                        print("getting user2fa")
+                        user_2fa = User_2fa.objects.get(user=user.id)
+                        print("testing queries")
+                        print(f"username {user.email}")
+                        print(f" secret {user_2fa.two_factor_secret} ")
+                        send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
+                        # send_otp_email(User.objects.get(use=username).email, generate_otp(User_2fa.objects.get(user=username).two_factor_secret))
                         return authenticate_otp_redirect(username)
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
