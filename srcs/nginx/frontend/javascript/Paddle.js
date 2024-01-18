@@ -1,4 +1,4 @@
-import {PADDLE_HEIGHT, PADDLE_SPEED} from './constants.js';
+// import {PADDLE_HEIGHT, PADDLE_SPEED} from './constants.js';
 
 export default class Paddle {
     constructor(element) {

@@ -1,10 +1,10 @@
-import {
-    BALL_HEIGHT,
-    BALL_WIDTH,
-    BALL_SPEED,
-    PADDLE_HEIGHT,
-    PADDLE_WIDTH
-} from './constants.js';
+// import {
+//     BALL_HEIGHT,
+//     BALL_WIDTH,
+//     BALL_SPEED,
+//     PADDLE_HEIGHT,
+//     PADDLE_WIDTH
+// } from './constants.js';
 
 export default class Ball {
     constructor(element) {

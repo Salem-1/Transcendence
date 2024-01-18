@@ -89,8 +89,8 @@ def gen_jwt_token(username, type, exp_mins):
     return encoded_jwt.decode('utf-8')  
 
 def tokenize_login_response(username):
-    encoded_jwt = gen_jwt_token(username, "Bearer",  2)  
-    refresh_jwt = gen_jwt_token(username, "Refresh",10)  
+    encoded_jwt = gen_jwt_token(username, "Bearer",  120)  
+    refresh_jwt = gen_jwt_token(username, "Refresh",240)  
     response_data = {
         'jwt_token': encoded_jwt,
         'refresh-token': refresh_jwt,

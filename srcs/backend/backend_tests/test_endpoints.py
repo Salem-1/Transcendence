@@ -6,6 +6,10 @@ import os
 import random
 import string
 import datetime
+import warnings
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
 
 class YourAppViewsTest(unittest.TestCase):
     base_url = 'http://localhost:8000'  # Update with your actual base URL
@@ -17,6 +21,31 @@ class YourAppViewsTest(unittest.TestCase):
         username , password = "TESTuser122", "TESTuser122"
         self.otp_user = {'username': username , 'password': password}
 
+
+    def test_register_initial_user(self):
+        # Test registration with a new username
+        request_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
+        response = requests.post(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Username already taken')
+        request_data = {'username': self.otp_user["username"], 'password': self.otp_user["password"]}
+        response = requests.post(f'{self.base_url}/register/', json=request_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Username already taken')
+
+     
+    def test_enable2FA(self):
+        login_data = {'username': self.otp_user["username"], 'password': self.otp_user["password"]}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        # self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        #enable 2fa request
+        request_data = {"enable2fa": "true"}
+        response = requests.post(f'{self.base_url}/set_2fa/', json=request_data, headers=headers)
+        # self.assertEqual(response.status_code, 200)
+
+    
     def test_expired_jwt(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
@@ -92,7 +121,7 @@ class YourAppViewsTest(unittest.TestCase):
 
     def test_register_spoofed_user(self):
         # Test registration with a new username
-        request_data = {'username': randomize_string(8), 'password': 'newpassA0word', "malicous": "0x\4\4\4\df"}
+        request_data = {'username': randomize_string(8), 'password': 'newpassA0word', "malicous": r"0x\4\4\4\df"}
         response = requests.post(f'{self.base_url}/register/', json=request_data)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['error'], 'Bad request body')
@@ -124,7 +153,7 @@ class YourAppViewsTest(unittest.TestCase):
     def test_spoofed_token(self):
         login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
         login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        jwt_token = login_response.json().get('jwt_token') + 'spoof'
+        jwt_token = f"{login_response.json().get('jwt_token')}spoof"
 
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response = requests.get(f'{self.base_url}/username/', headers=headers)
@@ -222,7 +251,8 @@ def randomize_string(length):
     return shuffled_string
 
 def gen_jwt_token(username, type, exp_mins, id):
-    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=exp_mins)
+    expiration_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=exp_mins)
+
     exp_unix_timestamp = int(expiration_time.timestamp())
     encoded_jwt = jwt.encode({
                                 "username": username,
@@ -230,7 +260,10 @@ def gen_jwt_token(username, type, exp_mins, id):
                                 "exp": exp_unix_timestamp,
                                 "type": type,
                             }, os.environ['SECRET_PASS'], algorithm="HS256")
-    return encoded_jwt.decode('utf-8')  
+    return encoded_jwt
+
+
+warnings.resetwarnings()
 
 if __name__ == '__main__':
     unittest.main()
