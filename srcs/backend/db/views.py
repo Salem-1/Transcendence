@@ -94,24 +94,27 @@ def fetch_username(request):
 
 @csrf_exempt
 def login_verf(request):
-    
-    try:
-        decoded_payload = validate_jwt(request)
-        if decoded_payload['type'] != 'Bearer':
-            raise jwt.exceptions.InvalidTokenError()
-        return JsonResponse({"message": "valid token"})
-    except Exception as e:
-        return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+    if request.method == "GET":
+        try:
+            decoded_payload = validate_jwt(request)
+            if decoded_payload['type'] != 'Bearer':
+                raise jwt.exceptions.InvalidTokenError()
+            return JsonResponse({"message": "valid token"})
+        except Exception as e:
+            return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def not_logged_in(request):
-    try:
-        decoded_payload = validate_jwt(request)
-        if decoded_payload['type'] != 'Bearer':
-            raise jwt.exceptions.InvalidTokenError()
-        return JsonResponse({"error": "valid token"}, status=401)
-    except Exception as e:
-        return JsonResponse({"message": "Not Logged In"})
+    if request.method == "GET":
+        try:
+            decoded_payload = validate_jwt(request)
+            if decoded_payload['type'] != 'Bearer':
+                raise jwt.exceptions.InvalidTokenError()
+            return JsonResponse({"error": "valid token"}, status=401)
+        except Exception as e:
+            return JsonResponse({"message": "Not Logged In"})
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
     
