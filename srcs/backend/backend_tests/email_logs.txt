@@ -189,3 +189,14 @@ Email sent 😃 pong@null.net ----> 725368
 Email sent 😃 email@example.com ----> 882304
 Email sent 😃 pong@null.net ----> 882304
 Email sent 😃 thereisnowaysomeonehasthisemail@null.netdsfkjgbsdlf ----> 882304
+Email sent 😃 enable@2fa.test ----> 774209
+Email sent 😃 enable@2fa.test ----> 344213
+Email sent 😃 enable@2fa.test ----> 344213
+Email sent 😃 enable@2fa.test ----> 025110
+Email sent 😃 enable@2fa.test ----> 025110
+Email sent 😃 enable@2fa.test ----> 022673
+Email sent 😃 pong@null.net ----> 000000
+Email sent 😃 pong@null.net ----> 367135
+Email sent 😃 email@example.com ----> 288333
+Email sent 😃 pong@null.net ----> 288333
+Email sent 😃 thereisnowaysomeonehasthisemail@null.netdsfkjgbsdlf ----> 288333
