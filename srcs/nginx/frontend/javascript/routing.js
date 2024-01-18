@@ -21,7 +21,6 @@ const urlRoutes = {
 		description: "This is the login page",
 		theme: "/css/login.css",
 		IntroPages: true,
-		
 	},
 	"/register": {
 		template: registration_body(),
@@ -35,7 +34,11 @@ const urlRoutes = {
 		title: "Home | " + urlPageTitle,
 		description: "This is the Home page",
 		theme: "/css/homePage.css",
-		script: ["/javascript/greet.js", "/javascript/tournament.js", "/javascript/dropDown.js"],
+		script: [
+			"/javascript/greet.js",
+			"/javascript/tournament.js",
+			"/javascript/dropDown.js",
+		],
 		requiresAuth: true,
 	},
 	"/game": {
@@ -90,15 +93,14 @@ const urlLocationHandler = async () => {
 	}
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
-	if (route.requiresAuth && !(await isVerified())){
+	if (route.requiresAuth && !(await isVerified())) {
 		callRoute("/login");
 		return;
-	}
-	else if (route.IntroPages && (await isLoggedIn())){
+	} else if (route.IntroPages && (await isLoggedIn())) {
 		callRoute("/home");
 		return;
 	}
-	
+
 	// get the html from the template
 	const html = route.template;
 	// set the content of the content div to the html
@@ -107,12 +109,10 @@ const urlLocationHandler = async () => {
 	document.title = route.title;
 	// set the description of the document to the description of the route
 	document
-	.querySelector('meta[name="description"]')
-	.setAttribute("content", route.description);
-	if (route.theme)
-	theme.setAttribute("href", route.theme);
-	else
-	theme.setAttribute("href", defaulttheme);
+		.querySelector('meta[name="description"]')
+		.setAttribute("content", route.description);
+	if (route.theme) theme.setAttribute("href", route.theme);
+	else theme.setAttribute("href", defaulttheme);
 	if (route.script) {
 		for (let i = 0; i < route.script.length; i++) {
 			const script = document.createElement("script");
@@ -122,8 +122,8 @@ const urlLocationHandler = async () => {
 	}
 };
 
-async function isLoggedIn(){
-	return (!(await isNotLoggedIn()));
+async function isLoggedIn() {
+	return !(await isNotLoggedIn());
 }
 
 const isVerified = async () => {
@@ -144,16 +144,13 @@ const isVerified = async () => {
 };
 
 const isNotLoggedIn = async () => {
-	const response = await fetch(
-		"http://localhost:8000/api/notLoggedIn/",
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include", // Add this line
-		}
-	);
+	const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include", // Add this line
+	});
 	if (response.ok) {
 		return true;
 	}
@@ -166,4 +163,3 @@ window.onpopstate = urlLocationHandler;
 window.route = route;
 // call the urlLocationHandler function to handle the initial url
 urlLocationHandler();
-
