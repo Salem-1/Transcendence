@@ -8,17 +8,6 @@ class Response:
     def __init__(self, status_code):
         self.status_code = status_code
 
-def email_logging(reciever, otp, sent):
-    if sent:
-        message =  "Email sent 😃"
-    else:
-        message =  "Failed to send 🥲"
-    file_path = 'backend_tests/email_logs.txt'
-    with open(file_path, "a+") as file:
-        file.write(f"{message} {reciever} ----> {otp}\n")
-    response = Response(sent)
-    return response
-
 def send_otp_email(reciever, otp):
     return (send_smtp_email(reciever, otp))
 
@@ -64,6 +53,17 @@ def send_smtp_email(reciever, otp):
     #    ['pong@null.net'],
     # )
     # email.send()
+
+def email_logging(reciever, otp, sent):
+    if sent:
+        message =  "Email sent 😃"
+    else:
+        message =  "Failed to send 🥲"
+    file_path = 'backend_tests/email_logs.txt'
+    with open(file_path, "a+") as file:
+        file.write(f"{message} {reciever} ----> {otp}\n")
+    response = Response(sent)
+    return response
 
 """
     Bism Ellah

@@ -1,10 +1,14 @@
-function homePageBody(){
-	return (`
-
-		<!-- <h1>You are logged in ya basha</h1> -->
-		<!-- <h1 id="greet">hsdfsdfged User</h1> -->
-		<button type="button" onclick="enable2FA()">Enable 2FA</button>
-		<button type="button" onclick="disable2FA()">Disable2 FA</button>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Home Page</title>
+		<link rel="stylesheet" href="css/homePage.css">
+		<link href="https://fonts.cdnfonts.com/css/poetsen-one" rel="stylesheet">
+	</head>
+	<body>
+		<div class="hero">
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
@@ -22,18 +26,22 @@ function homePageBody(){
 			</div>
 			<div class="btns">
 				<div class="buttons">
-					<div id="single-player" onclick="callRoute('/game')">
-						<div class="button-div-one" style="	background: #c7a940"></div>
-						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
-						<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
-					</div>
+					<a href="#">
+						<div id="single-player">
+							<div class="button-div-one" style="	background: #F01E1E;"></div>
+							<div id="red" class="button-div-two" style="background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
+							<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
+						</div>
+					</a>
 				</div>
 				<div class="buttons">
-					<div id="start_tournament">
-						<div class="button-div-one" style="background: #82764D;"></div>
-						<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
-						<div class="button-div-three"><h1 class="button-text">TOURNAMENT</h1></div>
-					</div>
+					<a href="#">
+						<div id="start_tournament">
+							<div class="button-div-one" style="background: #82764D;"></div>
+							<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+							<div class="button-div-three"><h1 class="button-text">TOURNAMENT</h1></div>
+						</div>
+					</a>
 				</div>
 				<div id="myModal" class="modal">
 					<div class="modal-content">
@@ -81,8 +89,8 @@ function homePageBody(){
 					didn't expect that, did you?”</h1>
 				</div>
 			</div>
-		<!-- <button type="button" onclick="callRoute('/game')">Play game</button> -->
-
-
-		`)
-}
+		</div>
+	</body>
+	<script src="../frontend/javascript/tournament.js"></script>
+	<script src="../frontend/javascript/dropDown.js"></script>
+</html>

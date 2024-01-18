@@ -1,0 +1,447 @@
+body {
+	background-color: #000;
+	margin: 0px;
+	overflow: hidden;
+}
+
+.hero {
+	background-image: url(../assets/hero.svg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	width: 100%;
+	height: 100vh;
+}
+
+.top-bar {
+	width: 100%;
+}
+
+#logo {
+	cursor: pointer;
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 140px;
+	height: 130px;
+	border-radius: 20%;
+}
+
+#Person {
+	cursor: pointer;
+	position: absolute;
+	margin-top: 20px;
+	margin-right: 20px;
+	right: 0;
+	top: 0;
+	width: 130px;
+	height: 130px;
+	border-radius: 50%;
+}
+
+#quote-text {
+	text-align: center;
+	color: black;
+	font-size: 22px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	width: 60%;
+	margin: auto;
+}
+
+.quote {
+	padding: 50px;
+	margin-top: 290px;
+	width: 715px;
+	height: 90px;
+	border-radius: 100px;
+	background-color: #D9D9D9;
+}
+
+.btns {
+	position: absolute;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	top: 60%;
+	left: 50%;
+}
+
+.buttons {
+	margin-left: 30%;
+}
+
+#single-player {
+	cursor: pointer;
+}
+
+#start_tournament {
+	cursor: pointer;
+	margin-top: 105px;
+}
+
+.button-div-one {
+	width: 320px;
+	height: 80px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.button-div-two {
+	margin-left: 5px;
+	width: 310px;
+	height: 70px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.button-div-three {
+	margin-left: 8px;
+	width: 305px;
+	height: 45px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
+#launch-tournamet {
+	cursor: pointer;
+	margin-top: 70px;
+	margin-left: -3px;
+}
+
+.tour-button-div-one {
+	width: 150px;
+	height: 50px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.tour-button-div-two {
+	margin-left: 5px;
+	width: 140px;
+	height: 45px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.tour-button-div-three {
+	margin-left: 8px;
+	width: 138px;	
+	height: 30px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
+
+#add-player {
+	cursor: pointer;
+	margin-top: -30px;
+	margin-left: 100px;
+}
+
+.add-button-div-one {
+	width: 150px;
+	height: 50px;
+	position: absolute;
+	background: #F01E1E;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
+}
+
+.add-button-div-two {
+	margin-left: 5px;
+	width: 140px;
+	height: 45px;
+	position: absolute;
+	background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);
+	box-shadow: 1px 1px 1px;
+	border-radius: 12px;
+	border: 1px white solid;
+	filter: blur(1px);
+}
+
+.add-button-div-three {
+	margin-left: 8px;
+	width: 138px;	
+	height: 30px;
+	position: absolute;
+	text-align: center;
+	transform: rotate(-1.14deg);
+	transform-origin: 0 0;
+	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
+}
+
+#red-btn.button-div-two:hover {
+	background: #F01E1E !important;
+}
+
+#yellow.button-div-two:hover {
+	background: #c38b00 !important;
+}
+
+#add-yellow.add-button-div-two:hover {
+	background: #c38b00 !important;
+}
+
+#black.button-div-two:hover {
+	background: black !important;
+}
+
+#black.tour-button-div-two:hover {
+	background: black !important;
+}
+
+.button-text {
+	cursor: pointer;
+	text-align: center;
+	color: white;
+	font-size: 30px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+}
+
+.button-text:active {
+	font-size: 28px;
+	line-height: 35px !important;
+}
+
+.add-button-text {
+	cursor: pointer;
+	text-align: center;
+	color: white;
+	font-size: 22px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	line-height: 20px;
+}
+
+.add-button-text:active {
+	font-size: 20px;
+	line-height: 22px !important;
+}
+
+.tour-button-text {
+	cursor: pointer;
+	text-align: center;
+	color: white;
+	font-size: 22px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	line-height: 20px;
+}
+
+.tour-button-text:active {
+	font-size: 20px;
+	line-height: 22px !important;
+}
+
+.drrp {
+	margin: 20px;
+}
+
+#Person:hover {
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#Person:active {
+	margin-right: 22px;
+	margin-top: 25px;
+	width: 125px;
+	height: 125px;
+}
+
+.dropdown-content {
+	border-radius: 20px;
+	float: right;
+	margin-top: 10px;
+	margin-right: 20px;
+	display: none;
+	background-color: #f9f9f9;
+	min-width: 240px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	float: none;
+	color: black;
+	text-decoration: none;
+	display: block;
+	text-align: center;
+}
+
+.dropdown-content a:hover {
+	border-radius: 10px;
+	background-color: #ddd;
+}
+
+.show {
+	display: block;
+}
+
+.drp {
+	display: block !important;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+	border-radius: 20px;
+	background-color: #D9D9D9;
+	margin: auto;
+	padding: 20px;
+	width: 80%;
+}
+
+.close {
+	color: #aaaaaa;
+	float: right;
+	margin-left: 110px;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.head {
+	width: 80%;
+	display: flex;
+	margin: auto;
+	margin-left: 25%;
+}
+
+.player-table {
+	width: 80%;
+	margin-left: 10% !important;
+	margin-top: 50px;
+	display: flex;
+}
+
+.delete-button {
+	margin-left: 50px;
+}
+
+tr {
+	color: black;
+	font-size: 20px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+	border: 1px solid black;
+}
+
+td {
+	border-bottom: 1px solid black;
+	padding-left: 5px;
+}
+
+tbody {
+	display: block;
+	border: 2px solid black;
+	border-collapse: separate;
+	border-spacing: 4px; 
+	border-radius: 20px;
+	margin-top: 20px;
+	max-width: 260px;
+	max-height: 95px;
+	width: 260px;
+	overflow: auto;
+	padding: 10px 10px 10px 25px;
+}
+
+#player-name {
+	color: black;
+	font-size: 20px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	padding-left: 20px;
+	width: 270px;
+	height: 45px;
+	background: #7E7E7E;
+	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.25);
+	border-radius: 20px;
+	border: 4px #D9D9D9 solid;
+}
+
+::placeholder {
+    color: #CCCCCC;
+	font-size: 20px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+}
+
+.heading {
+	background-color: #000;
+	color: white;
+	border-radius: 20px;
+}
+
+.heading-text {
+	padding: 13px 40px 13px 40px;
+	margin: 0;
+	text-align: center;
+	color: white;
+	font-size: 25px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	word-wrap: break-word;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 40px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+	border-radius: 25px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #7E7E7E;
+	border-radius: 25px;
+	background-clip: content-box;
+	border: 12px solid transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #616161;
+	border: 12px solid transparent;
+	background-clip: content-box;
+}

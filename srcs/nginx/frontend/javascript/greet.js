@@ -3,6 +3,7 @@ greetUser();
 async function greetUser() {
 	const greetElement = document.getElementById("greet");
 	if (!greetElement) return;
+	console.log("Not here");
 	try {
 		// alert("sending request")
 		const response = await fetch("http://localhost:8000/username/", {
@@ -17,7 +18,7 @@ async function greetUser() {
 			// alert(responseData);
 
 			const username = responseData.username;
-			alert("hello");
+			// alert("hello");
 			greetElement.textContent = `Hello ${username}`;
 		} else if (response.status === 401) {
 			const errorData = await response.json();
