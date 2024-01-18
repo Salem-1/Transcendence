@@ -13,8 +13,8 @@ def email_logging(reciever, otp, sent):
         message =  "Email sent 😃"
     else:
         message =  "Failed to send 🥲"
-    file_path = 'backend_tests/sent_dummy_emails.txt'
-    with open(file_path, 'a') as file:
+    file_path = 'backend_tests/email_logs.txt'
+    with open(file_path, "a+") as file:
         file.write(f"{message} {reciever} ----> {otp}\n")
     response = Response(sent)
     return response
@@ -53,9 +53,9 @@ def send_smtp_email(reciever, otp):
     fail_silently=False,
     )
     if sent:
-        return email_logging("pong@null.net", 00000, 202)
+        return email_logging(reciever, otp, 202)
     else:
-        return email_logging("pong@null.net", 00000, 401)
+        return email_logging(reciever, otp, 401)
         
     # email = EmailMessage(
     #    'Hello',

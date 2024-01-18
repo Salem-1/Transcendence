@@ -371,6 +371,27 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Invalid Authorization token')
     
+    def test_otp_send_otp(self):
+        user = gen_username()
+        password = self.test_user["password"]
+        login_response = registe_and_login_user(user, password)
+        self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = register_email_in_2fa("enable@2fa.test", self.base_url, headers)
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()["message"], "One time password sent to your email")
+
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "enable@2fa.test"}
+        response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
+        self.assertEqual(response.json()["message"], "2FA enabled!");
+        self.assertEqual(response.status_code, 200);
+        
+        otp_login_response = login_user(user, password)
+        self.assertEqual(otp_login_response.status_code, 302)
+        jwt_token = otp_login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        
 
 
 def generate_otp(secret):

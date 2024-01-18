@@ -10,6 +10,14 @@ describe('HTTP Request Test', () => {
       expect(result).toEqual(true);
     });
   });
+
+describe('HTTP Request Test', () => {
+    it('fetches successfully data from an API', async () => {
+      const expectedData = { data: 'some data' };
+      const result = await enable2FA("hell0@fd.com");
+      expect(result).toEqual(true);
+    });
+  });
   
 
 test("enable2FA email input", async () => {

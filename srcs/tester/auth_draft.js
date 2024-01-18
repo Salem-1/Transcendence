@@ -7,10 +7,28 @@ async function enable2FA(email){
         throw new Error("Internal server error");
     
     //prompt for otp
+    let otp = get_otp();
     //send the otp along with the email to the back end
-
+    await sendEnable2faEmail(otp, email);
 
     return (true);
+}
+
+async function sendEnable2faEmail(otp, email){
+    const response = await fetch('http://localhost:8000/enable_2fa_email/',{
+        method: "POST", 
+        headers: {
+            "Content-Type" : "application/json",
+        },
+        credentials: "include", 
+        body: JSON.stringify({otp,email}),
+    }
+    );
+    const result = await response.json();
+    if (response.ok)
+        return (true);
+    else
+        throw new Error("Invalid otp");
 }
 
 
@@ -20,6 +38,7 @@ async function submit2FaEmail(email) {
             headers: {
                 "Content-Type" : "application/json",
             },
+            credentials: "include", 
             body: JSON.stringify({email}),
         }
         );
