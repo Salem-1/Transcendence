@@ -125,8 +125,9 @@ def validate_jwt(request):
     jwt_token = request.COOKIES.get('Authorization')
     if jwt_token and jwt_token.startswith('Bearer '):
         jwt_token = jwt_token.split('Bearer ')[1]
-        decode_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'], algorithms=['HS256'])
+        decode_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'] , algorithms=['HS256'])
         if (decode_token['exp'] > current_unix_timestamp):
             return decode_token
         print("expired token")
     raise jwt.exceptions.InvalidTokenError()
+
