@@ -53,7 +53,7 @@ function homePageBody(){
 									<thead>
 										<tr>
 											<th>
-												<input type="text" id="player-name" name="player-name" required placeholder="Player Name" maxlength="35">
+												<input type="text" id="player-name" name="player-name" required placeholder="Player Name" maxlength="14">
 											</th>
 											<th>
 												<div id="add-player" onclick="addPlayer()">
