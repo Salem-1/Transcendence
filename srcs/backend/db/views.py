@@ -12,6 +12,8 @@ import requests
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
 from .models import User_2fa
+from django.shortcuts import redirect
+
 
 @csrf_exempt
 def register_user(request):
@@ -170,3 +172,22 @@ def redirect_uri(request):
 				.format(client_id)
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)
+
+# def error_code(request):
+#    return JsonResponse({"Message": "Error code received"})
+
+@csrf_exempt
+def error_code(request, exception):
+    # if (request.method == "GET"):
+        # return JsonResponse({"Error": "Method not allowed"}, status=405)
+    if (request.headers.get("X-Trans42-code")):
+        return HttpResponse("", status = request.headers.get("X-Trans42-code"))
+    # return HttpResponse("<html lang="en"><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body>\r\n</html>", status = 404)
+    return HttpResponse("", status = 404)
+	# django.views.defaults.page_not_found
+
+@csrf_exempt
+def go_to_frontend(request):
+    if (request.method == "POST"):
+        return HttpResponse("Method not allowed", status=405)
+    return redirect("http://localhost:3000", permanent=True)

@@ -229,6 +229,12 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 400)
         self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
 
+    # def test_getcode(self):
+    #     possible_codes = [200, 300, 400, 500]
+    #     for num in possible_codes:
+    #         pack = {"x-request": "google.com"}
+    #         response = requests.post(f'{self.base_url}/api/errorCode/', headers=pack)
+    #         self.assertEqual(response.status_code, num)
 
 def randomize_string(length):
     if length < 3:
