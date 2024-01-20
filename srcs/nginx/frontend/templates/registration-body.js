@@ -17,7 +17,7 @@ function registration_body(){
 				name="username"
 				required
 				placeholder="Username"
-				maxlength="35"
+				maxlength="11"
 			/>
 			<input
 				type="password"

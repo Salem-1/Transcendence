@@ -79,7 +79,7 @@ async function login() {
 }
 
 function isValidRegeistrationIput(username, password, confirmPassword) {
-	if (username.length < 1 || username.length > 35)
+	if (username.length < 1 || username.length > 11)
 		alert("Registration failed:  invalid username");
 	else if (password.length < 8 || password.length > 35)
 		alert("Password should be 8 char at leaset and not more than 35 chars");
@@ -123,7 +123,7 @@ function isValidLoginIput(username, password) {
 		)
 	) {
 		alert(
-			"Login failed: password must contain at least one upper, lower case letters and number"
+			"Login failed: invalid username or password"
 		);
 		return false;
 	}

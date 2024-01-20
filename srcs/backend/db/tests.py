@@ -2,11 +2,11 @@
 import unittest
 # from django.contrib.auth.models import  User
 import json
-import jwt
 import os
 from .authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, get_jwt_secret
 from .double_factor_authenticate import authenticate_otp_redirect
 from .logout import generate_password, generate_encrypted_secret, decrypt_string, encrypt_string
+from .send_otp import send_otp_email
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -17,11 +17,11 @@ from django.views.decorators.http import require_POST
 from .models import User_2fa
 # from models import get_user_id
 import jwt
-import json
 import requests
-import os
 import re 
 import datetime
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 class YourAppViewsTest(unittest.TestCase):
     # def setUp(self):

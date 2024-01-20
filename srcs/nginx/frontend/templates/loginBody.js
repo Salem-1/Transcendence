@@ -12,7 +12,7 @@ function loginBody(){
 				required
 				placeholder="Username"
 				autocomplete="username"
-				maxlength="35"
+				maxlength="11"
 			/>
 			<input
 				type="password"

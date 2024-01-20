@@ -9,7 +9,7 @@ function registerPlayers(){
 		</thead>
 		<tbody>
 		  <tr>
-			<td><input type="text" id="player-name" maxlength="35"></td>
+			<td><input type="text" id="player-name" maxlength="11"></td>
 			<td><button type="button" id="add-player"  onclick="addPlayer()">ADD</button></td>
 		  </tr>
 		</tbody>
