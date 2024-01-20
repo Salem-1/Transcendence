@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, generate_otp_secret, verify_OTP,  generate_otp
 import json
 import jwt
@@ -14,6 +14,52 @@ from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, log
 from .models import User_2fa
 from .send_otp import send_otp_email, not_valid_email, send_smtp_email
 from django.core.mail import EmailMessage
+from django.shortcuts import redirect
+
+
+http_responses = {
+    101: 'Switching Protocols',
+    200: 'OK',
+    201: 'Created',
+    202: 'Accepted',
+    203: 'Non-Authoritative Information',
+    204: 'No Content',
+    205: 'Reset Content',
+    206: 'Partial Content',
+    300: 'Multiple Choices',
+    301: 'Moved Permanently',
+    302: 'Found',
+    303: 'See Other',
+    304: 'Not Modified',
+    305: 'Use Proxy',
+    307: 'Temporary Redirect',
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    402: 'Payment Required',
+    403: 'Forbidden',
+    404: 'Not Found',
+    405: 'Method Not Allowed',
+    406: 'Not Acceptable',
+    407: 'Proxy Authentication Required',
+    408: 'Request Timeout',
+    409: 'Conflict',
+    410: 'Gone',
+    411: 'Length Required',
+    412: 'Precondition Failed',
+    413: 'Payload Too Large',
+    414: 'URI Too Long',
+    415: 'Unsupported Media Type',
+    416: 'Range Not Satisfiable',
+    417: 'Expectation Failed',
+    418: 'I\'m a Teapot',
+    426: 'Upgrade Required',
+    500: 'Internal Server Error',
+    501: 'Not Implemented',
+    502: 'Bad Gateway',
+    503: 'Service Unavailable',
+    504: 'Gateway Timeout',
+    505: 'HTTP Version Not Supported'
+}
 
 @csrf_exempt
 def register_user(request):
@@ -106,23 +152,27 @@ def fetch_username(request):
 
 @csrf_exempt
 def login_verf(request):
-    try:
-        decoded_payload = validate_jwt(request)
-        if decoded_payload['type'] != 'Bearer':
-            raise jwt.exceptions.InvalidTokenError()
-        return JsonResponse({"message": "valid token"})
-    except Exception as e:
-        return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+    if request.method == "GET":
+        try:
+            decoded_payload = validate_jwt(request)
+            if decoded_payload['type'] != 'Bearer':
+                raise jwt.exceptions.InvalidTokenError()
+            return JsonResponse({"message": "valid token"})
+        except Exception as e:
+            return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def not_logged_in(request):
-    try:
-        decoded_payload = validate_jwt(request)
-        if decoded_payload['type'] != 'Bearer':
-            raise jwt.exceptions.InvalidTokenError()
-        return JsonResponse({"error": "valid token"}, status=401)
-    except Exception as e:
-        return JsonResponse({"message": "Not Logged In"})
+    if request.method == "GET":
+        try:
+            decoded_payload = validate_jwt(request)
+            if decoded_payload['type'] != 'Bearer':
+                raise jwt.exceptions.InvalidTokenError()
+            return JsonResponse({"error": "valid token"}, status=401)
+        except Exception as e:
+            return JsonResponse({"message": "Not Logged In"})
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
     
@@ -252,3 +302,20 @@ def test_send_otp(request):
         # send_otp_email("pong@null.net", "<test for sending emails 0000>")
         return JsonResponse({"message": "Test email sent"})
     return JsonResponse({'error': "Method not allowed"}, status=405)
+
+@csrf_exempt
+def error_code(request, exception=None):
+    status = request.headers.get("X-Trans42-code")
+    if (request.method == "GET" and status and status.isdigit()):
+        num = int(status)	
+        if (num > 100 and num < 600 and num != 404):
+            if (http_responses.get(num)):
+                return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
+            return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
+    return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+
+@csrf_exempt
+def go_to_frontend(request):
+    if (request.method == "GET"):
+        return redirect("http://localhost:3000", permanent=True)
+    return HttpResponse("Method not allowed", status=405)

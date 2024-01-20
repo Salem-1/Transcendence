@@ -224,7 +224,72 @@ class YourAppViewsTest(unittest.TestCase):
         login_response = requests.post(f'{self.base_url}/auth/', json=login_data)
         self.assertEqual(login_response.status_code, 400)
         self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
+        
+    def test_access_home_nologin(self):
+        response = requests.get(f'{self.base_url}/api/loginVerfication/')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
+        
+        response = requests.get(f'{self.base_url}/api/notLoggedIn/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['message'], 'Not Logged In')
 
+    def test_forbidden_not_logged_in(self):
+        data = {};
+        response = requests.post(f'{self.base_url}/api/notLoggedIn/', json=data)
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+
+    def test_forbidden_method_login_verf(self):
+        response = requests.post(f'{self.base_url}/api/loginVerfication/', json={})
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.json()['error'], 'Method not allowed')
+        
+    def test_access_home_loggedin(self):
+        login_data = {'username': self.test_user['username'], 'password': self.test_user['password']}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 200)
+        
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = requests.get(f'{self.base_url}/api/loginVerfication/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['message'], 'valid token')
+        response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], 'valid token')
+
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
+    
+    def test_wrong_statuscode(self):
+        pack = {"X-Trans42-code": "50"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "10000"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.post(f'{self.base_url}/wrongurl/', json=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.get(f'{self.base_url}/wrongurl/')
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "asa"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_redirection(self):
+        with requests.Session() as s:
+            response = s.get(f'{self.base_url}', allow_redirects=False)
+            self.assertEqual(response.status_code, 301)
+            self.assertIsNotNone(response.headers['Location'])
+            self.assertEqual(response.headers['Location'], 'http://localhost:3000')
+    
+    def test_redirection_post(self):
+        response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
+        self.assertEqual(response.status_code, 405)
 
     def test_validate_2fa_email(self):
         user = gen_username()
