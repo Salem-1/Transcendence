@@ -263,6 +263,37 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'valid token')
 
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
+    
+    def test_wrong_statuscode(self):
+        pack = {"X-Trans42-code": "50"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "10000"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.post(f'{self.base_url}/wrongurl/', json=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.get(f'{self.base_url}/wrongurl/')
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "asa"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_redirection(self):
+        with requests.Session() as s:
+            response = s.get(f'{self.base_url}', allow_redirects=False)
+            self.assertEqual(response.status_code, 301)
+            self.assertIsNotNone(response.headers['Location'])
+            self.assertEqual(response.headers['Location'], 'http://localhost:3000')
+    
+    def test_redirection_post(self):
+        response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
+        self.assertEqual(response.status_code, 405)
 
 def randomize_string(length):
     if length < 3:
