@@ -53,9 +53,10 @@ function homePageBody(){
 									<thead>
 										<tr>
 											<th>
-												<input type="text" id="player-name" name="player-name" required placeholder="Player Name" maxlength="35">
+												<input type="text" id="player-name" name="player-name" required placeholder="Player Name" maxlength="11">
 											</th>
 											<th>
+												<input type="submit" hidden />
 												<div id="add-player" onclick="addPlayer()">
 													<div class="add-button-div-one" style="background: #C7A940;"></div>
 													<div id="add-yellow" class="add-button-div-two" style="background: linear-gradient(180deg, #EDA800 0%, #FFBB0B 100%);"></div>
