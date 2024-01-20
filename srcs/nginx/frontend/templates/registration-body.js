@@ -17,6 +17,7 @@ function registration_body(){
 				name="username"
 				required
 				placeholder="Username"
+				maxlength="35"
 			/>
 			<input
 				type="password"
@@ -24,6 +25,7 @@ function registration_body(){
 				name="password"
 				required
 				placeholder="Password"
+				maxlength="35"
 			/>
 			<input
 				type="password"
@@ -31,6 +33,7 @@ function registration_body(){
 				name="confirmPassword"
 				required
 				placeholder="Confirm Password"
+				maxlength="35"
 			/>
 			<input type="submit" hidden />
 			<div
