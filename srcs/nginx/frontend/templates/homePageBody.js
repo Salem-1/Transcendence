@@ -15,7 +15,7 @@ function homePageBody(){
 							<hr>
 							<a class="button-text" href="#">SETTINGS</a>
 							<hr>
-							<a class="button-text" href="#">LOG OUT</a>
+							<a class="button-text" onclick="logout()">LOG OUT</a>
 						</div>
 					</div>
 				</div>
