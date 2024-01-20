@@ -75,6 +75,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+	'X-Trans42-code'
 ]
 
 CORS_ALLOW_CREDENTIALS = True

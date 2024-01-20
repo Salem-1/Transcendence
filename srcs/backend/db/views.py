@@ -15,6 +15,50 @@ from .models import User_2fa
 from django.shortcuts import redirect
 
 
+http_responses = {
+    101: 'Switching Protocols',
+    200: 'OK',
+    201: 'Created',
+    202: 'Accepted',
+    203: 'Non-Authoritative Information',
+    204: 'No Content',
+    205: 'Reset Content',
+    206: 'Partial Content',
+    300: 'Multiple Choices',
+    301: 'Moved Permanently',
+    302: 'Found',
+    303: 'See Other',
+    304: 'Not Modified',
+    305: 'Use Proxy',
+    307: 'Temporary Redirect',
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    402: 'Payment Required',
+    403: 'Forbidden',
+    404: 'Not Found',
+    405: 'Method Not Allowed',
+    406: 'Not Acceptable',
+    407: 'Proxy Authentication Required',
+    408: 'Request Timeout',
+    409: 'Conflict',
+    410: 'Gone',
+    411: 'Length Required',
+    412: 'Precondition Failed',
+    413: 'Payload Too Large',
+    414: 'URI Too Long',
+    415: 'Unsupported Media Type',
+    416: 'Range Not Satisfiable',
+    417: 'Expectation Failed',
+    418: 'I\'m a Teapot',
+    426: 'Upgrade Required',
+    500: 'Internal Server Error',
+    501: 'Not Implemented',
+    502: 'Bad Gateway',
+    503: 'Service Unavailable',
+    504: 'Gateway Timeout',
+    505: 'HTTP Version Not Supported'
+}
+
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
@@ -180,11 +224,12 @@ def redirect_uri(request):
 def error_code(request, exception=None):
     status = request.headers.get("X-Trans42-code")
     if (request.method == "GET" and status and status.isdigit()):
-        num = int(status)
-        if (num > 100 and num < 600):
-            return HttpResponse("", status = request.headers.get("X-Trans42-code"))
+        num = int(status)	
+        if (num > 100 and num < 600 and num != 404):
+            if (http_responses.get(num)):
+                return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
+            return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
     return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
-	# django.views.defaults.page_not_found
 
 @csrf_exempt
 def go_to_frontend(request):

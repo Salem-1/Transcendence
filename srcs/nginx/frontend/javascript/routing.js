@@ -94,13 +94,22 @@ const urlLocationHandler = async () => {
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
 	if (route.requiresAuth && !(await isVerified())) {
+		fetch(`http://localhost:8000/${location}`, {
+			headers: { "X-Trans42-code": "401" },
+			method: "GET",
+		});
 		callRoute("/login");
 		return;
 	} else if (route.IntroPages && (await isLoggedIn())) {
 		callRoute("/home");
 		return;
 	}
-
+	if (route == urlRoutes[404]) {
+		fetch("http://localhost:8000/aaaa", {
+			headers: { "X-Trans42-code": "404" },
+			method: "GET",
+		});
+	}
 	// get the html from the template
 	const html = route.template;
 	// set the content of the content div to the html
@@ -158,7 +167,14 @@ const isNotLoggedIn = async () => {
 };
 
 // add an event listener to the window that watches for url changes
-window.onpopstate = urlLocationHandler;
+window.onpopstate = route;
+// window.addEventListener('popstate', function(event){
+// 	var state = event.state;
+// 	if (state) {
+// 		document.title = state.pageTitle;
+// 	}
+// 	urlLocationHandler();
+// });
 // call the urlLocationHandler function to handle the initial url
 window.route = route;
 // call the urlLocationHandler function to handle the initial url
