@@ -34,5 +34,5 @@ urlpatterns = [
 	path('api/notLoggedIn/', not_logged_in, name='notLoggedIn'),
 	# path('api/errorCode/', error_code, name='errorCode'),
 	# path('',error_code, name='error_code'),
-	path('',go_to_frontend, name='error_code'),
+	path('',go_to_frontend, name='go_to_frontend'),
 ]

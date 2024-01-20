@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, fetch_otp_secret, verify_OTP
 import json
 import jwt
@@ -177,17 +177,17 @@ def redirect_uri(request):
 #    return JsonResponse({"Message": "Error code received"})
 
 @csrf_exempt
-def error_code(request, exception):
-    # if (request.method == "GET"):
-        # return JsonResponse({"Error": "Method not allowed"}, status=405)
-    if (request.headers.get("X-Trans42-code")):
-        return HttpResponse("", status = request.headers.get("X-Trans42-code"))
-    # return HttpResponse("<html lang="en"><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body>\r\n</html>", status = 404)
-    return HttpResponse("", status = 404)
+def error_code(request, exception=None):
+    status = request.headers.get("X-Trans42-code")
+    if (request.method == "GET" and status and status.isdigit()):
+        num = int(status)
+        if (num > 100 and num < 600):
+            return HttpResponse("", status = request.headers.get("X-Trans42-code"))
+    return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
 	# django.views.defaults.page_not_found
 
 @csrf_exempt
 def go_to_frontend(request):
-    if (request.method == "POST"):
-        return HttpResponse("Method not allowed", status=405)
-    return redirect("http://localhost:3000", permanent=True)
+    if (request.method == "GET"):
+        return redirect("http://localhost:3000", permanent=True)
+    return HttpResponse("Method not allowed", status=405)

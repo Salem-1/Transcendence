@@ -229,12 +229,37 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 400)
         self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
 
-    # def test_getcode(self):
-    #     possible_codes = [200, 300, 400, 500]
-    #     for num in possible_codes:
-    #         pack = {"x-request": "google.com"}
-    #         response = requests.post(f'{self.base_url}/api/errorCode/', headers=pack)
-    #         self.assertEqual(response.status_code, num)
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
+    
+    def test_wrong_statuscode(self):
+        pack = {"X-Trans42-code": "50"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "10000"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.post(f'{self.base_url}/wrongurl/', json=pack)
+        self.assertEqual(response.status_code, 404)
+        response = requests.get(f'{self.base_url}/wrongurl/')
+        self.assertEqual(response.status_code, 404)
+        pack = {"X-Trans42-code": "asa"}
+        response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_redirection(self):
+        with requests.Session() as s:
+            response = s.get(f'{self.base_url}', allow_redirects=False)
+            self.assertEqual(response.status_code, 301)
+            self.assertIsNotNone(response.headers['Location'])
+            self.assertEqual(response.headers['Location'], 'http://localhost:3000')
+    
+    def test_redirection_post(self):
+        response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
+        self.assertEqual(response.status_code, 405)
 
 def randomize_string(length):
     if length < 3:
