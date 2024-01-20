@@ -2,10 +2,10 @@
 import unittest
 # from django.contrib.auth.models import  User
 import json
-import jwt
 import os
 from .authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response
 from .double_factor_authenticate import authenticate_otp_redirect
+from .send_otp import send_otp_email
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -15,11 +15,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 # from models import get_user_id
 import jwt
-import json
 import requests
-import os
 import re 
 import datetime
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 class YourAppViewsTest(unittest.TestCase):
     # def setUp(self):
@@ -83,6 +83,7 @@ class YourAppViewsTest(unittest.TestCase):
         result, response = is_valid_input(username, password, data)
         self.assertFalse(result)
         self.assertEqual(response.status_code, 400)
+
 
    
     #     # Test registration with an existing username

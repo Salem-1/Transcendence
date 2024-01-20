@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from db.views import register_user, login_user, auth_intra, fetch_username, double_factor_auth, set_double_factor_auth
-from db.views import login_verf, redirect_uri, not_logged_in, error_code, go_to_frontend
+from db.views import login_verf, redirect_uri, not_logged_in,  submit_2fa_email, enable_2fa_email, test_send_otp, error_code, go_to_frontend
 
 handler404 = error_code
 
@@ -32,6 +32,9 @@ urlpatterns = [
 	path('api/loginVerfication/', login_verf, name='loginVerfication'),
 	path('redirect_uri/', redirect_uri, name='redirect_uri'),
 	path('api/notLoggedIn/', not_logged_in, name='notLoggedIn'),
+	path('submit_2fa_email/', submit_2fa_email, name='submit_2fa_email'),
+	path('enable_2fa_email/', enable_2fa_email, name='enable_2fa_email'),
+	path('test_send_otp/', test_send_otp, name='test_send_otp'),
 	# path('api/errorCode/', error_code, name='errorCode'),
 	# path('',error_code, name='error_code'),
 	path('',go_to_frontend, name='go_to_frontend'),
