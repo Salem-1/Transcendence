@@ -8,9 +8,10 @@ from django.http import HttpResponse
 from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, fetch_otp_secret, verify_OTP
 import json
 import jwt
-import requests
+import pyotp
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
+from .logout import encrypt_string, decrypt_string, generate_password, generate_encrypted_secret
 from .models import User_2fa
 
 @csrf_exempt
@@ -26,6 +27,10 @@ def register_user(request):
             elif User.objects.filter(username=username).exists():
                 return JsonResponse({'error': "Username already taken"}, status=400)
             user = User.objects.create_user(username=username, password=password)
+            user.save()
+            user_2fa = User_2fa.objects.create(user=user)
+            user_2fa.jwt_secret = generate_encrypted_secret(13)
+            user_2fa.save()
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
             return JsonResponse({'error': "Internal server error"}, status=500)  
@@ -33,6 +38,7 @@ def register_user(request):
 
 @csrf_exempt
 def login_user(request):
+    print(request)
     if request.method =='POST':
         try:
             data = json.loads(request.body)
@@ -50,7 +56,8 @@ def login_user(request):
                 return tokenize_login_response(username)
             else:
                 return JsonResponse({'error': 'Invalid request username or password'}, status=401)
-        except Exception as e:    
+        except Exception as e:
+            print(f"{e}")
             return JsonResponse({"error": "Internal server error while login"}, status=500)  
     return JsonResponse({"error": "Method not allowed"}, status=405)  
 
@@ -107,6 +114,9 @@ def login_verf(request):
 @csrf_exempt
 def not_logged_in(request):
     if request.method == "GET":
+        string = "hello"
+        encrypted = encrypt_string(string)
+        decrepted = decrypt_string (encrypted)
         try:
             decoded_payload = validate_jwt(request)
             if decoded_payload['type'] != 'Bearer':

@@ -4,8 +4,9 @@ import unittest
 import json
 import jwt
 import os
-from .authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response
+from .authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, get_jwt_secret
 from .double_factor_authenticate import authenticate_otp_redirect
+from .logout import generate_password, generate_encrypted_secret, decrypt_string, encrypt_string
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -13,6 +14,7 @@ from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from .models import User_2fa
 # from models import get_user_id
 import jwt
 import json
@@ -30,14 +32,21 @@ class YourAppViewsTest(unittest.TestCase):
     #     # Create a Django test client
     #     # self.client = Client()
     def test_authenticate_otp_redirect(self):
-            # Get the current time
+            # Get  current time
             current_time = datetime.datetime.utcnow()
             username = 'testuser'
+            password = generate_password(13)
+            if not User.objects.filter(username=username).exists():
+                user = User.objects.create_user(username=username, password=password)
+                user.save()
+                user_2fa = User_2fa.objects.create(user=user)
+                user_2fa.jwt_secret = generate_password(13)
+                user_2fa.save()
             response = authenticate_otp_redirect(username)
             json_response = json.loads(response.content.decode('utf-8'))
 
             # Decode the JWT token and verify its claims
-            decoded_token = jwt.decode(json_response['jwt_token'], os.environ['SECRET_PASS'], algorithms=['HS256'])
+            decoded_token = jwt.decode(json_response['jwt_token'], os.environ['SECRET_PASS'] + get_jwt_secret(username), algorithms=['HS256'])
             self.assertEqual(decoded_token['username'], username)
             self.assertEqual(decoded_token['type'], 'otp')
 
@@ -59,6 +68,7 @@ class YourAppViewsTest(unittest.TestCase):
         data = {'username': username, 'password': password}
         result, response = is_valid_input(username, password, data)
         self.assertTrue(result)
+  
 
     def test_is_valid_input_empty_username(self):
         username = ''
@@ -84,7 +94,27 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertFalse(result)
         self.assertEqual(response.status_code, 400)
 
-   
+    def test_generate_secret(self):
+         self.assertEqual(len(generate_password()), 13)
+         for i in range(1, 35):
+            self.assertEqual(len(generate_password(i)), i)
+
+    def test_generate_encrypted_secret(self):
+         self.assertEqual(len(decrypt_string(generate_encrypted_secret())), 13)
+         for i in range(1, 35):
+            self.assertEqual(len(decrypt_string(generate_encrypted_secret(i))), i)
+
+    # def gen_jwt_token(username, type, exp_mins, id):
+    #     expiration_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=exp_mins)
+
+    #     exp_unix_timestamp = int(expiration_time.timestamp())
+    #     encoded_jwt = jwt.encode({
+    #                                 "username": username,
+    #                                 "id": id,
+    #                                 "exp": exp_unix_timestamp,
+    #                                 "type": type,
+    #                             }, os.environ['SECRET_PASS'], algorithm="HS256")
+    #     return encoded_jwt   
     #     # Test registration with an existing username
     #     response = self.client.post('/register/', json.dumps({'username': 'testuser', 'password': 'newpassA0word'}), content_type='application/json')
     #     self.assertEqual(response.status_code, 400)
