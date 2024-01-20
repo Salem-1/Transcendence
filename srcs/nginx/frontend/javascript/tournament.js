@@ -95,7 +95,7 @@ function showAllPlayers() {
 }
 
 function isvalidPlayerName(players, playerName){
-    if (!playerName || playerName === '' || playerName.length > 35) {
+    if (!playerName || playerName === '' || playerName.length > 14) {
         alert("Please enter a valid player name.");
         return (false) ;
     }
