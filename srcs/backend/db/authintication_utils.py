@@ -155,5 +155,5 @@ def get_jwt_secret(given_username):
         secret = decrypt_string(user_2fa.jwt_secret)
         return secret
     except Exception as e:
-        print(f"\nerror getting jwt_secret{e} \n")
-    return user_2fa.jwt_secret
+        return user_2fa.jwt_secret
+    

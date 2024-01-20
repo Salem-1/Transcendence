@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from db.views import register_user, login_user, auth_intra, fetch_username, double_factor_auth, set_double_factor_auth
-from db.views import login_verf, redirect_uri, not_logged_in
+from db.views import login_verf, redirect_uri, not_logged_in, logout_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', register_user, name="register_user"),
     path('login/', login_user, name="login_user"),
+    path('logout/', logout_user, name="logout_user"),
     path('auth/', auth_intra, name="auth_intra"),
     path('username/', fetch_username, name="fetch_username"),
     path('double_factor_auth/', double_factor_auth, name="double_factor_auth"),

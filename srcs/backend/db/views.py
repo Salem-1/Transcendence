@@ -184,3 +184,18 @@ def redirect_uri(request):
 				.format(client_id)
 		return JsonResponse({"oauth_link": intra_link})
 	return JsonResponse({'error': "Method not allowed"}, status=405)
+
+@csrf_exempt
+def logout_user(request):
+    if request.method != "GET":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+    try:
+        decoded_payload = validate_jwt(request)
+        user_id = decoded_payload.get('id')
+        user = User.objects.get(id=user_id)
+        user_2fa = User_2fa.objects.get(user=user)
+        user_2fa.jwt_secret = generate_encrypted_secret(13)
+        user_2fa.save()
+        return JsonResponse({"message": "You are logged out!"})
+    except Exception as e:
+        return JsonResponse({"error": "internal server error logged out!"}, status=500)
