@@ -8,6 +8,9 @@ from django.http import HttpResponse
 import datetime
 from .authintication_utils import gen_jwt_token
 from .models import User_2fa
+from django.contrib.auth.models import User
+from .models import User_2fa
+from .send_otp import send_otp_email
 
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
@@ -41,6 +44,11 @@ def authenticate_otp_redirect(username):
                 content_type="application/json"
                 )
 
+def handle_intra_otp(username):
+    user = User.objects.get(username=username)
+    user_2fa = User_2fa.objects.get(user=user.id)
+    send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
+    return authenticate_otp_redirect(username)
 
 # import pyotp
 

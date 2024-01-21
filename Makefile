@@ -16,6 +16,7 @@ help:
 	@echo "  ps              : Show containers status"
 	@echo "  test            : Run backend and frontend tests"
 	@echo "  test_backend    : Run backend  tests"
+	@echo "  test_mini  	 : Run  backend mini_test.py only"
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo ""
 
@@ -46,6 +47,9 @@ test_backend:
 	@docker exec -it transcendence-django-1 python manage.py test db
 	@docker exec -it transcendence-django-1 python backend_tests/test_endpoints.py
 
+test_mini:
+	@docker exec -it transcendence-django-1 python backend_tests/mini_test.py
+	
 test_frontend:
 	@node srcs/tester/seleniumTest.js
 

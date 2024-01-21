@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
-# from .models import User_2fa
+from .models import User_2fa
+from.logout import generate_password, decrypt_string, decode_base64url
 # from django.views.decorators.csrf import csrf_exempt
 # from django.views.decorators.http import require_POST
 import jwt
@@ -52,6 +53,10 @@ def create_intra_user(username):
     if not username or username == "" or os.getenv('SECRET_PASS') == "":
         return False
     user = User.objects.create_user(username=username, password=os.getenv('SECRET_PASS'))
+    user.save()
+    user_2fa = User_2fa.objects.create(user=user)
+    user_2fa.jwt_secret = generate_password(13)
+    user_2fa.save()
     return True
     
 def is_valid_input(username, password, data):
@@ -85,7 +90,7 @@ def gen_jwt_token(username, type, exp_mins):
                                 "id": get_user_id(username),
                                 "exp": exp_unix_timestamp,
                                 "type": type,
-                            }, os.environ['SECRET_PASS'], algorithm="HS256")
+                            }, os.environ['SECRET_PASS'] + get_jwt_secret(username), algorithm="HS256")
     return encoded_jwt.decode('utf-8')  
 
 def tokenize_login_response(username):
@@ -125,9 +130,30 @@ def validate_jwt(request):
     jwt_token = request.COOKIES.get('Authorization')
     if jwt_token and jwt_token.startswith('Bearer '):
         jwt_token = jwt_token.split('Bearer ')[1]
-        decode_token = jwt.decode(jwt_token, os.environ['SECRET_PASS'], algorithms=['HS256'])
+        user_jwt_secret = get_user_jwt_secret(jwt_token)
+        decode_token = jwt.decode(
+                        jwt_token, 
+                        os.environ['SECRET_PASS'] + user_jwt_secret , 
+                        algorithms=['HS256']
+                    )
         if (decode_token['exp'] > current_unix_timestamp):
             return decode_token
-        print("expired token")
-    else:
-        raise jwt.exceptions.InvalidTokenError()
+    raise jwt.exceptions.InvalidTokenError()
+
+def get_user_jwt_secret(jwt_token):
+    try:
+        payload = jwt_token.split(".")
+        user_data = json.loads(decode_base64url(payload[1]))
+    except Exception as e:
+        print(f"\n {e}\n")
+    return get_jwt_secret(user_data["username"])
+
+def get_jwt_secret(given_username):
+    try:
+        user = User.objects.get(username=given_username)
+        user_2fa = User_2fa.objects.get(user=user)
+        secret = decrypt_string(user_2fa.jwt_secret)
+        return secret
+    except Exception as e:
+        return user_2fa.jwt_secret
+    

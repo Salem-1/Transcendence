@@ -33,7 +33,7 @@ async function runTest(testtype) {
 			// tournamentInputTestCases(user);
 		}
 		if (testtype == "access" || testtype == "all" || testtype == 4) {
-			await testHomePageAccess(user, pass, "Invalid username", 20);
+			await testHomePageAccess(user, pass, "Invalid username or password", 20);
 		}
 		if (testtype == "intra" || testtype == "all" || testtype == 5)
 			await testIntraAuth("hello", 11);
@@ -65,7 +65,7 @@ async function registerTestCases(user) {
 		"usedfgdfsgdsr",
 		"",
 		"3322122233",
-		"Passwords too short, should be 8 cahr at leaset",
+		"Password should be 8 char at leaset and not more than 35 chars",
 		3
 	);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
@@ -73,7 +73,7 @@ async function registerTestCases(user) {
 		generateRandomText(8),
 		"3333",
 		"3333",
-		"Passwords too short, should be 8 cahr at leaset",
+		"Password should be 8 char at leaset and not more than 35 chars",
 		4
 	);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
@@ -81,7 +81,7 @@ async function registerTestCases(user) {
 		generateRandomText(8),
 		"",
 		"",
-		"Passwords too short, should be 8 cahr at leaset",
+		"Password should be 8 char at leaset and not more than 35 chars",
 		5
 	);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
@@ -97,7 +97,7 @@ async function registerTestCases(user) {
 		"",
 		"3322122233",
 		"3322122233",
-		"Registration failed: Choose longer username",
+		"Registration failed:  invalid username",
 		7
 	);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
@@ -144,11 +144,11 @@ async function registerTestCases(user) {
 }
 
 async function lgoinTestCases(user) {
-	await testLogin("user2", "", "Invalid username", 9);
+	await testLogin("user2", "", "Invalid username or password", 9);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
-	await testLogin("", "3322122233", "Invalid username", 10);
+	await testLogin("", "3322122233", "Invalid username or password", 10);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
-	await testLogin("user'---", "3cC322122233", "Invalid username", 12);
+	await testLogin("user'---", "3cC322122233", "Invalid username or password", 12);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 

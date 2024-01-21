@@ -12,7 +12,7 @@ function loginBody(){
 				required
 				placeholder="Username"
 				autocomplete="username"
-				max-length="11"
+				maxlength="20"
 			/>
 			<input
 				type="password"
@@ -21,6 +21,7 @@ function loginBody(){
 				required
 				placeholder="Password"
 				autocomplete="current-password"
+				maxlength="35"
 			/>
 			<input type="submit" hidden />
 			<div id="login" onclick="login()">

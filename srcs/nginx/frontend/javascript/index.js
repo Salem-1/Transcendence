@@ -79,10 +79,10 @@ async function login() {
 }
 
 function isValidRegeistrationIput(username, password, confirmPassword) {
-	if (username.length < 1)
-		alert("Registration failed: Choose longer username");
-	else if (password.length < 8)
-		alert("Passwords too short, should be 8 cahr at leaset");
+	if (username.length < 1 || username.length > 20)
+		alert("Registration failed:  invalid username");
+	else if (password.length < 8 || password.length > 35)
+		alert("Password should be 8 char at leaset and not more than 35 chars");
 	else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
 		alert(
 			"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'"
@@ -105,13 +105,15 @@ function isValidRegeistrationIput(username, password, confirmPassword) {
 
 function isValidLoginIput(username, password) {
 	if (
-		!(
+	!(
 			username.length > 1 &&
+			username.length < 20 &&
 			password.length > 7 &&
+			password.length < 35 &&
 			!/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)
 		)
 	) {
-		alert("Invalid username");
+		alert("Invalid username or password");
 		return false;
 	} else if (
 		!(
@@ -121,7 +123,7 @@ function isValidLoginIput(username, password) {
 		)
 	) {
 		alert(
-			"Login failed: password must contain at least one upper, lower case letters and number"
+			"Login failed: invalid username or password"
 		);
 		return false;
 	}
