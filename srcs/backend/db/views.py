@@ -1,40 +1,35 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from .models import User_2fa
 from django.contrib.auth import authenticate, login
 from django.http  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound
-from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, generate_otp_secret, verify_OTP,  generate_otp
+from .double_factor_authenticate import is_2fa_enabled, authenticate_otp_redirect, generate_otp_secret, verify_OTP,  generate_otp, handle_intra_otp
 import json
 import jwt
 import pyotp
 import os
 from db.authintication_utils import fetch_auth_token, fetch_intra_user_data, login_intra_user, create_intra_user, is_valid_input, tokenize_login_response, validate_jwt
 from .logout import encrypt_string, decrypt_string, generate_password, generate_encrypted_secret
-from .models import User_2fa
 from .send_otp import send_otp_email, not_valid_email, send_smtp_email
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from .responses import http_responses
+from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
+
 
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
         try:
-            data = json.loads(request.body)
-            username  = data.get('username')
-            password  = data.get('password')
-            valid_input, error_message = is_valid_input(username, password, data);
+            valid_input , username, password, error_message = get_registration_data(request);
             if not valid_input:
                 return error_message
             elif User.objects.filter(username=username).exists():
                 return JsonResponse({'error': "Username already taken"}, status=400)
-            user = User.objects.create_user(username=username, password=password)
-            user.save()
-            user_2fa = User_2fa.objects.create(user=user)
-            user_2fa.jwt_secret = generate_encrypted_secret(13)
-            user_2fa.save()
+            create_new_user(username, password)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
             return JsonResponse({'error': "Internal server error"}, status=500)  
@@ -45,10 +40,7 @@ def login_user(request):
     print(request)
     if request.method =='POST':
         try:
-            data = json.loads(request.body)
-            username  = data.get('username')
-            password  = data.get('password')
-            valid_input, error_message = is_valid_input(username, password, data)
+            valid_input , username, password, error_message = get_registration_data(request);
             if not valid_input:
                 return error_message
             user = authenticate(request, username=username, password=password)
@@ -84,16 +76,7 @@ def auth_intra(request):
                             and login_intra_user(request, username)):
                     user_data = User.objects.get(username=username)
                     if is_2fa_enabled(user_data):
-                        print("getting user")
-                        user = User.objects.get(username=username)
-                        print("getting user2fa")
-                        user_2fa = User_2fa.objects.get(user=user.id)
-                        print("testing queries")
-                        print(f"username {user.email}")
-                        print(f" secret {user_2fa.two_factor_secret} ")
-                        send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
-                        # send_otp_email(User.objects.get(use=username).email, generate_otp(User_2fa.objects.get(user=username).two_factor_secret))
-                        return authenticate_otp_redirect(username)
+                        return handle_intra_otp(username)
                     return  tokenize_login_response(username)
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
@@ -104,10 +87,9 @@ def auth_intra(request):
 def fetch_username(request):
     try:
         decoded_payload = validate_jwt(request)
+        user, user_2fa, user_id =   fetch_user_data(decoded_payload)
         if decoded_payload['type'] != 'Bearer':
             raise jwt.exceptions.InvalidTokenError()
-        user_id = decoded_payload.get('id')
-        user = User.objects.get(id=user_id)
         fetched_username = user.username
         return JsonResponse({"username": fetched_username, "id": user_id})
     except Exception as e:
@@ -166,10 +148,7 @@ def double_factor_auth(request):
 def set_double_factor_auth(request):
     if request.method == "POST":
         try:
-            decoded_payload = validate_jwt(request)
-            user_id = decoded_payload.get('id')
-            user = User.objects.get(id=user_id)
-            user_2fa = User_2fa.objects.get(user=user)
+            user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
             request_body = json.loads(request.body)
             if request_body['enable2fa'] == "false":
                 user_2fa.enabled_2fa = False
@@ -199,10 +178,7 @@ def logout_user(request):
     if request.method != "GET":
         return JsonResponse({"error": "Method not allowed"}, status=405)
     try:
-        decoded_payload = validate_jwt(request)
-        user_id = decoded_payload.get('id')
-        user = User.objects.get(id=user_id)
-        user_2fa = User_2fa.objects.get(user=user)
+        user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
         user_2fa.jwt_secret = generate_encrypted_secret(13)
         user_2fa.save()
         return JsonResponse({"message": "You are logged out!"})
@@ -215,12 +191,8 @@ def logout_user(request):
 def submit_2fa_email(request):
     if request.method == "POST":
         try:
-            decoded_payload = validate_jwt(request)
-            user_id = decoded_payload.get('id')
-            user = User.objects.get(id=user_id)
-            user_2fa = User_2fa.objects.get(user=user)
+            user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
             request_body = json.loads(request.body)
-            
             if user_2fa.enabled_2fa:
                 return JsonResponse({'error': "Double factor authentication already enabled"}, status=408)
             if not_valid_email(request_body):
@@ -232,10 +204,8 @@ def submit_2fa_email(request):
                 return JsonResponse({'error': "Email sending failed"}, status=response.status_code)
             user.email = request_body["email"]
             user.save()
-            print(f"{user.email} saved to {user.username}")
             return JsonResponse({'message': "One time password sent to your email"}, status=response.status_code)
         except Exception as e:
-            print(e)
             return JsonResponse({'error': "Unauthorized acces"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
@@ -244,10 +214,7 @@ def enable_2fa_email(request):
     if request.method != "POST":
         return JsonResponse({'error': "Method not allowed"}, status=405)
     try:
-        decoded_payload = validate_jwt(request)
-        user_id = decoded_payload.get('id')
-        user = User.objects.get(id=user_id)
-        user_2fa = User_2fa.objects.get(user=user)    
+        user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
         request_body = json.loads(request.body)
         if not request_body or "otp" not in request_body \
             or "email" not in request_body or len(request_body) != 2:
@@ -259,12 +226,8 @@ def enable_2fa_email(request):
         user_2fa.enabled_2fa = True
         user_2fa.save()
         return JsonResponse({"message": "2FA enabled!"})
-
     except Exception as e:
-        print(e)
         return JsonResponse({"error": "Invalid authorization token"}, status=401)
-    #extract email and secret
-    #verify email and enable 2fa if correct otherwise send error code
     return JsonResponse({"error": "failed to enable 2FA"}, status=401)
 
 @csrf_exempt
@@ -272,10 +235,8 @@ def test_send_otp(request):
     if request.method == "GET":
         try:
             send_otp_email("pong@null.net", "000000 this is a test otp")
-            # send_smtp_email("pong@null.net", "000000")
         except Exception as e:
             return JsonResponse({"error": f"{e}"}, status=401)
-        # send_otp_email("pong@null.net", "<test for sending emails 0000>")
         return JsonResponse({"message": "Test email sent"})
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
