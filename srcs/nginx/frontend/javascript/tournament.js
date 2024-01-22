@@ -77,6 +77,8 @@ function showPlayerName(playerName) {
     button.classList.add("delete-button")
     console.log(`players now [${players}]'n`)
     cell2.appendChild(button);
+	var tablebody = document.querySelector("table tbody");
+	tablebody.scrollTop = tablebody.scrollHeight;
 }
 
 function showAllPlayers() {
