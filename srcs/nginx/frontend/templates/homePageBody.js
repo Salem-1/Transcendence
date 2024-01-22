@@ -48,8 +48,8 @@ function homePageBody(){
 							</div>
 						</div>
 						<div class="player-table">
+						<form action="javascript:;" onsubmit="addPlayer()">
 							<table>
-								<form action="javascript:;" onsubmit="addPlayer()">
 									<thead>
 										<tr>
 											<th>
@@ -65,9 +65,9 @@ function homePageBody(){
 											</th>
 										</tr>
 									</thead>
-								</form>
-								<tbody></tbody>
-							</table>
+									<tbody></tbody>
+									</table>
+						</form>
 							<div id="launch-tournamet" onclick="launchTournament()">
 								<div class="tour-button-div-one" style="background: #82764D;"></div>
 								<div id="black" class="tour-button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
