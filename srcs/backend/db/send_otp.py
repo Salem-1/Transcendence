@@ -38,6 +38,7 @@ def not_valid_email(request_body):
     return False
 
 def send_smtp_email(reciever, otp):
+    return email_logging(reciever, otp, 202)
     sent = send_mail(
     'Pong one time password',
     f"your otp is {otp}.  powered by Malik server",
