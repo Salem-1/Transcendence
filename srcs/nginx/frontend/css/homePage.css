@@ -64,6 +64,7 @@ body {
 	transform: translate(-50%, -50%);
 	top: 60%;
 	left: 50%;
+	z-index: 1;
 }
 
 .buttons {
@@ -272,6 +273,7 @@ body {
 
 .dropdown-content {
 	border-radius: 20px;
+	position: relative;
 	float: right;
 	margin-top: 10px;
 	margin-right: 20px;
@@ -279,7 +281,7 @@ body {
 	background-color: #f9f9f9;
 	min-width: 240px;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+	z-index: 10;
 }
 
 .dropdown-content a {

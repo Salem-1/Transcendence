@@ -69,6 +69,14 @@ const urlRoutes = {
 		theme: "/css/tournament_styles.css",
 		script: ["/javascript/tournament_algorithm.js"],
 	},
+	"/settings": {
+		template: settingsBody(),
+		title: "Settings | " + urlPageTitle,
+		description: "This is the Settings page",
+		script: ["/javascript/dropDown.js"],
+		theme: "/css/settings.css",
+		requiresAuth: true,
+	},
 };
 
 async function callRoute(route) {
