@@ -3,8 +3,6 @@ function homePageBody(){
 
 		<!-- <h1>You are logged in ya basha</h1> -->
 		<!-- <h1 id="greet">hsdfsdfged User</h1> -->
-		<button type="button" onclick="enable2FA()">Enable 2FA</button>
-		<button type="button" onclick="disable2FA()">Disable2 FA</button>
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
@@ -13,7 +11,7 @@ function homePageBody(){
 						<div class="drrp">
 							<a class="button-text" href="#">PROFILE</a>
 							<hr>
-							<a class="button-text" href="#">SETTINGS</a>
+							<a class="button-text" onclick="callRoute('/settings')">SETTINGS</a>
 							<hr>
 							<a class="button-text" onclick="logout()">LOG OUT</a>
 						</div>
