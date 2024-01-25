@@ -1,0 +1,11 @@
+{
+	"login": "login",
+	"login 42": "login 42",
+	"Register": "Registrar",
+	"Qoutes": "Cotações",
+	"Username": "Nome de usuário",
+	"Password": "Senha",
+	"Confirm Password": "Confirmar Senha",
+	"Password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
+	"Password match": "Falha no registro: Senhas não coincidem"
+}

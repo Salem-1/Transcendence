@@ -1,0 +1,11 @@
+{
+	"login": "login",
+	"login 42": "login 42",
+	"Register": "Register",
+	"Qoutes": "Qo{utes",
+	"Username": "Username",
+	"Password": "Password",
+	"Confirm Password": "Confirm Password",
+	"Password length": "Password should be 8 char at leaset and not more than 35 chars",
+	"Password match": "Registration failed: Passwords do not match"
+}

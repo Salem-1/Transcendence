@@ -1,0 +1,10 @@
+{
+	"login": "Iniciar sesión",
+	"login 42": "Iniciar sesión con 42",
+	"Register": "Registrarse",
+	"Username": "Nombre de usuario",
+	"Password": "Contraseña",
+	"Confirm password": "Confirmar contraseña",
+	"Password length": "La contraseña debe tener al menos 6 caracteres",
+	"Password match": "Las contraseñas no coinciden"
+}
