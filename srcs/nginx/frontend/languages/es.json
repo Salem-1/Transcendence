@@ -1,7 +1,7 @@
 {
-	"login": "Iniciar sesión",
-	"login 42": "Iniciar sesión con 42",
-	"Register": "Registrarse",
+	"login": "INICIAR SESIÓN",
+	"login 42": "IniciAR SESIÓN CON 42",
+	"Register": "REGISTRARSE",
 	"Username": "Nombre de usuario",
 	"Password": "Contraseña",
 	"Confirm password": "Confirmar contraseña",

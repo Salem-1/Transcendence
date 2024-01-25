@@ -1,8 +1,8 @@
 {
-	"login": "login",
-	"login 42": "login 42",
-	"Register": "Register",
-	"Qoutes": "Qo{utes",
+	"login": "LOGIN",
+	"login 42": "LOGIN 42",
+	"Register": "REGISTER",
+	"Qoutes": "Qoutes",
 	"Username": "Username",
 	"Password": "Password",
 	"Confirm Password": "Confirm Password",

@@ -69,6 +69,13 @@ const urlRoutes = {
 		theme: "/css/tournament_styles.css",
 		script: ["/javascript/tournament_algorithm.js"],
 	},
+	"/sandbox": {
+		template: sandbox(),
+		title: "sandbox | " + urlPageTitle,
+		description: "This is the sandbox page",
+		theme: "/css/style.css",
+		// script: ["/javascript/sandbox.js"],
+	},
 };
 
 async function callRoute(route) {
