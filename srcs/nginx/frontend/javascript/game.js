@@ -191,7 +191,21 @@ function handleKeyPress(game) {
     handleKeyUp(game);
 }
 
-function playGame() {
+function getWinner(game) {
+    const {p1, p2} = game;
+    if ((p1.score == 7 || p2.score == 7) && Math.abs(p1.score - p2.score) == 7)
+        return (p1.score > p2.score ? 1 : 2);
+    if ((p1.score >= 11 || p2.score >= 11) && Math.abs(p1.score - p2.score) >= 2)
+        return (p1.score > p2.score ? 1 : 2);
+    return (0);
+}
+
+function gameOver() {
+    alert(`Player ${getWinner(game)} wins!`);
+    window.location.reload();
+}
+
+function startGame(gameOver) {
     const p1 = new Paddle(document.getElementById('p1'));
     const p2 = new Paddle(document.getElementById('p2'));
     const ball = new Ball(document.getElementById('ball'));
@@ -202,6 +216,7 @@ function playGame() {
     let lastTimestamp = 0;
     function gameLoop(timestamp) {
         const deltaTime = (timestamp - lastTimestamp) / 1000;
+
         if (!game.pause)
         {
             p1.update(deltaTime);
@@ -209,9 +224,16 @@ function playGame() {
             ball.update(deltaTime, p1, p2);
         }
         lastTimestamp = timestamp;
-        window.requestAnimationFrame(gameLoop);
+        if (getWinner(game) == 0)
+            window.requestAnimationFrame(gameLoop);
+        else
+            gameOver();
     }
-    window.requestAnimationFrame(gameLoop);
+    return gameLoop;
+}
+
+function playGame() {
+    window.requestAnimationFrame(startGame(gameOver));
 }
 
 playGame();
