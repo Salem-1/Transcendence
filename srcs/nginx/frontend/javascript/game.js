@@ -200,40 +200,31 @@ function getWinner(game) {
     return (0);
 }
 
-function gameOver() {
-    alert(`Player ${getWinner(game)} wins!`);
-    window.location.reload();
-}
-
-function startGame(gameOver) {
-    const p1 = new Paddle(document.getElementById('p1'));
-    const p2 = new Paddle(document.getElementById('p2'));
-    const ball = new Ball(document.getElementById('ball'));
-    game = {p1, p2, ball, pause: false};
-
-    handleKeyPress(game);
-
-    let lastTimestamp = 0;
-    function gameLoop(timestamp) {
-        const deltaTime = (timestamp - lastTimestamp) / 1000;
-
-        if (!game.pause)
-        {
-            p1.update(deltaTime);
-            p2.update(deltaTime);
-            ball.update(deltaTime, p1, p2);
-        }
-        lastTimestamp = timestamp;
-        if (getWinner(game) == 0)
-            window.requestAnimationFrame(gameLoop);
-        else
-            gameOver();
-    }
-    return gameLoop;
-}
-
 function playGame() {
-    window.requestAnimationFrame(startGame(gameOver));
-}
+    return new Promise(resolve => {
+        const p1 = new Paddle(document.getElementById('p1'));
+        const p2 = new Paddle(document.getElementById('p2'));
+        const ball = new Ball(document.getElementById('ball'));
+        game = {p1, p2, ball, pause: false};
 
-playGame();
+        handleKeyPress(game);
+
+        let lastTimestamp = Date.now();
+        const intervalId = setInterval(() => {
+            if (getWinner(game) !== 0) {
+                clearInterval(intervalId);
+                resolve(getWinner(game));
+            }
+
+            const timestamp = Date.now();
+            const deltaTime = (timestamp - lastTimestamp) / 1000;
+            lastTimestamp = timestamp;
+
+            if (!game.pause) {
+                p1.update(deltaTime);
+                p2.update(deltaTime);
+                ball.update(deltaTime, p1, p2);
+            }
+        }, 16.666);
+    });
+}
