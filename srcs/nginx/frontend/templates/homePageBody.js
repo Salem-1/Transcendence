@@ -20,7 +20,7 @@ function homePageBody(){
 			</div>
 			<div class="btns">
 				<div class="buttons">
-					<div id="single-player" onclick="callRoute('/game')">
+					<div id="single-player" onclick="callRoute('/AIgame')">
 						<div class="button-div-one" style="	background: #c7a940"></div>
 						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text">SINGLE PLAYER</h1></div>
