@@ -11,7 +11,5 @@ function gamePageBody(){
     <div class="p" id="p1"></div>
     <div class="p" id="p2"></div>
     <div class="ball" id="ball"></div>
-
-    <script src="game.js" type="module"></script>
     `);
 }

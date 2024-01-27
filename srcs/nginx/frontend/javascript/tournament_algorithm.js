@@ -36,64 +36,83 @@ function initTournament(){
     displayRound(round, level);
 }
 
-function playGame(player1, player2){
-    if (!player2)
-        return (player1);
-    else if (confirm(`${player1} wins ${player2}?`))
-        return (player1);
-    else 
-        return (player2);
+// function playGame(player1, player2){
+//     if (!player2)
+//         return (player1);
+//     else if (confirm(`${player1} wins ${player2}?`))
+//         return (player1);
+//     else 
+//         return (player2);
+// }
+
+async function    playFinals(round){ 
+    let winner = await playGame(round[0][0], round[0][1]);
+    console.log(`displaying winner ${winner}`);
+    return (winner);
+    // return(await playGame(round[0][0], round[0][1]));
 }
 
-function    playFinals(round){    
-    return(playGame(round[0][0], round[0][1]));
+async function    navigateBackToTourment(){
+    route_tourn =  {
+        template: tournamentBody(),
+        description: "This is the tournament page",
+        theme: "/css/tournament_styles.css",
+    }
+    html = route_tourn.template;
+    document.getElementById("content").innerHTML = html;
+    document.querySelector('meta[name="description"]').setAttribute("content", route_tourn.description);
+    if (route_tourn.theme)
+        theme.setAttribute("href", route_tourn.theme);
+    else
+        theme.setAttribute("href", defaulttheme);
 }
 
-
-
-function    startTournament(){
+async function    startTournament(){
     var players = JSON.parse(localStorage.getItem('players')) || [];
     let storedRoundJSON = localStorage.getItem('round');
     let storedLevelString = localStorage.getItem('level');
     let round = JSON.parse(storedRoundJSON);
     let level = parseInt(storedLevelString);
+
     if (!players || players.length < 2 || players.length > 8 || !round || !level)
         throw new Error("error: fetching players for the tournament");
     let winner = "";
+    
     if (level == 1)
-        winner = playFinals(round);
+        winner = await playFinals(round);
     else if (level == 2)
-        winner = playSemiFinals(round);
+        winner = await playSemiFinals(round);
     else if (level == 3)
-        winner = playQuarterFinals(round);
+        winner = await playQuarterFinals(round);
     else
         throw new Error("Invalid number of players");
+    await navigateBackToTourment();
     displayWinner(winner);
 }
 
-function    playQuarterFinals(round){
+async function    playQuarterFinals(round){
 
     let round3 = {"0": [
-                        playGame(round[0][0], round[0][1]), 
-                        playGame(round[1][0], round[1][1])
+                        await playGame(round[0][0], round[0][1]), 
+                        await playGame(round[1][0], round[1][1])
                     ],
                     "1": [
-                        playGame(round[2][0], round[2][1]), 
-                        round[3] ? playGame(round[3][0], round[3][1]) : null ,
+                        await playGame(round[2][0], round[2][1]), 
+                        round[3] ? await playGame(round[3][0], round[3][1]) : null ,
                     ], 
                     }
-    displaySemiFinal(round3);          
-    return (playSemiFinals(round3));
+    // displaySemiFinal(round3);          
+    return (await playSemiFinals(round3));
 
 }
 
-function playSemiFinals(round){
+async function playSemiFinals(round){
     let round2 = {"0": [
-                        playGame(round['0'][0], round['0'][1]),
-                        playGame(round['1'][0], round['1'][1])
+                        await playGame(round['0'][0], round['0'][1]),
+                        await playGame(round['1'][0], round['1'][1])
                   ]};
-    displayFinals(round2);
-    return (playFinals(round2));
+    // displayFinals(round2);
+    return (await playFinals(round2));
 }
 
 function    displayWinner(winner){
@@ -117,6 +136,7 @@ function displayRound(round, level){
 function showOnePlayer(player_place, playername){
     if (!playername)
         playername = "";
+
     player_place.innerText  = playername;
     player_place.style.display  = 'inline';
 }

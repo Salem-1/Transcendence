@@ -1,12 +1,13 @@
-const PADDLE_SPEED = 50;
-const BALL_SPEED = 50;
-const PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
+
+     PADDLE_SPEED = 50;
+    let BALL_SPEED = 50;
+    let PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--paddle-height"));
-const PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
+    let PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--paddle-width"));
-const BALL_WIDTH = parseFloat(getComputedStyle(document.body).
+    let BALL_WIDTH = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--ball-width"));
-const BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
+    let BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
     getPropertyValue("--ball-height"));
 
 class Paddle {
@@ -110,16 +111,16 @@ class Ball {
         const dx = this.direction.x * BALL_SPEED * dt;
         const dy = this.direction.y * BALL_SPEED * dt;
         
-        if (this.position.y + dy <= 0 || this.position.y + BALL_HEIGHT + dy >= 100) {
+        if (this.position.y + dy <= 1 || this.position.y + BALL_HEIGHT + dy >= 99) {
             this.direction.y *= -1;
         }
-        if (this.position.x + dx < 0) {
+        if (this.position.x + dx < 1) {
             p2.score++;
 			const score2 = document.getElementById('score2');
 			score2.innerHTML = p2.score;
             this.reset();
         }
-        if (this.position.x + BALL_WIDTH + dx > 100) {
+        if (this.position.x + BALL_WIDTH + dx > 99) {
             p1.score++;
 			const score1 = document.getElementById('score1');
 			score1.innerHTML = p1.score;
@@ -193,17 +194,34 @@ function handleKeyPress(game) {
 
 function getWinner(game) {
     const {p1, p2} = game;
-    if ((p1.score == 7 || p2.score == 7) && Math.abs(p1.score - p2.score) == 7)
+    if ((p1.score == 1 || p2.score == 1) && Math.abs(p1.score - p2.score) == 1)
         return (p1.score > p2.score ? 1 : 2);
     if ((p1.score >= 11 || p2.score >= 11) && Math.abs(p1.score - p2.score) >= 2)
         return (p1.score > p2.score ? 1 : 2);
     return (0);
 }
 
-async function playGame() {
+async function playGame(player1, player2) {
+    if (!player2)
+        return (player1);
+
+    let route =  {
+            template: gamePageBody(),
+            description: "This is the Game page",
+            theme: "/css/game.css",
+            requiresAuth: true,
+        }
+    let html = route.template;
+	document.getElementById("content").innerHTML = html;
+	document.querySelector('meta[name="description"]').setAttribute("content", route.description);
+	if (route.theme)
+	    theme.setAttribute("href", route.theme);
+	else
+	    theme.setAttribute("href", defaulttheme);
     const p1 = new Paddle(document.getElementById('p1'));
     const p2 = new Paddle(document.getElementById('p2'));
     const ball = new Ball(document.getElementById('ball'));
+
     const game = { p1, p2, ball, pause: false };
 
     handleKeyPress(game);
@@ -224,21 +242,34 @@ async function playGame() {
                 p2.update(deltaTime);
                 ball.update(deltaTime, p1, p2);
             }
-        }, 16.666);
+        }, 1.666);
     });
-    return (getWinner(game));
-}
+    
+    if (getWinner(game) == 1){
 
-function searchToObject() {
-    const pairs = window.location.search.substring(1).split("&");
-    const obj = {};
-
-    for (let i = 0; i < pairs.length; i++) {
-        const pair = pairs[i].split('=');
-        obj[pair[0]] = pair.length > 1 ?  pair[1] : '';
+        console.log(player1);
+        return (player1);
     }
-    return (obj);
+    else if (getWinner(game) == 2){
+        
+        console.log(player2);
+        return (player2);
+    }
+    else
+        return ("error happend nobody won :(");
+    // return (getWinner(game));
 }
+
+// function searchToObject() {
+//     const pairs = window.location.search.substring(1).split("&");
+//     const obj = {};
+
+//     for (let i = 0; i < pairs.length; i++) {
+//         const pair = pairs[i].split('=');
+//         obj[pair[0]] = pair.length > 1 ?  pair[1] : '';
+//     }
+//     return (obj);
+// }
 
 /**
  * 
@@ -248,19 +279,18 @@ function searchToObject() {
  * players will be taken from window.location.search
  * if no players are found, it will be a 1 v 1 game
  */
-async function playTournament() {
-    const players = searchToObject();
-    if (Object.keys(players).length <= 1) {
-        return (await playGame());
-    }
-    
-    /**
-     * TODO: implement tournament
-     */
+// async function playTournament() {
+//     const players = searchToObject();
+//     if (Object.keys(players).length <= 1) {
+//         return (await playGame());
+//     }
+//     /**
+//      * TODO: implement tournament
+//      */
 
-    return (-1);
-}
+//     return (-1);
+// }
 
-playTournament().then(winner => {
-    console.log(winner);
-});
+// playTournament().then(winner => {
+//     console.log(winner);
+// });
