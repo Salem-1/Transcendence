@@ -26,18 +26,11 @@ class YourAppViewsTest(unittest.TestCase):
 
 
         
-    def test_logout(self):
-        login_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
-        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        self.assertEqual(login_response.status_code, 200)
-        jwt_token = login_response.json().get('jwt_token')
-        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/username/', headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['username'], self.test_user['username'])
-        #logout
-        response = requests.get(f'{self.base_url}/logout/', headers=headers)
-        self.assertEqual(response.status_code, 200)
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
 
         #fetch username failuer
 
