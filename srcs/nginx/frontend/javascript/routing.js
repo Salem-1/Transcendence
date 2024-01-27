@@ -136,6 +136,9 @@ const urlLocationHandler = async () => {
 			document.body.appendChild(script);
 		}
 	}
+	const userPreferredLanguage = localStorage.getItem("language") || "en";
+	const langData = await fetchLanguageData(userPreferredLanguage);
+	updateContent(langData);
 };
 
 async function isLoggedIn() {

@@ -29,10 +29,10 @@ async function changeLanguage(lang) {
 	updateContent(langData);
 }
 
-// Call updateContent() on page load
-window.addEventListener("DOMContentLoaded", async () => {
-	const userPreferredLanguage = localStorage.getItem("language") || "en";
-	const langData = await fetchLanguageData(userPreferredLanguage);
-	updateContent(langData);
-	document.documentElement.setAttribute("lang", userPreferredLanguage);
-});
+// // Call updateContent() on page load
+// window.addEventListener("DOMContentLoaded", async () => {
+// 	const userPreferredLanguage = localStorage.getItem("language") || "en";
+// 	const langData = await fetchLanguageData(userPreferredLanguage);
+// 	updateContent(langData);
+// 	document.documentElement.setAttribute("lang", userPreferredLanguage);
+// });
