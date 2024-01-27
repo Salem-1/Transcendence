@@ -51,12 +51,12 @@ function landingPageBody()
 					"
 				></div>
 				<div class="button-div-three">
-					<h1 class="button-text" data-i18n="Register" > REGISTER</h1>
+					<h1 class="button-text" data-i18n="register" > REGISTER</h1>
 				</div>
 			</div>
 			<div class="quote">
-				<h1 id="quote-text">
-					Quote: When someone says “Expect the Unexpected” slap them and say :
+				<h1 id="quote-text" data-i18n="qoute">
+					When someone says “Expect the Unexpected” slap them and say :
 					“You didn't expect that, did you?”
 				</h1>
 			</div>

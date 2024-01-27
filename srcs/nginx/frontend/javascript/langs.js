@@ -5,6 +5,9 @@ function updateContent(langData) {
         const key = element.getAttribute('data-i18n');
         // element.textContent = langData[key];
 		element.innerText = langData[key];
+		if (element.getAttribute('placeholder'))
+			console.log(element.getAttribute('placeholder'));
+			element.setAttribute('placeholder', langData[key]);
     });
 }
 

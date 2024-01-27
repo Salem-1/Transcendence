@@ -1,8 +1,38 @@
 {
 	"login": "LOGIN",
 	"login 42": "LOGIN 42",
-	"Register": "REGISTER",
-	"Qoutes": "Qoutes",
+	"register": "REGISTER",
+	"qoutes": "Qoutes",
+	"qoute": "When someone says “Expect the Unexpected” slap them and say : “You didn't expect that, did you?",
+
+	"404": "Oops! Page not found",
+	"go home": "Go Home",
+
+	"lets go": "Let's go",
+	"controls": "player 1: arrows, player 2: WASD",
+	"game over": "Game Over",
+	"play again": "Play Again",
+
+	"enable 2FA": "Enable 2FA",
+	"disable 2FA": "Disable 2FA",
+	"2FA": "2FA",
+	"2FA code": "2FA code",
+
+	"auth loading": "Authenticating...",
+
+	"profile": "PROFILE",
+	"settings": "SETTINGS",
+	"logout": "LOG OUT",
+
+	"single player": "SINGLE PLAYER",
+	"tournament": "TOURNAMENT",
+	"tournament players": "Tournament Players",
+	"player name": "Player Name",
+	"add": "ADD",
+	"start": "START",
+	"play game": "PLAY GAME",
+
+
 	"Username": "Username",
 	"Password": "Password",
 	"Confirm Password": "Confirm Password",

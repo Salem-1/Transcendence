@@ -1,11 +1,41 @@
 {
-	"login": "LOGIN",
-	"login 42": "LOGIN 42",
-	"Register": "REGISTRAR",
-	"Qoutes": "Cotações",
-	"Username": "Nome de usuário",
+	"login": "ENTRAR",
+	"login 42": "ENTRAR 42",
+	"register": "REGISTRAR",
+	"qoutes": "Citações",
+	"qoute": "Quando alguém diz 'Espere o Inesperado', dê um tapa neles e diga: 'Você não esperava por isso, não é?'",
+
+	"404": "Ops! Página não encontrada",
+	"go home": "Ir para Casa",
+
+	"lets go": "Vamos",
+	"controls": "Jogador 1: setas, Jogador 2: WASD",
+	"game over": "Fim do Jogo",
+	"play again": "Jogar Novamente",
+
+	"enable 2FA": "Ativar 2FA",
+	"disable 2FA": "Desativar 2FA",
+	"2FA": "2FA",
+	"2FA code": "Código 2FA",
+
+	"auth loading": "Autenticando...",
+
+	"profile": "PERFIL",
+	"settings": "CONFIGURAÇÕES",
+	"logout": "SAIR",
+
+	"single player": "UM JOGADOR",
+	"tournament": "TORNEIO",
+	"tournament players": "Jogadores do Torneio",
+	"player name": "Nome do Jogador",
+	"add": "ADICIONAR",
+	"start": "INICIAR",
+	"play game": "JOGAR JOGO",
+
+
+	"Username": "Nome de Usuário",
 	"Password": "Senha",
 	"Confirm Password": "Confirmar Senha",
 	"Password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
-	"Password match": "Falha no registro: Senhas não coincidem"
+	"Password match": "Falha no registro: As senhas não coincidem"
 }

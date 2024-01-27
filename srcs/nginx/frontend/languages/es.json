@@ -1,10 +1,41 @@
 {
 	"login": "INICIAR SESIÓN",
-	"login 42": "IniciAR SESIÓN CON 42",
-	"Register": "REGISTRARSE",
-	"Username": "Nombre de usuario",
+	"login 42": "INICIAR SESIÓN 42",
+	"register": "REGISTRARSE",
+	"qoutes": "Citas",
+	"qoute": "Cuando alguien dice 'Espera lo inesperado', dale una bofetada y dile: '¿No te lo esperabas, verdad?'",
+
+	"404": "¡Ups! Página no encontrada",
+	"go home": "Ir a Casa",
+
+	"lets go": "Vamos",
+	"controls": "Jugador 1: flechas, Jugador 2: WASD",
+	"game over": "Fin del Juego",
+	"play again": "Jugar de Nuevo",
+
+	"enable 2FA": "Activar 2FA",
+	"disable 2FA": "Desactivar 2FA",
+	"2FA": "2FA",
+	"2FA code": "Código 2FA",
+
+	"auth loading": "Autenticando...",
+
+	"profile": "PERFIL",
+	"settings": "AJUSTES",
+	"logout": "CERRAR SESIÓN",
+
+	"single player": "UN JUGADOR",
+	"tournament": "TORNEO",
+	"tournament players": "Jugadores del Torneo",
+	"player name": "Nombre del Jugador",
+	"add": "AÑADIR",
+	"start": "INICIAR",
+	"play game": "JUGAR JUEGO",
+
+
+	"Username": "Nombre de Usuario",
 	"Password": "Contraseña",
-	"Confirm password": "Confirmar contraseña",
-	"Password length": "La contraseña debe tener al menos 6 caracteres",
-	"Password match": "Las contraseñas no coinciden"
+	"Confirm Password": "Confirmar Contraseña",
+	"Password length": "La contraseña debe tener al menos 8 caracteres y no más de 35 caracteres",
+	"Password match": "Registro fallido: Las contraseñas no coinciden"
 }
