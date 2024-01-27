@@ -1,5 +1,5 @@
-function homePageBody(){
-	return (`
+function homePageBody() {
+	return `
 
 		<button type="button" onclick="enable2FA()" data-i18n="enable 2FA">Enable 2FA</button>
 		<button type="button" onclick="disable2FA()" data-i18n="disable 2FA">Disable2 FA</button>
@@ -80,5 +80,5 @@ function homePageBody(){
 					didn't expect that, did you?”</h1>
 				</div>
 			</div>
-		`)
+		`;
 }

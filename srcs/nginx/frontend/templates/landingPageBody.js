@@ -1,6 +1,5 @@
-function landingPageBody()
-{
-	return (`
+function landingPageBody() {
+	return `
  		<div class="btns">
 			<img
 				id="logo"
@@ -60,5 +59,5 @@ function landingPageBody()
 					“You didn't expect that, did you?”
 				</h1>
 			</div>
-		</div>`)
+		</div>`;
 }

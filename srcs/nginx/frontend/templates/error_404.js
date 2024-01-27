@@ -1,6 +1,5 @@
-
-function error_404(){
-		return (`
+function error_404() {
+	return `
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -64,5 +63,5 @@ function error_404(){
 	</div>
 	<footer>
 		<button type="button" onclick="callRoute('/')" data-i18n="go home">Go Home</button>
-		`)
+		`;
 }

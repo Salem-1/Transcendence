@@ -55,13 +55,13 @@ const urlRoutes = {
 		theme: "/css/style.css",
 		script: ["/javascript/auth.js"],
 	},
-	"/register_players": {
-		template: registerPlayers(),
-		title: "register_players | " + urlPageTitle,
-		description: "This is the registeration page for the tournament",
-		theme: "/css/tournament.css",
-		script: ["/javascript/tournament.js"],
-	},
+	// "/register_players": {
+	// 	template: registerPlayers(),
+	// 	title: "register_players | " + urlPageTitle,
+	// 	description: "This is the registeration page for the tournament",
+	// 	theme: "/css/tournament.css",
+	// 	script: ["/javascript/tournament.js"],
+	// },
 	"/tournament": {
 		template: tournamentBody(),
 		title: "tournament | " + urlPageTitle,

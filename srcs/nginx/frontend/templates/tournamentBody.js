@@ -1,6 +1,5 @@
-
-function tournamentBody(){
-	return(`
+function tournamentBody() {
+	return `
 	<h1>Hi this is your tournament</h1>
 	<div class="container text-center"></div>
 	<table>
@@ -71,5 +70,5 @@ function tournamentBody(){
 			<div class="team-name" class="col" id="winner">Winner place holder</div>
 		</div>
 	</section>
-	`);
+	`;
 }

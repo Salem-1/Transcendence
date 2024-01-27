@@ -33,9 +33,9 @@
 	"play game": "JUGAR JUEGO",
 
 
-	"Username": "Nombre de Usuario",
-	"Password": "Contraseña",
-	"Confirm Password": "Confirmar Contraseña",
-	"Password length": "La contraseña debe tener al menos 8 caracteres y no más de 35 caracteres",
-	"Password match": "Registro fallido: Las contraseñas no coinciden"
+	"username": "Nombre de Usuario",
+	"password": "Contraseña",
+	"confirm password": "Confirmar Contraseña",
+	"password length": "La contraseña debe tener al menos 8 caracteres y no más de 35 caracteres",
+	"password match": "Registro fallido: Las contraseñas no coinciden"
 }

@@ -1,6 +1,5 @@
-function sandbox()
-{
-	return (`
+function sandbox() {
+	return `
  		<div class="btns">
 			<div id="login" onclick="callRoute('/login')">
 				<div class="button-div-one" style="background: #f01e1e"></div>
@@ -54,5 +53,5 @@ function sandbox()
 					“You didn't expect that, did you?”
 				</h1>
 			</div>
-		</div>`)
+		</div>`;
 }
