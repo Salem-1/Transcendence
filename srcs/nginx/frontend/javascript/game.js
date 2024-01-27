@@ -253,6 +253,11 @@ async function playTournament() {
     if (Object.keys(players).length <= 1) {
         return (await playGame());
     }
+    
+    /**
+     * TODO: implement tournament
+     */
+
     return (-1);
 }
 
