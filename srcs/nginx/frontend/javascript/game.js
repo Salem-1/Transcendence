@@ -200,15 +200,14 @@ function getWinner(game) {
     return (0);
 }
 
-function playGame() {
-    return new Promise(resolve => {
-        const p1 = new Paddle(document.getElementById('p1'));
-        const p2 = new Paddle(document.getElementById('p2'));
-        const ball = new Ball(document.getElementById('ball'));
-        game = {p1, p2, ball, pause: false};
+async function playGame() {
+    const p1 = new Paddle(document.getElementById('p1'));
+    const p2 = new Paddle(document.getElementById('p2'));
+    const ball = new Ball(document.getElementById('ball'));
+    const game = { p1, p2, ball, pause: false };
 
-        handleKeyPress(game);
-
+    handleKeyPress(game);
+    await new Promise(resolve => {
         let lastTimestamp = Date.now();
         const intervalId = setInterval(() => {
             if (getWinner(game) !== 0) {
@@ -227,4 +226,36 @@ function playGame() {
             }
         }, 16.666);
     });
+    return (getWinner(game));
 }
+
+function searchToObject() {
+    const pairs = window.location.search.substring(1).split("&");
+    const obj = {};
+
+    for (let i = 0; i < pairs.length; i++) {
+        const pair = pairs[i].split('=');
+        obj[pair[0]] = pair.length > 1 ?  pair[1] : '';
+    }
+    return (obj);
+}
+
+/**
+ * 
+ * eg.: {player1: "player1Name", player2: "player2Name"}
+ * for 1v1 it will just be a 2 player object
+ * for player vs AI it will be a 1 player object
+ * players will be taken from window.location.search
+ * if no players are found, it will be a 1 v 1 game
+ */
+async function playTournament() {
+    const players = searchToObject();
+    if (Object.keys(players).length <= 1) {
+        return (await playGame());
+    }
+    return (-1);
+}
+
+playTournament().then(winner => {
+    console.log(winner);
+});
