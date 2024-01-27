@@ -1,14 +1,20 @@
 
-     PADDLE_SPEED = 50;
+    let PADDLE_SPEED = 50;
     let BALL_SPEED = 50;
-    let PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--paddle-height"));
-    let PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--paddle-width"));
-    let BALL_WIDTH = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--ball-width"));
-    let BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--ball-height"));
+    let PADDLE_HEIGHT =  20;
+    let PADDLE_WIDTH =  1;
+    let BALL_WIDTH = 2;
+    let BALL_HEIGHT =  2;
+
+    // const PADDLE_SPEED = 50;
+    // const PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
+    // getPropertyValue("--paddle-height"));
+    // const PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
+    // getPropertyValue("--paddle-width"));
+    // const BALL_WIDTH = parseFloat(getComputedStyle(document.body).
+    // getPropertyValue("--ball-width"));
+    // const BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
+    // getPropertyValue("--ball-height"));
 
 class Paddle {
     constructor(element) {
