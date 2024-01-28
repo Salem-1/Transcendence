@@ -52,9 +52,9 @@
 	"welcome": "Welcome",
 	
 	"invalid password length": "Password should be at least 8 characters long and not more than 35 characters",
-	"invalid password match": "Registration failed: Passwords do not match",
+	"invalid password match": "Passwords do not match",
 	"invalid username length": "Username should be at least 3 characters long and not more than 20 characters",
-	"invalid password char": "Password should contain at least one uppercase letter, one lowercase letter, one number and one special character",
+	"invalid password char": "Password should contain at least one uppercase letter, one lowercase letter and, one number",
 	"invalid username char": "Username should contain only letters, numbers and underscores",
 	"invalid username exists": "Username already exists",
 	"invalid login": "Login Failed, Invalid username or password",

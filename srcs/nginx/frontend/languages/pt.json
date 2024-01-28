@@ -51,9 +51,9 @@
 	"welcome": "Bem-vindo",
 
 	"invalid password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
-	"invalid password match": "Registro falhou: As senhas não coincidem",
+	"invalid password match": "As senhas não coincidem",
 	"invalid username length": "O nome de usuário deve ter pelo menos 3 caracteres e não mais que 20 caracteres",
-	"invalid password char": "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial",
+	"invalid password char": "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número",
 	"invalid username char": "O nome de usuário deve conter apenas letras, números e sublinhados",
 	"invalid username exists": "Nome de usuário já existe",
 	"invalid login": "Login falhou, nome de usuário ou senha inválidos",
