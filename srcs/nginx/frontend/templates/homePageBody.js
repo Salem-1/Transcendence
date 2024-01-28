@@ -11,7 +11,7 @@ function homePageBody() {
 						<div class="drrp">
 							<a class="button-text" href="#" data-i18n="profile" >PROFILE</a>
 							<hr>
-							<a class="button-text" href="#" data-i18n="settings" >SETTINGS</a>
+							<a class="button-text" onclick="callRoute('/settings')" data-i18n="settings" >SETTINGS</a>
 							<hr>
 							<a class="button-text" onclick="logout()" data-i18n="logout">LOG OUT</a>
 						</div>

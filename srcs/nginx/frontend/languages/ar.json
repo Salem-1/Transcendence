@@ -48,7 +48,7 @@
 	"2fa disabled": "تم تعطيل 2FA",
 	"error 2fa disable": "فشل تعطيل 2FA",
 	"2fa enabled": "تم تمكين 2FA",
-	"error 2fa enabled": "فشل تمكين 2FA",
+	"error 2fa enable": "فشل تمكين 2FA",
 	"welcome": "مرحبا بك",
 
 	"invalid password length": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل ولا تزيد عن 35 حرفًا",
@@ -73,5 +73,7 @@
 	"quarter finals": "ربع النهائي",
 	"semi finals": "نصف النهائي",
 	"finals": "النهائيات",
-	"winner": "الفائز"
+	"winner": "الفائز",
+
+	"language": "اللغة"
 }

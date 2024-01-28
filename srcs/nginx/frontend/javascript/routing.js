@@ -36,6 +36,7 @@ const urlRoutes = {
 		theme: "/css/homePage.css",
 		script: [
 			"/javascript/greet.js",
+			"/javascript/2FA.js",
 			"/javascript/tournament.js",
 			"/javascript/dropDown.js",
 		],
@@ -55,19 +56,20 @@ const urlRoutes = {
 		theme: "/css/style.css",
 		script: ["/javascript/auth.js"],
 	},
-	// "/register_players": {
-	// 	template: registerPlayers(),
-	// 	title: "register_players | " + urlPageTitle,
-	// 	description: "This is the registeration page for the tournament",
-	// 	theme: "/css/tournament.css",
-	// 	script: ["/javascript/tournament.js"],
-	// },
 	"/tournament": {
 		template: tournamentBody(),
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
 		script: ["/javascript/tournament_algorithm.js"],
+	},
+	"/settings": {
+		template: settingsBody(),
+		title: "Settings | " + urlPageTitle,
+		description: "This is the Settings page",
+		script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
+		theme: "/css/settings.css",
+		requiresAuth: true,
 	},
 	"/sandbox": {
 		template: sandbox(),
@@ -124,11 +126,11 @@ const urlLocationHandler = async () => {
 	// set the title of the document to the title of the route
 	document.title = route.title;
 	// set the description of the document to the description of the route
-	document
-		.querySelector('meta[name="description"]')
-		.setAttribute("content", route.description);
 	if (route.theme) theme.setAttribute("href", route.theme);
 	else theme.setAttribute("href", defaulttheme);
+	document
+	.querySelector('meta[name="description"]')
+	.setAttribute("content", route.description);
 	if (route.script) {
 		for (let i = 0; i < route.script.length; i++) {
 			const script = document.createElement("script");

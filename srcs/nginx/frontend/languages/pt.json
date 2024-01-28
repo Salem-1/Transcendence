@@ -13,8 +13,8 @@
 	"game over": "Fim do Jogo",
 	"play again": "Jogar Novamente",
 
-	"enable 2FA": "Ativar 2FA",
-	"disable 2FA": "Desativar 2FA",
+	"enable 2FA": "ATIVAR 2FA",
+	"disable 2FA": "DESATIVAR 2FA",
 	"2FA": "2FA",
 	"2FA code": "Código 2FA",
 
@@ -47,7 +47,7 @@
 	"2fa disabled": "2FA desabilitado",
 	"error 2fa disable": "Falha ao desabilitar 2FA",
 	"2fa enabled": "2FA habilitado",
-	"error 2fa enabled": "Falha ao habilitar 2FA",
+	"error 2fa enable": "Falha ao habilitar 2FA",
 	"welcome": "Bem-vindo",
 
 	"invalid password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
@@ -72,5 +72,7 @@
 	"quarter finals": "Quartas de Final",
 	"semi finals": "Semifinais",
 	"finals": "Finais",
-	"winner": "Vencedor"
+	"winner": "Vencedor",
+
+	"language": "LÍNGUA"
 }
