@@ -74,4 +74,5 @@ logs:
 
 lognginx:
 	@docker logs -f transcendence-nginx-1
+	
 .PHONY: help up down build rebuild restart clean reset fclean fresh ps

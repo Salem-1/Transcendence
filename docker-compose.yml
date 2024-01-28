@@ -17,8 +17,9 @@ services:
     build: ./srcs/nginx
     restart: always
     volumes:
-      - ./srcs/nginx/frontend:/var/www/html
+      - ./src/nginx:/usr/share/nginx/html
       - ./srcs/backend/staticfiles:/app/backend/staticfiles
+      - ./srcs/nginx/frontend:/var/www/html
     ports:
       - 8000:21000
       - 3000:80
