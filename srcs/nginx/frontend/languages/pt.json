@@ -2,8 +2,8 @@
 	"login": "ENTRAR",
 	"login 42": "ENTRAR 42",
 	"register": "REGISTRAR",
-	"qoutes": "Citações",
-	"qoute": "Quando alguém diz 'Espere o Inesperado', dê um tapa neles e diga: 'Você não esperava por isso, não é?'",
+	"quotes": "Citações",
+	"quote": "Quando alguém diz 'Espere o Inesperado', dê um tapa neles e diga: 'Você não esperava por isso, não é?'",
 
 	"404": "Ops! Página não encontrada",
 	"go home": "Ir para Casa",
@@ -32,10 +32,45 @@
 	"start": "INICIAR",
 	"play game": "JOGAR JOGO",
 
-
 	"username": "Nome de Usuário",
 	"password": "Senha",
 	"confirm password": "Confirmar Senha",
-	"password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
-	"password match": "Falha no registro: As senhas não coincidem"
+
+	"reg or login failed": "Registro ou login falhou",
+	"login failed": "Login falhou",
+	"reg failed": "Registro falhou",
+	"reg success": "Registro bem-sucedido",
+	"login success": "Login bem-sucedido",
+	"invalid OTP": "OTP inserido é inválido",
+	"error": "Erro",
+	"error username": "Erro ao buscar nome de usuário",
+	"2fa disabled": "2FA desabilitado",
+	"error 2fa disable": "Falha ao desabilitar 2FA",
+	"2fa enabled": "2FA habilitado",
+	"error 2fa enabled": "Falha ao habilitar 2FA",
+	"welcome": "Bem-vindo",
+
+	"invalid password length": "A senha deve ter pelo menos 8 caracteres e não mais que 35 caracteres",
+	"invalid password match": "Registro falhou: As senhas não coincidem",
+	"invalid username length": "O nome de usuário deve ter pelo menos 3 caracteres e não mais que 20 caracteres",
+	"invalid password char": "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial",
+	"invalid username char": "O nome de usuário deve conter apenas letras, números e sublinhados",
+	"invalid username exists": "Nome de usuário já existe",
+	"invalid login": "Login falhou, nome de usuário ou senha inválidos",
+	"invalid otp": "OTP incorreto",
+
+	"logout failed": "Falha ao fazer logout",
+
+	"zero players": "Nenhum jogador adicionado, adicione jogadores para iniciar o jogo",
+	"one player": "Apenas um jogador adicionado, adicione mais jogadores para iniciar o jogo",
+	"invalid player name": "Nome de jogador inválido",
+	"max players": "Máximo de 8 jogadores permitidos",
+	"player exists": "Jogador já adicionado",
+	"starting tournament": "Iniciando torneio",
+
+	"launch tournament": "Iniciar Torneio",
+	"quarter finals": "Quartas de Final",
+	"semi finals": "Semifinais",
+	"finals": "Finais",
+	"winner": "Vencedor"
 }

@@ -1,0 +1,77 @@
+{
+	"login": "تسجيل الدخول",
+	"login 42": "تسجيل الدخول 42",
+	"register": "تسجيل",
+	"quotes": "اقتباسات",
+	"quote": "عندما يقول شخص ما 'توقع المفاجأة'، اصفعه وقل له: 'لم تتوقع ذلك، أليس كذلك؟'",
+
+	"404": "عذرًا! الصفحة غير موجودة",
+	"go home": "العودة إلى الصفحة الرئيسية",
+
+	"lets go": "هيا بنا",
+	"controls": "اللاعب 1: الأسهم، اللاعب 2: WASD",
+	"game over": "انتهت اللعبة",
+	"play again": "العب مرة أخرى",
+
+	"enable 2FA": "تمكين 2FA",
+	"disable 2FA": "تعطيل 2FA",
+	"2FA": "2FA",
+	"2FA code": "رمز 2FA",
+
+	"auth loading": "المصادقة...",
+
+	"profile": "الملف الشخصي",
+	"settings": "الإعدادات",
+	"logout": "تسجيل الخروج",
+
+	"single player": "لاعب واحد",
+	"tournament": "بطولة",
+	"tournament players": "لاعبو البطولة",
+	"player name": "اسم اللاعب",
+	"add": "إضافة",
+	"start": "بدء",
+	"play game": "العب اللعبة",
+
+
+	"username": "اسم المستخدم",
+	"password": "كلمة المرور",
+	"confirm password": "تأكيد كلمة المرور",
+	
+	"reg or login failed": "فشل التسجيل أو تسجيل الدخول",
+	"login failed": "فشل تسجيل الدخول",
+	"reg failed": "فشل التسجيل",
+	"reg success": "تم التسجيل بنجاح",
+	"login success": "تم تسجيل الدخول بنجاح",
+	"invalid OTP": "الرمز الذي تم إدخاله غير صحيح",
+	"error": "خطأ",
+	"error username": "خطأ في جلب اسم المستخدم",
+	"2fa disabled": "تم تعطيل 2FA",
+	"error 2fa disable": "فشل تعطيل 2FA",
+	"2fa enabled": "تم تمكين 2FA",
+	"error 2fa enabled": "فشل تمكين 2FA",
+	"welcome": "مرحبا بك",
+
+	"invalid password length": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل ولا تزيد عن 35 حرفًا",
+	"invalid password match": "فشل التسجيل: كلمات المرور غير متطابقة",
+	"invalid username length": "يجب أن يتكون اسم المستخدم من 3 أحرف على الأقل ولا يزيد عن 20 حرفًا",
+	"invalid password char": "يجب أن تحتوي كلمة المرور على حرف كبير وحرف صغير ورقم وحرف خاص على الأقل",
+	"invalid username char": "يجب أن يحتوي اسم المستخدم فقط على حروف وأرقام وشرطات تحتية",
+	"invalid username exists": "اسم المستخدم موجود بالفعل",
+	"invalid login": "فشل تسجيل الدخول، اسم المستخدم أو كلمة المرور غير صالحة",
+	"invalid otp": "OTP خاطئ",
+
+	"logout failed": "فشل تسجيل الخروج",
+
+	"zero players": "لم يتم إضافة أي لاعبين، أضف لاعبين لبدء اللعبة",
+	"one player": "تم إضافة لاعب واحد فقط، أضف المزيد من اللاعبين لبدء اللعبة",
+	"invalid player name": "اسم اللاعب غير صالح",
+	"max players": "الحد الأقصى 8 لاعبين مسموح بهم",
+	"player exists": "اللاعب مضاف بالفعل",
+	"starting tournament": "بدء البطولة",
+
+	"launch tournament": "إطلاق البطولة",
+	"quarter finals": "ربع النهائي",
+	"semi finals": "نصف النهائي",
+	"finals": "النهائيات",
+	"winner": "الفائز"
+}

@@ -29,6 +29,19 @@ async function changeLanguage(lang) {
 	updateContent(langData);
 }
 
+//Function to get translation
+async function getTranslation(key) {
+	const lang = localStorage.getItem("language") || "en";
+	const langData = await fetchLanguageData(lang);
+	return langData[key];
+}
+
+// Function to make alert in any language
+async function alertInLang(key) {
+	message = await await getTranslation(key);
+	alert(message);
+}
+
 // // Call updateContent() on page load
 // window.addEventListener("DOMContentLoaded", async () => {
 // 	const userPreferredLanguage = localStorage.getItem("language") || "en";

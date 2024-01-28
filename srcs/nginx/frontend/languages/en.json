@@ -2,8 +2,8 @@
 	"login": "LOGIN",
 	"login 42": "LOGIN 42",
 	"register": "REGISTER",
-	"qoutes": "Qoutes",
-	"qoute": "When someone says “Expect the Unexpected” slap them and say : “You didn't expect that, did you?",
+	"quotes": "Quotes",
+	"quote": "When someone says “Expect the Unexpected” slap them and say : “You didn't expect that, did you?",
 
 	"404": "Oops! Page not found",
 	"go home": "Go Home",
@@ -36,6 +36,42 @@
 	"username": "Username",
 	"password": "Password",
 	"confirm password": "Confirm Password",
-	"password length": "Password should be 8 char at leaset and not more than 35 chars",
-	"password match": "Registration failed: Passwords do not match"
+	
+	"reg or login failed": "Registration or Login failed",
+	"login failed": "Login failed",
+	"reg failed": "Registration failed",
+	"reg success": "Registration success",
+	"login success": "Login success",
+	"invalid OTP": "Entered OTP is invalid",
+	"error": "Error",
+	"error username": "Error fetching username",
+	"2fa disabled": "2FA disable",
+	"error 2fa disable": "Failed to disable 2FA",
+	"2fa enabled": "2fa enabled",
+	"error 2fa enabled": "Failed to enable 2FA",
+	"welcome": "Welcome",
+	
+	"invalid password length": "Password should be at least 8 characters long and not more than 35 characters",
+	"invalid password match": "Registration failed: Passwords do not match",
+	"invalid username length": "Username should be at least 3 characters long and not more than 20 characters",
+	"invalid password char": "Password should contain at least one uppercase letter, one lowercase letter, one number and one special character",
+	"invalid username char": "Username should contain only letters, numbers and underscores",
+	"invalid username exists": "Username already exists",
+	"invalid login": "Login Failed, Invalid username or password",
+	"invalid otp": "Wrong OTP",
+
+	"logout failed": "Logout failed",
+
+	"zero players": "No players added, add players to start the game",
+	"one player": "Only one player added, add more players to start the game",
+	"invalid player name": "Invalid player name",
+	"max players": "Maximum 8 players allowed",
+	"player exists": "Player already added",
+	"starting tournament": "Starting tournament",
+
+	"launch tournament": "Launch Tournament",
+	"quarter finals": "Quarter Finals",
+	"semi finals": "Semi Finals",
+	"finals": "Finals",
+	"winner": "Winner"
 }

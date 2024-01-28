@@ -75,7 +75,7 @@ function homePageBody() {
 					</div>
 				</div>
 				<div class="quote">
-					<h1 id="quote-text" data-i18n="qoute">When someone says “Expect the 
+					<h1 id="quote-text" data-i18n="quote">When someone says “Expect the 
 					Unexpected” slap them and say : “You
 					didn't expect that, did you?”</h1>
 				</div>
