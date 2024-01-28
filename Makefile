@@ -18,6 +18,8 @@ help:
 	@echo "  test_backend    : Run backend  tests"
 	@echo "  test_mini  	 : Run  backend mini_test.py only"
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
+	@echo "  logs	    	 : Show Django logs"
+	@echo "  lognginx        : Show Ngninx logs"
 	@echo ""
 
 up:
@@ -67,5 +69,9 @@ fresh: fclean build
 
 ps:
 	@docker compose ps
+logs:
+	@docker logs -f transcendence-django-1
 
+lognginx:
+	@docker logs -f transcendence-nginx-1
 .PHONY: help up down build rebuild restart clean reset fclean fresh ps

@@ -20,3 +20,4 @@ client_secret_77395533333-7qmr5bj15h0i57h87roq1dghg0pp16a5.apps.googleuserconten
 service-key.json
 email_logs.txt
 src/backend/staticfiles
+staticfiles/*
