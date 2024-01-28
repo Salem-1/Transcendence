@@ -19,14 +19,51 @@
 	</head>
 	<body>
 		<div class="hero">
-			<nav style="float: left" >
-				<ul>
-					<li><a style="color: aliceblue;" onclick="changeLanguage('en')">English</a></li>
-					<li><a style="color: aliceblue;" onclick="changeLanguage('es')">Español</a></li>
-					<li><a style="color: aliceblue;" onclick="changeLanguage('pt')">Português</a></li>
-					<li><a style="color: aliceblue;" onclick="changeLanguage('ar')">العربية</a></li>
-				</ul>
-			</nav>
+			<ul
+				class="nav justify-content-center"
+				style="float: left; cursor: pointer; text-align: center;"
+			>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('en')">
+						<img
+							src="assets/gb.svg"
+							alt="English"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('es')">
+						<img
+							src="assets/es.svg"
+							alt="Español"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('pt')">
+						<img
+							src="assets/pt.svg"
+							alt="Português"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('ar')">
+						<img
+							src="assets/eg.svg"
+							alt="العربية"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+			</ul>
 			<div id="content"></div>
 		</div>
 	</body>

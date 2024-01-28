@@ -36,7 +36,7 @@ const urlRoutes = {
 		theme: "/css/homePage.css",
 		script: [
 			"/javascript/greet.js",
-			"/javascript/2FA.js",
+			"/javascript/2FA.js", // not needed, remove after passing selenum test
 			"/javascript/tournament.js",
 			"/javascript/dropDown.js",
 		],
@@ -129,8 +129,8 @@ const urlLocationHandler = async () => {
 	if (route.theme) theme.setAttribute("href", route.theme);
 	else theme.setAttribute("href", defaulttheme);
 	document
-	.querySelector('meta[name="description"]')
-	.setAttribute("content", route.description);
+		.querySelector('meta[name="description"]')
+		.setAttribute("content", route.description);
 	if (route.script) {
 		for (let i = 0; i < route.script.length; i++) {
 			const script = document.createElement("script");
