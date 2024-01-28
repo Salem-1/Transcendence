@@ -1,8 +1,5 @@
 function homePageBody() {
 	return `
-
-		<button type="button" onclick="enable2FA()" data-i18n="enable 2FA">Enable 2FA</button>
-		<button type="button" onclick="disable2FA()" data-i18n="disable 2FA">Disable2 FA</button>
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
