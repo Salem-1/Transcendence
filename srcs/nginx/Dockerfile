@@ -8,8 +8,6 @@ ARG OWASP_TAG=v3.3.4
 
 WORKDIR /opt
 
-# Install dependencies; includes dependencies required for compile-time options:
-# curl, libxml, pcre, and lmdb and Modsec
 RUN echo "Installing Dependencies" && \
     apk add --no-cache --virtual general-dependencies \
     autoconf \
@@ -34,7 +32,6 @@ RUN echo "Installing Dependencies" && \
     yajl-dev \
     zlib-dev
 
-# Clone and compile modsecurity. Binary will be located in /usr/local/modsecurity
 RUN echo "Installing ModSec Library" && \
     git clone -b ${MODSEC_TAG} --depth 1 https://github.com/SpiderLabs/ModSecurity.git && \
     git -C /opt/ModSecurity submodule update --init --recursive && \
@@ -48,7 +45,6 @@ RUN echo "Installing ModSec Library" && \
         /usr/local/modsecurity/lib/libmodsecurity.a \
         /usr/local/modsecurity/lib/libmodsecurity.la
 
-# Clone Modsec Nginx Connector, GeoIP, ModSec OWASP Rules, and download/extract nginx and GeoIP databases
 RUN echo 'Cloning Modsec Nginx Connector, GeoIP, ModSec OWASP Rules, and download/extract nginx and GeoIP databases' && \
     git clone -b master --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git && \
     git clone -b master --depth 1 https://github.com/leev/ngx_http_geoip2_module.git && \
@@ -58,7 +54,6 @@ RUN echo 'Cloning Modsec Nginx Connector, GeoIP, ModSec OWASP Rules, and downloa
     wget -O - https://download.db-ip.com/free/dbip-country-lite-${GEO_DB_RELEASE}.mmdb.gz | gzip -d > /etc/nginx/geoip/dbip-city-lite.mmdb && \
     wget -O - https://download.db-ip.com/free/dbip-country-lite-${GEO_DB_RELEASE}.mmdb.gz | gzip -d > /etc/nginx/geoip/dbip-country-lite.mmdb
 
-# Install GeoIP2 and ModSecurity Nginx modules
 RUN echo 'Installing Nginx Modules' && \
     (cd "/opt/nginx-$NGINX_VERSION" && \
         ./configure --with-compat \
@@ -107,6 +102,8 @@ RUN apk add --no-cache \
     tzdata \
     yajl && \
     chown -R nginx:nginx /usr/share/nginx
+
+RUN sed -i 's/RUN SecRuleEngine DetectionOnly/RUN SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
 
 EXPOSE 80 3000
 # EXPOSE 443
