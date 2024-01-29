@@ -49,6 +49,14 @@ const urlRoutes = {
 		script: ["/javascript/game.js"],
 		requiresAuth: true,
 	},
+	"/AIgame": {
+		template: gamePageBody(),
+		title: "Game | " + urlPageTitle,
+		description: "This is the Game page",
+		theme: "/css/game.css",
+		script: ["/javascript/Aigame.js"],
+		requiresAuth: true,
+	},
 	"/auth": {
 		template: auth(),
 		title: "auth | " + urlPageTitle,
