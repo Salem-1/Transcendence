@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Langing Page</title>
+		<!-- <link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/> -->
+		<link id="theme" rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/tournament1.css" />
+		<link
+			href="https://fonts.cdnfonts.com/css/poetsen-one"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div class="hero">
+			<div id="content">
+
+				<div class="top-bar">
+					<img id="logo" src="assets/logo1.png" alt="">
+					<div class="drp">
+						<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
+						<div class="dropdown-content" id="myDropdown">
+							<div class="drrp">
+								<a class="button-text" href="#">PROFILE</a>
+								<hr>
+								<a class="button-text" onclick="callRoute('/settings')">SETTINGS</a>
+								<hr>
+								<a class="button-text" onclick="logout()">LOG OUT</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="profile-name">
+					<!-- <div class="row">
+						<div class="column" style="background-color:#aaa;">
+						  <h2 class="text">USERNAME: </h2>
+						</div>	
+						<div class="column" style="background-color:#bbb;">
+						  <h2 class="text">hello12345</h2>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="templates/gamePageBody.js"></script>
+	<script src="templates/tournamentBody.js"></script>
+	<script src="templates/auth.js"></script>
+	<script src="templates/registerPlayers.js"></script>
+	<script src="templates/error_404.js"></script>
+	<script src="templates/homePageBody.js"></script>
+	<script src="templates/loginBody.js"></script>
+	<script src="templates/landingPageBody.js"></script>
+	<script src="templates/registration-body.js"></script>
+	<script src="templates/settingsBody.js"></script>
+	<!-- <script src="javascript/routing.js"></script> -->
+	<script src="javascript/index.js"></script>
+	<script src="javascript/logout.js"></script>
+	<script src="javascript/dropDown.js"></script>
+	<!-- <script src="/javascript/logout.js"></script> -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"
+	></script>
+</html>
