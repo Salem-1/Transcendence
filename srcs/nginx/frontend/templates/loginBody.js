@@ -1,6 +1,5 @@
-
-function loginBody(){
-	return (`
+function loginBody() {
+	return `
 	<img id="logo" src="/assets/logo1.png" alt="" onclick="callRoute('/')" />
 	<form action="javascript:;" onsubmit="login()">
 		<div id="logindiv">
@@ -11,18 +10,20 @@ function loginBody(){
 				name="username"
 				required
 				placeholder="Username"
+				data-i18n="username"
 				autocomplete="username"
 				maxlength="20"
-			/>
-			<input
+				/>
+				<input
 				type="password"
 				id="password"
 				name="password"
 				required
 				placeholder="Password"
+				data-i18n="password"
 				autocomplete="current-password"
 				maxlength="35"
-			/>
+				/>
 			<input type="submit" hidden />
 			<div id="login" onclick="login()">
 				<div class="button-div-one" style="background: #c7a940"></div>
@@ -38,9 +39,9 @@ function loginBody(){
 					"
 				></div>
 				<div class="button-div-three">
-					<h1 class="button-text">LOGIN</h1>
+					<h1 class="button-text" data-i18n="login">LOGIN</h1>
 				</div>
 			</div>
 		</div>
-	</form>`);
+	</form>`;
 }

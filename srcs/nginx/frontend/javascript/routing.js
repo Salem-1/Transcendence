@@ -36,6 +36,7 @@ const urlRoutes = {
 		theme: "/css/homePage.css",
 		script: [
 			"/javascript/greet.js",
+			"/javascript/2FA.js", // not needed, remove after passing selenum test
 			"/javascript/tournament.js",
 			"/javascript/dropDown.js",
 		],
@@ -55,13 +56,6 @@ const urlRoutes = {
 		theme: "/css/style.css",
 		script: ["/javascript/auth.js"],
 	},
-	"/register_players": {
-		template: registerPlayers(),
-		title: "register_players | " + urlPageTitle,
-		description: "This is the registeration page for the tournament",
-		theme: "/css/tournament.css",
-		script: ["/javascript/tournament.js"],
-	},
 	"/tournament": {
 		template: tournamentBody(),
 		title: "tournament | " + urlPageTitle,
@@ -73,9 +67,16 @@ const urlRoutes = {
 		template: settingsBody(),
 		title: "Settings | " + urlPageTitle,
 		description: "This is the Settings page",
-		script: ["/javascript/dropDown.js"],
+		script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
 		theme: "/css/settings.css",
 		requiresAuth: true,
+	},
+	"/sandbox": {
+		template: sandbox(),
+		title: "sandbox | " + urlPageTitle,
+		description: "This is the sandbox page",
+		theme: "/css/style.css",
+		// script: ["/javascript/sandbox.js"],
 	},
 };
 
@@ -125,11 +126,11 @@ const urlLocationHandler = async () => {
 	// set the title of the document to the title of the route
 	document.title = route.title;
 	// set the description of the document to the description of the route
+	if (route.theme) theme.setAttribute("href", route.theme);
+	else theme.setAttribute("href", defaulttheme);
 	document
 		.querySelector('meta[name="description"]')
 		.setAttribute("content", route.description);
-	if (route.theme) theme.setAttribute("href", route.theme);
-	else theme.setAttribute("href", defaulttheme);
 	if (route.script) {
 		for (let i = 0; i < route.script.length; i++) {
 			const script = document.createElement("script");
@@ -137,6 +138,9 @@ const urlLocationHandler = async () => {
 			document.body.appendChild(script);
 		}
 	}
+	const userPreferredLanguage = localStorage.getItem("language") || "en";
+	const langData = await fetchLanguageData(userPreferredLanguage);
+	updateContent(langData);
 };
 
 async function isLoggedIn() {

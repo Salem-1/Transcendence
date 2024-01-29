@@ -19,19 +19,65 @@
 	</head>
 	<body>
 		<div class="hero">
+			<ul
+				class="nav justify-content-center"
+				style="float: left; cursor: pointer; text-align: center;"
+			>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('en')">
+						<img
+							src="assets/gb.svg"
+							alt="English"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('es')">
+						<img
+							src="assets/es.svg"
+							alt="Español"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('pt')">
+						<img
+							src="assets/pt.svg"
+							alt="Português"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a style="color: aliceblue" onclick="changeLanguage('ar')">
+						<img
+							src="assets/eg.svg"
+							alt="العربية"
+							width="30"
+							height="24"
+						/>
+					</a>
+				</li>
+			</ul>
 			<div id="content"></div>
 		</div>
 	</body>
 	<script src="templates/gamePageBody.js"></script>
 	<script src="templates/tournamentBody.js"></script>
 	<script src="templates/auth.js"></script>
-	<script src="templates/registerPlayers.js"></script>
 	<script src="templates/error_404.js"></script>
 	<script src="templates/homePageBody.js"></script>
 	<script src="templates/loginBody.js"></script>
 	<script src="templates/landingPageBody.js"></script>
 	<script src="templates/registration-body.js"></script>
 	<script src="templates/settingsBody.js"></script>
+	<script src="templates/sandbox.js"></script>
+	<script src="/javascript/langs.js"></script>
 	<script src="/javascript/routing.js"></script>
 	<script src="/javascript/index.js"></script>
 	<script src="/javascript/logout.js"></script>
