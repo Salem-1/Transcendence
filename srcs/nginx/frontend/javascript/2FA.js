@@ -24,13 +24,13 @@ async function disable2FA() {
 
 async function enable2FA() {
 	try {
-		const email = prompt("Please enter your email!");
+		const email = prompt(await getTranslation("enter email"));
 		if (notValidEmail(email))
 			throw new Error("Please enter a valid email address.");
 		if (!(await submit2FaEmail(email)))
 			throw new Error("Failed to submit email");
 		const otp = prompt(
-			"Enter 6 digits OTP from your authenticator app:",
+			await getTranslation("enter otp"),
 			"000000"
 		);
 		const otpPattern = /^\d{6}$/;

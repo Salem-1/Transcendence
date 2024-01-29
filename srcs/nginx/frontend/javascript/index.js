@@ -145,7 +145,7 @@ function addJWTToRrequest() {
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
 	const otp = prompt(
-		"Enter 6 digits OTP from your authenticator app:",
+		await getTranslation("enter otp"),
 		"000000"
 	);
 	const otpPattern = /^\d{6}$/;

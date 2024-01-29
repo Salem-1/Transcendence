@@ -53,7 +53,7 @@ async function storeJWTInCookies(result) {
 
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
-	const otp = prompt("Enter 6 digits OTP sent to your email:", "000000");
+	const otp = prompt(await getTranslation("enter otp"), "000000");
 	const otpPattern = /^\d{6}$/;
 	if (otpPattern.test(otp)) {
 		try {

@@ -74,5 +74,8 @@
 	"finals": "Finales",
 	"winner": "Ganador",
 
-	"language": "IDIOMA"
+	"language": "IDIOMA",
+
+	"enter email": "¡Por favor ingresa tu correo electrónico!",
+	"enter otp": "¡Por favor ingresa el OTP enviado a tu correo electrónico!"
 }
