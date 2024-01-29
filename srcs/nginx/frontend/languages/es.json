@@ -1,0 +1,81 @@
+{
+	"login": "INICIAR SESIÓN",
+	"login 42": "INICIAR SESIÓN 42",
+	"register": "REGISTRARSE",
+	"quotes": "Citas",
+	"quote": "Cuando alguien dice 'Espera lo inesperado', dale una bofetada y dile: '¿No te lo esperabas, verdad?'",
+
+	"404": "¡Ups! Página no encontrada",
+	"go home": "Ir a Casa",
+
+	"lets go": "Vamos",
+	"controls": "Jugador 1: flechas, Jugador 2: WASD",
+	"game over": "Fin del Juego",
+	"play again": "Jugar de Nuevo",
+
+	"enable 2FA": "ACTIVAR 2FA",
+	"disable 2FA": "DESACTIVAR 2FA",
+	"2FA": "2FA",
+	"2FA code": "Código 2FA",
+
+	"auth loading": "Autenticando...",
+
+	"profile": "PERFIL",
+	"settings": "AJUSTES",
+	"logout": "CERRAR SESIÓN",
+
+	"single player": "UN JUGADOR",
+	"tournament": "TORNEO",
+	"tournament players": "Jugadores del Torneo",
+	"player name": "Nombre del Jugador",
+	"add": "AÑADIR",
+	"start": "INICIAR",
+	"play game": "JUGAR JUEGO",
+
+	"username": "Nombre de Usuario",
+	"password": "Contraseña",
+	"confirm password": "Confirmar Contraseña",
+
+	"reg or login failed": "Registro o inicio de sesión fallido",
+	"login failed": "Inicio de sesión fallido",
+	"reg failed": "Registro fallido",
+	"reg success": "Registro exitoso",
+	"login success": "Inicio de sesión exitoso",
+	"invalid OTP": "El OTP ingresado no es válido",
+	"error": "Error",
+	"error username": "Error al obtener el nombre de usuario",
+	"2fa disabled": "2FA deshabilitado",
+	"error 2fa disable": "Error al deshabilitar 2FA",
+	"2fa enabled": "2FA habilitado",
+	"error 2fa enable": "Error al habilitar 2FA",
+	"welcome": "Bienvenido",
+
+	"invalid password length": "La contraseña debe tener al menos 8 caracteres y no más de 35 caracteres",
+	"invalid password match": "Las contraseñas no coinciden",
+	"invalid username length": "El nombre de usuario debe tener al menos 3 caracteres y no más de 20 caracteres",
+	"invalid password char": "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número",
+	"invalid username char": "El nombre de usuario solo debe contener letras, números y guiones bajos",
+	"invalid username exists": "El nombre de usuario ya existe",
+	"invalid login": "Inicio de sesión fallido, nombre de usuario o contraseña inválidos",
+	"invalid otp": "OTP incorrecto",
+
+	"logout failed": "Error al cerrar sesión",
+
+	"zero players": "No se han añadido jugadores, añade jugadores para comenzar el juego",
+	"one player": "Solo se ha añadido un jugador, añade más jugadores para comenzar el juego",
+	"invalid player name": "Nombre de jugador no válido",
+	"max players": "Máximo 8 jugadores permitidos",
+	"player exists": "Jugador ya añadido",
+	"starting tournament": "Comenzando torneo",
+
+	"launch tournament": "Iniciar Torneo",
+	"quarter finals": "Cuartos de Final",
+	"semi finals": "Semifinales",
+	"finals": "Finales",
+	"winner": "Ganador",
+
+	"language": "IDIOMA",
+
+	"enter email": "¡Por favor ingresa tu correo electrónico!",
+	"enter otp": "¡Por favor ingresa el OTP enviado a tu correo electrónico!"
+}

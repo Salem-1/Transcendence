@@ -12,7 +12,7 @@ async function    logout(){
             callRoute("/home");
 		    return;
         }
-        alert(`failed to logout status code ${response.status}`);
+		alert(`${await getTranslation("logout failed")}: ${error}`);
     }
     catch (error){
         alert(`${error}`);

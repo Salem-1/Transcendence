@@ -1,12 +1,6 @@
-function landingPageBody() {
+function sandbox() {
 	return `
  		<div class="btns">
-			<img
-				id="logo"
-				src="/assets/logo1.png"
-				alt="yellow logo of 42 abu dhabi"
-				onclick="callRoute('/')"
-			/>
 			<div id="login" onclick="callRoute('/login')">
 				<div class="button-div-one" style="background: #f01e1e"></div>
 				<div
@@ -17,7 +11,7 @@ function landingPageBody() {
 					"
 				></div>
 				<div class="button-div-three">
-					<h1 class="button-text" data-i18n="login" >LOGIN</h1>
+					<h1 class="button-text" data-i18n="login" ></h1>
 				</div>
 			</div>
 	
@@ -50,12 +44,12 @@ function landingPageBody() {
 					"
 				></div>
 				<div class="button-div-three">
-					<h1 class="button-text" data-i18n="register" > REGISTER</h1>
+					<h1 class="button-text" data-i18n="login" ></h1>
 				</div>
 			</div>
 			<div class="quote">
-				<h1 id="quote-text" data-i18n="quote">
-					When someone says “Expect the Unexpected” slap them and say :
+				<h1 id="quote-text">
+					Quote: When someone says “Expect the Unexpected” slap them and say :
 					“You didn't expect that, did you?”
 				</h1>
 			</div>
