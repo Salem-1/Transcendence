@@ -195,7 +195,7 @@ async function testIntraAuth(message, order) {
 			5000
 		);
 		await driver.executeScript("arguments[0].click();", login42Link);
-		await new Promise((resolve) => setTimeout(resolve, 3000));
+		await new Promise((resolve) => setTimeout(resolve, 10000));
 		while (1) {
 			url = await driver.getCurrentUrl();
 			if (url.includes(":3000") && !url.includes(":3000/auth")) break;

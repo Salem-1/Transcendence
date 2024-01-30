@@ -28,7 +28,7 @@ class YourAppViewsTest(unittest.TestCase):
         
     def test_correct_statuscode(self):
         for num in range(101, 600):
-            pack = {"X-Trans42-code": str(num)}
+            pack = {"X-Trans42-code": str(num), "Content-Length" : "0"}
             response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
             self.assertEqual(response.status_code, int(num))
 
