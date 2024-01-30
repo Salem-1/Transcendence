@@ -1,69 +1,98 @@
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    --background: rgb(20, 20, 20);
-    --paddle-color: rgb(200, 200, 200);
-    --ball-color: rgb(200, 200, 200);
-    --paddle-height: 20vh;
-    --paddle-width: 1vw;
-    --paddle-margin: 1vw;
-    --ball-width: 2vw;
-    --ball-height: 2vw;
+  --background: rgb(20, 20, 20);
+  --paddle-color: rgb(200, 200, 200);
+  --ball-color: rgb(200, 200, 200);
+  --paddle-height: 20vh;
+  --paddle-width: 1vw;
+  --paddle-margin: 1vw;
+  --ball-width: 2vw;
+  --ball-height: 2vw;
 }
 
 body {
-    background-color: var(--background);
-	overflow: hidden;
-	color: white;
+  background-color: var(--background);
+  overflow: hidden;
+  color: white;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
 }
 
 .p {
-    position: absolute;
-    background-color: var(--paddle-color);
-    width: var(--paddle-width);
-    height: var(--paddle-height);
+  position: absolute;
+  background-color: var(--paddle-color);
+  width: var(--paddle-width);
+  height: var(--paddle-height);
 }
 
 #p1 {
-    left: var(--paddle-margin);
+  left: var(--paddle-margin);
 }
 
 #p2 {
-    right: var(--paddle-margin);
+  right: var(--paddle-margin);
 }
 
 .ball {
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    background-color: var(--ball-color);
-    width: var(--ball-width);
-    height: var(--ball-height);
-    top: 50vh;
-    left: 50vw;
-    border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background-color: var(--ball-color);
+  width: var(--ball-width);
+  height: var(--ball-height);
+  top: 50vh;
+  left: 50vw;
+  border-radius: 50%;
 }
 
 .pause {
-	color: var(--ball-color);
-	visibility: hidden;
+  color: var(--ball-color);
+  visibility: hidden;
 }
 
 .score {
-	color: var(--ball-color);
-	text-align: center;
-	font-size: 3vw;
-	font-weight: bold;
+  color: var(--ball-color);
+  text-align: center;
+  font-size: 3vw;
+  font-weight: bold;
 }
 
 .text {
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* tournament_styles */
+
+.bracket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+.round {
+  margin: 10px 0;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.matchup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-name {
+  display: none;
 }
