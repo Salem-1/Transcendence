@@ -8,17 +8,26 @@ from django.http import HttpResponse
 import datetime
 from .authintication_utils import gen_jwt_token
 from .models import User_2fa
+from django.contrib.auth.models import User
+from .models import User_2fa
+from .send_otp import send_otp_email
 
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
+    print(f"{given_otp} == {totp.now()}")
     return totp.verify(given_otp)
 
-def fetch_otp_secret(username):
+def generate_otp(secret):
+    totp = pyotp.TOTP(secret)
+    return totp.now()
+
+def generate_otp_secret(username):
     return (base64.b32encode(username.encode('utf-8')).decode('utf-8'))
 
 def is_2fa_enabled(user):
-    if not User_2fa.objects.filter(user=user).exists():
-          User_2fa.objects.create(user=user, enabled_2fa=False)
+    if not User_2fa.objects.filter(user=user).exists():  
+        print("2fa is not enabled")
+        User_2fa.objects.create(user=user, enabled_2fa=False)
     return User_2fa.objects.get(user=user).enabled_2fa
 
 def authenticate_otp_redirect(username):
@@ -35,6 +44,12 @@ def authenticate_otp_redirect(username):
                 content_type="application/json"
                 )
 
+def handle_intra_otp(username):
+    user = User.objects.get(username=username)
+    user_2fa = User_2fa.objects.get(user=user.id)
+    send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
+    return authenticate_otp_redirect(username)
+
 # import pyotp
 
 # hotp = pyotp.HOTP('base32secret3232')
@@ -46,3 +61,34 @@ def authenticate_otp_redirect(username):
 # hotp.verify('316439', 1401) # => True
 # hotp.verify('316439', 1402) # => False
 #enabled_2fa | two_factor_secret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

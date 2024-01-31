@@ -1,0 +1,21 @@
+
+async function    logout(){
+    try{
+        const response = await fetch("http://localhost:8000/logout/",{
+                method: "GET",
+                headers :{
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+        if (response.ok) {
+            callRoute("/home");
+		    return;
+        }
+		alert(`${await getTranslation("logout failed")}: ${error}`);
+    }
+    catch (error){
+        alert(`${error}`);
+    }
+    return;
+}

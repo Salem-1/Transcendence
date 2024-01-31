@@ -56,19 +56,35 @@ const urlRoutes = {
     theme: "/css/style.css",
     script: ["/javascript/auth.js"],
   },
-  "/register_players": {
-    template: registerPlayers(),
-    title: "register_players | " + urlPageTitle,
-    description: "This is the registeration page for the tournament",
-    theme: "/css/tournament.css",
-    script: ["/javascript/tournament.js"],
-  },
   "/tournament": {
     template: tournamentBody(),
     title: "tournament | " + urlPageTitle,
     description: "This is the tournament page",
     theme: "/css/game.css",
     script: ["/javascript/game.js", "/javascript/tournament_algorithm.js"],
+  },
+  "/AIgame": {
+    template: gamePageBody(),
+    title: "Game | " + urlPageTitle,
+    description: "This is the Game page",
+    theme: "/css/game.css",
+    script: ["/javascript/Aigame.js"],
+    requiresAuth: true,
+  },
+  "/settings": {
+    template: settingsBody(),
+    title: "Settings | " + urlPageTitle,
+    description: "This is the Settings page",
+    script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
+    theme: "/css/settings.css",
+    requiresAuth: true,
+  },
+  "/sandbox": {
+    template: sandbox(),
+    title: "sandbox | " + urlPageTitle,
+    description: "This is the sandbox page",
+    theme: "/css/style.css",
+    // script: ["/javascript/sandbox.js"],
   },
 };
 
@@ -95,13 +111,22 @@ const urlLocationHandler = async () => {
   // get the route object from the urlRoutes object
   const route = urlRoutes[location] || urlRoutes["404"];
   if (route.requiresAuth && !(await isVerified())) {
+    fetch(`http://localhost:8000/${location}`, {
+      headers: { "X-Trans42-code": "401" },
+      method: "GET",
+    });
     callRoute("/login");
     return;
   } else if (route.IntroPages && (await isLoggedIn())) {
     callRoute("/home");
     return;
   }
-
+  if (route == urlRoutes[404]) {
+    fetch("http://localhost:8000/aaaa", {
+      headers: { "X-Trans42-code": "404" },
+      method: "GET",
+    });
+  }
   // get the html from the template
   const html = route.template;
   // set the content of the content div to the html
@@ -109,11 +134,11 @@ const urlLocationHandler = async () => {
   // set the title of the document to the title of the route
   document.title = route.title;
   // set the description of the document to the description of the route
+  if (route.theme) theme.setAttribute("href", route.theme);
+  else theme.setAttribute("href", defaulttheme);
   document
     .querySelector('meta[name="description"]')
     .setAttribute("content", route.description);
-  if (route.theme) theme.setAttribute("href", route.theme);
-  else theme.setAttribute("href", defaulttheme);
   if (route.script) {
     for (let i = 0; i < route.script.length; i++) {
       const script = document.createElement("script");
@@ -121,6 +146,9 @@ const urlLocationHandler = async () => {
       document.body.appendChild(script);
     }
   }
+  const userPreferredLanguage = localStorage.getItem("language") || "en";
+  const langData = await fetchLanguageData(userPreferredLanguage);
+  updateContent(langData);
 };
 
 async function isLoggedIn() {
@@ -156,7 +184,14 @@ const isNotLoggedIn = async () => {
 };
 
 // add an event listener to the window that watches for url changes
-window.onpopstate = urlLocationHandler;
+window.onpopstate = route;
+// window.addEventListener('popstate', function(event){
+// 	var state = event.state;
+// 	if (state) {
+// 		document.title = state.pageTitle;
+// 	}
+// 	urlLocationHandler();
+// });
 // call the urlLocationHandler function to handle the initial url
 window.route = route;
 // call the urlLocationHandler function to handle the initial url

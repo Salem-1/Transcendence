@@ -1,7 +1,5 @@
-
-function registration_body(){
-
-	return (`
+function registration_body() {
+	return `
 	<img
 		id="logo"
 		src="/assets/logo1.png"
@@ -17,6 +15,8 @@ function registration_body(){
 				name="username"
 				required
 				placeholder="Username"
+				data-i18n="username"
+				maxlength="20"
 			/>
 			<input
 				type="password"
@@ -24,6 +24,8 @@ function registration_body(){
 				name="password"
 				required
 				placeholder="Password"
+				data-i18n="password"
+				maxlength="35"
 			/>
 			<input
 				type="password"
@@ -31,6 +33,8 @@ function registration_body(){
 				name="confirmPassword"
 				required
 				placeholder="Confirm Password"
+				data-i18n="confirm password"
+				maxlength="35"
 			/>
 			<input type="submit" hidden />
 			<div
@@ -51,10 +55,10 @@ function registration_body(){
 					"
 				></div>
 				<div class="button-div-three">
-					<h1 class="button-text">REGISTER</h1>
+					<h1 class="button-text" data-i18n="register">REGISTER</h1>
 				</div>
 			</div>
 		</div>
 	</form>
-				`);
-	}
+				`;
+}
