@@ -5,6 +5,7 @@
     let PADDLE_WIDTH =  1;
     let BALL_WIDTH = 2;
     let BALL_HEIGHT =  2;
+	let PADDLE_MARGIN = 1;
 
     // const PADDLE_SPEED = 50;
     // const PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
@@ -81,11 +82,11 @@ class Ball {
         this.direction.y = 0;
     }
 
-    isColliding(paddle) {
-        const ballLeft = this.position.x;
-        const ballRight = this.position.x + BALL_WIDTH;
-        const ballTop = this.position.y;
-        const ballBottom = this.position.y + BALL_HEIGHT;
+    isColliding(paddle, dx = 0, dy = 0) {
+        const ballLeft = this.position.x + dx;
+        const ballRight = ballLeft + BALL_WIDTH;
+        const ballTop = this.position.y + dy;
+        const ballBottom = ballTop + BALL_HEIGHT;
 
         const paddleLeft = paddle.position.x;
         const paddleRight = paddle.position.x + PADDLE_WIDTH;
@@ -97,36 +98,36 @@ class Ball {
     }
 
     update(dt, p1, p2) {
-        if (this.isColliding(p1)) {
-			this.direction.x *= -1;
-            if (this.position.y > p1.position.y + (0.5 * PADDLE_HEIGHT))
-			{
-				this.direction.y = 1;
-			} else {
-				this.direction.y = -1;
-			}
-        } else if (this.isColliding(p2)) {
-			this.direction.x *= -1;
-            if (this.position.y > p2.position.y + (0.5 * PADDLE_HEIGHT))
-			{
-				this.direction.y = 1;
-			} else {
-				this.direction.y = -1;
-			}
-        }
         const dx = this.direction.x * BALL_SPEED * dt;
         const dy = this.direction.y * BALL_SPEED * dt;
         
         if (this.position.y + dy <= 1 || this.position.y + BALL_HEIGHT + dy >= 99) {
             this.direction.y *= -1;
         }
-        if (this.position.x + dx < 1) {
+		if (this.isColliding(p1, dx, dy)) {
+			this.direction.x *= -1;
+            if (this.position.y + dy > p1.position.y + (0.5 * PADDLE_HEIGHT))
+			{
+				this.direction.y = 1;
+			} else {
+				this.direction.y = -1;
+			}
+        } else if (this.isColliding(p2, dx, dy)) {
+			this.direction.x *= -1;
+            if (this.position.y + dy > p2.position.y + (0.5 * PADDLE_HEIGHT))
+			{
+				this.direction.y = 1;
+			} else {
+				this.direction.y = -1;
+			}
+        }
+        else if (this.position.x + dx < PADDLE_WIDTH + PADDLE_MARGIN) {
             p2.score++;
 			const score2 = document.getElementById('score2');
 			score2.innerHTML = p2.score;
             this.reset();
         }
-        if (this.position.x + BALL_WIDTH + dx > 99) {
+        else if (this.position.x + BALL_WIDTH + dx > 100 - PADDLE_WIDTH - PADDLE_MARGIN) {
             p1.score++;
 			const score1 = document.getElementById('score1');
 			score1.innerHTML = p1.score;
