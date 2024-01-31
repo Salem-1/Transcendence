@@ -1,3 +1,5 @@
+//const { get } = require("selenium-webdriver/http");
+
 intraAuthenticate();
 
 async function intraAuthenticate() {
@@ -5,7 +7,7 @@ async function intraAuthenticate() {
 
 	try {
 		if (code == null || code == "") {
-			alert(`Registration or login failed`);
+			alert(await getTranslation("reg or login failed"));
 			throw new Error("Erro while intra authentication");
 		}
 		const response = await fetch("http://localhost:8000/auth/", {
@@ -23,11 +25,11 @@ async function intraAuthenticate() {
 		} else if (response.status == 302 && result.type == "otp") {
 			double_factor_authenticate(result);
 		} else {
-			alert(`Login failed: ${result.error}`);
+			alert(`${await getTranslation("login failed")}: ${result.error}`);
 		}
 	} catch (error) {
 		console.error("Error during registration:", error);
-		alert(`Error during registration: ${error}`);
+		alert(`${await getTranslation("reg failed")}: ${result.error}`);
 		callRoute("/");
 	}
 }
@@ -51,8 +53,7 @@ async function storeJWTInCookies(result) {
 
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
-	const otp = prompt("Enter 6 digits OTP sent to your email:",
-						"000000");
+	const otp = prompt(await getTranslation("enter otp"), "000000");
 	const otpPattern = /^\d{6}$/;
 	if (otpPattern.test(otp)) {
 		try {
@@ -72,19 +73,18 @@ async function double_factor_authenticate(result) {
 
 			if (response.ok) {
 				await storeJWTInCookies(result);
-				alert(`Successful! log in welcome .`);
-				callRoute("/home")
+				alert(await getTranslation("login success"));
+				callRoute("/home");
 			} else {
-				alert(`Entered OTP is invalid`);
-				callRoute("/")
+				alert(await getTranslation("inavlid otp"));
+				callRoute("/");
 			}
 		} catch (error) {
-			console.log("Error during registration:", error);
-			alert(`Error during registration: ${error}`);
+			alert(`${await getTranslation("reg failed")}: ${result.error}`);
 		}
 	} else {
-		alert("Invalid OTP. Please enter a 6-digit numeric code.");
-		callRoute("/")
+		alert(await getTranslation("inavlid otp"));
+		callRoute("/");
 	}
 }
 

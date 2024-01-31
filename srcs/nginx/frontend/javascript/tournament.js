@@ -21,17 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
 });
 
-function launchTournament(){
+async function launchTournament(){
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length <  2)
     {
         if (players.length == 0)
-            alert(`Cannot launch tournament without players`);
-        if (players.length == 1)
-            alert(`You cannot play the tournament alone Mr introvert, unfortunately you need real human beings to play with, go make some friends then try again.`);
-        return;
+			alert(`${await getTranslation("zero players")}`)
+		if (players.length == 1)
+			alert(`${await getTranslation("one player")}`)
+		return;
     }
-    alert("starting tournament")
+	alert(`${await getTranslation("starting tournament")}`)
 	callRoute("/tournament");
 }
 
@@ -40,7 +40,7 @@ function getPlayers() {
 }
 
 
-function addPlayer() {
+async function addPlayer() {
     try{
         var players = JSON.parse(localStorage.getItem('players')) || [];
     }
@@ -49,12 +49,12 @@ function addPlayer() {
     }
     if (! players ||  players.length > 7)
     {
-        alert("Max 8 players allowed");
+		alert(`${await getTranslation("max players")}`)
         return;
     }
     var playerNameInput = document.getElementById("player-name");
     var playerName = playerNameInput.value.trim();
-    if (!isvalidPlayerName(players, playerName))
+    if (!await isvalidPlayerName(players, playerName))
         return ;
     players.push(playerName);
     localStorage.setItem('players', JSON.stringify(players));
@@ -96,17 +96,17 @@ function showAllPlayers() {
     });
 }
 
-function isvalidPlayerName(players, playerName){
+async function isvalidPlayerName(players, playerName){
     if (
         !playerName || playerName === '' || playerName.length > 14
         || (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(playerName))
         ) {
-        alert("Please enter a valid player name.");
+		alert(`${await getTranslation("invalid player name")}`)
         return (false) ;
     }
     if (players.indexOf(playerName) !== -1)
     {
-        alert("Player already added");
+		alert(`${await getTranslation("player exists")}`)
         return (false) ;
     }
     return (true);
