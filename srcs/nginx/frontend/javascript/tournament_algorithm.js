@@ -56,7 +56,7 @@ async function    navigateBackToTourment(){
     route_tourn =  {
         template: tournamentBody(),
         description: "This is the tournament page",
-        theme: "/css/tournament_styles.css",
+        theme: "/css/game.css",
     }
     html = route_tourn.template;
     document.getElementById("content").innerHTML = html;
