@@ -78,6 +78,19 @@ function updateScore(game) {
     score2.textContent = game.score.player2;
 }
 
+function handlePaddleCollision(ball, paddle) {
+    // Where the ball hit the paddle
+    let collidePoint = ball.y - (paddle.y + paddle.height / 2);
+
+    // Normalize the value between -1 and 1
+    collidePoint = collidePoint / (paddle.height / 2);
+
+    // To Rad
+    let angleRad = collidePoint * (Math.PI / 4);
+    ball.speedX = -ball.speedX;
+    ball.speedY = ball.speedX * Math.tan(angleRad);
+}
+
 // Draw everything
 function draw(game) {
     if (game.pause) {
@@ -110,12 +123,12 @@ function draw(game) {
         (ball.x - ball.radius < paddle1.x + paddle1.width) &&
         (ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height)
     ) {
-        ball.speedX *= -1;
+        handlePaddleCollision(ball, paddle1);
     } else if (
         (ball.x + ball.radius > paddle2.x) &&
         (ball.y > paddle2.y && ball.y < paddle2.y + paddle2.height)
     ) {
-        ball.speedX *= -1;
+        handlePaddleCollision(ball, paddle2);
     }
 
     // Game over if ball goes beyond paddles
