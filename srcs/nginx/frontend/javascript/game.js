@@ -8,7 +8,7 @@ if (canvas.height > window.innerHeight * 0.8) {
 	canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 }
 
-let BALL_SPEED = getWidthPixels(1);
+let BALL_SPEED = getWidthPixels(.5);
 let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 let PADDLE_SPEED = getWidthPixels(1);
 let PADDLE_WIDTH = getWidthPixels(1);
@@ -91,6 +91,8 @@ function drawPaddles(game) {
 function resetBall(game) {
     game.ball.x = canvas.width / 2;
     game.ball.y = canvas.height / 2;
+	game.ball.speedX = BALL_SPEED;
+	game.ball.speedY = BALL_SPEED;
 }
 
 function updateScore(game) {
@@ -100,9 +102,21 @@ function updateScore(game) {
     score2.textContent = game.score.player2;
 }
 
+function isColliding(ball, paddle) {
+	const effectivePaddleHeight = paddle.height * 1.5; // Adjust the multiplier as needed
+
+    // Check for collision between ball and paddle
+    return (
+        ball.x - ball.radius < paddle.x + paddle.width &&
+        ball.x + ball.radius > paddle.x &&
+        ball.y - ball.radius < paddle.y + effectivePaddleHeight &&
+        ball.y + ball.radius > paddle.y
+    );
+}
+
 function handlePaddleCollision(ball, paddle) {
     // Where the ball hit the paddle
-    let collidePoint = ball.y - (paddle.y + paddle.height / 2);
+    let collidePoint = ball.y - (paddle.y + (paddle.height * 1.5) / 2);
 
     // Normalize the value between -1 and 1
     collidePoint = collidePoint / (paddle.height / 2);
@@ -128,15 +142,9 @@ function draw(game) {
         ball.speedY *= -1;
     }
 
-    if (
-        (ball.x - ball.radius < paddle1.x + paddle1.width) &&
-        (ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height)
-    ) {
+    if (isColliding(ball, paddle1)) {
         handlePaddleCollision(ball, paddle1);
-    } else if (
-        (ball.x + ball.radius > paddle2.x) &&
-        (ball.y > paddle2.y && ball.y < paddle2.y + paddle2.height)
-    ) {
+    } else if (isColliding(ball, paddle2)) {
         handlePaddleCollision(ball, paddle2);
     }
 
