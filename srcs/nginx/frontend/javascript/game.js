@@ -71,6 +71,13 @@ function resetBall(game) {
     game.ball.y = canvas.height / 2;
 }
 
+function updateScore(game) {
+    const score1 = document.getElementById('score1');
+    const score2 = document.getElementById('score2');
+    score1.textContent = game.score.player1;
+    score2.textContent = game.score.player2;
+}
+
 // Draw everything
 function draw(game) {
     if (game.pause) {
@@ -115,9 +122,11 @@ function draw(game) {
     if (ball.x - ball.radius < 0) {
         game.score.player2++;
         resetBall(game);
+        updateScore(game);
     } else if (ball.x + ball.radius > canvas.width) {
         game.score.player1++;
         resetBall(game);
+        updateScore(game);
     }
 }
 
@@ -213,7 +222,7 @@ async function playGame() {
     };
     handleKeyPress(game);
     await new Promise(resolve => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             draw(game);
             const winner = getWinner(game);
             if (winner != 0) {
@@ -221,7 +230,7 @@ async function playGame() {
                 clearInterval(intervalId);
                 resolve();
             }
-        }, 1000 / 60);
+        }, 16 /* 1000 / 60*/ );
     });
     return getWinner(game);
 }

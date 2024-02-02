@@ -27,6 +27,14 @@ body {
   background-color: #222;
 }
 
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
 canvas {
   border: 1px solid #fff;
 }
@@ -39,6 +47,16 @@ canvas {
   color: #fff;
   font-size: 3rem;
   display: none;
+}
+
+.nav {
+  display: none;
+}
+
+.score {
+  text-align: center;
+  color: #fff;
+  font-size: 2rem;
 }
 
 /* tournament_styles */
