@@ -18,59 +18,27 @@
 }
 
 body {
-  background-color: var(--background);
-  overflow: hidden;
-  color: white;
-  font-family: sans-serif;
   margin: 0;
-  padding: 20px;
-}
-
-.p {
-  position: absolute;
-  background-color: var(--paddle-color);
-  width: var(--paddle-width);
-  height: var(--paddle-height);
-}
-
-#p1 {
-  left: var(--paddle-margin);
-}
-
-#p2 {
-  right: var(--paddle-margin);
-}
-
-.ball {
   padding: 0;
-  margin: 0;
-  position: absolute;
-  background-color: var(--ball-color);
-  width: var(--ball-width);
-  height: var(--ball-height);
-  top: 50vh;
-  left: 50vw;
-  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #222;
+}
+
+canvas {
+  border: 1px solid #fff;
 }
 
 .pause {
-  color: var(--ball-color);
-  visibility: hidden;
-}
-
-.score {
-  color: var(--ball-color);
-  text-align: center;
-  font-size: 3vw;
-  font-weight: bold;
-}
-
-.text {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 3rem;
+  display: none;
 }
 
 /* tournament_styles */
