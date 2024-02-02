@@ -20,16 +20,26 @@ help:
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo ""
 
-up:
-	docker compose up -d
+unseal:
+	echo please use key to run the project
+	@docker exec -it transcendence-vault-1 bash
 
+up: run unseal 
+
+run:
+	docker compose up -d
+	
 down:
 	docker compose down
 
-build:
+build: construct unseal
+
+construct:
 	docker compose up -d --build
 
-rebuild:
+rebuild: construct unseal
+
+reconstruct:
 	docker compose up -d --build --force-recreate
 
 restart:

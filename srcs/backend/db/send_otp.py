@@ -2,25 +2,26 @@ from django.core.mail import EmailMessage, send_mail
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import os
-
+from .get_secret import get_secret
 
 class Response:
     def __init__(self, status_code):
         self.status_code = status_code
 
 def send_otp_email(reciever, otp):
-    if os.environ.get("PROVIDER") == "Malik":
+    if get_secret("PROVIDER") == "Malik":
         return (send_smtp_email(reciever, otp))
     else:
         return send_sendgrid_email(reciever, otp)
 
 def send_sendgrid_email(reciever, otp):
+    return email_logging(reciever, otp, 202)
     message = Mail(
         from_email='pong@null.net',
         to_emails=reciever,
         subject='Pong otp ',
         html_content=f"<h4>your one time password is  {otp}</h4> <footer>powered by sendgrid</footer>")
-    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+    sg = SendGridAPIClient(get_secret('SENDGRID_API_KEY'))
     response = sg.send(message)
     email_logging(reciever, otp, response.status_code)
     return (response)
@@ -42,7 +43,7 @@ def send_smtp_email(reciever, otp):
     sent = send_mail(
     'Pong one time password',
     f"your otp is {otp}.  powered by Malik server",
-    os.environ.get("EMAIL_HOST_USER"),
+    get_secret("EMAIL_HOST_USER"),
     [reciever],
     fail_silently=False,
     )

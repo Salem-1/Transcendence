@@ -4,7 +4,7 @@ import base64
 import secrets
 import random
 import string
-
+from .get_secret import get_secret
 
 
 
@@ -12,8 +12,8 @@ def generate_encrypted_secret(length=13):
    return (encrypt_string(generate_password(length)))
 
 # def generate_keyed_hash(password, key):
-#   hashed_data = hashlib.sha3_512(password.encode() + key.encode() + os.environ.get("SALT")).hexdigest()
-#   return os.environ.get("SALT") + hashed_data.encode() 
+#   hashed_data = hashlib.sha3_512(password.encode() + key.encode() + get_secret("SALT")).hexdigest()
+#   return get_secret("SALT") + hashed_data.encode() 
 
 def encrypt_string(secret):
     encoded_bytes = base64.b85encode(secret.encode("utf-8"))
