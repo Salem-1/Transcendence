@@ -28,7 +28,7 @@ def register_user(request):
             if not valid_input:
                 return error_message
             elif User.objects.filter(username=username).exists():
-                return JsonResponse({'error': "Username already taken"}, status=400)
+                return JsonResponse({'error': "Username already taken"}, status=401)
             create_new_user(username, password)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
