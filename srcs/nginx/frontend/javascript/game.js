@@ -2,16 +2,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-let pause = false;
-// Ball object
-const ball = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    radius: 10,
-    speedX: 5,
-    speedY: 5,
-    color: "#fff"
-};
 
 class Paddle {
     constructor(x, y, width, height, color) {
@@ -56,11 +46,10 @@ class Paddle {
     }
 }
 
-const paddle1 = new Paddle(0, canvas.height / 2 - 60, 10, 120, "#fff");
-const paddle2 = new Paddle(canvas.width - 10, canvas.height / 2 - 60, 10, 120, "#fff");
-
 // Draw ball
-function drawBall() {
+function drawBall(game) {
+    const ball = game.ball;
+
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
     ctx.fillStyle = ball.color;
@@ -69,19 +58,22 @@ function drawBall() {
 }
 
 // Draw paddles
-function drawPaddles() {
+function drawPaddles(game) {
+    const paddle1 = game.paddle1;
+    const paddle2 = game.paddle2;
+
     paddle1.draw();
     paddle2.draw();
 }
 
-function resetBall() {
-    ball.x = canvas.width / 2;
-    ball.y = canvas.height / 2;
+function resetBall(game) {
+    game.ball.x = canvas.width / 2;
+    game.ball.y = canvas.height / 2;
 }
 
 // Draw everything
-function draw() {
-    if (pause) {
+function draw(game) {
+    if (game.pause) {
         return;
     }
 
@@ -89,17 +81,18 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw ball and paddles
-    drawBall();
-    drawPaddles();
+    drawBall(game);
+    drawPaddles(game);
 
     // Ball movement
-    ball.x += ball.speedX;
-    ball.y += ball.speedY;
+    game.ball.x += game.ball.speedX;
+    game.ball.y += game.ball.speedY;
 
     // Paddle movement
-    paddle1.update();
-    paddle2.update();
+    game.paddle1.update();
+    game.paddle2.update();
 
+    const { ball, paddle1, paddle2 } = game;
     // Ball collision with top and bottom walls
     if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
         ball.speedY *= -1;
@@ -119,22 +112,25 @@ function draw() {
     }
 
     // Game over if ball goes beyond paddles
-    if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-        alert("Game Over!");
-        resetBall();
+    if (ball.x - ball.radius < 0) {
+        game.score.player2++;
+        resetBall(game);
+    } else if (ball.x + ball.radius > canvas.width) {
+        game.score.player1++;
+        resetBall(game);
     }
 }
 
-function handleKeyDown() {
+function handleKeyDown(game) {
     document.addEventListener('keydown', (event) => {
         const key = event.key.length == 1 ?
             event.key.toLowerCase() : event.key
         switch (key) {
             case 'p':
             case ' ':
-                pause = !pause;
+                game.pause = !game.pause;
                 const pauseElement = document.getElementById('pause');
-                if (pause)
+                if (game.pause)
                 {
                     pauseElement.style.setProperty('display', 'block');
                 } else {
@@ -142,16 +138,16 @@ function handleKeyDown() {
                 }
                 break;
             case 'w':
-                paddle1.move('up');
+                game.paddle1.move('up');
                 break;
             case 's':
-                paddle1.move('down');
+                game.paddle1.move('down');
                 break;
             case 'ArrowUp':
-                paddle2.move('up');
+                game.paddle2.move('up');
                 break;
             case 'ArrowDown':
-                paddle2.move('down');
+                game.paddle2.move('down');
                 break;
             default:
                 break ;
@@ -159,29 +155,77 @@ function handleKeyDown() {
     });
 }
 
-function handleKeyUp() {
+function handleKeyUp(game) {
     document.addEventListener('keyup', (event) => {
         const key = event.key.length == 1 ?
             event.key.toLowerCase() : event.key
         switch (key) {
             case 'w':
             case 's':
-                paddle1.stop();
+                game.paddle1.stop();
                 break;
             case 'ArrowUp':
             case 'ArrowDown':
-                paddle2.stop();
+                game.paddle2.stop();
                 break;
         }
     });
 }
 
-function handleKeyPress() {
-    handleKeyDown();
-    handleKeyUp();
+function handleKeyPress(game) {
+    handleKeyDown(game);
+    handleKeyUp(game);
 }
 
-handleKeyPress();
+function getWinner(game) {
+    const score = game.score;
+    if ((score.player1 == 7 || score.player2 == 7)
+        && Math.abs(score.player1 - score.player2) == 7)
+        return (score.player1 > score.player2 ? 1 : 2);
+    if ((score.player1 >= 11 || score.player2 >= 11)
+        && Math.abs(score.player1 - score.player2) >= 2)
+        return (score.player1 > score.player2 ? 1 : 2);
+    return (0);
+}
 
-// Game loop
-setInterval(draw, 1000 / 60);
+async function playGame() {
+    // Ball object
+    const ball = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        radius: 10,
+        speedX: 5,
+        speedY: 5,
+        color: "#fff"
+    };
+    const paddle1 = new Paddle(0, canvas.height / 2 - 60, 10, 120, "#fff");
+    const paddle2 = new Paddle(canvas.width - 10, canvas.height / 2 - 60, 10, 120, "#fff");
+
+    const game = {
+        ball,
+        paddle1,
+        paddle2,
+        pause: false,
+        score: {
+            player1: 0,
+            player2: 0
+        }
+    };
+    handleKeyPress(game);
+    await new Promise(resolve => {
+        setInterval(() => {
+            draw(game);
+            const winner = getWinner(game);
+            if (winner != 0) {
+                alert(`Player ${winner} wins!`);
+                clearInterval(intervalId);
+                resolve();
+            }
+        }, 1000 / 60);
+    });
+    return getWinner(game);
+}
+
+playGame().then(winner => {
+    console.log(`Player ${winner} wins!`);
+});
