@@ -37,11 +37,15 @@ body {
   justify-content: center;
   color: #fff;
   height: 100vh;
+  padding: 5em;
+  overflow: hidden;
 }
 
 canvas {
   border: 1px solid #fff;
   display: block;
+  margin-bottom: 1vh;
+  overflow: hidden;
 }
 
 .pause {
@@ -62,6 +66,7 @@ canvas {
   text-align: center;
   color: #fff;
   font-size: 5vw;
+  margin-top: 5vh;
 }
 
 /* tournament_styles */

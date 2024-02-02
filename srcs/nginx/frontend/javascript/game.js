@@ -3,10 +3,14 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth * 0.8;
 canvas.height = (9 / 16) * canvas.width; //(9 / 16) * 80vw
+if (canvas.height > window.innerHeight * 0.8) {
+	canvas.height = window.innerHeight * 0.8;
+	canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+}
 
-let BALL_SPEED = getWidthPixels(0.5);
+let BALL_SPEED = getWidthPixels(1);
 let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-let PADDLE_SPEED = getWidthPixels(0.7);
+let PADDLE_SPEED = getWidthPixels(1);
 let PADDLE_WIDTH = getWidthPixels(1);
 let PADDLE_HEIGHT = getHeightPixels(20);
 
@@ -219,6 +223,10 @@ function handleResize(game) {
 		const oldBallPosistion = { x: getWidthPercentage(game.ball.x), y: getHeightPercentage(game.ball.y) };
 		canvas.width = window.innerWidth * 0.8;
 		canvas.height = (9 / 16) * canvas.width;
+		if (canvas.height > window.innerHeight * 0.8) {
+			canvas.height = window.innerHeight * 0.8;
+			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+		}
 		BALL_SPEED = getWidthPixels(0.5);
 		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 		PADDLE_SPEED = getWidthPixels(0.7);
