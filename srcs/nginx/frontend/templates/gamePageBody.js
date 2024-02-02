@@ -6,6 +6,6 @@ function gamePageBody(){
         <span id='score2'>0</span>
     </div>
     <div class='pause' id='pause'> Paused </div>
-    <canvas id="canvas" width="800" height="400"></canvas>
+    <canvas id="canvas"></canvas>
     `);
 }

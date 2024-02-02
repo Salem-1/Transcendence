@@ -1,7 +1,23 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const BALL_SPEED = 10;
-const PADDLE_SPEED = 10;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight / 3;
+
+
+function getWidthPixels(percentage) {
+	return canvas.width * (percentage / 100);
+}
+
+function getHeightPixels(percentage) {
+	return canvas.height * (percentage / 100);
+}
+
+const BALL_SPEED = getWidthPixels(0.5);
+const BALL_RADIUS = getWidthPixels(1.5);
+const PADDLE_SPEED = getWidthPixels(0.7);
+const PADDLE_WIDTH = getWidthPixels(1);
+const PADDLE_HEIGHT = getHeightPixels(20);
 
 class Paddle {
     constructor(x, y, width, height, color) {
@@ -199,13 +215,13 @@ async function playGame() {
     const ball = {
         x: canvas.width / 2,
         y: canvas.height / 2,
-        radius: 10,
+        radius: BALL_RADIUS,
         speedX: BALL_SPEED,
         speedY: BALL_SPEED,
         color: "#fff"
     };
-    const paddle1 = new Paddle(0, canvas.height / 2 - 60, 10, 120, "#fff");
-    const paddle2 = new Paddle(canvas.width - 10, canvas.height / 2 - 60, 10, 120, "#fff");
+    const paddle1 = new Paddle(0, canvas.height / 2 - 60, PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+    const paddle2 = new Paddle(canvas.width - PADDLE_WIDTH, canvas.height / 2 - 60, PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
 
     const game = {
         ball,

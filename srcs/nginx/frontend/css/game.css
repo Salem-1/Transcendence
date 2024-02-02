@@ -23,8 +23,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
   height: 100vh;
   background-color: #222;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 }
 
 .hero {
@@ -33,10 +36,14 @@ body {
   align-items: center;
   justify-content: center;
   color: #fff;
+  height: 100vh;
 }
 
 canvas {
   border: 1px solid #fff;
+  width: 80vw;
+  height: calc((9 / 16) * 80vw); /* 9/16 of the width to maintain 16:9 aspect ratio */
+  display: block;
 }
 
 .pause {
@@ -45,7 +52,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
-  font-size: 3rem;
+  font-size: 5vw;
   display: none;
 }
 
