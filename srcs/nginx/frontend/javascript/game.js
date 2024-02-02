@@ -1,10 +1,17 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight / 3;
+canvas.width = window.innerWidth * 0.8;
+canvas.height = (9 / 16) * canvas.width; //(9 / 16) * 80vw
 
+let BALL_SPEED = getWidthPixels(0.5);
+let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+let PADDLE_SPEED = getWidthPixels(0.7);
+let PADDLE_WIDTH = getWidthPixels(1);
+let PADDLE_HEIGHT = getHeightPixels(20);
 
+// px = percentage * canvas.width / 100
+// percentage = px * 100 / canvas.width
 function getWidthPixels(percentage) {
 	return canvas.width * (percentage / 100);
 }
@@ -13,11 +20,13 @@ function getHeightPixels(percentage) {
 	return canvas.height * (percentage / 100);
 }
 
-const BALL_SPEED = getWidthPixels(0.5);
-const BALL_RADIUS = getWidthPixels(1.5);
-const PADDLE_SPEED = getWidthPixels(0.7);
-const PADDLE_WIDTH = getWidthPixels(1);
-const PADDLE_HEIGHT = getHeightPixels(20);
+function getWidthPercentage(px) {
+	return (px * 100) / canvas.width;
+}
+
+function getHeightPercentage(px) {
+	return (px * 100) / canvas.height;
+}
 
 class Paddle {
     constructor(x, y, width, height, color) {
@@ -200,6 +209,34 @@ function handleKeyPress(game) {
     handleKeyUp(game);
 }
 
+function handleResize(game) {
+	window.addEventListener('resize', () => {
+		game.pause = true;
+		const pauseElement = document.getElementById('pause');
+		pauseElement.style.setProperty('display', 'block');
+		const oldP1Posistion = { x: getWidthPercentage(game.paddle1.x), y: getHeightPercentage(game.paddle1.y) };
+		const oldP2Posistion = { x: getWidthPercentage(game.paddle2.x), y: getHeightPercentage(game.paddle2.y) };
+		const oldBallPosistion = { x: getWidthPercentage(game.ball.x), y: getHeightPercentage(game.ball.y) };
+		canvas.width = window.innerWidth * 0.8;
+		canvas.height = (9 / 16) * canvas.width;
+		BALL_SPEED = getWidthPixels(0.5);
+		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+		PADDLE_SPEED = getWidthPixels(0.7);
+		PADDLE_WIDTH = getWidthPixels(1);
+		PADDLE_HEIGHT = getHeightPixels(20);
+		game.paddle1 = new Paddle(getWidthPixels(oldP1Posistion.x), getHeightPixels(oldP1Posistion.y), PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+		game.paddle2 = new Paddle(getWidthPixels(oldP2Posistion.x), getHeightPixels(oldP2Posistion.y), PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+		game.ball = {
+			x: getWidthPixels(oldBallPosistion.x),
+			y: getHeightPixels(oldBallPosistion.y),
+			radius: BALL_RADIUS,
+			speedX: BALL_SPEED,
+			speedY: BALL_SPEED,
+			color: "#fff"
+		};
+	});
+}
+
 function getWinner(game) {
     const score = game.score;
     if ((score.player1 == 7 || score.player2 == 7)
@@ -234,6 +271,7 @@ async function playGame() {
         }
     };
     handleKeyPress(game);
+	handleResize(game);
     return await new Promise(resolve => {
         const intervalId = setInterval(() => {
             draw(game);

@@ -41,8 +41,6 @@ body {
 
 canvas {
   border: 1px solid #fff;
-  width: 80vw;
-  height: calc((9 / 16) * 80vw); /* 9/16 of the width to maintain 16:9 aspect ratio */
   display: block;
 }
 
@@ -63,7 +61,7 @@ canvas {
 .score {
   text-align: center;
   color: #fff;
-  font-size: 2rem;
+  font-size: 5vw;
 }
 
 /* tournament_styles */
