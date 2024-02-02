@@ -216,8 +216,8 @@ async function playGame() {
         x: canvas.width / 2,
         y: canvas.height / 2,
         radius: 10,
-        speedX: 5,
-        speedY: 5,
+        speedX: 7,
+        speedY: 7,
         color: "#fff"
     };
     const paddle1 = new Paddle(0, canvas.height / 2 - 60, 10, 120, "#fff");
