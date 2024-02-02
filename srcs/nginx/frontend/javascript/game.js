@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-
+const BALL_SPEED = 10;
+const PADDLE_SPEED = 10;
 
 class Paddle {
     constructor(x, y, width, height, color) {
@@ -10,7 +11,7 @@ class Paddle {
         this.height = height;
         this.color = color;
         this.speed = 0;
-        this.initialSpeed = 10;
+        this.initialSpeed = PADDLE_SPEED;
     }
 
     stop() {
@@ -97,11 +98,6 @@ function draw(game) {
     drawBall(game);
     drawPaddles(game);
 
-    game.ball.x += game.ball.speedX;
-    game.ball.y += game.ball.speedY;
-
-    game.paddle1.update();
-    game.paddle2.update();
 
     const { ball, paddle1, paddle2 } = game;
     if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
@@ -129,6 +125,12 @@ function draw(game) {
         resetBall(game);
         updateScore(game);
     }
+
+    game.ball.x += game.ball.speedX;
+    game.ball.y += game.ball.speedY;
+
+    game.paddle1.update();
+    game.paddle2.update();
 }
 
 function handleKeyDown(game) {
@@ -203,8 +205,8 @@ async function playGame() {
         x: canvas.width / 2,
         y: canvas.height / 2,
         radius: 10,
-        speedX: 7,
-        speedY: 7,
+        speedX: BALL_SPEED,
+        speedY: BALL_SPEED,
         color: "#fff"
     };
     const paddle1 = new Paddle(0, canvas.height / 2 - 60, 10, 120, "#fff");
