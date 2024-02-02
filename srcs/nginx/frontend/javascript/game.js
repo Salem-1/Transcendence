@@ -18,18 +18,13 @@ class Paddle {
         this.speed = 0;
     }
 
-    move(direction) {
-        switch (direction) {
-            case 'up':
-                this.speed = -this.initialSpeed;
-                break;
-            case 'down':
-                this.speed = this.initialSpeed;
-                break;
-            default:
-                break;
-        }
-    }
+	moveUp() {
+		this.speed = -this.initialSpeed;
+	}
+
+	moveDown() {
+		this.speed = this.initialSpeed;
+	}
 
     update() {
         if (this.y <= 0) {
@@ -150,16 +145,16 @@ function handleKeyDown(game) {
                 }
                 break;
             case 'w':
-                game.paddle1.move('up');
+                game.paddle1.moveUp();
                 break;
             case 's':
-                game.paddle1.move('down');
+                game.paddle1.moveDown();
                 break;
             case 'ArrowUp':
-                game.paddle2.move('up');
+                game.paddle2.moveUp();
                 break;
             case 'ArrowDown':
-                game.paddle2.move('down');
+                game.paddle2.moveDown();
                 break;
             default:
                 break ;
