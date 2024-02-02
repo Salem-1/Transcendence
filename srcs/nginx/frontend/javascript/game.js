@@ -46,7 +46,6 @@ class Paddle {
     }
 }
 
-// Draw ball
 function drawBall(game) {
     const ball = game.ball;
 
@@ -57,7 +56,6 @@ function drawBall(game) {
     ctx.closePath();
 }
 
-// Draw paddles
 function drawPaddles(game) {
     const paddle1 = game.paddle1;
     const paddle2 = game.paddle2;
@@ -91,34 +89,26 @@ function handlePaddleCollision(ball, paddle) {
     ball.speedY = ball.speedX * Math.tan(angleRad);
 }
 
-// Draw everything
 function draw(game) {
     if (game.pause) {
         return;
     }
 
-    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw ball and paddles
     drawBall(game);
     drawPaddles(game);
 
-    // Ball movement
     game.ball.x += game.ball.speedX;
     game.ball.y += game.ball.speedY;
 
-    // Paddle movement
     game.paddle1.update();
     game.paddle2.update();
 
     const { ball, paddle1, paddle2 } = game;
-    // Ball collision with top and bottom walls
     if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
         ball.speedY *= -1;
     }
 
-    // Ball collision with paddles
     if (
         (ball.x - ball.radius < paddle1.x + paddle1.width) &&
         (ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height)
@@ -131,7 +121,6 @@ function draw(game) {
         handlePaddleCollision(ball, paddle2);
     }
 
-    // Game over if ball goes beyond paddles
     if (ball.x - ball.radius < 0) {
         game.score.player2++;
         resetBall(game);
@@ -211,7 +200,6 @@ function getWinner(game) {
 }
 
 async function playGame() {
-    // Ball object
     const ball = {
         x: canvas.width / 2,
         y: canvas.height / 2,
