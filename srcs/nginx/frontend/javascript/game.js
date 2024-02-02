@@ -1,4 +1,3 @@
-// Canvas setup
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -222,18 +221,17 @@ async function playGame() {
         }
     };
     handleKeyPress(game);
-    await new Promise(resolve => {
+    return await new Promise(resolve => {
         const intervalId = setInterval(() => {
             draw(game);
             const winner = getWinner(game);
             if (winner != 0) {
                 alert(`Player ${winner} wins!`);
                 clearInterval(intervalId);
-                resolve();
+                resolve(winner);
             }
         }, 16 /* 1000 / 60*/ );
     });
-    return getWinner(game);
 }
 
 playGame().then(winner => {
