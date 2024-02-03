@@ -16,6 +16,9 @@ function loginBody() {
 						autocomplete="username"
 						maxlength="20"
 					/>
+					<div class="valid-feedback">
+      					Looks good!
+					</div>
 					<label for="username" data-i18n="username"></label>
 				</div>
 				<div class="form-floating">

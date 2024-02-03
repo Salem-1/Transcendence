@@ -27,7 +27,7 @@ body {
 	padding: 10px;
 	margin-top: 250px;
 	width: 615px;
-	height: 80px;
+	height: 110px;
 	border-radius: 100px;
 	background-color: #D9D9D9;
 	display: flex;
@@ -53,7 +53,7 @@ body {
   }
 
 #logo {
-	margin-left: 38%;
+	margin-left: 37%;
 	margin-bottom: 40px;
 	width: 160px;
 	height: 150px;
@@ -72,18 +72,18 @@ body {
 #login {
 	cursor: pointer;
 	margin: 0;
-	margin-left: 50px;
+	margin-left: -11px;
 }
 
 #login42 {
 	cursor: pointer;
-	margin-left: 350px;
+	margin-left: 341px;
 }
 
 #register {
 	cursor: pointer;
-	margin-top: 90px;
-	margin-left: 200px;
+	margin-top: 120px;
+	margin-left: 157px;
 }
 
 .button-div-one {
@@ -118,18 +118,6 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
-#red.button-div-two:hover {
-	background: #F01E1E !important;
-}
-
-#yellow.button-div-two:hover {
-	background: #c38b00 !important;
-}
-
-#black.button-div-two:hover {
-	background: black !important;
-}
-
 
 .button-text {
 	cursor: pointer;
@@ -139,6 +127,7 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	line-height: 60px;
 }
 
 .button-text:active {
