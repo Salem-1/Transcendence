@@ -13,6 +13,7 @@ catch (e){
 function initTournament(){
     if (localStorage.getItem('round') !== null) {
         startTournament();
+		return ;
     }
     let players = JSON.parse(localStorage.getItem('players')) || [];
     let round = fillRound(players);
@@ -41,6 +42,7 @@ async function    startTournament() {
         playQuarterFinals(round);
     else
         throw new Error("Invalid number of players");
+	displayRound(round, level);
 }
 
 /**
@@ -72,7 +74,7 @@ function getMatchWinner(player1, player2){
 function    playFinals(round) {
     const winner = getMatchWinner(round[0][0], round[0][1]);
     if (winner) {
-        localStorage.setItem('level', 0);
+        ;// localStorage.setItem('level', 0);
     }
     else
         playTournamentGame(round[0][0], round[0][1]);
