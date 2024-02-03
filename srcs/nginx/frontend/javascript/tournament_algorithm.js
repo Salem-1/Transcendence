@@ -1,31 +1,17 @@
-
 try {
-	// const location = window.location.pathname;
-	// if (location === "/tournament")
-	// {
-		initTournament();
-		
-		// const tempbutton = document.getElementById("start-tournament");
-		// if (tempbutton)
-		// 	tempbutton.remove();
-		// const newButton = document.createElement('button');
-		// newButton.textContent = 'Start tournament';
-		// newButton.id = "start-tournament";
-		// document.body.appendChild(newButton);
-		// newButton.onclick = function () {
-		// 	startTournament(); 
-		// };
-	// }
+    console.log('hi');
+    console.log(localStorage.getItem('players'));
+    console.log(localStorage.getItem('round'));
+    console.log(localStorage.getItem('level'));
+    initTournament();
 }
 catch (e){
     alert(`${e}`);
 	callRoute("/home");
-    // window.location.href = "http://localhost:3000/landing.html";
-
 }
 
 function initTournament(){
-    if (localStorage.getItem('round') != null) {
+    if (localStorage.getItem('round') !== null) {
         startTournament();
     }
     let players = JSON.parse(localStorage.getItem('players')) || [];
@@ -46,10 +32,9 @@ async function    startTournament() {
 
     if (!players || players.length < 2 || players.length > 8 || !round || !level)
         throw new Error("error: fetching players for the tournament");
-    let winner = "";
-    
+
     if (level == 1)
-        displayWinner(playFinals(round));
+        playFinals(round);
     else if (level == 2)
         playSemiFinals(round);
     else if (level == 3)
@@ -87,10 +72,7 @@ function getMatchWinner(player1, player2){
 function    playFinals(round) {
     const winner = getMatchWinner(round[0][0], round[0][1]);
     if (winner) {
-        localStorage.removeItem('round');
-        localStorage.removeItem('level');
-        localStorage.removeItem('players');
-        reutrn (winner);
+        localStorage.setItem('level', 0);
     }
     else
         playTournamentGame(round[0][0], round[0][1]);
@@ -119,7 +101,6 @@ function    playQuarterFinals(round) {
             if (winner3) {
                 if (round['3'] == null) {
                     localStorage.setItem('level', 2);
-                    return ;
                 }
                 const winner4 = getMatchWinner(round['3'][0], round['3'][1]);
                 if (winner4) {

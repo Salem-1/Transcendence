@@ -61,7 +61,7 @@ const urlRoutes = {
     title: "tournament | " + urlPageTitle,
     description: "This is the tournament page",
     theme: "/css/game.css",
-    script: ["/javascript/game.js", "/javascript/tournament_algorithm.js"],
+    script: ["/javascript/tournament_algorithm.js"],
   },
   "/AIgame": {
     template: gamePageBody(),
