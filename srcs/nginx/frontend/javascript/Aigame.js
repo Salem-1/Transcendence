@@ -311,7 +311,7 @@ async function playGame() {
                 gameObjects["ballLastPosition"] = {x: ball.x,y: ball.y}
             }
             AiBlindMove(game.p1, moves);
-            AiTrainer(game);
+            // AiTrainer(game);
             lastTimestamp = timestamp;
             const winner = getWinner(game);
             if (winner != 0) {
