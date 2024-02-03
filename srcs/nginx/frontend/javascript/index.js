@@ -1,18 +1,7 @@
 // Get oauth link from auth service
 async function oauthRedirect() {
 	try {
-		const response = await fetch("http://localhost:8000/redirect_uri/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
-		const result = await response.json();
-		if (response.ok) {
-			window.location.href = result.oauth_link;
-		} else {
-			console.log(`Failed to get oauth link: ${result.error}`);
-		}
+		await fetchAuthRedirection();
 	} catch (error) {
 		console.log("Error during oauth redirect:", error);
 	}
@@ -23,27 +12,11 @@ async function register() {
 	const password = document.getElementById("password").value;
 	const confirmPassword = document.getElementById("confirmpassword").value;
 
-	if (!isValidRegeistrationIput(username, password, confirmPassword)) return;
+	if (!await isValidRegeistrationIput(username, password, confirmPassword)) return;
 	try {
-		const response = await fetch("http://localhost:8000/register/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ username, password }),
-		});
-
-		const result = await response.json();
-
-		if (response.ok) {
-			alert("Registration successful! Now you can log in.");
-			callRoute("/login");
-		} else {
-			alert(`Registration failed: ${result.error}`);
-		}
+		await tryRegisterUser(username, password);
 	} catch (error) {
-		console.error("Error during registration:", error);
-		alert(`Registration failed: ${error}`);
+		console.log(`${await getTranslation("reg failed")}: ${error}`);
 	}
 }
 
@@ -51,59 +24,113 @@ async function login() {
 	const username = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
 
-	if (!isValidLoginIput(username, password)) return;
+	if (!await isValidLoginIput(username, password)) return;
 	try {
-		const response = await fetch("http://localhost:8000/login/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ username, password }),
-		});
-
-		const result = await response.json();
-
-		if (response.status == 200 && result.jwt_token) {
-			await storeJWTInCookies(result);
-			alert(`Successful! log in welcome ${username}.`);
-			callRoute("/home");
-		} else if (response.status == 302 && result.type == "otp") {
-			double_factor_authenticate(result);
-		} else {
-			alert(`Login failed: ${result.error}`);
-		}
+		await tryLoginUser(username, password);
 	} catch (error) {
 		console.error("Error during registration:", error);
-		alert(`Error during registration: ${error}`);
+		alert(`${await getTranslation("reg failed")}: ${error}`);
 	}
 }
 
-function isValidRegeistrationIput(username, password, confirmPassword) {
-	if (username.length < 1 || username.length > 20)
-		alert("Registration failed:  invalid username");
+async function double_factor_authenticate(result) {
+	await storeJWTInCookies(result);
+	const otp = prompt(
+		await getTranslation("enter otp"),
+		"000000"
+	);
+	const otpPattern = /^\d{6}$/;
+	if (otpPattern.test(otp)) {
+		try {
+			await try2FactorAuthentication(otp);
+		} catch (error) {
+			console.log("Error during registration:", error);
+			alert(`${await getTranslation("reg failed")}: ${error}`);
+		}
+	} else {
+		alert(`${await getTranslation("inavlid otp")}`);
+	}
+}
+async function tryLoginUser(username, password){
+	const response = await fetch("http://localhost:8000/login/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username, password }),
+	});
+
+	const result = await response.json();
+
+	if (response.status == 200 && result.jwt_token) {
+		await storeJWTInCookies(result);
+		alert(`${await getTranslation("login success")}, ${await getTranslation("welcome")} ${username}.`);
+		callRoute("/home");
+	} else if (response.status == 302 && result.type == "otp") {
+		double_factor_authenticate(result);
+	} else {
+		alert(`${await getTranslation("login failed")}: ${result.error}`);
+	}
+}
+
+async function fetchAuthRedirection(){
+	const response = await fetch("http://localhost:8000/redirect_uri/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const result = await response.json();
+	if (response.ok) {
+		window.location.href = result.oauth_link;
+	} else {
+		console.log(`Failed to get oauth link: ${result.error}`);
+	}
+}
+
+async function tryRegisterUser(username, password){
+	console.log(username)
+	console.log(password)
+	const response = await fetch("http://localhost:8000/register/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username, password }),
+	});
+
+	const result = await response.json();
+
+	if (response.ok) {
+		alert(await getTranslation("reg success"));
+		callRoute("/login");
+	} else {
+		alert(`${await getTranslation("reg failed")}: ${result.error}`);
+	}
+}
+
+async function isValidRegeistrationIput(username, password, confirmPassword) {
+	if (username.length < 3 || username.length > 20)
+		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username length")}`);
 	else if (password.length < 8 || password.length > 35)
-		alert("Password should be 8 char at leaset and not more than 35 chars");
+		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password length")}`);
 	else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
-		alert(
-			"Registration failed: Username cannot contain  those characters !@#$%^&*,.?\":;{} ' ' |<>'"
-		);
+		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username char")}`);
 	else if (
 		!(
 			/[A-Z]/.test(password) &&
 			/[a-z]/.test(password) &&
 			/\d/.test(password)
 		)
-	) {
-		alert(
-			"Registration failed: password must contain at least one upper, lower case letters and number"
-		);
-	} else if (password !== confirmPassword)
-		alert("Registration failed: Passwords do not match");
+	) 
+		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password char")}`);
+		else if (password !== confirmPassword)
+		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password match")}`);
 	else return true;
 	return false;
 }
 
-function isValidLoginIput(username, password) {
+async function isValidLoginIput(username, password) {
 	if (
 	!(
 			username.length > 1 &&
@@ -113,7 +140,7 @@ function isValidLoginIput(username, password) {
 			!/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)
 		)
 	) {
-		alert("Invalid username or password");
+		alert(`${await getTranslation("invalid login")}`);
 		return false;
 	} else if (
 		!(
@@ -122,9 +149,7 @@ function isValidLoginIput(username, password) {
 			/\d/.test(password)
 		)
 	) {
-		alert(
-			"Login failed: invalid username or password"
-		);
+		alert(`${await getTranslation("invalid login")}`);
 		return false;
 	}
 	return true;
@@ -149,50 +174,29 @@ function addJWTToRrequest() {
 	});
 }
 
-async function double_factor_authenticate(result) {
-	await storeJWTInCookies(result);
-	const otp = prompt(
-		"Enter 6 digits OTP from your authenticator app:",
-		"000000"
-	);
-	const otpPattern = /^\d{6}$/;
-	if (otpPattern.test(otp)) {
-		try {
-			const response = await fetch(
-				"http://localhost:8000/double_factor_auth/",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ otp }),
-					credentials: "include",
-				}
-			);
 
-			const result = await response.json();
 
-			if (response.ok) {
-				await storeJWTInCookies(result);
-				alert(`Successful! log in welcome .`);
-				callRoute("/home");
-			} else {
-				alert(`Wrong OTP 🥲`);
-			}
-		} catch (error) {
-			console.log("Error during registration:", error);
-			alert(`Error during registration: ${error}`);
+async function try2FactorAuthentication(otp){
+	const response = await fetch(
+		"http://localhost:8000/double_factor_auth/",
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ otp }),
+			credentials: "include",
 		}
+	);
+
+	const result = await response.json();
+
+	if (response.ok) {
+		await storeJWTInCookies(result);
+		alert(`${await getTranslation("login success")}`);
+		callRoute("/home");
 	} else {
-		alert("Invalid OTP. Please enter a 6-digit numeric code.");
+		alert(`${await getTranslation("inavlid otp")}`);
 	}
+
 }
-
-/**
- * peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent
- */
-
-/** Button
- * relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full
-WdcssW werty23FG gsadf32KL:Mlm
-*/

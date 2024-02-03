@@ -1,6 +1,5 @@
-
-function error_404(){
-		return (`
+function error_404() {
+	return `
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -55,7 +54,7 @@ function error_404(){
 			width: 100%;
 		}
 	</style>
-	<h1>Oops! It seems you are Lost</h1>
+	<h1  data-i18n="404">Oops! It seems you are Lost</h1>
 	<div class="image-container">
 		<img
 			src="https://images.pond5.com/file-not-found-error-unsuccessful-footage-084512874_prevstill.jpeg"
@@ -63,7 +62,6 @@ function error_404(){
 		/>
 	</div>
 	<footer>
-		<button type="button" onclick="callRoute('/')">Go Home</button>
-	</footer>
-		`)
+		<button type="button" onclick="callRoute('/')" data-i18n="go home">Go Home</button>
+		`;
 }

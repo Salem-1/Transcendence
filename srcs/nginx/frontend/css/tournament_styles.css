@@ -652,6 +652,12 @@ hr {
 	 font-size: 18px;
 }
 
-
 }
 
+#launch-tournamet {
+	float: right;
+	right: 0;
+	bottom: 0;
+	margin-right: 50px;
+	margin-top: 50px;
+}

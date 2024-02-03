@@ -1,3 +1,3 @@
-function auth (){
-    return ("this is the authentication loading page");
+function auth() {
+	return "this is the authentication loading page";
 }

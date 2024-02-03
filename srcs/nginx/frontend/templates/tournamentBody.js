@@ -4,7 +4,7 @@ function tournamentBody(){
 	<div class="hero">
 			<div id="content">
 				<div class="top-bar">
-					<img id="logo" src="assets/logo1.png" alt="">
+					<img id="logo" src="assets/logo1.png" alt="" onclick="callRoute('/home')">
 					<div class="drp">
 						<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
 						<div class="dropdown-content" id="myDropdown">
@@ -103,7 +103,7 @@ function tournamentBody(){
 					  <!-- END ROUND ONE -->                  
 					</div>
 					</div>
-					<button class="btn btn-primary" type="button id="launch-tournamet" onclick="startTournament()">Launch Tournament</button>
+					<button class="btn btn-primary" type="button" id="launch-tournamet" onclick="startTournament()">Launch Tournament</button>
 
 					</section>
 
