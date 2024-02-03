@@ -25,9 +25,10 @@ catch (e){
 }
 
 function initTournament(){
-    var players = JSON.parse(localStorage.getItem('players')) || [];
-    if (!players || players.length < 2 || players.length > 8)
-        throw new Error("not enough players");
+    if (localStorage.getItem('round') != null) {
+        startTournament();
+    }
+    let players = JSON.parse(localStorage.getItem('players')) || [];
     let round = fillRound(players);
     let level = getLevel(round);
     let roundJSON = JSON.stringify(round);
@@ -36,39 +37,8 @@ function initTournament(){
     displayRound(round, level);
 }
 
-// function playGame(player1, player2){
-//     if (!player2)
-//         return (player1);
-//     else if (confirm(`${player1} wins ${player2}?`))
-//         return (player1);
-//     else 
-//         return (player2);
-// }
-
-async function    playFinals(round){ 
-    let winner = await playGame(round[0][0], round[0][1]);
-    console.log(`displaying winner ${winner}`);
-    return (winner);
-    // return(await playGame(round[0][0], round[0][1]));
-}
-
-async function    navigateBackToTourment(){
-    route_tourn =  {
-        template: tournamentBody(),
-        description: "This is the tournament page",
-        theme: "/css/game.css",
-    }
-    html = route_tourn.template;
-    document.getElementById("content").innerHTML = html;
-    document.querySelector('meta[name="description"]').setAttribute("content", route_tourn.description);
-    if (route_tourn.theme)
-        theme.setAttribute("href", route_tourn.theme);
-    else
-        theme.setAttribute("href", defaulttheme);
-}
-
-async function    startTournament(){
-    var players = JSON.parse(localStorage.getItem('players')) || [];
+async function    startTournament() {
+    let players = JSON.parse(localStorage.getItem('players')) || [];
     let storedRoundJSON = localStorage.getItem('round');
     let storedLevelString = localStorage.getItem('level');
     let round = JSON.parse(storedRoundJSON);
@@ -79,47 +49,99 @@ async function    startTournament(){
     let winner = "";
     
     if (level == 1)
-        winner = await playFinals(round);
+        displayWinner(playFinals(round));
     else if (level == 2)
-        winner = await playSemiFinals(round);
+        playSemiFinals(round);
     else if (level == 3)
-        winner = await playQuarterFinals(round);
+        playQuarterFinals(round);
     else
         throw new Error("Invalid number of players");
-    await navigateBackToTourment();
-    displayWinner(winner);
 }
 
-async function    playQuarterFinals(round){
-
-    let round3 = {"0": [
-                        await playGame(round[0][0], round[0][1]), 
-                        await playGame(round[1][0], round[1][1])
-                    ],
-                    "1": [
-                        await playGame(round[2][0], round[2][1]), 
-                        round[3] ? await playGame(round[3][0], round[3][1]) : null ,
-                    ], 
-                    }
-    // displaySemiFinal(round3);          
-    return (await playSemiFinals(round3));
-
+/**
+ * 
+ * @param {*} player1
+ * @param {*} player2
+ * 
+ * This function will route to /game?tournament=true?player1=player1&player2=player2
+ * Game.js will read the query string and start the game with the two players.
+ * Once the game is over game.js will remove the loser VALUE and not KEY from the local storage
+ *  and callRoute to /tournament
+ * so if a player doesnt have a name the game will not start
+ * 
+ */
+function playTournamentGame(player1, player2) {
+    const url = `/game?tournament=true&player1=${player1}&player2=${player2}`;
+    callRoute(url);
 }
 
-async function playSemiFinals(round){
-    let round2 = {"0": [
-                        await playGame(round['0'][0], round['0'][1]),
-                        await playGame(round['1'][0], round['1'][1])
-                  ]};
-    // displayFinals(round2);
-    return (await playFinals(round2));
+function getMatchWinner(player1, player2){
+    if (player1 == null || player2 == null)
+    {
+        const winner = player1 ? player1 : player2;
+        return (winner);
+    }
+    return (null);
+}
+
+function    playFinals(round) {
+    const winner = getMatchWinner(round[0][0], round[0][1]);
+    if (winner) {
+        localStorage.removeItem('round');
+        localStorage.removeItem('level');
+        localStorage.removeItem('players');
+        reutrn (winner);
+    }
+    else
+        playTournamentGame(round[0][0], round[0][1]);
+}
+
+function playSemiFinals(round) {
+    const winner1 = getMatchWinner(round['0'][0], round['0'][1]);
+    if (winner1) {
+        const winner2 = getMatchWinner(round['1'][0], round['1'][1]);
+        if (winner2) {
+            localStorage.setItem('level', 1);
+        } else {
+            playTournamentGame(round['1'][0], round['1'][1]);
+        }
+    } else {
+        playTournamentGame(round['0'][0], round['0'][1]);
+    }
+}
+
+function    playQuarterFinals(round) {
+    const winner1 = getMatchWinner(round['0'][0], round['0'][1]);
+    if (winner1) {
+        const winner2 = getMatchWinner(round['1'][0], round['1'][1]);
+        if (winner2) {
+            const winner3 = getMatchWinner(round['2'][0], round['2'][1]);
+            if (winner3) {
+                if (round['3'] == null) {
+                    localStorage.setItem('level', 2);
+                    return ;
+                }
+                const winner4 = getMatchWinner(round['3'][0], round['3'][1]);
+                if (winner4) {
+                    localStorage.setItem('level', 2);
+                } else {
+                    playTournamentGame(round['3'][0], round['3'][1]);
+                }
+            } else {
+                playTournamentGame(round['2'][0], round['2'][1]);
+            }
+        } else {
+            playTournamentGame(round['1'][0], round['1'][1]);
+        }
+    } else {
+        playTournamentGame(round['0'][0], round['0'][1]);
+    }
 }
 
 function    displayWinner(winner){
     let winning_element = document.getElementById("winner");
     showOnePlayer(winning_element, winner);
 }
-
 
 function displayRound(round, level){
     if (level == 1){
