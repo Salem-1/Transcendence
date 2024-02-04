@@ -35,7 +35,7 @@ async function    startTournament() {
 	if (level == 0)
 	{
 		displayWinner(round[0][0] == null ? round[0][1] : round[0][0]);
-		return ;
+		localStorage.clear();
 	}
     else if (level == 1)
         playFinals(round);
