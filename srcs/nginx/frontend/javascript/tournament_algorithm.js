@@ -1,8 +1,4 @@
 try {
-    console.log('hi');
-    console.log(localStorage.getItem('players'));
-    console.log(localStorage.getItem('round'));
-    console.log(localStorage.getItem('level'));
     initTournament();
 }
 catch (e){
@@ -21,6 +17,7 @@ function initTournament(){
     let roundJSON = JSON.stringify(round);
     localStorage.setItem('round', roundJSON);
     localStorage.setItem('level', level.toString());
+	localStorage.setItem('roundWinners', JSON.stringify({}));
     displayRound(round, level);
 }
 
@@ -31,10 +28,16 @@ async function    startTournament() {
     let round = JSON.parse(storedRoundJSON);
     let level = parseInt(storedLevelString);
 
-    if (!players || players.length < 2 || players.length > 8 || !round || !level)
+    if (!players || players.length < 2 || players.length > 8 || !round || level === null)
         throw new Error("error: fetching players for the tournament");
 
-    if (level == 1)
+	displayRound(round, level);
+	if (level == 0)
+	{
+		displayWinner(round[0][0] == null ? round[0][1] : round[0][0]);
+		return ;
+	}
+    else if (level == 1)
         playFinals(round);
     else if (level == 2)
         playSemiFinals(round);
@@ -42,7 +45,6 @@ async function    startTournament() {
         playQuarterFinals(round);
     else
         throw new Error("Invalid number of players");
-	displayRound(round, level);
 }
 
 /**
@@ -62,30 +64,31 @@ function playTournamentGame(player1, player2) {
     callRoute(url);
 }
 
-function getMatchWinner(player1, player2){
-    if (player1 == null || player2 == null)
-    {
-        const winner = player1 ? player1 : player2;
-        return (winner);
-    }
-    return (null);
+function getMatchWinner(round) {
+	let roundWinners = JSON.parse(localStorage.getItem('roundWinners')) || {};
+	return roundWinners[round];
 }
 
 function    playFinals(round) {
-    const winner = getMatchWinner(round[0][0], round[0][1]);
-    if (winner) {
-        ;// localStorage.setItem('level', 0);
-    }
-    else
-        playTournamentGame(round[0][0], round[0][1]);
+	const winner = getMatchWinner('0');
+	if (winner) {
+		localStorage.setItem('round', JSON.stringify({ '0': [winner, null] }));
+		localStorage.setItem('level', 0);
+		startTournament();
+		return ;
+	}
+	playTournamentGame(round[0][0], round[0][1]);
 }
 
 function playSemiFinals(round) {
-    const winner1 = getMatchWinner(round['0'][0], round['0'][1]);
+    const winner1 = getMatchWinner('0');
     if (winner1) {
-        const winner2 = getMatchWinner(round['1'][0], round['1'][1]);
+        const winner2 = getMatchWinner('1');
         if (winner2) {
+			localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2] }));
             localStorage.setItem('level', 1);
+			startTournament();
+			return ;
         } else {
             playTournamentGame(round['1'][0], round['1'][1]);
         }
@@ -95,18 +98,24 @@ function playSemiFinals(round) {
 }
 
 function    playQuarterFinals(round) {
-    const winner1 = getMatchWinner(round['0'][0], round['0'][1]);
+    const winner1 = getMatchWinner('0');
     if (winner1) {
-        const winner2 = getMatchWinner(round['1'][0], round['1'][1]);
+        const winner2 = getMatchWinner('1');
         if (winner2) {
-            const winner3 = getMatchWinner(round['2'][0], round['2'][1]);
+            const winner3 = getMatchWinner('2');
             if (winner3) {
                 if (round['3'] == null) {
+					localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2], '1': [winner3, null] }));
                     localStorage.setItem('level', 2);
+					startTournament();
+					return ;
                 }
-                const winner4 = getMatchWinner(round['3'][0], round['3'][1]);
+                const winner4 = getMatchWinner('3');
                 if (winner4) {
+					localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2], '1': [winner3, winner4] }));
                     localStorage.setItem('level', 2);
+					startTournament();
+					return ;
                 } else {
                     playTournamentGame(round['3'][0], round['3'][1]);
                 }
@@ -122,6 +131,7 @@ function    playQuarterFinals(round) {
 }
 
 function    displayWinner(winner){
+	console.log(`winner is ${winner}`);
     let winning_element = document.getElementById("winner");
     showOnePlayer(winning_element, winner);
 }

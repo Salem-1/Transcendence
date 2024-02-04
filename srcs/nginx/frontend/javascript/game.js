@@ -316,17 +316,31 @@ var game = () => {
             await playGame();
             callRoute('/home');
         } else {
-            const loser = await playGame() == 1 ? player2 : player1;
-            const players = JSON.parse(localStorage.getItem('players')) || [];
-            for (let i = 0; i < players.length; i++) {
-                if (players[i] == loser) {
-                    players[i] = null;
-                    break;
-                }
-            }
-            localStorage.setItem('players', JSON.stringify(players));
-            const currentRound = Number(localStorage.getItem('round'));
-            localStorage.setItem('round', currentRound - 1);
+            const winner = await playGame() == 1 ? player1 : player2;
+			const round = JSON.parse(localStorage.getItem('round'));
+			const level = JSON.parse(localStorage.getItem('level'));
+			const roundWinners = JSON.parse(localStorage.getItem('roundWinners')) || {};
+
+			if (level == 1) {
+				roundWinners['0'] = winner;
+			} else if (level == 2) {
+				if (player1 == round['0'][0] && player2 == round['0'][1]) {
+					roundWinners['0'] = winner;
+				} else {
+					roundWinners['1'] = winner;
+				}
+			} else if (level == 3) {
+				if (player1 == round['0'][0] && player2 == round['0'][1]) {
+					roundWinners['0'] = winner;
+				} else if (player1 == round['1'][0] && player2 == round['1'][1]) {
+					roundWinners['1'] = winner;
+				} else if (player1 == round['2'][0] && player2 == round['2'][1]) {
+					roundWinners['2'] = winner;
+				} else {
+					roundWinners['3'] = winner;
+				}
+			}
+			localStorage.setItem('roundWinners', JSON.stringify(roundWinners));
             callRoute('/tournament');
         }
     }
