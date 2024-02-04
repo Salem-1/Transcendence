@@ -65,7 +65,13 @@ function playTournamentGame(player1, player2) {
 }
 
 function getMatchWinner(round) {
+	let roundObject = JSON.parse(localStorage.getItem('round')) || {};
 	let roundWinners = JSON.parse(localStorage.getItem('roundWinners')) || {};
+	if (!roundObject[round][0] || !roundObject[round][1])
+	{
+		roundWinners[round] = roundObject[round][0] == null ? roundObject[round][1] : roundObject[round][0];
+		localStorage.setItem('roundWinners', JSON.stringify(roundWinners));
+	}
 	return roundWinners[round];
 }
 
@@ -87,6 +93,7 @@ function playSemiFinals(round) {
         if (winner2) {
 			localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2] }));
             localStorage.setItem('level', 1);
+			localStorage.setItem('roundWinners', JSON.stringify({}));
 			startTournament();
 			return ;
         } else {
@@ -107,6 +114,7 @@ function    playQuarterFinals(round) {
                 if (round['3'] == null) {
 					localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2], '1': [winner3, null] }));
                     localStorage.setItem('level', 2);
+					localStorage.setItem('roundWinners', JSON.stringify({}));
 					startTournament();
 					return ;
                 }
@@ -114,6 +122,7 @@ function    playQuarterFinals(round) {
                 if (winner4) {
 					localStorage.setItem('round', JSON.stringify({ '0': [winner1, winner2], '1': [winner3, winner4] }));
                     localStorage.setItem('level', 2);
+					localStorage.setItem('roundWinners', JSON.stringify({}));
 					startTournament();
 					return ;
                 } else {
@@ -156,8 +165,6 @@ function showOnePlayer(player_place, playername){
     player_place.style.display  = 'inline';
 }
 
-
-// throw new Error('Invalid input')
 function    fillRound(players){
     if (!players || players.length < 2 || players.length > 8)
         throw new Error("Invalid players array size");
