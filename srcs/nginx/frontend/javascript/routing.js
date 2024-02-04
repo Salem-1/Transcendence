@@ -3,89 +3,90 @@ const defaulttheme = "/css/style.css";
 
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
-  404: {
-    template: error_404(),
-    title: "404 | " + urlPageTitle,
-    description: "Page not found",
-  },
-  "/": {
-    template: landingPageBody(),
-    title: "Home | " + urlPageTitle,
-    description: "This is the home page",
-    theme: "/css/style.css",
-    IntroPages: true,
-  },
-  "/login": {
-    template: loginBody(),
-    title: "Login | " + urlPageTitle,
-    description: "This is the login page",
-    theme: "/css/login.css",
-    IntroPages: true,
-  },
-  "/register": {
-    template: registration_body(),
-    title: "Registration | " + urlPageTitle,
-    description: "This is the registration page",
-    theme: "/css/registration.css",
-    IntroPages: true,
-  },
-  "/home": {
-    template: homePageBody(),
-    title: "Home | " + urlPageTitle,
-    description: "This is the Home page",
-    theme: "/css/homePage.css",
-    script: [
-      "/javascript/greet.js",
-      "/javascript/tournament.js",
-      "/javascript/dropDown.js",
-    ],
-    requiresAuth: true,
-  },
-  "/game": {
-    template: gamePageBody(),
-    title: "Game | " + urlPageTitle,
-    description: "This is the Game page",
-    theme: "/css/game.css",
-    script: ["javascript/game.js"],
-    requiresAuth: true,
-  },
-  "/auth": {
-    template: auth(),
-    title: "auth | " + urlPageTitle,
-    description: "This is the authentacation page",
-    theme: "/css/style.css",
-    script: ["/javascript/auth.js"],
-  },
-  "/tournament": {
-    template: tournamentBody(),
-    title: "tournament | " + urlPageTitle,
-    description: "This is the tournament page",
-    theme: "/css/game.css",
-    script: ["/javascript/tournament_algorithm.js"],
-  },
-  "/AIgame": {
-    template: gamePageBody(),
-    title: "Game | " + urlPageTitle,
-    description: "This is the Game page",
-    theme: "/css/game.css",
-    script: ["/javascript/Aigame.js"],
-    requiresAuth: true,
-  },
-  "/settings": {
-    template: settingsBody(),
-    title: "Settings | " + urlPageTitle,
-    description: "This is the Settings page",
-    script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
-    theme: "/css/settings.css",
-    requiresAuth: true,
-  },
-  "/sandbox": {
-    template: sandbox(),
-    title: "sandbox | " + urlPageTitle,
-    description: "This is the sandbox page",
-    theme: "/css/style.css",
-    // script: ["/javascript/sandbox.js"],
-  },
+	404: {
+		template: error_404(),
+		title: "404 | " + urlPageTitle,
+		description: "Page not found",
+	},
+	"/": {
+		template: landingPageBody(),
+		title: "Home | " + urlPageTitle,
+		description: "This is the home page",
+		theme: "/css/style.css",
+		IntroPages: true,
+	},
+	"/login": {
+		template: loginBody(),
+		title: "Login | " + urlPageTitle,
+		description: "This is the login page",
+		theme: "/css/login.css",
+		IntroPages: true,
+	},
+	"/register": {
+		template: registration_body(),
+		title: "Registration | " + urlPageTitle,
+		description: "This is the registration page",
+		theme: "/css/registration.css",
+		IntroPages: true,
+	},
+	"/home": {
+		template: homePageBody(),
+		title: "Home | " + urlPageTitle,
+		description: "This is the Home page",
+		theme: "/css/homePage.css",
+		script: [
+			"/javascript/greet.js",
+			"/javascript/2FA.js", // not needed, remove after passing selenum test
+			"/javascript/tournament.js",
+			"/javascript/dropDown.js",
+		],
+		requiresAuth: true,
+	},
+	"/game": {
+		template: gamePageBody(),
+		title: "Game | " + urlPageTitle,
+		description: "This is the Game page",
+		theme: "/css/game.css",
+		script: ["/javascript/game.js"],
+		requiresAuth: true,
+	},
+	"/AIgame": {
+		template: gamePageBody(),
+		title: "Game | " + urlPageTitle,
+		description: "This is the Game page",
+		theme: "/css/game.css",
+		script: ["/javascript/Aigame.js"],
+		requiresAuth: true,
+	},
+	"/auth": {
+		template: auth(),
+		title: "auth | " + urlPageTitle,
+		description: "This is the authentacation page",
+		theme: "/css/style.css",
+		script: ["/javascript/auth.js"],
+	},
+	"/tournament": {
+		template: tournamentBody(),
+		title: "tournament | " + urlPageTitle,
+		description: "This is the tournament page",
+		theme: "/css/tournament_styles.css",
+		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js"],
+	},
+	"/settings": {
+		template: settingsBody(),
+		title: "Settings | " + urlPageTitle,
+		description: "This is the Settings page",
+		script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
+		theme: "/css/settings.css",
+		requiresAuth: true,
+	},
+	"/sandbox": {
+		template: sandbox(),
+		title: "sandbox | " + urlPageTitle,
+		description: "This is the sandbox page",
+		theme: "/css/style.css",
+		// script: ["/javascript/sandbox.js"],
+	},
 };
 
 async function callRoute(route) {
@@ -170,17 +171,17 @@ const isVerified = async () => {
 };
 
 const isNotLoggedIn = async () => {
-  const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Add this line
-  });
-  if (response.ok) {
-    return true;
-  }
-  return false;
+	const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include", // Add this line
+	});
+	if (response.ok) {
+		return true;
+	}
+	return false;
 };
 
 // add an event listener to the window that watches for url changes

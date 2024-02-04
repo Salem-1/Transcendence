@@ -1,3 +1,5 @@
+HTML CSSResult Skip Results Iframe
+EDIT ON
 body {
 	font-family: 'Istok Web', sans-serif;
 	background: url("http://picjumbo.com/wp-content/uploads/HNCK2189-1300x866.jpg") no-repeat #000;
@@ -7,158 +9,13 @@ body {
 }
 
 .hero {
-	background-image: none !important;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	width: 100%;
-	height: 100vh;
-}
-
-.top-bar {
-	width: 100%;
-}
-
-#logo {
-	cursor: pointer;
-	margin-top: 20px;
-	margin-left: 20px;
-	width: 140px;
-	height: 130px;
-	border-radius: 20%;
-}
-
-#Person {
-	cursor: pointer;
-	position: absolute;
-	margin-top: 20px;
-	margin-right: 20px;
-	right: 0;
-	top: 0;
-	width: 130px;
-	height: 130px;
-	border-radius: 50%;
-}
-
-.button-text {
-	cursor: pointer;
-	text-align: center;
-	color: white;
-	font-size: 30px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-	word-wrap: break-word;
-}
-
-.button-text:active {
-	font-size: 28px;
-	line-height: 35px !important;
-}
-
-.drrp {
-	margin: 20px;
-}
-
-#Person:hover {
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-#Person:active {
-	margin-right: 22px;
-	margin-top: 25px;
-	width: 125px;
-	height: 125px;
-}
-
-.dropdown-content {
-	border-radius: 20px;
-	float: right;
-	margin-right: 20px;
-	display: none;
-	background-color: #f9f9f9;
-	min-width: 240px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
-}
-
-.dropdown-content a {
-	float: none;
-	color: black;
-	text-decoration: none;
-	display: block;
-	text-align: center;
-}
-
-.profile-name {
-
-	position: absolute;
-	width: 70%;
-	height: 70%;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	padding: 10px;
-	border-radius: 20px;
-	background-color: #E5E5E5;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
-}
-
-.text {
-	/* cursor: pointer; */
-	text-align: center;
-	color: black;
-	font-size: 25px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-	word-wrap: break-word;
-}
-
-.show {
-	display: block;
-}
-
-.drp {
-	display: block !important;
-}
-
-hr {
-	font-size: large;
-	font-weight: bold;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-	
- /* Create two equal columns that floats next to each other */
- .column {
-	/* position: absolute; */
-	text-align: center;
-	float: left;
-	margin: 12px;
-	width: 42%;
-	padding: 10px;
-	border-radius: 20px;
-	height: 30%; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-  .row:after {
-	content: "";
-	display: table;
-	clear: both;
-  }
-
-.hero1 {
 	position:relative;
 	 text-align: center;
 	 overflow: hidden;
 	 color: #fcfcfc;
  }
-
-.hero1 h1 {
+ 
+.hero h1 {
 	font-family: 'Holtwood One SC', serif;
 	font-weight: normal;
 	font-size: 5.4em;
@@ -168,7 +25,7 @@ hr {
 	letter-spacing:-1px;
 }
 
-.hero1 p {
+.hero p {
 	font-family: 'Abel', sans-serif;
 	text-transform: uppercase;
 	 color: #5CCA87;
@@ -177,11 +34,11 @@ hr {
 	font-size: 1.2em;
 }
 
-.hero1-wrap {
+.hero-wrap {
 	padding: 3.5em 10px;
 }
 
-.hero1 p.intro {
+.hero p.intro {
 	font-family: 'Holtwood One SC', serif;
 	text-transform: uppercase;
 	letter-spacing: 1px;
@@ -189,21 +46,19 @@ hr {
 	margin-bottom:-40px;
 }
 
-.hero1 p.year {
+.hero p.year {
 	color: #fff;
 	 letter-spacing: 20px;
 	 font-size: 34px;
 	 margin: -25px 0 25px;
 }
 
-.hero1 p.year i {
+.hero p.year i {
 	font-size: 14px;
 	vertical-align: middle;
 }
 
 #bracket {
-	border-radius: 20px;
-	margin: 50px;
 	overflow:hidden;
 	background-color: #e1e1e1;
 	background-color:rgba(225,225,225,0.9);
@@ -213,8 +68,7 @@ hr {
 }
 
 .container {
-	margin: 20px;
-	max-width: 1200px;
+	max-width: 1100px;
 	margin: 0 auto;
 	display:block;
 	display: -webkit-box;
@@ -253,13 +107,13 @@ hr {
 	text-align: center;
 	padding: 230px 0\9;
 }
-
+ 
 .champion i {
 	color: #a0a6a8;
 	 font-size: 45px;
 	padding: 10px 0;
  }
-
+ 
 .round {
 	display:block;
 	float:left;
@@ -289,7 +143,7 @@ hr {
 .matchup {
 	margin:0;
 	width: 100%;
-	padding: 100px 0;
+	padding: 10px 0;
 	height:60px;
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
@@ -308,34 +162,24 @@ hr {
 
 .team {
 	padding: 0 5px;
-	margin: 60px 0;
+	margin: 3px 0;
 	height: 25px;
 	 line-height: 25px;
 	white-space: nowrap;
 	 overflow: hidden;
 	position: relative;
-	display: block !important;
-}
-
-.round-two .team {
-	margin-top: 180px;
-}
-
-.champion .matchup {
-	padding: 5px;
-	width: 100%;
 }
 
 .round-two .matchup {
 	margin:0;
 	 height: 60px;
-	padding: 20px 0;
+	padding: 50px 0;
 }
 
 .round-three .matchup {
 	margin:0;
 	 height: 60px;
-	 padding: 240px 0;
+	 padding: 130px 0;
 }
 
 .round-details {
@@ -397,21 +241,21 @@ hr {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
-
+  
 
   50% {
 
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
   }
-
+  
 
   100% {
 
     -webkit-transform: scale(1);
     transform: scale(1);
   }
-
+  
 }
 
 
@@ -423,7 +267,7 @@ hr {
     -ms-transform: scale(1);
     transform: scale(1);
   }
-
+  
 
   50% {
 
@@ -431,7 +275,7 @@ hr {
     -ms-transform: scale(1.3);
     transform: scale(1.3);
   }
-
+  
 
   100% {
 
@@ -439,7 +283,7 @@ hr {
     -ms-transform: scale(1);
     transform: scale(1);
   }
-
+  
 }
 
 
@@ -447,7 +291,7 @@ hr {
 	color: #fff;
 	 opacity: 0.35;
  }
-
+ 
 .share-icon:hover {
 	 opacity:1;
 	  -webkit-animation: pulse 0.5s;
@@ -477,16 +321,16 @@ hr {
   .split {
 	width:43%;
  }
-
+ 
   .split-one .vote-box {
 	margin-left: 138px;
 }
 
-  .hero1 p.intro {
+  .hero p.intro {
 	font-size: 28px;
 }
 
-  .hero1 p.year {
+  .hero p.year {
 	margin: 5px 0 10px;
 }
 
@@ -520,16 +364,16 @@ hr {
 	 padding-bottom: 20px;
 }
 
-  .hero1 p.intro {
+  .hero p.intro {
 	font-size: 24px;
 }
 
-  .hero1 h1 {
+  .hero h1 {
 	font-size: 3em;
 	 margin: 15px 0;
 }
 
-  .hero1 p {
+  .hero p {
 	font-size: 1em;
 }
 
@@ -555,13 +399,13 @@ hr {
 	flex-grow:1;
 }
 
-  .hero1 h1 {
+  .hero h1 {
 	font-size: 2.15em;
 	 letter-spacing: 0;
 	margin:0;
  }
-
-  .hero1 p.intro {
+ 
+  .hero p.intro {
 	font-size: 1.15em;
 	margin-bottom: -10px;
 }
@@ -570,21 +414,14 @@ hr {
 	font-size: 90%;
 }
 
-  .hero1-wrap {
+  .hero-wrap {
 	padding: 2.5em;
 }
 
-  .hero1 p.year {
+  .hero p.year {
 	margin: 5px 0 10px;
 	 font-size: 18px;
 }
 
-}
 
-#launch-tournamet {
-	float: right;
-	right: 0;
-	bottom: 0;
-	margin-right: 50px;
-	margin-top: 50px;
 }
