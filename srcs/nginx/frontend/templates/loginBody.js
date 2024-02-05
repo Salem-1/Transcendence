@@ -12,7 +12,7 @@ function loginBody() {
 				placeholder="Username"
 				data-i18n="username"
 				autocomplete="username"
-				maxlength="20"
+				maxlength="12"
 				/>
 				<input
 				type="password"

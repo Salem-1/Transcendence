@@ -14,7 +14,7 @@ async function greetUser() {
 		if (response.ok) {
 			const responseData = await response.json();
 			const username = responseData.username;
-			greetElement.textContent = `Hello ${username}`;
+			greetElement.textContent = `${username}`;
 		} else if (response.status === 401) {
 			const errorData = await response.json();
 			alert(`${await getTranslation("error")}: ${errorData.error}`);

@@ -3,7 +3,9 @@ function homePageBody() {
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
-					<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
+					<!-- <img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()"> -->
+					<!-- <h1 id="greet" onclick="myFunction()"> </h1> -->
+					<div id="greet" onclick="myFunction()"></div>
 					<div class="dropdown-content" id="myDropdown">
 						<div class="drrp">
 							<a class="button-text" href="#" data-i18n="profile" >PROFILE</a>
