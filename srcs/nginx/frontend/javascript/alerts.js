@@ -17,10 +17,13 @@ function getSVGIcon(type){
 function timedAlert(
 	message,
 	alerttype = "warning" ,
-	timeout = 1000,
+	timeout = 2000,
+	icon = null,
 	alertplaceholder = "liveAlertPlaceholder",
 	alertdivID = "alertdiv"
 ) {
+	if (icon == null) 
+		icon = alerttype;
 
 	// remove old alerts
 	alertList = document.querySelectorAll(".alert");

@@ -7,7 +7,7 @@ async function intraAuthenticate() {
 
 	try {
 		if (code == null || code == "") {
-			alert(await getTranslation("reg or login failed"));
+			timedAlert(await getTranslation("reg or login failed"));
 			throw new Error("Erro while intra authentication");
 		}
 		const response = await fetch("http://localhost:8000/auth/", {
@@ -25,11 +25,13 @@ async function intraAuthenticate() {
 		} else if (response.status == 302 && result.type == "otp") {
 			double_factor_authenticate(result);
 		} else {
-			alert(`${await getTranslation("login failed")}: ${result.error}`);
+			timedAlert(
+				`${await getTranslation("login failed")}: ${result.error}`
+			);
 		}
 	} catch (error) {
 		console.error("Error during registration:", error);
-		alert(`${await getTranslation("reg failed")}: ${result.error}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${result.error}`);
 		callRoute("/");
 	}
 }
@@ -73,37 +75,19 @@ async function double_factor_authenticate(result) {
 
 			if (response.ok) {
 				await storeJWTInCookies(result);
-				alert(await getTranslation("login success"));
+				timedAlert(await getTranslation("login success"), "success");
 				callRoute("/home");
 			} else {
-				alert(await getTranslation("inavlid otp"));
+				timedAlert(await getTranslation("inavlid otp"));
 				callRoute("/");
 			}
 		} catch (error) {
-			alert(`${await getTranslation("reg failed")}: ${result.error}`);
+			timedAlert(
+				`${await getTranslation("reg failed")}: ${result.error}`
+			);
 		}
 	} else {
-		alert(await getTranslation("inavlid otp"));
+		timedAlert(await getTranslation("inavlid otp"));
 		callRoute("/");
 	}
 }
-
-/*
-
-var textField = document.getElementsByClassName("peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent")[0];
-
-var button = document.getElementsByClassName("relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full")[0];
-var textField = document.getElementsByClassName("peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 resize-y disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 min-h-full !border-0 focus:border-transparent")[0];
-
-textField.value = "hello using js";
-button.click();
-
-var button = document.getElementsByClassName("relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 rounded-full")[0];
-for (let i = 0; i < 10; i++)
-{
-    setTimeout(function() {
-        // Your code to be executed after the delay
-        button.click();
-       
-      }, 500);
-}*/

@@ -12,10 +12,10 @@ async function    logout(){
             callRoute("/home");
 		    return;
         }
-		alert(`${await getTranslation("logout failed")}: ${error}`);
+		timedAlert(`${await getTranslation("logout failed")}: ${error}`);
     }
     catch (error){
-        alert(`${error}`);
+        timedAlert(`${error}`);
     }
     return;
 }
