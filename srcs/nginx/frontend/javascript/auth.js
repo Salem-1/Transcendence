@@ -1,4 +1,4 @@
-const { get } = require("selenium-webdriver/http");
+//const { get } = require("selenium-webdriver/http");
 
 intraAuthenticate();
 
