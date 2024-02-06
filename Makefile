@@ -20,6 +20,7 @@ help:
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo "  logs	    	 : Show Django logs"
 	@echo "  lognginx        : Show Ngninx logs"
+	@echo "  waflog          : Show firewall logs"
 	@echo ""
 
 up:
@@ -55,7 +56,8 @@ test_mini:
 test_frontend:
 	@node srcs/tester/seleniumTest.js
 
-
+waflog:
+	@docker exec -it transcendence-nginx-1 cat /var/log/modsec_audit.log
 
 fclean: down
 	rm -rf data
