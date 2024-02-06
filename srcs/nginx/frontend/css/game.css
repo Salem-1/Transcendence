@@ -58,6 +58,10 @@ canvas {
   display: none;
 }
 
+.user {
+  margin: auto 5vw; 
+}
+
 .nav {
   display: none;
 }
@@ -65,7 +69,7 @@ canvas {
 .score {
   text-align: center;
   color: #fff;
-  font-size: 5vw;
+  font-size: 2vw;
   margin-top: 5vh;
 }
 

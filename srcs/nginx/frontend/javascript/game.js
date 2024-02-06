@@ -294,7 +294,7 @@ var game = () => {
                 draw(game);
                 const winner = getWinner(game);
                 if (winner != 0) {
-                    alert(`Player ${winner} wins!`);
+                    alert(`${winner === 1 ? 'Left' : 'Right'} side won!`);
                     clearInterval(intervalId);
                     resolve(winner);
                 }
@@ -316,6 +316,10 @@ var game = () => {
             await playGame();
             callRoute('/home');
         } else {
+            if (player1)
+                document.getElementById('player1').innerText = player1;
+            if (player2)
+                document.getElementById('player2').innerText = player2;
             const winner = await playGame() == 1 ? player1 : player2;
 			const round = JSON.parse(localStorage.getItem('round'));
 			const level = JSON.parse(localStorage.getItem('level'));
