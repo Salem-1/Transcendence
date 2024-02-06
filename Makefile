@@ -54,9 +54,13 @@ test_frontend:
 	@node srcs/tester/seleniumTest.js
 
 
-
+ifeq ($(shell uname -s), Linux)
+	RMCOMMAND		= sudo rm -rf data
+else
+	RMCOMMAND		= rm -rf data
+endif
 fclean: down
-	rm -rf data
+	$(RMCOMMAND)
 	docker rmi -f transcendence-django
 	docker rmi -f transcendence-postgres
 	docker rmi -f transcendence-nginx
