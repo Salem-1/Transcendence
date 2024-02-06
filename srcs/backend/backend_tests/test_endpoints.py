@@ -51,11 +51,11 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.post(f'{self.base_url}/register/', json=request_data)
         request_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
         response = requests.post(f'{self.base_url}/register/', json=request_data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Username already taken')
         request_data = {'username': self.otp_user["username"], 'password': self.otp_user["password"]}
         response = requests.post(f'{self.base_url}/register/', json=request_data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Username already taken')
 
     def test_send_otp(self):
@@ -111,7 +111,7 @@ class YourAppViewsTest(unittest.TestCase):
 
         # Test registration with an existing username
         response = requests.post(f'{self.base_url}/register/', json=request_data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Username already taken')
 
     def test_register_empty_user(self):
