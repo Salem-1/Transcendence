@@ -27,9 +27,12 @@ function timedAlert(
 
 	// remove old alerts
 	alertList = document.querySelectorAll(".alert");
-	alertList.forEach((alert) => {
-		alert.remove();
-	});
+	if (alertList.length > 0)
+	{
+		alertList.forEach((alert) => {
+			alert.remove();
+		});
+	}
 
 	// alert body
 	var alertDiv = document.createElement("div");
