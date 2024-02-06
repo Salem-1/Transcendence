@@ -3,13 +3,9 @@ function homePageBody() {
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
-					<!-- <img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()"> -->
-					<!-- <h1 id="greet" onclick="myFunction()"> </h1> -->
 					<div id="greet" onclick="myFunction()"></div>
 					<div class="dropdown-content" id="myDropdown">
 						<div class="drrp">
-							<a class="button-text" href="#" data-i18n="profile" >PROFILE</a>
-							<hr>
 							<a class="button-text" onclick="callRoute('/settings')" data-i18n="settings" >SETTINGS</a>
 							<hr>
 							<a class="button-text" onclick="logout()" data-i18n="logout">LOG OUT</a>
@@ -23,6 +19,13 @@ function homePageBody() {
 						<div class="button-div-one" style="	background: #c7a940"></div>
 						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text" data-i18n="single player">SINGLE PLAYER</h1></div>
+					</div>
+				</div>
+				<div class="buttons">
+					<div id="one-v-one" onclick="callRoute('/game')">
+						<div class="button-div-one" style="background: #82764D;"></div>
+						<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+						<div class="button-div-three"><h1 class="button-text" data-i18n="one-v-one">1v1</h1></div>
 					</div>
 				</div>
 				<div class="buttons">

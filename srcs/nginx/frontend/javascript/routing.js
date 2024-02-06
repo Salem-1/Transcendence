@@ -75,7 +75,7 @@ const urlRoutes = {
 		template: settingsBody(),
 		title: "Settings | " + urlPageTitle,
 		description: "This is the Settings page",
-		script: ["/javascript/dropDown.js", "/javascript/2FA.js"],
+		script: ["/javascript/dropDown.js", "/javascript/2FA.js", "/javascript/greet.js"],
 		theme: "/css/settings.css",
 		requiresAuth: true,
 	},
