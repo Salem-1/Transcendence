@@ -1,4 +1,4 @@
-// Get oauth link from auth service
+  // Get oauth link from auth service
 async function oauthRedirect() {
 	try {
 		await fetchAuthRedirection();
@@ -29,7 +29,7 @@ async function login() {
 		await tryLoginUser(username, password);
 	} catch (error) {
 		console.error("Error during registration:", error);
-		alert(`${await getTranslation("reg failed")}: ${error}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${error}`);
 	}
 }
 
@@ -45,10 +45,10 @@ async function double_factor_authenticate(result) {
 			await try2FactorAuthentication(otp);
 		} catch (error) {
 			console.log("Error during registration:", error);
-			alert(`${await getTranslation("reg failed")}: ${error}`);
+			timedAlert(`${await getTranslation("reg failed")}: ${error}`);
 		}
 	} else {
-		alert(`${await getTranslation("inavlid otp")}`);
+		timedAlert(`${await getTranslation("inavlid otp")}`);
 	}
 }
 async function tryLoginUser(username, password){
@@ -64,12 +64,12 @@ async function tryLoginUser(username, password){
 
 	if (response.status == 200 && result.jwt_token) {
 		await storeJWTInCookies(result);
-		alert(`${await getTranslation("login success")}, ${await getTranslation("welcome")} ${username}.`);
+		timedAlert(`${await getTranslation("login success")}, ${await getTranslation("welcome")} ${username}.`, "success");
 		callRoute("/home");
 	} else if (response.status == 302 && result.type == "otp") {
 		double_factor_authenticate(result);
 	} else {
-		alert(`${await getTranslation("login failed")}: ${result.error}`);
+		timedAlert(`${await getTranslation("login failed")}: ${result.error}`);
 	}
 }
 
@@ -102,20 +102,20 @@ async function tryRegisterUser(username, password){
 	const result = await response.json();
 
 	if (response.ok) {
-		alert(await getTranslation("reg success"));
+		timedAlert(await getTranslation("reg success"), "success");
 		callRoute("/login");
 	} else {
-		alert(`${await getTranslation("reg failed")}: ${result.error}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${result.error}`);
 	}
 }
 
 async function isValidRegeistrationIput(username, password, confirmPassword) {
 	if (username.length < 3 || username.length > 20)
-		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username length")}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username length")}`);
 	else if (password.length < 8 || password.length > 35)
-		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password length")}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password length")}`);
 	else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
-		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username char")}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username char")}`);
 	else if (
 		!(
 			/[A-Z]/.test(password) &&
@@ -123,9 +123,9 @@ async function isValidRegeistrationIput(username, password, confirmPassword) {
 			/\d/.test(password)
 		)
 	) 
-		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password char")}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password char")}`);
 		else if (password !== confirmPassword)
-		alert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password match")}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password match")}`);
 	else return true;
 	return false;
 }
@@ -140,7 +140,7 @@ async function isValidLoginIput(username, password) {
 			!/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)
 		)
 	) {
-		alert(`${await getTranslation("invalid login")}`);
+		timedAlert(`${await getTranslation("invalid login")}`);
 		return false;
 	} else if (
 		!(
@@ -149,7 +149,7 @@ async function isValidLoginIput(username, password) {
 			/\d/.test(password)
 		)
 	) {
-		alert(`${await getTranslation("invalid login")}`);
+		timedAlert(`${await getTranslation("invalid login")}`);
 		return false;
 	}
 	return true;
@@ -193,10 +193,10 @@ async function try2FactorAuthentication(otp){
 
 	if (response.ok) {
 		await storeJWTInCookies(result);
-		alert(`${await getTranslation("login success")}`);
+		timedAlert(`${await getTranslation("login success")}`, "success");
 		callRoute("/home");
 	} else {
-		alert(`${await getTranslation("inavlid otp")}`);
+		timedAlert(`${await getTranslation("inavlid otp")}`);
 	}
 
 }

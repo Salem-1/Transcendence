@@ -1,5 +1,54 @@
 function landingPageBody() {
 	return `
+		<ul
+			class="nav flex-column fixed-top"
+			style="float: left; cursor: pointer;"
+		>
+			<li class="nav-item">
+				<a style="color: aliceblue" onclick="changeLanguage('en')">
+					<img
+						src="assets/gb.svg"
+						alt="English"
+						width="30"
+						height="24"
+					/>
+					English
+				</a>
+			</li>
+			<li class="nav-item">
+				<a style="color: aliceblue" onclick="changeLanguage('es')">
+					<img
+						src="assets/es.svg"
+						alt="Español"
+						width="30"
+						height="24"
+					/>
+					Español
+				</a>
+			</li>
+			<li class="nav-item">
+				<a style="color: aliceblue" onclick="changeLanguage('pt')">
+					<img
+						src="assets/pt.svg"
+						alt="Português"
+						width="30"
+						height="24"
+					/>
+					Português
+				</a>
+			</li>
+			<li class="nav-item">
+				<a style="color: aliceblue" onclick="changeLanguage('ar')">
+					<img
+						src="assets/eg.svg"
+						alt="العربية"
+						width="30"
+						height="24"
+					/>
+					العربية
+				</a>
+			</li>
+		</ul>
  		<div class="btns">
 			<img
 				id="logo"
