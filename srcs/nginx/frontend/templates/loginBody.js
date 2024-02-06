@@ -4,7 +4,7 @@ function loginBody() {
 		<form action="javascript:;" onsubmit="login()">
 			<div id="logindiv">
 				<img id="Person" src="/assets/Person.png" alt="Character" />
-				<div class="form-floating mb-3">
+				<div class="form-floating mb-3" id ='test'>
 					<input
 						type="text"
 						class="form-control"
@@ -16,9 +16,6 @@ function loginBody() {
 						autocomplete="username"
 						maxlength="20"
 					/>
-					<div class="valid-feedback">
-      					Looks good!
-					</div>
 					<label for="username" data-i18n="username"></label>
 				</div>
 				<div class="form-floating">
