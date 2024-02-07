@@ -16,14 +16,14 @@ function tournamentBody(){
 						</div>
 					</div>
 				</div>
-				<!-- <header class="hero1">
+				 <header class="hero1">
 					<div class="hero1-wrap">
-					 <p class="intro" id="intro">flexbox</p>
+					 <p class="intro" id="intro">42 ABU DHABI</p>
 					 <h1 id="headline">Tournament</h1>
-					 <p class="year"><i class="fa fa-star"></i> 2015 <i class="fa fa-star"></i></p>
-					 <p>Ballin' Outta Control</p>
+					 <p class="year"><i class="fa fa-star"></i> 2024 <i class="fa fa-star"></i></p>
+					 <p>TAKE A CHILL PILL</p>
 				   </div>
-				  </header> -->
+				  </header>
 				  <section id="bracket">
 					<div class="container">
 
@@ -42,7 +42,7 @@ function tournamentBody(){
 					  </div>  
 					  <!-- END ROUND ONE -->
 				  
-					  <div class="round round-two">
+					  <div class="round round-two current">
 						<div class="round-details">SEMI FINALS - 1<br/></div>     
 						<ul class="matchup">
 						  <li class="team team-top" id="semi-final-t1">Team 1</li>
@@ -51,7 +51,7 @@ function tournamentBody(){
 					  </div>  
 					  <!-- END ROUND TWO -->
 					  
-					  <div class="round round-three">
+					  <div class="round round-three current">
 						<div class="round-details">FINALS<br/></div>     
 						<ul class="matchup">
 						  <li class="team team-top" id="final-t2">Team 1</li>
@@ -60,7 +60,7 @@ function tournamentBody(){
 					  <!-- END ROUND THREE -->    
 					</div> 
 				  
-				  <div class="champion">
+				  <div class="champion current">
 					  <div class="final">
 						<i class="fa fa-trophy"></i>
 						<div class="round-details">WINNER <br/></div>    
@@ -70,7 +70,7 @@ function tournamentBody(){
 					  </div>
 					</div>
 
-					<div class="split split-two">
+					<div class="split split-two current">
 					  <div class="round round-three">
 						<div class="round-details">FINALS<br/></div>           
 						<ul class="matchup">
@@ -79,7 +79,7 @@ function tournamentBody(){
 					  </div>  
 					  <!-- END ROUND THREE -->  
 				  
-					  <div class="round round-two">
+					  <div class="round round-two current">
 						<div class="round-details">SEMI FINALS - 2</div>           
 						<ul class="matchup">
 						  <li class="team team-top" id="semi-final-t3">Team3</li>

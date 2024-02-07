@@ -30,7 +30,7 @@ body {
 
 #greet {
 	background: black;
-	border: solid 10px gold;
+	border: solid 8px gold;
 	text-decoration: underline;
 	overflow: hidden;
 	cursor: pointer;
@@ -225,7 +225,7 @@ hr {
 .hero1 p {
 	font-family: 'Abel', sans-serif;
 	text-transform: uppercase;
-	 color: #5CCA87;
+	 color: goldenrod;
 	 letter-spacing: 6px;
 	text-shadow:0 0 12px rgba(0, 0, 0, 0.5);
 	font-size: 1.2em;
@@ -648,8 +648,7 @@ hr {
 	word-wrap: break-word;
 }
 
-#menu {
-	back
+#menu {	
 	margin-left: 50px;
 	margin-top: 50px;
 	text-align: center;
