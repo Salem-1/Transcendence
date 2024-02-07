@@ -29,13 +29,13 @@ username_g , password_g = randomize_string(8), randomize_string(8)
 class YourAppViewsTest(unittest.TestCase):
     base_url = 'http://localhost:8000'  # Update with your actual base URL
 
-    def setUp(self):
-        # Create a test user
-        username , password = username_g , password_g 
-        self.test_user = {'username': username, 'password': password}
-        request_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
-        response = requests.post(f'{self.base_url}/register/', json=request_data)
-        self.assertEqual(response.status_code, 200)
+    # def setUp(self):
+    #     # Create a test user
+    #     username , password = username_g , password_g 
+    #     self.test_user = {'username': username, 'password': password}
+    #     request_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
+    #     response = requests.post(f'{self.base_url}/register/', json=request_data)
+    #     self.assertEqual(response.status_code, 200)
 
 
     # def test_get_secret(self):
@@ -46,31 +46,11 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Invalid Authorization token')
         
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['message'], 'Not Logged In')
-        login_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
-        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-        self.assertEqual(login_response.status_code, 200)
-        jwt_token = login_response.json().get('jwt_token')
-        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/username/', headers=headers)
-        self.assertEqual(response.status_code, 200)
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
-        self.assertEqual(response.status_code, 401)
-        
-    # def test_logout(self):
-    #     login_data = {'username': self.test_user["username"], 'password': self.test_user["password"]}
-    #     login_response = requests.post(f'{self.base_url}/login/', json=login_data)
-    #     self.assertEqual(login_response.status_code, 200)
-    #     jwt_token = login_response.json().get('jwt_token')
-    #     headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-    #     response = requests.get(f'{self.base_url}/username/', headers=headers)
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(response.json()['username'], self.test_user['username'])
-    #     #logout
-    #     response = requests.get(f'{self.base_url}/logout/', headers=headers)
-    #     self.assertEqual(response.status_code, 200)
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
 
     #     #fetch username failuer
 

@@ -13,7 +13,6 @@ class Response:
         self.status_code = status_code
 
 def send_otp_email(reciever, otp):
-    print(get_secret("PROVIDER"))
     provider = get_secret("PROVIDER")
     if  provider == '"AboHassan"':
         return (send_using_gmail(reciever, otp))
@@ -22,7 +21,6 @@ def send_otp_email(reciever, otp):
 
 def send_using_gmail(reciever, otp):
     return email_logging(reciever, otp, 202)
-    print("sending abo hassan email")
     port = int(get_secret("EMAIL_PORT"))
     sender = get_secret("EMAIL_HOST_USER")
     server = get_secret("EMAIL_HOST")
@@ -45,7 +43,6 @@ def send_using_gmail(reciever, otp):
     #     return email_logging(reciever, otp, 401)
 
 def send_sendgrid_email(reciever, otp):
-    print("Sending sendgrid email")
     # return email_logging(reciever, otp, 202)
     message = Mail(
         from_email='pong@null.net',

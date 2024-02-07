@@ -28,16 +28,16 @@ def register_user(request):
             if not valid_input:
                 return error_message
             elif User.objects.filter(username=username).exists():
-                return JsonResponse({'error': "Username already taken"}, status=400)
+                return JsonResponse({'error': "Username already taken"}, status=401)
             create_new_user(username, password)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
-            return JsonResponse({'error': "Internal server error"}, status=500)  
+            print(e)
+            return JsonResponse({'error': "Bad request"}, status=400)  
     return JsonResponse({'error': "Method not allowed"}, status=405)  
 
 @csrf_exempt
 def login_user(request):
-    print(request)
     if request.method =='POST':
         try:
             valid_input , username, password, error_message = get_registration_data(request);
@@ -120,7 +120,6 @@ def not_logged_in(request):
                 raise jwt.exceptions.InvalidTokenError()
             return JsonResponse({"error": "valid token"}, status=401)
         except Exception as e:
-            print(f"got an error <{e}>")
             return JsonResponse({"message": "Not Logged In"})
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
@@ -247,14 +246,19 @@ def test_send_otp(request):
 
 @csrf_exempt
 def error_code(request, exception=None):
-    status = request.headers.get("X-Trans42-code")
-    if (request.method == "GET" and status and status.isdigit()):
-        num = int(status)    
-        if (num > 100 and num < 600 and num != 404):
-            if (http_responses.get(num)):
-                return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
-            return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
-    return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+    try:
+        status = request.headers.get("X-Trans42-code")
+        if (request.method == "GET" and status and status.isdigit()):
+            num = int(status)	
+            if (num > 100 and num < 600 and num != 404):
+                if (http_responses.get(num)):
+                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
+                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
+        return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+    except Exception as e:
+        print(e)
+    return JsonResponse({'error': "bad request"}, status=400)
+
 
 @csrf_exempt
 def go_to_frontend(request):

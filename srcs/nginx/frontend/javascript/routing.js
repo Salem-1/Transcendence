@@ -69,7 +69,7 @@ const urlRoutes = {
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
-		script: ["/javascript/tournament_algorithm.js"],
+		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js"],
 	},
 	"/settings": {
 		template: settingsBody(),
@@ -173,17 +173,22 @@ const isVerified = async () => {
 };
 
 const isNotLoggedIn = async () => {
-	const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include", // Add this line
-	});
-	if (response.ok) {
-		return true;
+	try{
+		const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include", // Add this line
+		});
+		if (response.ok) {
+			return true;
+		}
+		return false;
 	}
-	return false;
+	catch (e){
+		return (false);
+	}
 };
 
 // add an event listener to the window that watches for url changes

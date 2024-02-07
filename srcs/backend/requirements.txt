@@ -15,4 +15,5 @@ urllib3==2.1.0
 django-allauth
 sendgrid==6.11.0
 hvac==2.1.0
+gunicorn==21.2.0
 pyotp
