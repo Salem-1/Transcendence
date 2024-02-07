@@ -6,11 +6,9 @@ function tournamentBody(){
 				<div class="top-bar">
 					<img id="logo" src="assets/logo1.png" alt="" onclick="callRoute('/home')">
 					<div class="drp">
-						<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
+					<div id="greet" onclick="myFunction()"></div>
 						<div class="dropdown-content" id="myDropdown">
 							<div class="drrp">
-								<a class="button-text" href="#">PROFILE</a>
-								<hr>
 								<a class="button-text" onclick="callRoute('/settings')">SETTINGS</a>
 								<hr>
 								<a class="button-text" onclick="logout()">LOG OUT</a>
@@ -32,7 +30,7 @@ function tournamentBody(){
 					<div class="split split-one">
 
 					  <div class="round round-one current">
-						<div class="round-details">QUATER FINALS - 1<br/></div>
+						<div class="round-details">QUARTER FINALS - 1<br/></div>
 						<ul class="matchup">
 						  <li class="team team-top" id="quarter-final-t1">Team 1</li>
 						  <li class="team team-bottom" id="quarter-final-t2">Team 2</li>
@@ -90,7 +88,7 @@ function tournamentBody(){
 					  </div>  
 					  <!-- END ROUND TWO -->
 					  <div class="round round-one current">
- 						<div class="round-details">QUATER FINALS - 2<br/></div>
+ 						<div class="round-details">QUARTER FINALS - 2<br/></div>
 						<ul class="matchup">
 						  <li class="team team-top" id="quarter-final-t5">Team 5</li>
 						  <li class="team team-bottom" id="quarter-final-t6">Team 6</li>
@@ -103,7 +101,8 @@ function tournamentBody(){
 					  <!-- END ROUND ONE -->                  
 					</div>
 					</div>
-					<button class="btn btn-primary" type="button" id="launch-tournamet" onclick="startTournament()">Launch Tournament</button>
+					<button class="btn btn-warning" type="button" id="launch-tournamet" onclick="startTournament()">LAUNCH TOURNAMENT</button>
+					<button class="btn btn-dark" type="button" id="menu"  onclick="callRoute('/home')">MAIN MENU</button>
 
 					</section>
 

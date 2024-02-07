@@ -69,7 +69,7 @@ const urlRoutes = {
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
-		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js"],
+		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js", "/javascript/greet.js"],
 	},
 	"/settings": {
 		template: settingsBody(),
