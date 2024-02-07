@@ -120,7 +120,7 @@ body {
 
 .button-text:active {
 	font-size: 24px;
-	line-height: 35px !important;
+	line-height: 65px !important;
 }
 
 .button-text {
@@ -131,6 +131,7 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	line-height: 60px;
 }
 
 #Person {

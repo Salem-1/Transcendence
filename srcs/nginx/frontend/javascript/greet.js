@@ -13,8 +13,11 @@ async function greetUser() {
 		});
 		if (response.ok) {
 			const responseData = await response.json();
-			const username = responseData.username;
-			greetElement.textContent = `Hello ${username}`;
+			let username = responseData.username;
+			let index = username.indexOf("@student.42abudhabi.ae");
+			if (index != -1)
+				username = username.substring(0, index);
+			greetElement.textContent = `${username}`;
 		} else if (response.status === 401) {
 			const errorData = await response.json();
 			timedAlert(`${await getTranslation("error")}: ${errorData.error}`);

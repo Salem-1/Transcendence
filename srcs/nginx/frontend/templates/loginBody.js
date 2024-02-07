@@ -14,7 +14,7 @@ function loginBody() {
 						placeholder="Username"
 						data-i18n="username"
 						autocomplete="username"
-						maxlength="20"
+						maxlength="12"
 					/>
 					<label for="username" data-i18n="username"></label>
 				</div>
