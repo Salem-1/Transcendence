@@ -30,11 +30,16 @@ async function disable2FA() {
 
 async function enable2FA() {
 	try {
-		const email = prompt(await getTranslation("enter email"));
-		if (notValidEmail(email))
+		var email = document.getElementById('email').value;
+		console.log("the email is ", email);
+		if (!email || notValidEmail(email))
 			throw new Error("Please enter a valid email address.");
 		if (!(await submit2FaEmail(email)))
 			throw new Error("Failed to submit email");
+		return;
+		const OTPModal = new bootstrap.Modal(document.getElementById('otpModal'), backdrop = 'static');
+		OTPModal.show();
+
 		const otp = prompt(await getTranslation("enter otp"), "000000");
 		const otpPattern = /^\d{6}$/;
 		if (!otpPattern.test(otp)) throw new Error("Invalid OTP!");
