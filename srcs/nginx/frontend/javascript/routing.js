@@ -36,7 +36,6 @@ const urlRoutes = {
 		theme: "/css/homePage.css",
 		script: [
 			"/javascript/greet.js",
-			"/javascript/2FA.js", // not needed, remove after passing selenum test
 			"/javascript/tournament.js",
 			"/javascript/dropDown.js",
 		],

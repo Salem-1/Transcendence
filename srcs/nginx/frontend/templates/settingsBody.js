@@ -18,10 +18,12 @@ function settingsBody(){
 	</div>
 	<div class="settings">
 		<div class="ssettings">
-			<a class="button-text" onclick="enable2FA()" data-i18n="enable 2FA">ENABLE 2FA</a>
-			<hr>
-			<!-- <a class="button-text" onclick="disable2FA()" data-i18n="disable 2FA">DISABLE 2FA</a> -->
-			<a class="button-text" data-bs-toggle="modal" data-bs-target="#MFAModal" data-i18n="disable 2FA">DISABLE 2FA</a>
+			<a  class="button-text" >
+				<div class="form-check form-switch form-check-reverse">
+					<input class="form-check-input" type="checkbox" id="toggle2FA" />
+					<label class="form-check-label" for="toggle2FA" data-i18n="enable 2FA"></label>
+				</div>
+			</a>
 			<hr>
 			<a class="button-text" href="#" data-i18n="language" >LANGUAGE</a>
 			<hr>
@@ -52,7 +54,7 @@ function settingsBody(){
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" data-bs-target="#otpModal" data-bs-toggle="modal">Enable</button>
+					<button type="button" class="btn btn-primary" onclick="verifyEmail()">Enable</button>
 				</div>
 			</div>
 		</div>
@@ -75,14 +77,14 @@ function settingsBody(){
 							required
 							placeholder="otp"
 							autocomplete="otp"
-							maxlength="20"
+							maxlength="6"
 						/>
 						<label for="otp" data-i18n="otp"></label>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" onclick="enable2FA()">Enable</button>
+					<button type="button" class="btn btn-primary" onclick="verifyOTP()">Enable</button>
 				</div>
 			</div>
 		</div>

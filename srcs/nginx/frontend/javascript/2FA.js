@@ -1,3 +1,41 @@
+// Get the switch element
+var toggleSwitch = document.getElementById('toggle2FA');
+var mfa = document.getElementById("MFAModal");
+var otp = document.getElementById("otpModal");
+var MFAModal = new bootstrap.Modal(mfa || null);
+var OTPModal = new bootstrap.Modal(otp || null);
+init2FAButton();
+
+async function init2FAButton()
+{
+	try {
+		const response = await fetch("http://localhost:8000/api/mfaState/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		});
+		const result = await response.json();
+			is2FAEnabled = result.mfa === "enabled";
+			toggleSwitch.checked = is2FAEnabled;
+	} catch (error) {
+		timedAlert(`${await getTranslation("error getting 2fa")}: ${error}`, "warning");
+	}
+}
+
+// Listen for changes on the switch
+toggleSwitch.addEventListener('change', function() {
+  // Determine the new state
+  is2FAEnabled = this.checked;
+  if (is2FAEnabled) {
+	MFAModal.show();
+  } else {
+	disable2FA();
+  }
+});
+
+
 async function disable2FA() {
 	try {
 		const enable2fa = "false";
@@ -28,28 +66,70 @@ async function disable2FA() {
 	}
 }
 
-async function enable2FA() {
-	try {
-		var email = document.getElementById('email').value;
-		console.log("the email is ", email);
-		if (!email || notValidEmail(email))
-			throw new Error("Please enter a valid email address.");
-		if (!(await submit2FaEmail(email)))
-			throw new Error("Failed to submit email");
-		return;
-		const OTPModal = new bootstrap.Modal(document.getElementById('otpModal'), backdrop = 'static');
-		OTPModal.show();
 
-		const otp = prompt(await getTranslation("enter otp"), "000000");
-		const otpPattern = /^\d{6}$/;
-		if (!otpPattern.test(otp)) throw new Error("Invalid OTP!");
-		if (await sendEnable2faEmail(otp, email))
-			timedAlert(await getTranslation("2fa enabled"), "success");
-		else throw new Error("Invalid OTP");
+async function verifyEmail()
+{
+	try{
+		var email = document.getElementById('email').value;
+		if (!email || notValidEmail(email))
+		{
+			timedAlert("Please enter a valid email address.", "warning");
+			throw new Error("Please enter a valid email address.");
+		}
+		if (!(await submit2FaEmail(email)))
+		{
+			timedAlert("Failed to submit email", "warning");
+			throw new Error("Failed to submit email");
+		}
+		MFAModal.hide();
+		OTPModal.show();
 	} catch (error) {
-		timedAlert(`${await getTranslation("error 2fa enable")}: ${error}`, "warning");
+		timedAlert(`Error: ${error}`);
+		MFAModal.hide();
+		toggleSwitch.checked = false;
+	}
+
+}
+
+async function verifyOTP() {
+	try {
+		const otp = document.getElementById('otp').value;
+		const email = document.getElementById('email').value;
+		console.log("the email is ", email);
+		if (await sendEnable2faEmail(otp, email))
+			timedAlert("2fa enabled", "success");
+		else {
+			timedAlert("Invalid OTP", "warning");
+			toggleSwitch.checked = false;
+			return;
+		}
+		OTPModal.hide();
+	} catch (error) {
+		timedAlert(`Error: ${error}`, "warning");
+		OTPModal.hide();
+		toggleSwitch.checked = false;
 	}
 }
+
+// async function enable2FA() {
+// 	try {
+// 		var email = document.getElementById('email').value;
+// 		console.log("the email is ", email);
+// 		if (!email || notValidEmail(email))
+// 			throw new Error("Please enter a valid email address.");
+// 		if (!(await submit2FaEmail(email)))
+// 			throw new Error("Failed to submit email");
+// 		// return;
+// 		const otp = prompt(await getTranslation("enter otp"), "000000");
+// 		const otpPattern = /^\d{6}$/;
+// 		if (!otpPattern.test(otp)) throw new Error("Invalid OTP!");
+// 		if (await sendEnable2faEmail(otp, email))
+// 			timedAlert(await getTranslation("2fa enabled"), "success");
+// 		else throw new Error("Invalid OTP");
+// 	} catch (error) {
+// 		timedAlert(`${await getTranslation("error 2fa enable")}: ${error}`, "warning");
+// 	}
+// }
 
 async function sendEnable2faEmail(otp, email) {
 	const response = await fetch("http://localhost:8000/enable_2fa_email/", {
