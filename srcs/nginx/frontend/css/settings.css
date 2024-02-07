@@ -26,18 +26,43 @@ body {
 	border-radius: 20%;
 }
 
-#Person {
+#greet {
+	background: black;
+	border: solid 10px gold;
+	text-decoration: underline;
+	overflow: hidden;
+	cursor: pointer;
+	text-align: center;
+	color: white;
+	font-size: 20px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 200;
+	word-wrap: break-word;
+	text-align: center;
+	/* vertical-align: middle; */
+	line-height: 50px;
 	cursor: pointer;
 	position: absolute;
-	margin-top: 20px;
-	margin-right: 20px;
+	margin-top: 50px;
+	margin-right: 40px;
 	right: 0;
 	top: 0;
-	width: 130px;
-	height: 130px;
-	border-radius: 50%;
+	width: 160px;
+	height: 70px;
+	border-radius: 20px;
+	z-index: 10;
 }
 
+#greet:hover {
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#greet:active {
+	margin-right: 45px;
+	margin-top: 52px;
+	width: 135px;
+	height: 65;
+}
 .button-text {
 	cursor: pointer;
 	text-align: center;
@@ -46,6 +71,7 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	line-height: 80px;
 }
 
 .button-text:active {
@@ -57,29 +83,22 @@ body {
 	margin: 20px;
 }
 
-#Person:hover {
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-#Person:active {
-	margin-right: 22px;
-	margin-top: 25px;
-	width: 125px;
-	height: 125px;
-}
-
 .dropdown-content {
 	border-radius: 20px;
+	position: relative;
 	float: right;
-	margin-right: 20px;
+	margin-top: 10px;
+	margin-right: 40px;
 	display: none;
 	background-color: #f9f9f9;
-	min-width: 240px;
+	min-width: 220px;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+	z-index: 10;
 }
 
 .dropdown-content a {
+	font-size: 30px !important;
+	line-height: 39px !important;
 	float: none;
 	color: black;
 	text-decoration: none;
@@ -87,10 +106,17 @@ body {
 	text-align: center;
 }
 
+.dropdown-content a:active {
+	font-size: 28px !important;
+	line-height: 35px !important;
+}
+
+.dropdown-content a:hover {
+	border-radius: 10px;
+	background-color: #ddd;
+}
+
 .settings {
-	/* width: 30%;
-	margin: auto;
-	margin-top: 100px; */
 	position: absolute;
 	top: 50%;
 	left: 50%;

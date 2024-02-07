@@ -75,6 +75,8 @@ function showPlayerName(playerName) {
     var button = document.createElement("button");
     button.textContent = "X";
     button.classList.add("delete-button")
+    button.classList.add("btn")
+    button.classList.add("btn-danger")
     console.log(`players now [${players}]'n`)
     cell2.appendChild(button);
 	var tablebody = document.querySelector("table tbody");

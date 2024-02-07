@@ -15,14 +15,14 @@ body {
 #login {
 	cursor: pointer;
 	margin-top: 50px;
-	margin-left: 110px;
+	margin-left: 130px;
     position: absolute;
 }
 
 #logindiv {
     margin: 0;
 	position: absolute;
-	top: 30%;
+	top: 40%;
 	left: 45%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -33,7 +33,7 @@ body {
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
-	width: 300px;
+	width: 320px;
 	height: 50px;
 	left: 34%;
 	top: 20px;
@@ -144,7 +144,7 @@ label.form-label {
 
 .button-text:active {
 	font-size: 24px;
-	line-height: 70px !important;
+	line-height:65px !important;
 }
 
 .button-text {
