@@ -13,12 +13,18 @@ async function disable2FA() {
 		const result = await response.json();
 
 		if (response.ok) {
-			alert(`${await getTranslation("2fa disabled")}`)
+			timedAlert(`${await getTranslation("2fa disabled")}`, "success");
 		} else {
-			alert(`${await getTranslation("error 2fa disable")}`)
+			timedAlert(
+				`${await getTranslation("error 2fa disable")}`,
+				"warning"
+			);
 		}
 	} catch (error) {
-		alert(`${await getTranslation("error 2fa disable")}: ${error}`)
+		timedAlert(
+			`${await getTranslation("error 2fa disable")}: ${error}`,
+			"warning"
+		);
 	}
 }
 
@@ -29,17 +35,14 @@ async function enable2FA() {
 			throw new Error("Please enter a valid email address.");
 		if (!(await submit2FaEmail(email)))
 			throw new Error("Failed to submit email");
-		const otp = prompt(
-			await getTranslation("enter otp"),
-			"000000"
-		);
+		const otp = prompt(await getTranslation("enter otp"), "000000");
 		const otpPattern = /^\d{6}$/;
 		if (!otpPattern.test(otp)) throw new Error("Invalid OTP!");
-		if (await sendEnable2faEmail(otp, email)) alert(await getTranslation("2fa enabled"));
+		if (await sendEnable2faEmail(otp, email))
+			timedAlert(await getTranslation("2fa enabled"), "success");
 		else throw new Error("Invalid OTP");
 	} catch (error) {
-		console.log("Failed to enable 2fa:", error);
-		alert(`${await getTranslation("error 2fa enable")}: ${error}`);
+		timedAlert(`${await getTranslation("error 2fa enable")}: ${error}`, "warning");
 	}
 }
 

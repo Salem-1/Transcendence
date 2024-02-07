@@ -2,6 +2,7 @@
 FROM python:3.12.1-alpine
 
 # Set the working directory in the container
+RUN mkdir /app
 WORKDIR /app
 
 # Copy the requirements file into the container
@@ -18,6 +19,7 @@ RUN  pip install --no-cache-dir -r requirements.txt
 # Copy the project code into the container
 COPY . .
 
+RUN mkdir -p /app/backend/staticfiles
 # Set the environment variables
 ENV PYTHONUNBUFFERED=1
 

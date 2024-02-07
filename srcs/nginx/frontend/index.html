@@ -5,12 +5,12 @@
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Langing Page</title>
-		<!-- <link
+		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 			rel="stylesheet"
 			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 			crossorigin="anonymous"
-		/> -->
+		/>
 		<link id="theme" rel="stylesheet" href="css/style.css" />
 		<link
 			href="https://fonts.cdnfonts.com/css/poetsen-one"
@@ -24,51 +24,7 @@
 	</head>
 	<body>
 		<div class="hero">
-			<ul
-				class="nav justify-content-center"
-				style="float: left; cursor: pointer; text-align: center;"
-			>
-				<li class="nav-item">
-					<a style="color: aliceblue" onclick="changeLanguage('en')">
-						<img
-							src="assets/gb.svg"
-							alt="English"
-							width="30"
-							height="24"
-						/>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a style="color: aliceblue" onclick="changeLanguage('es')">
-						<img
-							src="assets/es.svg"
-							alt="Español"
-							width="30"
-							height="24"
-						/>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a style="color: aliceblue" onclick="changeLanguage('pt')">
-						<img
-							src="assets/pt.svg"
-							alt="Português"
-							width="30"
-							height="24"
-						/>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a style="color: aliceblue" onclick="changeLanguage('ar')">
-						<img
-							src="assets/eg.svg"
-							alt="العربية"
-							width="30"
-							height="24"
-						/>
-					</a>
-				</li>
-			</ul>
+			<div id="liveAlertPlaceholder" style="max-width: 40%; float: right; position: relative; z-index: 999999;"></div>
 			<div id="content"></div>
 		</div>
 	</body>
@@ -82,13 +38,14 @@
 	<script src="templates/registration-body.js"></script>
 	<script src="templates/settingsBody.js"></script>
 	<script src="templates/sandbox.js"></script>
-	<script src="/javascript/langs.js"></script>
-	<script src="/javascript/routing.js"></script>
-	<script src="/javascript/index.js"></script>
-	<script src="/javascript/logout.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"
 	></script>
+	<script src="/javascript/alerts.js"></script>
+	<script src="/javascript/langs.js"></script>
+	<script src="/javascript/routing.js"></script>
+	<script src="/javascript/index.js"></script>
+	<script src="/javascript/logout.js"></script>
 </html>

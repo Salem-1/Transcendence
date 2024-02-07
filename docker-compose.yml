@@ -17,11 +17,16 @@ services:
     build: ./srcs/nginx
     restart: always
     volumes:
+      - ./src/nginx:/usr/share/nginx/html
+      - ./srcs/backend/staticfiles:/app/backend/staticfiles
       - ./srcs/nginx/frontend:/var/www/html
     ports:
+      - 8000:21000
       - 3000:80
     networks: 
       - services-network
+    depends_on:
+      - django
 
   django:
     depends_on:
@@ -30,14 +35,15 @@ services:
     restart: always
     env_file:
       - .env
-    ports:
-      - 8000:8000
+    # ports:
+    #   - 8000
     # expose:
     #   - 8000:8000
     networks:
       - services-network
     volumes:
       - ./srcs/backend:/app
+      - ./srcs/backend/staticfiles:/app/backend/staticfiles
 
 networks:
   services-network:

@@ -9,12 +9,13 @@ class Response:
         self.status_code = status_code
 
 def send_otp_email(reciever, otp):
-    if os.environ.get("PROVIDER") == "Malik":
+    if os.environ.get("PROVIDER") == "AboHassan":
         return (send_smtp_email(reciever, otp))
     else:
         return send_sendgrid_email(reciever, otp)
 
 def send_sendgrid_email(reciever, otp):
+    return email_logging(reciever, otp, 202)
     message = Mail(
         from_email='pong@null.net',
         to_emails=reciever,

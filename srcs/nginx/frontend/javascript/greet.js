@@ -20,10 +20,10 @@ async function greetUser() {
 			greetElement.textContent = `${username}`;
 		} else if (response.status === 401) {
 			const errorData = await response.json();
-			alert(`${await getTranslation("error")}: ${errorData.error}`);
-		} else alert(`${await getTranslation("error")}: ${response.status}`);
+			timedAlert(`${await getTranslation("error")}: ${errorData.error}`);
+		} else timedAlert(`${await getTranslation("error")}: ${response.status}`);
 	} catch (error) {
-		alert(`${await getTranslation("error username")}: ${error}`);
+		timedAlert(`${await getTranslation("error username")}: ${error}`);
 	}
 }
 
