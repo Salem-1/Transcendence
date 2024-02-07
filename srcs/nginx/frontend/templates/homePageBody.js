@@ -17,7 +17,7 @@ function homePageBody() {
 				<div class="buttons">
 					<div id="single-player" onclick="callRoute('/AIgame')">
 						<div class="button-div-one" style="background: #82764D;"></div>
-						<div id="yelrlow" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+						<div id="yellow" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text" data-i18n="single player">SINGLE PLAYER</h1></div>
 					</div>
 				</div>
