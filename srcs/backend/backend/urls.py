@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from db.views import register_user, login_user, auth_intra, fetch_username, double_factor_auth, set_double_factor_auth
-from db.views import login_verf, redirect_uri, not_logged_in, logout_user, submit_2fa_email, enable_2fa_email, test_send_otp, error_code, go_to_frontend,set_winner
+from db.views import login_verf, redirect_uri, not_logged_in, logout_user, submit_2fa_email, enable_2fa_email, test_send_otp, error_code, go_to_frontend,set_winner, get_winners
 
 handler404 = error_code
 
@@ -37,5 +37,6 @@ urlpatterns = [
 	path('enable_2fa_email/', enable_2fa_email, name='enable_2fa_email'),
 	path('test_send_otp/', test_send_otp, name='test_send_otp'),
 	path('set_winner/', set_winner, name='set_winner'),
+	path('get_winners/', get_winners, name='get_winners'),
 	path('',go_to_frontend, name='go_to_frontend'),
 ]

@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
-from .smart_contract import set_winner_on_smart_contract
+from .smart_contract import set_winner_on_smart_contract, get_all_winners
 
 @csrf_exempt
 def register_user(request):
@@ -273,8 +273,23 @@ def set_winner(request):
         user, user_2fa, user_id =   fetch_user_data(jwt_payload)
         request_body = json.loads(request.body)
 
-        if set_winner_on_smart_contract(request_body):
+        if set_winner_on_smart_contract(request_body, user.username):
             return JsonResponse({'message': "successful stored on blockchain"})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': "Failed to set winner"}, status=401)
+
+    return JsonResponse({'error': "Failed to set winner"})
+
+@csrf_exempt
+def get_winners(request):
+    if request.method != "GET":
+        return HttpResponse("Method not allowed", status=405)
+    try:
+        jwt_payload = validate_jwt(request)
+        user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+        winners = get_all_winners()
+        return JsonResponse({'winners': winners})
     except Exception as e:
         print(e)
         return JsonResponse({'error': "Failed to set winner"}, status=401)
