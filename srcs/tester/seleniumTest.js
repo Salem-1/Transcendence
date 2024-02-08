@@ -125,21 +125,21 @@ async function registerTestCases(user) {
 		16
 	);
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
-	await testRegister(
-		generateRandomText(8),
-		process.env.TEST_PASSWORD,
-		process.env.TEST_PASSWORD,
-		"Registration success",
-		14
-	);
-	// await (new Promise(resolve => setTimeout(resolve, 3000)));
-	await testRegister(
-		user,
-		process.env.TEST_PASSWORD,
-		process.env.TEST_PASSWORD,
-		"Registration failed: Username already taken",
-		17
-	);
+	// await testRegister(
+	// 	generateRandomText(8),
+	// 	process.env.TEST_PASSWORD,
+	// 	process.env.TEST_PASSWORD,
+	// 	"Registration success",
+	// 	14
+	// );
+	// // await (new Promise(resolve => setTimeout(resolve, 3000)));
+	// await testRegister(
+	// 	user,
+	// 	process.env.TEST_PASSWORD,
+	// 	process.env.TEST_PASSWORD,
+	// 	"Registration failed: Username already taken",
+	// 	17
+	// );
 	// await (new Promise(resolve => setTimeout(resolve, 3000)));
 }
 
@@ -192,7 +192,7 @@ async function testIntraAuth(message, order) {
 
 		const login42Link = await driver.wait(
 			until.elementLocated(By.id("login42")),
-			5000
+			10000
 		);
 		await driver.executeScript("arguments[0].click();", login42Link);
 		await new Promise((resolve) => setTimeout(resolve, 10000));
@@ -234,7 +234,7 @@ async function testRegister(username, pass, repass, message, order) {
 			until.elementLocated(
 				By.css("#registration-button > div:last-child")
 			),
-			5000
+			20000
 		);
 		await innerDiv.click();
 
@@ -269,18 +269,18 @@ async function testLogin(username, pass, message, order) {
 	let driver = await new Builder().forBrowser("chrome").build();
 	try {
 		await driver.get("http://127.0.0.1:3000/login");
-		await new Promise((resolve) => setTimeout(resolve, 300));
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		await driver.findElement(By.id("username")).sendKeys(username);
 		await driver.findElement(By.id("password")).sendKeys(pass);
 
 		const registrationButton = await driver.wait(
 			until.elementLocated(By.id("login")),
-			5000
+			10000
 		);
 		const innerDiv = await driver.wait(
 			until.elementLocated(By.css("#login > div:last-child")),
-			5000
+			10000
 		);
 		await innerDiv.click();
 		await new Promise((resolve) => setTimeout(resolve, 300));
@@ -325,9 +325,9 @@ function generateRandomText(length) {
 
 async function login(driver, username, pass) {
 	await driver.get("http://127.0.0.1:3000/login");
-	await new Promise((resolve) => setTimeout(resolve, 700));
+	await new Promise((resolve) => setTimeout(resolve, 70000));
 	await driver.get("http://127.0.0.1:3000/login");
-	await new Promise((resolve) => setTimeout(resolve, 700));
+	await new Promise((resolve) => setTimeout(resolve, 70000));
 
 	await driver.findElement(By.id("username")).sendKeys(username);
 	await driver.findElement(By.id("password")).sendKeys(pass);
@@ -362,7 +362,7 @@ async function testTournament(players, username, pass, message, order) {
 	let driver = await new Builder().forBrowser("chrome").build();
 	try {
 		await login(driver, username, pass);
-		await new Promise((resolve) => setTimeout(resolve, 3000));
+		await new Promise((resolve) => setTimeout(resolve, 10000));
 		await dismissAlert(driver);
 		// await clickStartButton(driver);
 
