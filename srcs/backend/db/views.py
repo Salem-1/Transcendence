@@ -67,20 +67,6 @@ def mfa_state(request):
 			if user_2fa.enabled_2fa:
 				return JsonResponse({"mfa": "enabled"})
 			return JsonResponse({"mfa": "disabled"})
-			if decoded_payload['type'] != 'Bearer':
-				raise jwt.exceptions.InvalidTokenError()
-			fetched_username = user.username
-			# data = json.loads(request.body)
-			# username  = data.get('username')
-			# valid_input , username, password, error_message = get_registration_data(request);
-			# if not valid_input:
-			# 	return error_message
-			# user = authenticate(request, username=username, password=password)
-			# if user is not None:
-			# user_data = User.objects.get(username=username) 
-			# if is_2fa_enabled(user_data):
-			# 	return JsonResponse({"mfa": "enabled"})
-			return JsonResponse({"mfa": "enable"})
 		except Exception as e:
 			return JsonResponse({"error": "Invalid Authorization token"}, status=401)
 	return JsonResponse({"error": "Method not allowed"}, status=405)
