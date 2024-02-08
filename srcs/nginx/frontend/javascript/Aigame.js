@@ -168,6 +168,8 @@ function draw(game) {
 
 function handleKeyDown(game) {
     document.addEventListener('keydown', (event) => {
+		if (window.location.pathname !== "/AIgame") 
+			return;
         const key = event.key.length == 1 ?
             event.key.toLowerCase() : event.key
         switch (key) {
@@ -266,6 +268,8 @@ function getWinner(game) {
 }
 
 async function playGame() {
+	if (window.location.pathname !== "/AIgame") 
+		return;
     const ball = {
         x: canvas.width / 2,
         y: canvas.height / 2,
@@ -294,7 +298,9 @@ async function playGame() {
     handleKeyPress(game);
 	handleResize(game);
     return await new Promise(resolve => {
-        const intervalId = setInterval(() => {
+		const intervalId = setInterval(() => {
+			if (window.location.pathname !== "/AIgame") 
+				return;
             draw(game);
             timestamp = Date.now();
             const deltaTime = (timestamp - lastTimestamp) / 1000;
@@ -323,7 +329,7 @@ async function playGame() {
     });
 }
 
-playGame().then(winner => {
+playGame().then(winner => { // fix this
     console.log(`Player ${winner} wins!`);
 });
 
