@@ -1,13 +1,12 @@
 // Get the switch element
-var toggleSwitch = document.getElementById('toggle2FA');
+var toggleSwitch = document.getElementById("toggle2FA");
 var mfa = document.getElementById("MFAModal");
 var otp = document.getElementById("otpModal");
 var MFAModal = new bootstrap.Modal(mfa || null);
 var OTPModal = new bootstrap.Modal(otp || null);
 init2FAButton();
 
-async function init2FAButton()
-{
+async function init2FAButton() {
 	try {
 		const response = await fetch("http://localhost:8000/api/mfaState/", {
 			method: "GET",
@@ -17,24 +16,25 @@ async function init2FAButton()
 			credentials: "include",
 		});
 		const result = await response.json();
-			is2FAEnabled = result.mfa === "enabled";
-			toggleSwitch.checked = is2FAEnabled;
+		toggleSwitch.checked = result.mfa === "enabled";
 	} catch (error) {
-		timedAlert(`${await getTranslation("error getting 2fa")}: ${error}`, "warning");
+		timedAlert(
+			`${await getTranslation("error getting 2fa")}: ${error}`,
+			"warning"
+		);
 	}
 }
 
 // Listen for changes on the switch
-toggleSwitch.addEventListener('change', function() {
-  // Determine the new state
-  is2FAEnabled = this.checked;
-  if (is2FAEnabled) {
-	MFAModal.show();
-  } else {
-	disable2FA();
-  }
+toggleSwitch.addEventListener("change", function () {
+	// Determine the new state
+	is2FAEnabled = this.checked;
+	if (is2FAEnabled) {
+		MFAModal.show();
+	} else {
+		disable2FA();
+	}
 });
-
 
 async function disable2FA() {
 	try {
@@ -66,18 +66,14 @@ async function disable2FA() {
 	}
 }
 
-
-async function verifyEmail()
-{
-	try{
-		var email = document.getElementById('email').value;
-		if (!email || notValidEmail(email))
-		{
+async function verifyEmail() {
+	try {
+		var email = document.getElementById("email").value;
+		if (!email || notValidEmail(email)) {
 			timedAlert("Please enter a valid email address.", "warning");
 			throw new Error("Please enter a valid email address.");
 		}
-		if (!(await submit2FaEmail(email)))
-		{
+		if (!(await submit2FaEmail(email))) {
 			timedAlert("Failed to submit email", "warning");
 			throw new Error("Failed to submit email");
 		}
@@ -88,13 +84,12 @@ async function verifyEmail()
 		MFAModal.hide();
 		toggleSwitch.checked = false;
 	}
-
 }
 
 async function verifyOTP() {
 	try {
-		const otp = document.getElementById('otp').value;
-		const email = document.getElementById('email').value;
+		const otp = document.getElementById("otp").value;
+		const email = document.getElementById("email").value;
 		console.log("the email is ", email);
 		if (await sendEnable2faEmail(otp, email))
 			timedAlert("2fa enabled", "success");
