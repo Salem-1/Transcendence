@@ -29,6 +29,9 @@ async function init2FAButton() {
 toggleSwitch.addEventListener("change", function () {
 	// Determine the new state
 	is2FAEnabled = this.checked;
+
+	// switch the 2fa state
+	this.checked = !is2FAEnabled;
 	if (is2FAEnabled) {
 		MFAModal.show();
 	} else {
@@ -52,6 +55,7 @@ async function disable2FA() {
 
 		if (response.ok) {
 			timedAlert(`${await getTranslation("2fa disabled")}`, "success");
+			toggleSwitch.checked = false;
 		} else {
 			timedAlert(
 				`${await getTranslation("error 2fa disable")}`,
@@ -69,20 +73,15 @@ async function disable2FA() {
 async function verifyEmail() {
 	try {
 		var email = document.getElementById("email").value;
-		if (!email || notValidEmail(email)) {
+		if (!email || notValidEmail(email))
 			timedAlert("Please enter a valid email address.", "warning");
-			throw new Error("Please enter a valid email address.");
-		}
-		if (!(await submit2FaEmail(email))) {
+		if (!(await submit2FaEmail(email)))
 			timedAlert("Failed to submit email", "warning");
-			throw new Error("Failed to submit email");
-		}
 		MFAModal.hide();
 		OTPModal.show();
 	} catch (error) {
 		timedAlert(`Error: ${error}`);
 		MFAModal.hide();
-		toggleSwitch.checked = false;
 	}
 }
 
@@ -91,18 +90,18 @@ async function verifyOTP() {
 		const otp = document.getElementById("otp").value;
 		const email = document.getElementById("email").value;
 		console.log("the email is ", email);
-		if (await sendEnable2faEmail(otp, email))
+		if (await sendEnable2faEmail(otp, email)) {
+			toggleSwitch.checked = true;
 			timedAlert("2fa enabled", "success");
-		else {
+		} else {
 			timedAlert("Invalid OTP", "warning");
-			toggleSwitch.checked = false;
+
 			return;
 		}
 		OTPModal.hide();
 	} catch (error) {
 		timedAlert(`Error: ${error}`, "warning");
 		OTPModal.hide();
-		toggleSwitch.checked = false;
 	}
 }
 

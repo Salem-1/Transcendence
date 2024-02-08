@@ -1,5 +1,5 @@
-function settingsBody(){
-	return (`
+function settingsBody() {
+	return `
 	
 	<div class="top-bar">
 		<img id="logo" src="assets/logo1.png" onclick="callRoute('/home')" alt="">
@@ -23,7 +23,53 @@ function settingsBody(){
 				</div>
 			</a>
 			<hr>
-			<a class="button-text" href="#" data-i18n="language" >LANGUAGE</a>
+			<div class="dropdown-center">
+			<a class="button-text dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="language">
+			</a>
+		  
+			<ul class="dropdown-menu dropdown-menu-dark">
+				<li class="dropdown-item"  onclick="changeLanguage('en')" >
+						<img
+							src="assets/gb.svg"
+							alt="English"
+							width="30"
+							height="24"
+						/>
+						English
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li class="dropdown-item"  onclick="changeLanguage('es')" >
+						<img
+							src="assets/es.svg"
+							alt="Español"
+							width="30"
+							height="24"
+						/>
+						Español
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li class="dropdown-item"  onclick="changeLanguage('pt')" >
+						<img
+							src="assets/pt.svg"
+							alt="Português"
+							width="30"
+							height="24"
+						/>
+						Português
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li class="dropdown-item"  onclick="changeLanguage('ar')" >
+						<img
+							src="assets/eg.svg"
+							alt="العربية"
+							width="30"
+							height="24"
+						/>
+						العربية
+				</li>
+			</ul>
+			</a>
+			</div>
 			<hr>
 			<a class="button-text" onclick="logout()" data-i18n="logout">LOG OUT</a>
 		</div>
@@ -87,5 +133,5 @@ function settingsBody(){
 			</div>
 		</div>
 	</div>
-	`)
+	`;
 }
