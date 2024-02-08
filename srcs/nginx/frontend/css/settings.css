@@ -74,10 +74,10 @@ body {
 	line-height: 80px;
 }
 
-.button-text:active {
+/* .button-text:active {
 	font-size: 28px;
 	line-height: 35px !important;
-}
+} */
 
 .drrp {
 	margin: 20px;
@@ -161,4 +161,7 @@ body {
 hr {
 	font-size: large;
 	font-weight: bold;
+}
+.form-switch.form-check-reverse .form-check-input{
+	margin-top: 1em !important;
 }

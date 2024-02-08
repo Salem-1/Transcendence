@@ -56,7 +56,20 @@ def login_user(request):
         except Exception as e:
             print(f"{e}")
             return JsonResponse({"error": "Internal server error while login"}, status=500)  
-    return JsonResponse({"error": "Method not allowed"}, status=405)  
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+@csrf_exempt
+def mfa_state(request):
+	if request.method == "GET":
+		try:
+			decoded_payload = validate_jwt(request)
+			user, user_2fa, user_id =   fetch_user_data(decoded_payload)
+			if user_2fa.enabled_2fa:
+				return JsonResponse({"mfa": "enabled"})
+			return JsonResponse({"mfa": "disabled"})
+		except Exception as e:
+			return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+	return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def auth_intra(request):
@@ -111,9 +124,6 @@ def login_verf(request):
 @csrf_exempt
 def not_logged_in(request):
     if request.method == "GET":
-        string = "hello"
-        encrypted = encrypt_string(string)
-        decrepted = decrypt_string (encrypted)
         try:
             decoded_payload = validate_jwt(request)
             if decoded_payload['type'] != 'Bearer':
@@ -198,7 +208,7 @@ def submit_2fa_email(request):
             user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
             request_body = json.loads(request.body)
             if user_2fa.enabled_2fa:
-                return JsonResponse({'error': "Double factor authentication already enabled"}, status=408)
+                return JsonResponse({'error': "Double factor authentication already enabled"}, status=409)
             if not_valid_email(request_body):
                 return JsonResponse({'error': "bad request body"}, status=400)
             user_2fa.two_factor_secret = generate_otp_secret(user.username)
