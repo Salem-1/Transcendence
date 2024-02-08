@@ -22,6 +22,9 @@ import re
 import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from web3 import Web3, Account
+
+from .smart_contract import connect_to_w3
 
 class YourAppViewsTest(unittest.TestCase):
     # def setUp(self):
@@ -31,6 +34,11 @@ class YourAppViewsTest(unittest.TestCase):
     #     pass
     #     # Create a Django test client
     #     # self.client = Client()
+    def connect_to_w3():
+        w3 = connect_to_w3()
+#         network_id = w3.net.version 
+# print(f"Connected to network with ID: {network_id}")
+        # network_id
     def test_authenticate_otp_redirect(self):
             # Get  current time
             current_time = datetime.datetime.utcnow()
