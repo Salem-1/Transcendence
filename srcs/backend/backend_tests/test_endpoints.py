@@ -496,7 +496,7 @@ class YourAppViewsTest(unittest.TestCase):
         jwt_token = response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         # data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
-        data = {}
+        data = {"winner": "Salem", "owner": "Amer"}
         response  = requests.post(f'{base_url}/set_winner/', json=data, headers=headers)
         self.assertEqual(response.status_code, 200)
         response  = requests.post(f'{base_url}/set_winner/', json=data)

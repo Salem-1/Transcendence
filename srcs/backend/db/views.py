@@ -272,7 +272,8 @@ def set_winner(request):
         jwt_payload = validate_jwt(request)
         user, user_2fa, user_id =   fetch_user_data(jwt_payload)
         request_body = json.loads(request.body)
-        if set_winner_on_smart_contract():
+
+        if set_winner_on_smart_contract(request_body):
             return JsonResponse({'message': "successful stored on blockchain"})
     except Exception as e:
         print(e)
