@@ -13,6 +13,7 @@ import requests
 import os
 import re 
 import datetime
+from .get_secret import get_secret
 
 def get_user_id(username):
     try:
@@ -24,11 +25,11 @@ def get_user_id(username):
 
 def fetch_auth_token(url_auth_code):
     url = "https://api.intra.42.fr/oauth/token"
-    print(f"clientid={os.getenv('INTRA_CLIENT_ID')}\nclient_secret={os.getenv('INTRA_CLIENT_SECRET')}")
+    # print(f"clientid={get_secret('INTRA_CLIENT_ID')}\nclient_secret={get_secret('INTRA_CLIENT_SECRET')}")
     data = {
         'grant_type': 'authorization_code',
-        'client_id': os.getenv('INTRA_CLIENT_ID'),
-        'client_secret': os.getenv('INTRA_CLIENT_SECRET'),
+        'client_id': get_secret('INTRA_CLIENT_ID'),
+        'client_secret': get_secret('INTRA_CLIENT_SECRET'),
         'code': url_auth_code,
         'redirect_uri': 'http://localhost:3000/auth',
     }
@@ -43,16 +44,16 @@ def fetch_intra_user_data(response):
     return requests.get(url, headers=headers)
 
 def login_intra_user(request, username):
-    user = authenticate(request, username=username, password=os.getenv('SECRET_PASS'))
+    user = authenticate(request, username=username, password=get_secret('SECRET_PASS'))
     if user is not None:
         login(request, user)
         return True
     return False
 
 def create_intra_user(username):
-    if not username or username == "" or os.getenv('SECRET_PASS') == "":
+    if not username or username == "" or get_secret('SECRET_PASS') == "":
         return False
-    user = User.objects.create_user(username=username, password=os.getenv('SECRET_PASS'))
+    user = User.objects.create_user(username=username, password=get_secret('SECRET_PASS'))
     user.save()
     user_2fa = User_2fa.objects.create(user=user)
     user_2fa.jwt_secret = generate_password(13)
@@ -90,7 +91,7 @@ def gen_jwt_token(username, type, exp_mins):
                                 "id": get_user_id(username),
                                 "exp": exp_unix_timestamp,
                                 "type": type,
-                            }, os.environ['SECRET_PASS'] + get_jwt_secret(username), algorithm="HS256")
+                            }, get_secret('SECRET_PASS') + get_jwt_secret(username), algorithm="HS256")
     return encoded_jwt.decode('utf-8')  
 
 def tokenize_login_response(username):
@@ -133,7 +134,7 @@ def validate_jwt(request):
         user_jwt_secret = get_user_jwt_secret(jwt_token)
         decode_token = jwt.decode(
                         jwt_token, 
-                        os.environ['SECRET_PASS'] + user_jwt_secret , 
+                        get_secret('SECRET_PASS') + user_jwt_secret , 
                         algorithms=['HS256']
                     )
         if (decode_token['exp'] > current_unix_timestamp):

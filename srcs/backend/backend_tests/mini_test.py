@@ -8,6 +8,19 @@ import string
 import datetime
 import warnings
 from test_endpoints import randomize_string
+import hvac
+import os 
+
+    
+def get_secret(key):
+    client = hvac.Client(
+    url='http://vault:8200',
+    token= os.environ.get('VAULT_TOKEN_KEY')
+    )
+    read_response = client.secrets.kv.read_secret_version(path='secret/'+ key)
+    return read_response['data']['data']['key']
+    
+
 # Suppress all warnings
 warnings.filterwarnings("ignore")
 
@@ -25,6 +38,13 @@ class YourAppViewsTest(unittest.TestCase):
     #     self.assertEqual(response.status_code, 200)
 
 
+    # def test_get_secret(self):
+    #     self.assertEqual(get_secret("TEST"), "test")
+    
+    def test_access_home_nologin(self):
+        response = requests.get(f'{self.base_url}/api/loginVerfication/')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()['error'], 'Invalid Authorization token')
         
     def test_correct_statuscode(self):
         for num in range(101, 600):
@@ -32,7 +52,7 @@ class YourAppViewsTest(unittest.TestCase):
             response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
             self.assertEqual(response.status_code, int(num))
 
-        #fetch username failuer
+    #     #fetch username failuer
 
 if __name__ == '__main__':
     unittest.main()

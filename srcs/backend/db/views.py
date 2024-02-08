@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
-
+from .get_secret import get_secret
 
 @csrf_exempt
 def register_user(request):
@@ -94,6 +94,7 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
             return JsonResponse({'error': f"Internal server error couldn't login with intra {e}"}, status=500)
+    print(e)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
 @csrf_exempt
@@ -173,15 +174,18 @@ def set_double_factor_auth(request):
 
 @csrf_exempt
 def redirect_uri(request):
-	if request.method == "POST":
-		client_id = os.environ.get("INTRA_CLIENT_ID", "")
-		if (len(client_id) == 0):
-			intra_link = "#"
-		else:
-			intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
-				.format(client_id)
-		return JsonResponse({"oauth_link": intra_link})
-	return JsonResponse({'error': "Method not allowed"}, status=405)
+    if request.method == "POST":
+        try:
+            client_id = get_secret("INTRA_CLIENT_ID")
+            if (len(client_id) == 0):
+                intra_link = "#"
+            else:
+                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+                    .format(client_id)
+            return JsonResponse({"oauth_link": intra_link})
+        except Exception as e:
+            print(e)
+    return JsonResponse({'error': "Method not allowed"}, status=405)
 
 @csrf_exempt
 def logout_user(request):
@@ -271,3 +275,6 @@ def go_to_frontend(request):
     if (request.method == "GET"):
         return redirect("http://localhost:3000", permanent=True)
     return HttpResponse("Method not allowed", status=405)
+
+
+

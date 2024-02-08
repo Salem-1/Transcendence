@@ -14,7 +14,6 @@ from .send_otp import send_otp_email
 
 def verify_OTP(secret, given_otp):
     totp = pyotp.TOTP(secret)
-    print(f"{given_otp} == {totp.now()}")
     return totp.verify(given_otp)
 
 def generate_otp(secret):
@@ -26,7 +25,6 @@ def generate_otp_secret(username):
 
 def is_2fa_enabled(user):
     if not User_2fa.objects.filter(user=user).exists():  
-        print("2fa is not enabled")
         User_2fa.objects.create(user=user, enabled_2fa=False)
     return User_2fa.objects.get(user=user).enabled_2fa
 
