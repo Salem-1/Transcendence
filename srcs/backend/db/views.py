@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
-
+from .smart_contract import set_winner_on_smart_contract
 
 @csrf_exempt
 def register_user(request):
@@ -261,3 +261,21 @@ def go_to_frontend(request):
     if (request.method == "GET"):
         return redirect("http://localhost:3000", permanent=True)
     return HttpResponse("Method not allowed", status=405)
+
+
+
+@csrf_exempt
+def set_winner(request):
+    if request.method != "POST":
+        return HttpResponse("Method not allowed", status=405)
+    try:
+        jwt_payload = validate_jwt(request)
+        user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+        request_body = json.loads(request.body)
+        if set_winner_on_smart_contract():
+            return JsonResponse({'message': "successful stored on blockchain"})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': "Failed to set winner"}, status=401)
+
+    return JsonResponse({'error': "Failed to set winner"})

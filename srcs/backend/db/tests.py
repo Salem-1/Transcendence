@@ -22,9 +22,7 @@ import re
 import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from web3 import Web3, Account
 
-from .smart_contract import connect_to_w3
 
 class YourAppViewsTest(unittest.TestCase):
     # def setUp(self):

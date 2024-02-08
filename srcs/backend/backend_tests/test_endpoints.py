@@ -489,7 +489,21 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(otp_login_response.status_code, 302)
         jwt_token = otp_login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        
+    
+    def test_set_winner(self):
+        response  = registe_and_login_user(gen_username(), self.test_user["password"])
+        self.assertEqual(response.status_code, 200)
+        jwt_token = response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        # data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
+        data = {}
+        response  = requests.post(f'{base_url}/set_winner/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        response  = requests.post(f'{base_url}/set_winner/', json=data)
+        self.assertEqual(response.status_code, 401)
+        response  = requests.get(f'{base_url}/set_winner/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 405)
+
 
 
 def generate_otp(secret):
