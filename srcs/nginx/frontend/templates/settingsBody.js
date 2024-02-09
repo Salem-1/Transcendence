@@ -91,7 +91,7 @@ function settingsBody() {
 							required
 							placeholder="email"
 							autocomplete="email"
-							maxlength="20"
+							maxlength="80"
 						/>
 						<label for="email" data-i18n="email"></label>
 					</div>
