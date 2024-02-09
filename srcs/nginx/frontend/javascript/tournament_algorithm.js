@@ -18,7 +18,6 @@ function initTournament() {
   localStorage.setItem("level", level.toString());
   localStorage.setItem("roundWinners", JSON.stringify({}));
   localStorage.setItem("levelRound", JSON.stringify({}));
-  displayRound(round, level);
 }
 
 async function startTournament() {
@@ -37,9 +36,8 @@ async function startTournament() {
   )
     throw new Error("error: fetching players for the tournament");
 
-  displayRound(round, level);
   if (level == 0) {
-    displayWinner(round[0][0] == null ? round[0][1] : round[0][0]);
+    displayRound(round, level);
     localStorage.clear();
   } else if (level == 1) playFinals(round);
   else if (level == 2) playSemiFinals(round);
@@ -90,7 +88,6 @@ function playFinals(round) {
   const winner = getMatchWinner("0");
   if (winner) {
     updateLevelRound();
-    localStorage.setItem("levelRank", JSON.stringify(levelRank));
     localStorage.setItem("round", JSON.stringify({ 0: [winner, null] }));
     localStorage.setItem("level", 0);
     startTournament();
@@ -126,11 +123,11 @@ function playQuarterFinals(round) {
       const winner3 = getMatchWinner("2");
       if (winner3) {
         if (round["3"] == null) {
+          updateLevelRound();
           localStorage.setItem(
             "round",
             JSON.stringify({ 0: [winner1, winner2], 1: [winner3, null] })
           );
-          updateLevelRound();
           localStorage.setItem("level", 2);
           localStorage.setItem("roundWinners", JSON.stringify({}));
           startTournament();
@@ -138,6 +135,7 @@ function playQuarterFinals(round) {
         }
         const winner4 = getMatchWinner("3");
         if (winner4) {
+          updateLevelRound();
           localStorage.setItem(
             "round",
             JSON.stringify({ 0: [winner1, winner2], 1: [winner3, winner4] })
@@ -161,19 +159,19 @@ function playQuarterFinals(round) {
 }
 
 function displayWinner(winner) {
-  console.log(`winner is ${winner}`);
   let winning_element = document.getElementById("winner");
   showOnePlayer(winning_element, winner);
 }
-
-function displayRound(round, level) {
-  if (level == 1) {
-    displayFinals(round);
-  } else if (level == 2) {
-    displaySemiFinal(round);
-  } else if (level == 3) {
-    displayQuarterFinal(round);
-  }
+function displayRound(rounds, level) {
+  const levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
+  console.log(`levelRound -->\n`);
+  console.log(levelRound);
+  displayWinner(getMatchWinner("0"));
+  displayFinals(levelRound["1"]["rounds"] || {});
+  if (levelRound["2"] && levelRound["2"]["rounds"])
+    displaySemiFinal(levelRound["2"]["rounds"] || {});
+  if (levelRound["3"] && levelRound["3"]["rounds"])
+    displayQuarterFinal(levelRound["3"]["rounds"] || {});
 }
 
 function showOnePlayer(player_place, playername) {
@@ -234,7 +232,7 @@ function showPlayerName(playerName) {
   var players = JSON.parse(localStorage.getItem("players")) || [];
   var table = document.querySelector("table tbody");
   var row = table.insertRow(-1);
-  row.id = "playerRow-" + playerName; // Example: playerRow-john-doe
+  row.id = "playerRow-" + playerName;
   var cell1 = row.insertCell(0);
   cell1.textContent = playerName;
   var cell2 = row.insertCell(1);
@@ -279,14 +277,6 @@ function displaySemiFinal(round) {
 function displayFinals(round) {
   let player1 = document.getElementById("final-t1");
   let player2 = document.getElementById("final-t2");
-  showOnePlayer(player1, round[0][0]);
-  showOnePlayer(player2, round[0][1]);
+  showOnePlayer(player1, round[0][1]);
+  showOnePlayer(player2, round[0][0]);
 }
-
-// module.exports = {
-//     fillRound: fillRound,
-//     getLevel: getLevel,
-
-// };
-
-// //["1","2","3","4","5","6","7","8"]
