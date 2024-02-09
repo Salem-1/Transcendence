@@ -20,7 +20,7 @@ def send_otp_email(reciever, otp):
         return send_sendgrid_email(reciever, otp)
 
 def send_using_gmail(reciever, otp):
-    # return email_logging(reciever, otp, 202) # remove this line to enable email sending
+    return email_logging(reciever, otp, 202) # remove this line to enable email sending
     EMAIL_HOST = get_secret("EMAIL_HOST_USER")
     EMAIL_PASSWORD=get_secret("EMAIL_HOST_PASSWORD")
     PORT = int(get_secret("EMAIL_PORT"))
