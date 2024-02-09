@@ -4,6 +4,7 @@ from .logout import generate_encrypted_secret
 import json
 from .authintication_utils import is_valid_input
 
+
 def fetch_user_data(decoded_payload):
     user_id = decoded_payload.get('id')
     user = User.objects.get(id=user_id)
@@ -23,5 +24,3 @@ def get_registration_data(request):
     password  = data.get('password')
     valid_input, error_message = is_valid_input(username, password, data);
     return valid_input , username, password, error_message
-    
-    

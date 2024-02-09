@@ -92,6 +92,4 @@ function timedAlert(
 			}
 		}
 	}, 250);
-
-	// Set the focus to the element
 }

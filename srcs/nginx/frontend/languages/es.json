@@ -15,7 +15,6 @@
 
 	"enable 2FA": "ACTIVAR 2FA",
 	"disable 2FA": "DESACTIVAR 2FA",
-	"2FA": "2FA",
 	"2FA code": "Código 2FA",
 
 	"auth loading": "Autenticando...",
@@ -45,6 +44,7 @@
 	"invalid OTP": "El OTP ingresado no es válido",
 	"error": "Error",
 	"error username": "Error al obtener el nombre de usuario",
+	"2fa": "Autenticación en dos pasos",
 	"2fa disabled": "2FA deshabilitado",
 	"error 2fa disable": "Error al deshabilitar 2FA",
 	"2fa enabled": "2FA habilitado",
@@ -78,5 +78,7 @@
 	"language": "IDIOMA",
 
 	"enter email": "¡Por favor ingresa tu correo electrónico!",
-	"enter otp": "¡Por favor ingresa el OTP enviado a tu correo electrónico!"
+	"enter otp": "¡Por favor ingresa el OTP enviado a tu correo electrónico!",
+	"email": "correo electrónico",
+	"otp": "OTP"
 }
