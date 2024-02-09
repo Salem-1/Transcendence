@@ -11,10 +11,11 @@ echo "PostgreSQL is ready"
 
 # Apply database migrations
 python manage.py makemigrations
-python manage.py migrate
+python manage.py migrate --noinput
 python manage.py makemigrations db
 python manage.py migrate db
 
+python manage.py collectstatic --no-input --clear
 # Create superuser
 # echo "Creating superuser"
 # check if superuser already exists
@@ -27,5 +28,4 @@ User = get_user_model()
 User.objects.filter(username='admin').exists() or \
     User.objects.create_superuser('admin', 'admin@example.com', 'admin')
 EOF
-
-python manage.py runserver 0.0.0.0:8000
+gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --reload

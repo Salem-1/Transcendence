@@ -24,16 +24,36 @@ body {
 }
 
 .quote {
-	padding: 30px;
+	padding: 10px;
 	margin-top: 250px;
 	width: 615px;
-	height: 80px;
+	height: 130px;
 	border-radius: 100px;
 	background-color: #D9D9D9;
+	display: flex;
+	/* align-items: center;
+	justify-content: center; */
 }
 
+.grid {
+	flex-wrap: wrap;
+	max-width: 800px;
+  }
+  
+  .card {
+	margin: 1rem;
+	padding: 1.5rem;
+	text-align: left;
+	color: inherit;
+	text-decoration: none;
+	border: 1px solid #eaeaea;
+	border-radius: 10px;
+	transition: color 0.15s ease, border-color 0.15s ease;
+	max-width: 300px;
+  }
+
 #logo {
-	margin-left: 38%;
+	margin-left: 37%;
 	margin-bottom: 40px;
 	width: 160px;
 	height: 150px;
@@ -52,18 +72,19 @@ body {
 #login {
 	cursor: pointer;
 	margin: 0;
-	margin-left: 50px;
+	margin-left: 20px;
+	/* margin-left: -11px; */
 }
 
 #login42 {
 	cursor: pointer;
-	margin-left: 350px;
+	margin-left: 320px;
 }
 
 #register {
 	cursor: pointer;
 	margin-top: 90px;
-	margin-left: 200px;
+	margin-left: 160px;
 }
 
 .button-div-one {
@@ -98,18 +119,6 @@ body {
 	background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(227.37, 224.53, 224.53, 0.41) 76%);
 }
 
-#red.button-div-two:hover {
-	background: #F01E1E !important;
-}
-
-#yellow.button-div-two:hover {
-	background: #c38b00 !important;
-}
-
-#black.button-div-two:hover {
-	background: black !important;
-}
-
 
 .button-text {
 	cursor: pointer;
@@ -119,9 +128,10 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	line-height: 60px;
 }
 
 .button-text:active {
 	font-size: 24px;
-	line-height: 35px !important;
+	line-height: 65px !important;
 }

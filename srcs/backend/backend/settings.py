@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+from .get_settings_credentials import get_settings_credentials
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = get_settings_credentials('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+APPEND_SLASH = False
 
 # Application definition
 
@@ -50,12 +51,12 @@ INSTALLED_APPS = [
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
-try: EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
+EMAIL_HOST = get_settings_credentials("EMAIL_HOST")
+try: EMAIL_PORT = int(get_settings_credentials("EMAIL_PORT"))
 except ValueError: EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = get_settings_credentials("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = get_settings_credentials("EMAIL_HOST_PASSWORD")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +73,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  
     "http://127.0.0.1:3000",  
+    "http://localhost:21000",  
+    "http://127.0.0.1:21000",  
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -116,9 +119,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'NAME': get_settings_credentials('POSTGRES_DB'),
+        'USER': get_settings_credentials('POSTGRES_USER'),
+        'PASSWORD': get_settings_credentials('POSTGRES_PASSWORD'),
         'HOST': 'postgres'
     }
 }
@@ -158,7 +161,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

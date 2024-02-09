@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
-
+from .get_secret import get_secret
 
 @csrf_exempt
 def register_user(request):
@@ -32,12 +32,12 @@ def register_user(request):
             create_new_user(username, password)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
-            return JsonResponse({'error': "Internal server error"}, status=500)  
+            print(e)
+            return JsonResponse({'error': "Bad request"}, status=400)  
     return JsonResponse({'error': "Method not allowed"}, status=405)  
 
 @csrf_exempt
 def login_user(request):
-    print(request)
     if request.method =='POST':
         try:
             valid_input , username, password, error_message = get_registration_data(request);
@@ -56,7 +56,20 @@ def login_user(request):
         except Exception as e:
             print(f"{e}")
             return JsonResponse({"error": "Internal server error while login"}, status=500)  
-    return JsonResponse({"error": "Method not allowed"}, status=405)  
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+@csrf_exempt
+def mfa_state(request):
+	if request.method == "GET":
+		try:
+			decoded_payload = validate_jwt(request)
+			user, user_2fa, user_id =   fetch_user_data(decoded_payload)
+			if user_2fa.enabled_2fa:
+				return JsonResponse({"mfa": "enabled"})
+			return JsonResponse({"mfa": "disabled"})
+		except Exception as e:
+			return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+	return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def auth_intra(request):
@@ -81,6 +94,7 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
             return JsonResponse({'error': f"Internal server error couldn't login with intra {e}"}, status=500)
+    print(e)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
 @csrf_exempt
@@ -110,9 +124,6 @@ def login_verf(request):
 @csrf_exempt
 def not_logged_in(request):
     if request.method == "GET":
-        string = "hello"
-        encrypted = encrypt_string(string)
-        decrepted = decrypt_string (encrypted)
         try:
             decoded_payload = validate_jwt(request)
             if decoded_payload['type'] != 'Bearer':
@@ -163,15 +174,18 @@ def set_double_factor_auth(request):
 
 @csrf_exempt
 def redirect_uri(request):
-	if request.method == "POST":
-		client_id = os.environ.get("INTRA_CLIENT_ID", "")
-		if (len(client_id) == 0):
-			intra_link = "#"
-		else:
-			intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
-				.format(client_id)
-		return JsonResponse({"oauth_link": intra_link})
-	return JsonResponse({'error': "Method not allowed"}, status=405)
+    if request.method == "POST":
+        try:
+            client_id = get_secret("INTRA_CLIENT_ID")
+            if (len(client_id) == 0):
+                intra_link = "#"
+            else:
+                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+                    .format(client_id)
+            return JsonResponse({"oauth_link": intra_link})
+        except Exception as e:
+            print(e)
+    return JsonResponse({'error': "Method not allowed"}, status=405)
 
 @csrf_exempt
 def logout_user(request):
@@ -194,7 +208,7 @@ def submit_2fa_email(request):
             user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
             request_body = json.loads(request.body)
             if user_2fa.enabled_2fa:
-                return JsonResponse({'error': "Double factor authentication already enabled"}, status=408)
+                return JsonResponse({'error': "Double factor authentication already enabled"}, status=409)
             if not_valid_email(request_body):
                 return JsonResponse({'error': "bad request body"}, status=400)
             user_2fa.two_factor_secret = generate_otp_secret(user.username)
@@ -242,17 +256,25 @@ def test_send_otp(request):
 
 @csrf_exempt
 def error_code(request, exception=None):
-    status = request.headers.get("X-Trans42-code")
-    if (request.method == "GET" and status and status.isdigit()):
-        num = int(status)	
-        if (num > 100 and num < 600 and num != 404):
-            if (http_responses.get(num)):
-                return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
-            return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
-    return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+    try:
+        status = request.headers.get("X-Trans42-code")
+        if (request.method == "GET" and status and status.isdigit()):
+            num = int(status)	
+            if (num > 100 and num < 600 and num != 404):
+                if (http_responses.get(num)):
+                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
+                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
+        return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+    except Exception as e:
+        print(e)
+    return JsonResponse({'error': "bad request"}, status=400)
+
 
 @csrf_exempt
 def go_to_frontend(request):
     if (request.method == "GET"):
         return redirect("http://localhost:3000", permanent=True)
     return HttpResponse("Method not allowed", status=405)
+
+
+

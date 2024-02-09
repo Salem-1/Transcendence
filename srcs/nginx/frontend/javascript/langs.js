@@ -39,7 +39,7 @@ async function getTranslation(key) {
 // Function to make alert in any language
 async function alertInLang(key) {
 	message = await await getTranslation(key);
-	alert(message);
+	timedAlert(message);
 }
 
 // // Call updateContent() on page load

@@ -22,7 +22,7 @@ import re
 import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
+from .get_secret import get_secret
 class YourAppViewsTest(unittest.TestCase):
     # def setUp(self):
     #     # Create a test user
@@ -46,7 +46,7 @@ class YourAppViewsTest(unittest.TestCase):
             json_response = json.loads(response.content.decode('utf-8'))
 
             # Decode the JWT token and verify its claims
-            decoded_token = jwt.decode(json_response['jwt_token'], os.environ['SECRET_PASS'] + get_jwt_secret(username), algorithms=['HS256'])
+            decoded_token = jwt.decode(json_response['jwt_token'], get_secret('SECRET_PASS') + get_jwt_secret(username), algorithms=['HS256'])
             self.assertEqual(decoded_token['username'], username)
             self.assertEqual(decoded_token['type'], 'otp')
 
@@ -113,7 +113,7 @@ class YourAppViewsTest(unittest.TestCase):
     #                                 "id": id,
     #                                 "exp": exp_unix_timestamp,
     #                                 "type": type,
-    #                             }, os.environ['SECRET_PASS'], algorithm="HS256")
+    #                             }, get_secret('SECRET_PASS'), algorithm="HS256")
     #     return encoded_jwt   
     #     # Test registration with an existing username
     #     response = self.client.post('/register/', json.dumps({'username': 'testuser', 'password': 'newpassA0word'}), content_type='application/json')
@@ -186,7 +186,7 @@ class YourAppViewsTest(unittest.TestCase):
     #     self.assertEqual(response.status_code, 200)
     #     json_response = json.loads(str(response.content, encoding='utf-8'))
     #     token = json_response['jwt_token']
-    #     decoded_payload = jwt.decode(token, os.environ['SECRET_PASS'], algorithms=['HS256'])
+    #     decoded_payload = jwt.decode(token, get_secret('SECRET_PASS'), algorithms=['HS256'])
     #     self.assertEqual(decoded_payload['username'], 'testuser')
 
     # def test_login_invalid_credentials(self):

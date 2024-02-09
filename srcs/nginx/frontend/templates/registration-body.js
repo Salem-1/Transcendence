@@ -16,7 +16,7 @@ function registration_body() {
 				required
 				placeholder="Username"
 				data-i18n="username"
-				maxlength="20"
+				maxlength="12"
 			/>
 			<input
 				type="password"

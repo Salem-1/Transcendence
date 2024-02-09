@@ -18,25 +18,38 @@ help:
 	@echo "  test_backend    : Run backend  tests"
 	@echo "  test_mini  	 : Run  backend mini_test.py only"
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
+	@echo "  logs	    	 : Show Django logs"
+	@echo "  lognginx        : Show Ngninx logs"
+	@echo "  waflog          : Show firewall logs"
 	@echo ""
 
-up:
-	docker compose up -d
+unseal:
+	@echo please use key to run the project
+	@docker exec -it transcendence-vault-1 bash
 
+up: run unseal 
+
+run:
+	@docker compose up -d
+	
 down:
-	docker compose down
+	@docker compose down
 
-build:
-	docker compose up -d --build
+build: construct unseal
 
-rebuild:
-	docker compose up -d --build --force-recreate
+construct:
+	@docker compose up -d --build
+
+rebuild: construct unseal
+
+reconstruct:
+	@docker compose up -d --build --force-recreate
 
 restart:
-	docker compose restart
+	@docker compose restart
 
 clean: down
-	docker rmi transcendence-django
+	@docker rmi transcendence-django
 	yes | docker system prune
 
 reset: clean build
@@ -54,6 +67,18 @@ test_frontend:
 	@node srcs/tester/seleniumTest.js
 
 
+
+ps:
+	@docker compose ps
+
+waflog:
+	@docker exec -it transcendence-nginx-1 cat /var/log/modsec_audit.log
+logs:
+	@docker logs -f transcendence-django-1
+
+lognginx:
+	@docker logs -f transcendence-nginx-1
+
 ifeq ($(shell uname -s), Linux)
 	RMCOMMAND		= sudo rm -rf data
 else
@@ -68,8 +93,5 @@ fclean: down
 	yes | docker volume prune
 
 fresh: fclean build
-
-ps:
-	@docker compose ps
 
 .PHONY: help up down build rebuild restart clean reset fclean fresh ps

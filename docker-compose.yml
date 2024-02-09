@@ -12,32 +12,64 @@ services:
       - 5432:5432
     networks:
       - services-network
+    init: true 
 
   nginx:
     build: ./srcs/nginx
     restart: always
     volumes:
+      - ./src/nginx:/usr/share/nginx/html
+      - ./srcs/backend/staticfiles:/app/backend/staticfiles
       - ./srcs/nginx/frontend:/var/www/html
     ports:
+      - 8000:21000
       - 3000:80
     networks: 
       - services-network
+    init: true
+    depends_on:
+      - django
 
   django:
     depends_on:
       - postgres
+      - vault
     build: ./srcs/backend
     restart: always
     env_file:
       - .env
-    ports:
-      - 8000:8000
+    # ports:
+    #   - 8000
     # expose:
     #   - 8000:8000
     networks:
       - services-network
     volumes:
       - ./srcs/backend:/app
+    init: true
+
+  vault:
+    build:
+      context: ./srcs/vault
+      dockerfile: Dockerfile
+    # ports:
+    #   - 8200:8200
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./srcs/vault/config:/vault/config
+      - ./srcs/vault/policies:/vault/policies
+      - ./srcs/vault/data:/vault/data
+      - ./srcs/vault/logs:/vault/logs
+    environment:
+      - VAULT_ADDR=http://localhost:8200
+    command: server -config=/vault/config/vault-config.json
+    cap_add:
+      - IPC_LOCK  # prevent secretes to leak to swap in case virtual memory is full 
+    networks: 
+      - services-network
+    init: true
 
 networks:
   services-network:

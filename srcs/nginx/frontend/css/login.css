@@ -14,21 +14,61 @@ body {
 
 #login {
 	cursor: pointer;
-	margin-top: 150px;
-	margin-left: 25px;
+	margin-top: 50px;
+	margin-left: 130px;
     position: absolute;
 }
 
 #logindiv {
     margin: 0;
 	position: absolute;
-	top: 30%;
+	top: 40%;
 	left: 45%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 }
 
-#username{
+.form-floating {
+	color: black;
+	font-size: 20px;
+	font-family: 'Poetsen One', sans-serif;
+	font-weight: 400;
+	width: 320px;
+	height: 50px;
+	left: 34%;
+	top: 20px;
+}
+.form-control:focus {
+	font-size: 20px;
+}
+
+.form-floating>.form-control-plaintext~label::after, .form-floating>.form-control:focus~label::after, .form-floating>.form-control:not(:placeholder-shown)~label::after, .form-floating>.form-select~label::after {
+	background: #514949;
+}
+
+.form-floating>.form-control-plaintext~label, .form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-select~label {
+	color: #b6a5a5;
+	font-size: 14px;
+}
+
+.form-floating input{
+	border: 4px solid #78B5DD;
+	border-radius: 15px;
+	background: #514949;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.form-floating input.form-control {
+	color: black;
+	background: #514949;
+}
+
+label.form-label {
+	color: black;
+}
+
+
+/* #username{
 	color: black;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
@@ -42,7 +82,7 @@ body {
     border-radius: 15px;
     border: 4px #78B5DD solid;
 }
-
+ 
 #password{
 	color: black;
 	font-size: 20px;
@@ -57,14 +97,14 @@ body {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     border: 4px #78B5DD solid;
-}
+} */
 
-::placeholder {
+/* ::placeholder {
     color: gray;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
-}
+} */
 
 .button-div-one {
 	width: 280px;
@@ -104,7 +144,7 @@ body {
 
 .button-text:active {
 	font-size: 24px;
-	line-height: 35px !important;
+	line-height:65px !important;
 }
 
 .button-text {
@@ -115,6 +155,7 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	word-wrap: break-word;
+	line-height: 60px;
 }
 
 #Person {

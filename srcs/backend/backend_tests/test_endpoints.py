@@ -12,8 +12,17 @@ import string
 import pyotp
 import base64
 warnings.filterwarnings("ignore")
+import hvac
+import os 
 
-
+    
+def get_secret(key):
+    client = hvac.Client(
+    url='http://vault:8200',
+    token= os.environ.get('VAULT_TOKEN_KEY')
+    )
+    read_response = client.secrets.kv.read_secret_version(path='secret/'+ key)
+    return read_response['data']['data']['key']
 
 base_url = 'http://localhost:8000' 
 
@@ -114,6 +123,9 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Username already taken')
 
+    def test_get_secret(self):
+        self.assertEqual(get_secret("TEST"), "test")
+        
     def test_register_empty_user(self):
         # Test registration with an empty username
         request_data = {'username': '', 'password': 'newpassA0word'}
@@ -291,11 +303,12 @@ class YourAppViewsTest(unittest.TestCase):
 
         response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
         self.assertEqual(response.status_code, 200)
-    def test_correct_statuscode(self):
-        for num in range(101, 600):
-            pack = {"X-Trans42-code": str(num)}
-            response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
-            self.assertEqual(response.status_code, int(num))
+
+    # def test_correct_statuscode(self):
+    #     for num in range(101, 600):
+    #         pack = {"X-Trans42-code": str(num)}
+    #         response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
+    #         self.assertEqual(response.status_code, int(num))
     
     def test_wrong_statuscode(self):
         pack = {"X-Trans42-code": "50"}

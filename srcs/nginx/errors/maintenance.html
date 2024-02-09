@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Scheduled Maintenance</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600"
+      media="screen"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    html,
+    body {
+      background: rgba(178, 177, 184, 1);
+      color: rgba(255, 255, 255, 1);
+      font-family: "Source Sans Pro", sans-serif;
+      height: 100%;
+      overflow-y: hidden;
+      overflow-x: hidden;
+    }
+
+    #flex-container {
+      align-items: center;
+      display: flex;
+      min-height: 100%;
+    }
+
+    #flex-item {
+      animation: load 1s ease forwards;
+      flex-basis: 400px;
+    }
+
+    h1 {
+      color: rgba(74, 73, 77, 1);
+      font-size: 3rem;
+      line-height: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    hr {
+      background-color: rgba(255, 255, 255, 0.3);
+      border: none;
+      height: 1px;
+    }
+
+    @keyframes load {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        padding-left: 4rem;
+        opacity: 1;
+      }
+    }
+
+    #subheader {
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+  </style>
+  <body>
+    <div id="flex-container">
+      <div id="flex-item">
+        <h1>Maintenance</h1>
+        <p id="subheader">We're undergoing a bit of scheduled maintenance.</p>
+        <hr />
+        <p>
+          Sorry for the inconvenience. We'll be back up and running as fast as
+          possible.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

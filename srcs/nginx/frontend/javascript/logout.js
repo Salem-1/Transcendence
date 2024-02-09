@@ -4,7 +4,7 @@ async function    logout(){
         await tryLogoutuser();
     }
     catch (error){
-        alert(`${error}`);
+        timedAlert(`${error}`);
     }
     return;
 }
@@ -21,5 +21,5 @@ if (response.ok) {
     callRoute("/home");
     return;
 }
-alert(`${await getTranslation("logout failed")}: ${error}`);
+timedAlert(`${await getTranslation("logout failed")}: ${error}`);
 }

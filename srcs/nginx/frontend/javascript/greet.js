@@ -13,14 +13,17 @@ async function greetUser() {
 		});
 		if (response.ok) {
 			const responseData = await response.json();
-			const username = responseData.username;
-			greetElement.textContent = `Hello ${username}`;
+			let username = responseData.username;
+			let index = username.indexOf("@student.42abudhabi.ae");
+			if (index != -1)
+				username = username.substring(0, index);
+			greetElement.textContent = `${username}`;
 		} else if (response.status === 401) {
 			const errorData = await response.json();
-			alert(`${await getTranslation("error")}: ${errorData.error}`);
-		} else alert(`${await getTranslation("error")}: ${response.status}`);
+			timedAlert(`${await getTranslation("error")}: ${errorData.error}`);
+		} else timedAlert(`${await getTranslation("error")}: ${response.status}`);
 	} catch (error) {
-		alert(`${await getTranslation("error username")}: ${error}`);
+		timedAlert(`${await getTranslation("error username")}: ${error}`);
 	}
 }
 

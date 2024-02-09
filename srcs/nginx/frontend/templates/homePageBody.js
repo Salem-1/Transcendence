@@ -3,11 +3,9 @@ function homePageBody() {
 			<div class="top-bar">
 				<img id="logo" src="assets/logo1.png" alt="">
 				<div class="drp">
-					<img id="Person" src="assets/Person.png" alt="Character" onclick="myFunction()">
+					<div id="greet" onclick="myFunction()"></div>
 					<div class="dropdown-content" id="myDropdown">
 						<div class="drrp">
-							<a class="button-text" href="#" data-i18n="profile" >PROFILE</a>
-							<hr>
 							<a class="button-text" onclick="callRoute('/settings')" data-i18n="settings" >SETTINGS</a>
 							<hr>
 							<a class="button-text" onclick="logout()" data-i18n="logout">LOG OUT</a>
@@ -18,15 +16,22 @@ function homePageBody() {
 			<div class="btns">
 				<div class="buttons">
 					<div id="single-player" onclick="callRoute('/AIgame')">
-						<div class="button-div-one" style="	background: #c7a940"></div>
-						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
+						<div class="button-div-one" style="background: #82764D;"></div>
+						<div id="yellow" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text" data-i18n="single player">SINGLE PLAYER</h1></div>
 					</div>
 				</div>
 				<div class="buttons">
-					<div id="start_tournament">
+					<div id="one-v-one" onclick="callRoute('/game')">
 						<div class="button-div-one" style="background: #82764D;"></div>
 						<div id="black" class="button-div-two" style="background: linear-gradient(180deg, #524040 0%, #070706 100%);"></div>
+						<div class="button-div-three"><h1 class="button-text" data-i18n="one-v-one">1v1</h1></div>
+					</div>
+				</div>
+				<div class="buttons">
+					<div id="start_tournament">
+						<div class="button-div-one" style="	background: #c7a940"></div>
+						<div id="yellow" class="button-div-two" style="background: linear-gradient( 180deg, #eda800 0%, #ffbb0b 100%);"></div>
 						<div class="button-div-three"><h1 class="button-text" data-i18n="tournament">TOURNAMENT</h1></div>
 					</div>
 				</div>
@@ -39,7 +44,7 @@ function homePageBody() {
 							<div id="close-btn" class="close">
 								<div class="button-div-one" style="	background: #F01E1E; width:60px; height: 50px;"></div>
 								<div id="red-btn" class="button-div-two" style="width:50px; height:45px; background: linear-gradient(180deg, #FF2C17 0%, #FF5353 100%);"></div>
-								<div class="button-div-three" style="width: 50px; height: 25px;"><h1 class="button-text" style="font-size: 25px; line-height: 15px;">X</h1></div>
+								<div class="button-div-three" style="width: 50px; height: 25px;"><h1 class="close-button-text" style="font-size: 25px; line-height: 15px;">X</h1></div>
 							</div>
 						</div>
 						<div class="player-table">
