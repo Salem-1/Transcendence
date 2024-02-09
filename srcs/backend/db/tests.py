@@ -31,6 +31,10 @@ class YourAppViewsTest(unittest.TestCase):
     #     pass
     #     # Create a Django test client
     #     # self.client = Client()
+  
+#         network_id = w3.net.version 
+# print(f"Connected to network with ID: {network_id}")
+        # network_id
     def test_authenticate_otp_redirect(self):
             # Get  current time
             current_time = datetime.datetime.utcnow()

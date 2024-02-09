@@ -49,15 +49,6 @@ INSTALLED_APPS = [
     # 'allauth.account', # must
 ]
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = get_settings_credentials("EMAIL_HOST")
-try: EMAIL_PORT = int(get_settings_credentials("EMAIL_PORT"))
-except ValueError: EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = get_settings_credentials("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = get_settings_credentials("EMAIL_HOST_PASSWORD")
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
