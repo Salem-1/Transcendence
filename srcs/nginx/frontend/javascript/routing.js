@@ -9,6 +9,36 @@ const urlRoutes = {
 		description: "Page not found",
 		theme: "/css/error.css",
 	},
+	403: {
+		template: error_template("403 FORBIDDEN", "Oops! Access denied. You're not authorized to enter this area. <br> It's a forbidden zone! Seek another route."),
+		title: "403 | " + urlPageTitle,
+		description: "Page not found",
+		theme: "/css/error.css",
+	},
+	405: {
+		template: error_template("405 METHOD NOT ALLOWED", "Uh-oh! This method is not allowed on this path. <br> Looks like you took a wrong turn. Choose a different approach."),
+		title: "405 | " + urlPageTitle,
+		description: "Page not found",
+		theme: "/css/error.css",
+	},
+	503: {
+		template: error_template("503 SERVICE UNAVAILABLE", "Attention, player! The service is currently unavailable. <br> The server is taking a break. Try again later."),
+		title: "503 | " + urlPageTitle,
+		description: "Page not found",
+		theme: "/css/error.css",
+	},
+	501: {
+		template: error_template("501 NOT IMPLEMENTED", "Whoops! The requested feature is not implemented in this game version. <br> This quest is still under construction. Choose another task."),
+		title: "501 | " + urlPageTitle,
+		description: "Page not found",
+		theme: "/css/error.css",
+	},
+	500: {
+		template: error_template("500 INTERNAL SERVER ERROR", "Oh no! Something went wrong in the game's server room. <br> The developers are on it. Please be patient or restart your adventure."),
+		title: "500 | " + urlPageTitle,
+		description: "Page not found",
+		theme: "/css/error.css",
+	},
 	"/": {
 		template: landingPageBody(),
 		title: "Home | " + urlPageTitle,
