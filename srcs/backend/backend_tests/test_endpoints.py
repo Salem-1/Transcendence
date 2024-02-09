@@ -503,7 +503,7 @@ class YourAppViewsTest(unittest.TestCase):
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
     
     def test_set_winner(self):
-        response  = registe_and_login_user("Ahmed", self.test_user["password"])
+        response  = registe_and_login_user(gen_username(8), self.test_user["password"])
         self.assertEqual(response.status_code, 200)
         jwt_token = response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
