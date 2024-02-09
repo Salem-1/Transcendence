@@ -21,13 +21,13 @@ def get_secret(key):
     url='http://vault:8200',
     token= os.environ.get('VAULT_TOKEN_KEY')
     )
-    read_response = client.secrets.kv.read_secret_version(path='secret/'+ key)
+    read_response = client.secrets.kv.read_secret_version(path='secret/'+ key, raise_on_deleted_version=True)
     return read_response['data']['data']['key']
 
 base_url = 'http://localhost:8000' 
 
-def gen_username():
-    return  ''.join(random.choice(string.ascii_letters) for _ in range(8))
+def gen_username(len=8):
+    return  ''.join(random.choice(string.ascii_letters) for _ in range(len))
 
 def register_user(name, password):
     request_data = {'username': name, 'password': password}
@@ -529,7 +529,7 @@ class YourAppViewsTest(unittest.TestCase):
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
         response  = requests.get(f'{base_url}/get_winners/', headers=headers)
         winners = response.json().get("winners")
-        print(winners)
+        #print(winners)
         self.assertEqual(response.status_code, 200)
         response  = requests.post(f'{base_url}/get_winners/', headers=headers)
         self.assertEqual(response.status_code, 405)
