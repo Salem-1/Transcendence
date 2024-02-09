@@ -21,26 +21,20 @@ def send_otp_email(reciever, otp):
 
 def send_using_gmail(reciever, otp):
     return email_logging(reciever, otp, 202)
-    port = int(get_secret("EMAIL_PORT"))
-    sender = get_secret("EMAIL_HOST_USER")
-    server = get_secret("EMAIL_HOST")
-    password = get_secret("EMAIL_HOST_PASSWORD")
-    # print(f"{port}, {sender}, {server} {password} {reciever} {otp}")
-    if not port:
-        port = 587
+    EMAIL_HOST = get_secret("EMAIL_HOST_USER")
+    EMAIL_PASSWORD=get_secret("EMAIL_HOST_PASSWORD")
+    PORT = int(get_secret("EMAIL_PORT"))
+    SMTP_SERVER = str(get_secret("EMAIL_HOST"))
     msg = MIMEMultipart()
-    msg['From'] = sender
+    msg['From'] = EMAIL_HOST
     msg['To'] = reciever
-    msg['Subject'] = "Pong one time passwortd"
-    msg.attach(MIMEText(f"Your one time passowrd is {otp}, please don't share it with anyone", 'plain'))
-    with smtplib.SMTP(server, port) as server:
+    msg['Subject'] = "PONG OTP"
+    msg.attach(MIMEText(f"Your otp is {otp}, don't share it with anyone", 'plain'))
+    with smtplib.SMTP('smtp.gmail.com', PORT) as server:
         server.starttls()
-        server.login(sender, password)
-        server.sendmail(sender, reciever, msg.as_string())
-    # if sent:
+        server.login(EMAIL_HOST, EMAIL_PASSWORD)
+        server.sendmail(EMAIL_HOST, reciever, msg.as_string())
     return email_logging(reciever, otp, 202)
-    # else:
-    #     return email_logging(reciever, otp, 401)
 
 def send_sendgrid_email(reciever, otp):
     # return email_logging(reciever, otp, 202)

@@ -1,4 +1,4 @@
-help:
+ihelp:
 	@echo "Usage:"
 	@echo "- make [help|up|down|build|rebuild|restart|clean|reset|fclean|fresh|ps]"
 	@echo ""

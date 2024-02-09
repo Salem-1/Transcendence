@@ -12,7 +12,7 @@ resources
 data/base
 *.pyc
 node_modules*
-./data
+./data/*
 migrations
 transcendencepong-996e38d4fe86.json
 service-key.json
@@ -22,3 +22,4 @@ email_logs.txt
 src/backend/staticfiles
 staticfiles/*
 srcs/backend/backend_tests/email_logs.txt
+data/global
