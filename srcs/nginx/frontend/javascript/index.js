@@ -35,21 +35,31 @@ async function login() {
 
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
-	const otp = prompt(
-		await getTranslation("enter otp"),
-		"000000"
-	);
-	const otpPattern = /^\d{6}$/;
-	if (otpPattern.test(otp)) {
-		try {
-			await try2FactorAuthentication(otp);
-		} catch (error) {
-			console.log("Error during registration:", error);
-			timedAlert(`${await getTranslation("reg failed")}: ${error}`);
-		}
-	} else {
-		timedAlert(`${await getTranslation("inavlid otp")}`);
-	}
+	const modal = new bootstrap.Modal(document.getElementById('otpModal'));
+	modal.show();
+
+	document.getElementById('otpModal').addEventListener('click', async (event) => {
+		if (event.target.id !== 'otpSubmit') return;
+		event.preventDefault();
+		const otp = document.getElementById('otp').value;
+		await try2FactorAuthentication(otp);
+		modal.hide();
+	});
+	// const otp = prompt(
+	// 	await getTranslation("enter otp"),
+	// 	"000000"
+	// );
+	// const otpPattern = /^\d{6}$/;
+	// if (otpPattern.test(otp)) {
+	// 	try {
+	// 		await try2FactorAuthentication(otp);
+	// 	} catch (error) {
+	// 		console.log("Error during registration:", error);
+	// 		timedAlert(`${await getTranslation("reg failed")}: ${error}`);
+	// 	}
+	// } else {
+	// 	timedAlert(`${await getTranslation("inavlid otp")}`);
+	// }
 }
 async function tryLoginUser(username, password){
 	const response = await fetch("http://localhost:8000/login/", {

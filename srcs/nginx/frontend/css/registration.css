@@ -28,7 +28,7 @@ body {
 	transform: translate(-50%, -50%);
 }
 
-#username{
+/* #username{
 	color: black;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
@@ -72,7 +72,7 @@ body {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     border: 4px #78B5DD solid;
-}
+} */
 
 ::placeholder {
     color: gray;
