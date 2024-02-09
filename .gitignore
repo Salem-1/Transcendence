@@ -11,7 +11,12 @@ resources
 *cpython*
 *.pyc
 node_modules*
+<<<<<<< HEAD
 /data
+=======
+./data
+./data/*
+>>>>>>> origin
 migrations
 transcendencepong-996e38d4fe86.json
 service-key.json
