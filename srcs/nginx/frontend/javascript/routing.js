@@ -4,9 +4,10 @@ const defaulttheme = "/css/style.css";
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
 	404: {
-		template: error_404(),
+		template: error_template("404 NOT FOUND", "Uh-oh! Looks like you're lost in the game. <br> Level not found! Try a different path."),
 		title: "404 | " + urlPageTitle,
 		description: "Page not found",
+		theme: "/css/error.css",
 	},
 	"/": {
 		template: landingPageBody(),
@@ -60,7 +61,7 @@ const urlRoutes = {
 		template: auth(),
 		title: "auth | " + urlPageTitle,
 		description: "This is the authentacation page",
-		theme: "/css/style.css",
+		theme: "/css/auth.css",
 		script: ["/javascript/auth.js"],
 	},
 	"/tournament": {
