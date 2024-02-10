@@ -32,7 +32,6 @@
 	"start": "START",
 	"play game": "PLAY GAME",
 
-
 	"username": "Username",
 	"password": "Password",
 	"confirm password": "Confirm Password",
@@ -42,11 +41,11 @@
 	"reg failed": "Registration failed",
 	"reg success": "Registration success",
 	"login success": "Login success",
-	"invalid OTP": "Entered OTP is invalid",
+	"invalid otp": "Entered OTP is invalid",
 	"error": "Error",
 	"error username": "Error fetching username",
 	"2fa": "Two Factor Authentication",
-	"2fa disabled": "2FA disable",
+	"2fa disabled": "2FA disabled",
 	"error 2fa disable": "Failed to disable 2FA",
 	"2fa enabled": "2fa enabled",
 	"error 2fa enable": "Failed to enable 2FA",
@@ -59,8 +58,6 @@
 	"invalid username char": "Username should contain only letters, numbers and underscores",
 	"invalid username exists": "Username already exists",
 	"invalid login": "Login Failed, Invalid username or password",
-	"invalid otp": "Wrong OTP",
-
 	"logout failed": "Logout failed",
 
 	"zero players": "No players added, add players to start the game",
@@ -79,7 +76,10 @@
 	"language": "LANGUAGE",
 
 	"enter email": "Please enter your Email!",
+	"email sent": "Email sent, Please check your Email!",
+	"invalid email": "Invalid Email: Please enter a valid Email!",
 	"enter otp": "Please enter the OTP sent to your Email!",
 	"email": "Email",
-	"otp": "OTP"
+	"otp": "OTP" ,
+	"max resend": "Maximum number of OTP requests reached, Please try again later!"
 }
