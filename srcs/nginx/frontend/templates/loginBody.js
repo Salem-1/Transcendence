@@ -1,6 +1,7 @@
 function loginBody() {
 	return `
 		<img id="logo" src="/assets/logo1.png" alt="" onclick="callRoute('/')" />
+		<div class="wrap">
 		<form action="javascript:;" onsubmit="login()">
 			<div id="logindiv">
 				<img id="Person" src="/assets/Person.png" alt="Character" />
@@ -52,5 +53,6 @@ function loginBody() {
 				</div>
 			</div>
 		</form>
+		</div>
 	`; 
 }
