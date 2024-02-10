@@ -221,6 +221,7 @@ def submit_2fa_email(request):
             user.save()
             return JsonResponse({'message': "One time password sent to your email"}, status=response.status_code)
         except Exception as e:
+            print(e)
             return JsonResponse({'error': "Unauthorized acces"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
@@ -242,6 +243,7 @@ def enable_2fa_email(request):
         user_2fa.save()
         return JsonResponse({"message": "2FA enabled!"})
     except Exception as e:
+        print(e)
         return JsonResponse({"error": "Invalid authorization token"}, status=401)
     return JsonResponse({"error": "failed to enable 2FA"}, status=401)
 

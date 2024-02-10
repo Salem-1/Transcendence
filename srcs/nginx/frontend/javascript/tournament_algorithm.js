@@ -257,13 +257,6 @@ function displayFinals(round){
 }
 
 
-let text = document.getElementsByTagName("li");
-if (text == "")
-{
-	
-}
-
-
 // module.exports = {
 //     fillRound: fillRound,
 //     getLevel: getLevel,
