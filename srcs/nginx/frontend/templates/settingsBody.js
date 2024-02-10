@@ -114,7 +114,7 @@ function settingsBody() {
 				<div class="modal-body">
 					<div class="form-floating mb-3" on>
 						<input
-							type="number"
+							type="text"
 							class="form-control"
 							name="otp"
 							id="otp"
@@ -128,7 +128,8 @@ function settingsBody() {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" onclick="verifyOTP()">Enable</button>
+					<button type="button" class="btn btn-info" id="resendOtp">resend otp</button>
+					<button type="button" class="btn btn-primary" id="otpSubmit">Enable</button>
 				</div>
 			</div>
 		</div>

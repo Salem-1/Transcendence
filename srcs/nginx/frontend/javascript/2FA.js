@@ -1,9 +1,8 @@
 // Get the switch element
 var toggleSwitch = document.getElementById("toggle2FA");
 var mfa = document.getElementById("MFAModal");
-var otp = document.getElementById("otpModal");
 var MFAModal = new bootstrap.Modal(mfa || null);
-var OTPModal = new bootstrap.Modal(otp || null);
+
 init2FAButton();
 
 async function init2FAButton() {
@@ -18,10 +17,7 @@ async function init2FAButton() {
 		const result = await response.json();
 		toggleSwitch.checked = result.mfa === "enabled";
 	} catch (error) {
-		timedAlert(
-			`${await getTranslation("error getting 2fa")}: ${error}`,
-			"warning"
-		);
+		console.log("getting 2fa state failed", error);
 	}
 }
 
@@ -78,31 +74,49 @@ async function verifyEmail() {
 		if (!(await submit2FaEmail(email)))
 			timedAlert("Failed to submit email", "warning");
 		MFAModal.hide();
+		var otp = document.getElementById("otpModal");
+		var OTPModal = new bootstrap.Modal(otp || null);
 		OTPModal.show();
+
+		document
+			.getElementById("otpModal")
+			.addEventListener("click", async (event) => {
+				console.log("event.target.id", event.target.id);
+				if (event.target.id === "otpSubmit") {
+					event.preventDefault();
+					const otp = document.getElementById("otp").value;
+					if (await verifyOTP(otp, email)) OTPModal.hide();
+				} else if (event.target.id === "resendOtp") {
+					if (await submit2FaEmail(email))
+						timedAlert("Email sent", "success");
+					else timedAlert("Failed to submit email", "warning");
+				}
+			});
 	} catch (error) {
 		timedAlert(`Error: ${error}`);
 		MFAModal.hide();
+		OTPModal.hide();
 	}
 }
 
-async function verifyOTP() {
+async function verifyOTP(otp, email) {
 	try {
-		const otp = document.getElementById("otp").value;
-		const email = document.getElementById("email").value;
-		console.log("the email is ", email);
+		const otpPattern = /^\d{6}$/;
+		if (!otpPattern.test(otp)) {
+			timedAlert("Invalid OTP", "warning");
+			return false;
+		}
 		if (await sendEnable2faEmail(otp, email)) {
 			toggleSwitch.checked = true;
 			timedAlert("2fa enabled", "success");
+			return true;
 		} else {
 			timedAlert("Invalid OTP", "warning");
-
-			return;
 		}
-		OTPModal.hide();
 	} catch (error) {
 		timedAlert(`Error: ${error}`, "warning");
-		OTPModal.hide();
 	}
+	return false;
 }
 
 // async function enable2FA() {
