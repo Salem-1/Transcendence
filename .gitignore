@@ -9,7 +9,6 @@ db/__pycache_
 **.pyc
 resources
 *cpython*
-data/base
 *.pyc
 node_modules*
 /data
@@ -22,3 +21,4 @@ email_logs.txt
 src/backend/staticfiles
 staticfiles/*
 srcs/backend/backend_tests/email_logs.txt
+srcs/vault/data
