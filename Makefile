@@ -25,7 +25,7 @@ help:
 
 unseal:
 	@echo please use key to run the project
-	@docker exec -it transcendence-vault-1 bash
+	@docker exec -it vault bash
 
 up: run unseal 
 
@@ -57,11 +57,11 @@ reset: clean build
 test: test_backend test_frontend
 
 test_backend:
-	@docker exec -it transcendence-django-1 python manage.py test db
-	@docker exec -it transcendence-django-1 python backend_tests/test_endpoints.py
+	@docker exec -it django python manage.py test db
+	@docker exec -it django python backend_tests/test_endpoints.py
 
 test_mini:
-	@docker exec -it transcendence-django-1 python backend_tests/mini_test.py
+	@docker exec -it django python backend_tests/mini_test.py
 	
 test_frontend:
 	@node srcs/tester/seleniumTest.js
@@ -72,18 +72,19 @@ ps:
 	@docker compose ps
 
 waflog:
-	@docker exec -it transcendence-nginx-1 cat /var/log/modsec_audit.log
+	@docker exec -it nginx cat /var/log/modsec_audit.log
 logs:
-	@docker logs -f transcendence-django-1
+	@docker logs -f django
 
 lognginx:
-	@docker logs -f transcendence-nginx-1
+	@docker logs -f nginx
 
 fclean: down
 	rm -rf data
 	docker rmi -f transcendence-django
 	docker rmi -f transcendence-postgres
 	docker rmi -f transcendence-nginx
+	docker rmi -f transcendence-vault
 	yes | docker system prune
 	yes | docker volume prune
 

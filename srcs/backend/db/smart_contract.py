@@ -84,7 +84,7 @@ def set_winner_on_smart_contract(request_body, owner):
     private_key = get_secret("WALLET_PVT_KEY")
     wallet_address = get_secret("WALLET_ADDRESS")
     get_account_balance(w3, wallet_address)
-    record_winner(w3, contract, private_key, winner, owner, get_secret("WALLET_ADDRESS"))
+    # record_winner(w3, contract, private_key, winner, owner, get_secret("WALLET_ADDRESS"))
     return True
 
 

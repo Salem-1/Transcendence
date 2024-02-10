@@ -1,0 +1,53 @@
+body {
+	background: linear-gradient(45deg, #212121, #2c3e50, #212121, #2c3e50);
+	background-size: 400% 400%;
+	color: #f5f5f5;
+	text-align: center;
+	font-family: 'Press Start 2P', cursive;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	animation: fadeIn 2s ease-in-out, gradientMovement 10s infinite alternate;
+  }
+
+.container {
+	max-width: 600px;
+}
+
+h1 {
+	font-size: 4em;
+	margin: 0;
+	line-height: 1em;
+	animation: bounce 1s infinite alternate;
+}
+
+p {
+	font-size: 1.5em;
+}
+
+
+@keyframes bounce {
+	to {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes gradientMovement {
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 100% 100%;
+	}
+}
