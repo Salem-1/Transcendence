@@ -168,6 +168,8 @@ var game = () => {
 
     function handleKeyDown(game) {
         document.addEventListener('keydown', (event) => {
+			if (window.location.pathname !== "/game")
+				return;
             const key = event.key.length == 1 ?
                 event.key.toLowerCase() : event.key
             switch (key) {
@@ -202,6 +204,8 @@ var game = () => {
 
     function handleKeyUp(game) {
         document.addEventListener('keyup', (event) => {
+			if (window.location.pathname !== "/game")
+				return;
             const key = event.key.length == 1 ?
                 event.key.toLowerCase() : event.key
             switch (key) {
@@ -291,12 +295,19 @@ var game = () => {
         handleResize(game);
         return await new Promise(resolve => {
             const intervalId = setInterval(() => {
+				const location = window.location.pathname; // get the url path
+				if (location !== '/game')
+				{
+					clearInterval(intervalId);
+					return (-1);
+				}
                 draw(game);
                 const winner = getWinner(game);
                 if (winner != 0) {
                     alert(`${winner === 1 ? 'Left' : 'Right'} side won!`);
                     clearInterval(intervalId);
                     resolve(winner);
+					
                 }
             }, 16 /* 1000 / 60*/ );
         });
@@ -320,7 +331,9 @@ var game = () => {
                 document.getElementById('player1').innerText = player1;
             if (player2)
                 document.getElementById('player2').innerText = player2;
-            const winner = await playGame() == 1 ? player1 : player2;
+            const winner = await playGame();
+			if (winner === -1)
+				return ;
 			const round = JSON.parse(localStorage.getItem('round'));
 			const level = JSON.parse(localStorage.getItem('level'));
 			const roundWinners = JSON.parse(localStorage.getItem('roundWinners')) || {};
