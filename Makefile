@@ -20,6 +20,7 @@ help:
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo "  logs	    	 : Show Django logs"
 	@echo "  lognginx        : Show Ngninx logs"
+	@echo "  logdjango        : Show Django logs"
 	@echo "  waflog          : Show firewall logs"
 	@echo ""
 
@@ -78,6 +79,9 @@ logs:
 
 lognginx:
 	@docker logs -f nginx
+
+logdjango:
+	@docker logs -f django
 
 fclean: down
 	rm -rf data

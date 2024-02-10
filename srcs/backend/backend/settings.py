@@ -66,6 +66,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",  
     "http://localhost:21000",  
     "http://127.0.0.1:21000",  
+    "http://localhost:443",  
+    "http://127.0.0.1:443",  
 ]
 
 CORS_ALLOW_HEADERS = [

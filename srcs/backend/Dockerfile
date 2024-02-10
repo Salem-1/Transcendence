@@ -24,7 +24,7 @@ RUN mkdir -p /app/backend/staticfiles
 ENV PYTHONUNBUFFERED=1
 
 # Expose the port on which the Django app will run
-EXPOSE 8000
+EXPOSE 443
 
 # Run the Django development server
 CMD ["/bin/sh", "entrypoint.sh"]

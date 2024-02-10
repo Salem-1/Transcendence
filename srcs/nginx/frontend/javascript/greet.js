@@ -4,7 +4,7 @@ async function greetUser() {
 	const greetElement = document.getElementById("greet");
 	if (!greetElement) return;
 	try {
-		const response = await fetch("http://localhost:8000/username/", {
+		const response = await fetch("http://localhost:443/username/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

@@ -52,7 +52,7 @@ async function double_factor_authenticate(result) {
 	}
 }
 async function tryLoginUser(username, password){
-	const response = await fetch("http://localhost:8000/login/", {
+	const response = await fetch("http://localhost:443/login/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -74,7 +74,7 @@ async function tryLoginUser(username, password){
 }
 
 async function fetchAuthRedirection(){
-	const response = await fetch("http://localhost:8000/redirect_uri/", {
+	const response = await fetch("http://localhost:443/redirect_uri/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -91,7 +91,7 @@ async function fetchAuthRedirection(){
 async function tryRegisterUser(username, password){
 	console.log(username)
 	console.log(password)
-	const response = await fetch("http://localhost:8000/register/", {
+	const response = await fetch("http://localhost:443/register/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -178,7 +178,7 @@ function addJWTToRrequest() {
 
 async function try2FactorAuthentication(otp){
 	const response = await fetch(
-		"http://localhost:8000/double_factor_auth/",
+		"http://localhost:443/double_factor_auth/",
 		{
 			method: "POST",
 			headers: {

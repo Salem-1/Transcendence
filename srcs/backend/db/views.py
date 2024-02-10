@@ -276,7 +276,7 @@ def error_code(request, exception=None):
 @csrf_exempt
 def go_to_frontend(request):
     if (request.method == "GET"):
-        return redirect("http://localhost:3000", permanent=True)
+        return redirect("http://localhost:443", permanent=True)
     return HttpResponse("Method not allowed", status=405)
 
 
@@ -312,3 +312,14 @@ def get_winners(request):
         return JsonResponse({'error': "Failed to set winner"}, status=401)
 
     return JsonResponse({'error': "Failed to set winner"})
+
+
+@csrf_exempt
+def say_hello(request):
+    if request.method != "GET":
+        return JsonResponse({'error': "Failed to set winner"}, status=405)
+    try:
+        return JsonResponse({'Message': "Hello ya Asta"})
+    except Exception as e:
+        error = str(e)
+        return JsonResponse({'error': error}, status=500)
