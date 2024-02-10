@@ -5,7 +5,8 @@ var MFAModal = new bootstrap.Modal(mfa || null);
 
 init2FAButton();
 
-async function init2FAButton() {
+// Get the current 2fa state
+async function get2FAState() {
 	try {
 		const response = await fetch("http://localhost:8000/api/mfaState/", {
 			method: "GET",
@@ -15,17 +16,26 @@ async function init2FAButton() {
 			credentials: "include",
 		});
 		const result = await response.json();
-		toggleSwitch.checked = result.mfa === "enabled";
+		return result.mfa === "enabled";
+	} catch (error) {
+		console.log("getting 2fa state failed", error);
+	}
+}
+
+async function init2FAButton() {
+	try {
+		toggleSwitch.checked = await get2FAState();
 	} catch (error) {
 		console.log("getting 2fa state failed", error);
 	}
 }
 
 // Listen for changes on the switch
-toggleSwitch.addEventListener("change", function () {
-	// Determine the new state
+toggleSwitch.addEventListener("change", async function () {
+	// Determine the new statere
 	is2FAEnabled = this.checked;
-
+	// If the state is already the same, do nothing
+	if (await get2FAState() === is2FAEnabled) return;
 	// switch the 2fa state
 	this.checked = !is2FAEnabled;
 	if (is2FAEnabled) {
