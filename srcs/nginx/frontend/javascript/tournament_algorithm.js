@@ -116,7 +116,7 @@ function displayRound(round, level){
 
 function showOnePlayer(player_place, playername){
     if (!playername)
-        playername = "";
+        playername = " * WildCard * ";
     player_place.innerText  = playername;
     player_place.style.display  = 'inline';
 }
