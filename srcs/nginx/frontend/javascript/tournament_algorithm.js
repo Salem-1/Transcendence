@@ -18,6 +18,8 @@ function initTournament() {
   localStorage.setItem("level", level.toString());
   localStorage.setItem("roundWinners", JSON.stringify({}));
   localStorage.setItem("levelRound", JSON.stringify({}));
+  updateLevelRound();
+  displayRound();
 }
 
 async function startTournament() {
@@ -37,7 +39,7 @@ async function startTournament() {
     throw new Error("error: fetching players for the tournament");
 
   if (level == 0) {
-    displayRound(round, level);
+    displayRound();
     localStorage.clear();
   } else if (level == 1) playFinals(round);
   else if (level == 2) playSemiFinals(round);
@@ -162,12 +164,13 @@ function displayWinner(winner) {
   let winning_element = document.getElementById("winner");
   showOnePlayer(winning_element, winner);
 }
-function displayRound(rounds, level) {
+function displayRound() {
   const levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
   console.log(`levelRound -->\n`);
   console.log(levelRound);
-  displayWinner(getMatchWinner("0"));
-  displayFinals(levelRound["1"]["rounds"] || {});
+  displayWinner(getMatchWinner("0") || {});
+  if (levelRound["1"] && levelRound["1"]["rounds"])
+    displayFinals(levelRound["1"]["rounds"] || {});
   if (levelRound["2"] && levelRound["2"]["rounds"])
     displaySemiFinal(levelRound["2"]["rounds"] || {});
   if (levelRound["3"] && levelRound["3"]["rounds"])

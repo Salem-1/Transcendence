@@ -339,22 +339,22 @@ var game = () => {
 			const roundWinners = JSON.parse(localStorage.getItem('roundWinners')) || {};
 
 			if (level == 1) {
-				roundWinners['0'] = winner;
+				roundWinners['0'] = winner ? player1 : player2;
 			} else if (level == 2) {
 				if (player1 == round['0'][0] && player2 == round['0'][1]) {
-					roundWinners['0'] = winner;
+					roundWinners['0'] = winner ? player1 : player2;
 				} else {
-					roundWinners['1'] = winner;
+					roundWinners['1'] = winner ? player1 : player2;
 				}
 			} else if (level == 3) {
 				if (player1 == round['0'][0] && player2 == round['0'][1]) {
-					roundWinners['0'] = winner;
+					roundWinners['0'] = winner ? player1 : player2;
 				} else if (player1 == round['1'][0] && player2 == round['1'][1]) {
-					roundWinners['1'] = winner;
+					roundWinners['1'] = winner ? player1 : player2;
 				} else if (player1 == round['2'][0] && player2 == round['2'][1]) {
-					roundWinners['2'] = winner;
+					roundWinners['2'] = winner ? player1 : player2;
 				} else {
-					roundWinners['3'] = winner;
+					roundWinners['3'] = winner ? player1 : player2;
 				}
 			}
 			localStorage.setItem('roundWinners', JSON.stringify(roundWinners));
