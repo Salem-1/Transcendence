@@ -9,7 +9,7 @@ function registration_body() {
 	<form action="javascript:;" onsubmit="register()">
 		<div id="register-div">
 			<img id="Person" src="/assets/Person.png" alt="Character" />
-			<div class="form-floating mb-3">			
+			<div class="form-floating mb-3 regPageInput">			
 				<input
 					type="text"
 					class="form-control"
@@ -20,10 +20,12 @@ function registration_body() {
 					data-i18n="username"
 					maxlength="12"
 				/>
+				<label for="username" data-i18n="username"></label>
 			</div>
-			<div class="form-floating mb-3">
+			<div class="form-floating mb-3 regPageInput">
 				<input
 					type="password"
+					class="form-control"
 					id="password"
 					name="password"
 					required
@@ -31,17 +33,20 @@ function registration_body() {
 					data-i18n="password"
 					maxlength="35"
 				/>
+				<label for="password" data-i18n="password"></label>
 			</div>
-			<div class="form-floating mb-3">
+			<div class="form-floating mb-3 regPageInput">
 				<input
 					type="password"
+					class="form-control"
 					id="confirmpassword"
-					name="confirmPassword"
+					name="confirmpassword"
 					required
-					placeholder="Confirm Password"
-					data-i18n="confirm password"
+					placeholder="Confirm password"
+					data-i18n="confirmpassword"
 					maxlength="35"
 				/>
+				<label for="confirmpassword" data-i18n="confirm password"></label>
 			</div>
 			<input type="submit" hidden />
 			<div

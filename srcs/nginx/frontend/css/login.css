@@ -34,7 +34,7 @@ body {
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
 	width: 320px;
-	height: 50px;
+	height: 70px;
 	left: 34%;
 	top: 20px;
 }
@@ -61,50 +61,12 @@ body {
 .form-floating input.form-control {
 	color: black;
 	background: #514949;
+	height: 70px;
 }
 
 label.form-label {
 	color: black;
 }
-
-
-/* #username{
-	color: black;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-    padding-left: 20px;
-    width: 300px;
-    height: 50px;
-    position: absolute;
-    background: #514949;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    border: 4px #78B5DD solid;
-}
- 
-#password{
-	color: black;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-    padding-left: 20px;
-    margin-top: 70px;
-    width: 300px;
-    height: 50px;
-    position: absolute;
-    background: #514949;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    border: 4px #78B5DD solid;
-} */
-
-/* ::placeholder {
-    color: gray;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-} */
 
 .button-div-one {
 	width: 280px;

@@ -18,7 +18,7 @@ function loginBody() {
 					/>
 					<label for="username" data-i18n="username"></label>
 				</div>
-				<div class="form-floating">
+				<div class="form-floating mb-3">
 					<input
 						type="password"
 						class="form-control"
