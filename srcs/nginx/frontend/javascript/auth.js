@@ -53,41 +53,42 @@ async function storeJWTInCookies(result) {
 	return true;
 }
 
+async function try2FactorAuthentication(otp) {
+	try {
+		const response = await fetch("http://localhost:8000/double_factor_auth/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ otp }),
+			credentials: "include",
+		});
+
+		const result = await response.json();
+
+		if (response.ok) {
+			await storeJWTInCookies(result);
+			timedAlert(await getTranslation("login success"), "success");
+			callRoute("/home");
+		} else {
+			timedAlert(await getTranslation("inavlid otp"));
+		}
+	} catch (error) {
+		timedAlert(`${await getTranslation("reg failed")}: ${result.error}`);
+	}
+}
+
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
-	const otp = prompt(await getTranslation("enter otp"), "000000");
-	const otpPattern = /^\d{6}$/;
-	if (otpPattern.test(otp)) {
-		try {
-			const response = await fetch(
-				"http://localhost:8000/double_factor_auth/",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ otp }),
-					credentials: "include",
-				}
-			);
-
-			const result = await response.json();
-
-			if (response.ok) {
-				await storeJWTInCookies(result);
-				timedAlert(await getTranslation("login success"), "success");
-				callRoute("/home");
-			} else {
-				timedAlert(await getTranslation("inavlid otp"));
-				callRoute("/");
-			}
-		} catch (error) {
-			timedAlert(
-				`${await getTranslation("reg failed")}: ${result.error}`
-			);
+	const modal = new bootstrap.Modal(document.getElementById('otpModal'));
+	modal.show();
+	document.getElementById('otpModal').addEventListener('click', async (event) => {
+		if (event.target.id === 'otpSubmit')
+		{
+			event.preventDefault();
+			const otp = document.getElementById('otp').value;
+			await try2FactorAuthentication(otp);
 		}
-	} else {
-		timedAlert(await getTranslation("inavlid otp"));
-		callRoute("/");
-	}
+		modal.hide();
+	});
 }
