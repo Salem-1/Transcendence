@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres
+    container_name: postgres
     restart: always
     env_file:
       - .env
@@ -15,6 +16,7 @@ services:
     init: true 
 
   nginx:
+    container_name: nginx
     build: ./srcs/nginx
     restart: always
     volumes:
@@ -31,6 +33,7 @@ services:
       - django
 
   django:
+    container_name: django
     depends_on:
       - postgres
       - vault
@@ -49,6 +52,7 @@ services:
     init: true
 
   vault:
+    container_name: vault
     build:
       context: ./srcs/vault
       dockerfile: Dockerfile

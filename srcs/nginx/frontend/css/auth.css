@@ -1,0 +1,41 @@
+body {
+	background-color: #1a1a1a;
+	color: #fff;
+	text-align: center;
+	font-family: 'Orbitron', sans-serif;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+  }
+
+.loader {
+	border: 8px solid gold;
+	border-radius: 50%;
+	border-top: 8px solid black;
+	width: 70px;
+	height: 70px;
+	animation: spin 1s linear infinite;
+	margin-bottom: 20px;
+	margin-left: 45%;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+h1 {
+	font-size: 3em;
+	margin: 10px 0;
+}
+
+p {
+	font-size: 1.5em;
+}
