@@ -93,7 +93,7 @@ function generateRandomText(length) {
  
 /*
   https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d3951b4aa9c63bfcc57b80e22872c5b27607beb50bb6f5eb315114be173f0b83
-  &redirect_uri=http://localhost:3000/api/auth/callback/42-school
+  &redirect_uri=https://localhost:3000/api/auth/callback/42-school
   &response_type=code
   &scope=public
   &state=a_very_long_random_string_witchmust_be_unguessable'

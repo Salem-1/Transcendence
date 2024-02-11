@@ -76,6 +76,7 @@ const urlRoutes = {
 		template: gamePageBody(),
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
+		theme: "/css/game.css",
 		script: ["/javascript/game.js"],
 		requiresAuth: true,
 	},
@@ -99,7 +100,8 @@ const urlRoutes = {
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
-		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js", "/javascript/greet.js"],
+		script: ["/javascript/tournament_algorithm.js", "/javascript/dropDown.js", "/javascript/greet.js"],
+		requiresAuth: true,
 	},
 	"/settings": {
 		template: settingsBody(),
@@ -119,16 +121,16 @@ const urlRoutes = {
 };
 
 async function callRoute(route) {
-	window.history.pushState({}, "", route);
-	urlLocationHandler();
+  window.history.pushState({}, "", route);
+  urlLocationHandler();
 }
 // create a function that watches the url and calls the urlLocationHandler
 const route = (event) => {
-	event = event || window.event; // get window.event if event argument not provided
-	event.preventDefault();
-	// window.history.pushState(state, unused, target link);
-	window.history.pushState({}, "", event.target.href);
-	urlLocationHandler();
+  event = event || window.event; // get window.event if event argument not provided
+  event.preventDefault();
+  // window.history.pushState(state, unused, target link);
+  window.history.pushState({}, "", event.target.href);
+  urlLocationHandler();
 };
 
 // create a function that handles the url location
@@ -141,7 +143,7 @@ const urlLocationHandler = async () => {
 	// get the route object from the urlRoutes object
 	const route = urlRoutes[location] || urlRoutes["404"];
 	if (route.requiresAuth && !(await isVerified())) {
-		fetch(`http://localhost:8000/${location}`, {
+		fetch(`https://localhost:443/${location}`, {
 			headers: { "X-Trans42-code": "401" },
 			method: "GET",
 		});
@@ -152,7 +154,7 @@ const urlLocationHandler = async () => {
 		return;
 	}
 	if (route == urlRoutes[404]) {
-		fetch("http://localhost:8000/aaaa", {
+		fetch("https://localhost:443/api/aaaa", {
 			headers: { "X-Trans42-code": "404" },
 			method: "GET",
 		});
@@ -182,12 +184,12 @@ const urlLocationHandler = async () => {
 };
 
 async function isLoggedIn() {
-	return !(await isNotLoggedIn());
+  return !(await isNotLoggedIn());
 }
 
 const isVerified = async () => {
 	const response = await fetch(
-		"http://localhost:8000/api/loginVerfication/",
+		"https://localhost:443/api/loginVerfication/",
 		{
 			method: "GET",
 			headers: {
@@ -204,7 +206,7 @@ const isVerified = async () => {
 
 const isNotLoggedIn = async () => {
 	try{
-		const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+		const response = await fetch("https://localhost:443/api/notLoggedIn/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

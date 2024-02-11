@@ -1,380 +1,584 @@
-const PADDLE_SPEED = 50;
-const BALL_SPEED =  150 ;
-const PADDLE_HEIGHT = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--paddle-height"));
-const PADDLE_WIDTH = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--paddle-width"));
-const BALL_WIDTH = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--ball-width"));
-const BALL_HEIGHT = parseFloat(getComputedStyle(document.body).
-    getPropertyValue("--ball-height"));
-const CENTER = 40;
-let moves = {};
-let hitPoints = [];
+var AIgame = () => {
+	const canvas = document.getElementById("canvas");
+	const ctx = canvas.getContext("2d");
 
-class Paddle {
-    constructor(element) {
-        this.element = element;
-        this.direction = {x: 0, y: 0};
-        const x = parseFloat(getComputedStyle(element).getPropertyValue('left'));
-        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        this.position = {x: (x / vw) * 100 , y: 0};
-		this.score = 0;
-        this.reset();
-    }
+	canvas.width = window.innerWidth * 0.8;
+	canvas.height = (9 / 16) * canvas.width; //(9 / 16) * 80vw
+	if (canvas.height > window.innerHeight * 0.8) {
+		canvas.height = window.innerHeight * 0.8;
+		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+	}
 
-    reset() {
-        this.position.y = 40;
-    }
+	let BALL_SPEED = getWidthPixels(1);
+	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+	let PADDLE_SPEED = getWidthPixels(0.5);
+	let PADDLE_WIDTH = getWidthPixels(1);
+	let PADDLE_HEIGHT = getHeightPixels(20);
 
-    moveUp() {
-        this.direction.y = -1;
-    }
+	// px = percentage * canvas.width / 100
+	// percentage = px * 100 / canvas.width
+	function getWidthPixels(percentage) {
+		return canvas.width * (percentage / 100);
+	}
 
-    moveDown() {
-        this.direction.y = 1;
-    }
+	function getHeightPixels(percentage) {
+		return canvas.height * (percentage / 100);
+	}
 
-    stop() {
-        this.direction.y = 0;
-    }
+	function getWidthPercentage(px) {
+		return (px * 100) / canvas.width;
+	}
 
-    update(dt) {
-        const dy = this.direction.y * PADDLE_SPEED * dt;
-        if (this.position.y + dy < 0) {
-            this.position.y = 1;
-        } else if (this.position.y + dy > 100 - PADDLE_HEIGHT) {
-            this.position.y = 99 - PADDLE_HEIGHT;
-        } else {
-            this.position.y += dy;
-        }
-        this.position.y += dy;
-        this.element.style.setProperty('top', `${this.position.y}vh`);
-    }
-}
+	function getHeightPercentage(px) {
+		return Math.ceil((px * 100) / canvas.height);
+	}
 
-class Ball {
-    constructor(element) {
-        this.element = element;
-        this.direction = {x: 0, y: 0};
-        this.position = {x: 0, y: 0};
-        this.reset();
-    }
+	class Paddle {
+		constructor(x, y, width, height, color) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.color = color;
+			this.speed = 0;
+			this.initialSpeed = PADDLE_SPEED;
+		}
 
-    reset() {
-        this.position.x = 50;
-        this.position.y = 50;
-        this.direction = {x: 0, y: 0};
-        while (Math.abs(this.direction.x) < 0.25 || Math.abs(this.direction.x) > 0.95) {
-            this.direction.x = Math.random() * Math.sign(Math.random() - 0.5);
-        }
-        while (Math.abs(this.direction.y) < 0.25 || Math.abs(this.direction.y) > 0.95) {
-            this.direction.y = Math.random() * Math.sign(Math.random() - 0.5);
-        }
-        if (this.direction.x < 0){
-            this.position.x = 90;
-        }
-        else{
-            this.position.x = 10;
-        }
-    }
+		stop() {
+			this.speed = 0;
+		}
 
-    stop() {
-        this.direction.y = 0;
-    }
+		moveUp() {
+			this.speed = -this.initialSpeed;
+		}
 
-    isColliding(paddle) {
-        const ballLeft = this.position.x;
-        const ballRight = this.position.x + BALL_WIDTH;
-        const ballTop = this.position.y;
-        const ballBottom = this.position.y + BALL_HEIGHT;
+		moveDown() {
+			this.speed = this.initialSpeed;
+		}
 
-        const paddleLeft = paddle.position.x;
-        const paddleRight = paddle.position.x + PADDLE_WIDTH;
-        const paddleTop = paddle.position.y;
-        const paddleBottom = paddle.position.y + PADDLE_HEIGHT;
-
-        return (ballLeft < paddleRight && ballRight > paddleLeft
-            && ballTop < paddleBottom && ballBottom > paddleTop);
-    }
-
-    update(dt, p1, p2) {
-        if (this.isColliding(p1)) {
-			this.direction.x *= -1;
-            if (this.position.y > p1.position.y + (0.5 * PADDLE_HEIGHT))
-			{
-				this.direction.y = 1;
-			} else {
-				this.direction.y = -1;
+		update() {
+			if (this.y <= 0) {
+				this.y = 0;
+			} else if (this.y >= canvas.height - this.height) {
+				this.y = canvas.height - this.height;
 			}
-        } else if (this.isColliding(p2)) {
-			this.direction.x *= -1;
-            if (this.position.y > p2.position.y + (0.5 * PADDLE_HEIGHT))
-			{
-				this.direction.y = 1;
-			} else {
-				this.direction.y = -1;
+			this.y += this.speed;
+		}
+
+		draw() {
+			ctx.fillStyle = this.color;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+		}
+	}
+
+	function drawBall(game) {
+		const ball = game.ball;
+
+		ctx.beginPath();
+		ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+		ctx.fillStyle = ball.color;
+		ctx.fill();
+		ctx.closePath();
+	}
+
+	function drawPaddles(game) {
+		const p1 = game.p1;
+		const p2 = game.p2;
+
+		p1.draw();
+		p2.draw();
+	}
+
+	function resetBall(game) {
+		let testAIstartDelete = 20;
+		game.ball.x = canvas.width / (2 + testAIstartDelete);
+		game.ball.y = canvas.height / 2;
+		game.ball.speedX = BALL_SPEED;
+		game.ball.speedY = BALL_SPEED;
+	}
+
+	function updateScore(game) {
+		const score1 = document.getElementById('score1');
+		const score2 = document.getElementById('score2');
+		score1.textContent = game.score.player1;
+		score2.textContent = game.score.player2;
+	}
+
+	function isColliding(ball, paddle) {
+		const effectivePaddleHeight = paddle.height * 1.5; // Adjust the multiplier as needed
+
+		// Check for collision between ball and paddle
+		return (
+			ball.x - ball.radius < paddle.x + paddle.width &&
+			ball.x + ball.radius > paddle.x &&
+			ball.y - ball.radius < paddle.y + effectivePaddleHeight &&
+			ball.y + ball.radius > paddle.y
+		);
+	}
+
+	function handlePaddleCollision(ball, paddle) {
+		// Where the ball hit the paddle
+		let collidePoint = ball.y - (paddle.y + (paddle.height * 1.5) / 2);
+
+		// Normalize the value between -1 and 1
+		collidePoint = collidePoint / (paddle.height / 2);
+
+		// To Rad
+		let angleRad = collidePoint * (Math.PI / 4);
+		ball.speedX = -ball.speedX;
+		ball.speedY = ball.speedX * Math.tan(angleRad);
+	}
+
+	function draw(game) {
+		if (game.pause) {
+			return;
+		}
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBall(game);
+		drawPaddles(game);
+
+
+		const { ball, p1, p2 } = game;
+		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+			ball.speedY *= -1;
+		}
+
+		if (isColliding(ball, p1)) {
+			handlePaddleCollision(ball, p1);
+		} else if (isColliding(ball, p2)) {
+			handlePaddleCollision(ball, p2);
+		}
+
+		if (ball.x - ball.radius < 0) {
+			game.score.player2++;
+			resetBall(game);
+			updateScore(game);
+		} else if (ball.x + ball.radius > canvas.width) {
+			game.score.player1++;
+			resetBall(game);
+			updateScore(game);
+		}
+
+		game.ball.x += game.ball.speedX;
+		game.ball.y += game.ball.speedY;
+
+		game.p1.update();
+		game.p2.update();
+	}
+
+	function handleKeyDown(game) {
+		document.addEventListener('keydown', (event) => {
+			if (window.location.pathname !== "/AIgame")
+				return;
+			const key = event.key.length == 1 ?
+				event.key.toLowerCase() : event.key
+			switch (key) {
+				case 'p':
+				case ' ':
+					game.pause = !game.pause;
+					const pauseElement = document.getElementById('pause');
+					if (game.pause)
+					{
+						pauseElement.style.setProperty('display', 'block');
+					} else {
+						pauseElement.style.setProperty('display', 'none');
+					}
+					break;
+				case 'w':
+					game.p1.moveUp();
+					break;
+				case 's':
+					game.p1.moveDown();
+					break;
+				case 'ArrowUp':
+					game.p2.moveUp();
+					break;
+				case 'ArrowDown':
+					game.p2.moveDown();
+					break;
+				default:
+					break ;
 			}
-        }
-        const dx = this.direction.x * BALL_SPEED * dt;
-        const dy = this.direction.y * BALL_SPEED * dt;
-        
-        if (this.position.y + dy <= 0 || this.position.y + BALL_HEIGHT + dy >= 100) {
-            this.direction.y *= -1;
-        }
-        if (this.position.x + dx < 0) {
-            p2.score++;
-			const score2 = document.getElementById('score2');
-			score2.innerHTML = p2.score;
-            this.reset();
-        }
-        if (this.position.x + BALL_WIDTH + dx > 100) {
-            p1.score++;
-			const score1 = document.getElementById('score1');
-			score1.innerHTML = p1.score;
-            this.reset();
-        }
+		});
+	}
 
-        this.position.x += dx;
-        this.position.y += dy;
-        this.element.style.setProperty('left', `${this.position.x}vw`);
-        this.element.style.setProperty('top', `${this.position.y}vh`);
-    }
-}
+	function handleKeyUp(game) {
+		document.addEventListener('keyup', (event) => {
+			if (window.location.pathname !== "/AIgame")
+				return;
+			const key = event.key.length == 1 ?
+				event.key.toLowerCase() : event.key
+			switch (key) {
+				case 'w':
+				case 's':
+					game.p1.stop();
+					break;
+				case 'ArrowUp':
+				case 'ArrowDown':
+					game.p2.stop();
+					break;
+			}
+		});
+	}
 
-const p1 = new Paddle(document.getElementById('p1'));
-const p2 = new Paddle(document.getElementById('p2'));
-const ball = new Ball(document.getElementById('ball'));
-let pause = false;
+	function handleKeyPress(game) {
+		handleKeyDown(game);
+		handleKeyUp(game);
+	}
 
-document.addEventListener('keydown', (event) => {
-	const key = event.key.length == 1 ?
-		event.key.toLowerCase() : event.key
-    switch (key) {
-		case 'p':
-		case ' ':
-			pause = !pause;
+	function handleResize(game) {
+		window.addEventListener('resize', () => {
+			if (window.location.pathname !== "/AIgame")
+				return;
+			game.pause = true;
 			const pauseElement = document.getElementById('pause');
-			if (pause)
-			{
-				pauseElement.style.setProperty('visibility', 'visible');
-			} else {
-				pauseElement.style.setProperty('visibility', 'hidden');
+			pauseElement.style.setProperty('display', 'block');
+			const oldP1Posistion = { x: getWidthPercentage(game.p1.x), y: getHeightPercentage(game.p1.y) };
+			const oldP2Posistion = { x: getWidthPercentage(game.p2.x), y: getHeightPercentage(game.p2.y) };
+			const oldBallPosistion = { x: getWidthPercentage(game.ball.x), y: getHeightPercentage(game.ball.y) };
+			canvas.width = window.innerWidth * 0.8;
+			canvas.height = (9 / 16) * canvas.width;
+			if (canvas.height > window.innerHeight * 0.8) {
+				canvas.height = window.innerHeight * 0.8;
+				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 			}
-			break;
-        case 'ArrowUp':
-            p2.moveUp();
-            break;
-        case 'ArrowDown':
-            p2.moveDown();
-            break;
-        default:
-            break ;
-    }
-});
+			BALL_SPEED = getWidthPixels(0.5);
+			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+			PADDLE_SPEED = getWidthPixels(0.7);
+			PADDLE_WIDTH = getWidthPixels(1);
+			PADDLE_HEIGHT = getHeightPixels(20);
+			game.p1 = new Paddle(getWidthPixels(oldP1Posistion.x), getHeightPixels(oldP1Posistion.y), PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+			game.p2 = new Paddle(getWidthPixels(oldP2Posistion.x), getHeightPixels(oldP2Posistion.y), PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+			game.ball = {
+				x: getWidthPixels(oldBallPosistion.x),
+				y: getHeightPixels(oldBallPosistion.y),
+				radius: BALL_RADIUS,
+				speedX: BALL_SPEED,
+				speedY: BALL_SPEED,
+				color: "#fff"
+			};
+		});
+	}
 
-document.addEventListener('keyup', (event) => {
-	const key = event.key.length == 1 ?
-		event.key.toLowerCase() : event.key
-    switch (key) {
-        case 'ArrowUp':
-            p2.stop();
-            break;
-        case 'ArrowDown':
-            p2.stop();
-            break;
-        }
-    });
+	function getWinner(game) {
+		const score = game.score;
+		if ((score.player1 == 7 || score.player2 == 7)
+			&& Math.abs(score.player1 - score.player2) == 7)
+			return (score.player1 > score.player2 ? 1 : 2);
+		if ((score.player1 >= 11 || score.player2 >= 11)
+			&& Math.abs(score.player1 - score.player2) >= 2)
+			return (score.player1 > score.player2 ? 1 : 2);
+		return (0);
+	}
+
+	async function playGame() {
+		if (window.location.pathname !== "/AIgame") 
+			return;
+		const ball = {
+			x: canvas.width / 2,
+			y: canvas.height / 2,
+			radius: BALL_RADIUS,
+			speedX: BALL_SPEED,
+			speedY: BALL_SPEED,
+			color: "#fff"
+		};
+		const p1 = new Paddle(0, canvas.height / 2 - 60, PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+		const p2 = new Paddle(canvas.width - PADDLE_WIDTH, canvas.height / 2 - 60, PADDLE_WIDTH, PADDLE_HEIGHT, "#fff");
+		const game = {
+			ball,
+			p1,
+			p2,
+			pause: false,
+			score: {
+				player1: 0,
+				player2: 0
+			}
+		};
+		let gameObjects = {};
+		initGameObjects(gameObjects, game);
+		let lastTimestamp = 0;
+		let moves = {};
+		let timestamp = Date.now();
+		handleKeyPress(game);
+		handleResize(game);
+		return await new Promise(resolve => {
+			const intervalId = setInterval(() => {
+				if (window.location.pathname !== "/AIgame") 
+				{
+					clearInterval(intervalId);
+					callRoute('home');
+				}
+				draw(game);
+				timestamp = Date.now();
+				const deltaTime = (timestamp - lastTimestamp) / 1000;
+				gameObjects["deltaTime"] = deltaTime;
+				gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
+				if (gameObjects["currentMinute"] > gameObjects["lastMinute"]){
+					try{
+					moves = decideNextMoves(gameObjects, moves,game);
+					}
+					catch (e){
+						console.log(e)
+						moves = {up:1};
+					}
+					gameObjects["ballLastPosition"] = {x: ball.x,y: ball.y}
+				}
+				AiBlindMove(game.p1, moves);
+				// AiTrainer(game);
+				lastTimestamp = timestamp;
+				const winner = getWinner(game);
+				if (winner != 0) {
+						alert(`Player ${winner} wins!`);
+						clearInterval(intervalId);
+						resolve(winner);
+						callRoute('/home'); 
+						return ;
+				}
+				}, 16 /* 1000 / 60*/ );
+		});
+	}
+
+	playGame().then(winner => { // fix this
+		console.log(`Player ${winner} wins!`);
+	});
+
+	function initGameObjects(gameObjects, game){
+		gameObjects["p1"] = game.p1;
+		gameObjects["p2"] = game.p2;
+		gameObjects["ball"] = game.ball;
+		gameObjects["lastMinute"] = 0;
+		gameObjects["currentMinute"] = 0;
+		gameObjects["ballLastPosition"] = {x: game.ball.x,y: game.ball.y}
+		gameObjects["hitPoints"]  = [];
+
+	}
+
+		
+		
+		//--------------------------AI Alogrith------------------------------------//
+	// let gameObjects = {};
+	// let lastTimestamp = 0;
+	// gameObjects["p1"] = p1;
+	// gameObjects["p2"] = p2;
+	// gameObjects["ball"] = ball;
+	// gameObjects["lastMinute"] = 0;
+	// gameObjects["currentMinute"] = 0;
+	// gameObjects["ballLastPosition"] = ball_position
+	// const CENTER = 40;
+	// let moves = {};
+	// let hitPoints = [];
+
+		// function gameLoop(timestamp) {
+			// const deltaTime = (timestamp - lastTimestamp) / 1000;
+			// gameObjects["deltaTime"] = deltaTime;
+			// gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
+			// if (!pause)
+			// {
+			//     updatePositions(gameObjects);
+			//     if (gameObjects["currentMinute"] > gameObjects["lastMinute"]){
+			//         try{
+			//             moves = decideNextMoves(gameObjects);
+			//         }
+			//         catch {
+			//             moves = {up:1};
+			//         }
+			//         gameObjects["ballLastPosition"] = {...ball_position}
+			//     }
+			//     // AiTrainer(gameObjects["p2"], gameObjects["ball"]);
+			//     AiBlindMove(moves);
+			// }
+			// lastTimestamp = timestamp;
+		//     window.requestAnimationFrame(gameLoop);
+		// }
 
 
-let gameObjects = {};
-let lastTimestamp = 0;
-gameObjects["p1"] = p1;
-gameObjects["p2"] = p2;
-gameObjects["ball"] = ball;
-gameObjects["lastMinute"] = 0;
-gameObjects["currentMinute"] = 0;
-gameObjects["ballLastPosition"] = ball.position
+	function    decideNextMoves(gameObjects, moves, game){
+		if (AiHaveJustHitBall(gameObjects, game)){
+			if (game.ball.x > 20)
+				gameObjects["hitPoints"]  = [];
+			moves = recoverToCenter(gameObjects, game);
+		}
+		else if (isAiTurn(gameObjects["ballLastPosition"].x, game.ball.x) 
+				&& ballIsHeadingTowardHuman(game)){
+			gameObjects["hitPoints"]  = []
+			moves = counterHumanPaddel(moves, game);
+		}
+		else
+			moves = AiPlay(gameObjects, game, moves);
+		return (moves);
+	}
 
-function gameLoop(timestamp) {
-    const deltaTime = (timestamp - lastTimestamp) / 1000;
-    gameObjects["deltaTime"] = deltaTime;
-    gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
-	if (!pause)
-	{
-        updatePositions(gameObjects);
-        if (gameObjects["currentMinute"] > gameObjects["lastMinute"]){
-            try{
-                moves = decideNextMoves(gameObjects);
-            }
-            catch {
-                moves = {up:1};
-            }
-            gameObjects["ballLastPosition"] = {...ball.position}
-        }
-        // AiTrainer(gameObjects["p2"], gameObjects["ball"]);
-        AiBlindMove(moves);
-    }
-    lastTimestamp = timestamp;
-    window.requestAnimationFrame(gameLoop);
-}
-window.requestAnimationFrame(gameLoop);
-
-function updatePositions(gameObjects){
-    gameObjects["p1"].update(gameObjects["deltaTime"]);
-    gameObjects["p2"].update(gameObjects["deltaTime"]);
-    gameObjects["ball"].update(gameObjects["deltaTime"], gameObjects["p1"], gameObjects["p2"]);
-}
-
-//--------------------------AI Alogrith------------------------------------//
-
-function    decideNextMoves(gameObjects){
-    if (AiHaveJustHitBall(gameObjects))
-        moves = recoverToCenter(gameObjects);
-    else if (isAiTurn(gameObjects["ballLastPosition"].x, gameObjects["ball"].position.x) 
-            && ballIsHeadingTowardHuman(gameObjects))
-        moves = counterHumanPaddel(gameObjects);
-    else
-        moves = AiPlay(gameObjects);
-    return (moves);
-}
-
-function counterHumanPaddel(gameObjects){
-    let counter_margin = 10;
-
-    if (gameObjects["p2"].position.y > CENTER && gameObjects["p1"].position.y > CENTER)
-        moves = {up: gameObjects["p1"].position.y - CENTER  
-                + gameObjects["p2"].position.y - CENTER + counter_margin, down: 0,}
-    else if (gameObjects["p2"].position.y < CENTER && gameObjects["p1"].position.y < CENTER)
-        moves = {down: CENTER - gameObjects["p1"].position.y 
-                + CENTER - gameObjects["p2"].position.y, up: 0}
-    else
-        moves = {stop: 0, up: 0, down: 0}
-    return (moves);
-}
+	function counterHumanPaddel(moves, game){
+		let counter_margin = 10;
+		const CENTER = getHeightPixels(50);
+		// console.log(`will counter human paddel inshalla`)
+		// console.log(`p2 ${game.p2.y}  p1 ${game.p1.y} CENTER ${CENTER}`)
+		if (game.p2.y > CENTER && game.p1.y > CENTER){
+			moves = {up: countHeightSteps(game.p1.y - CENTER  + game.p2.y - CENTER + counter_margin),
+				down: 0,}
+			// console.log(`moving up`)
+		}
+		else if (game.p2.y < CENTER && game.p1.y < CENTER){
+			moves = {down: countHeightSteps(CENTER - game.p1.y + CENTER - game.p2.y), 
+				up: 0}
+			// console.log(`moving down`)
+		}
+		else
+			moves = {stop: 0, up: 0, down: 0}
+		// console.log(moves)
+		return (moves);
+	}
 
 
-function recoverToCenter(gameObjects){
-    let center_margin = 5;
-    if (p1.position.y > CENTER  - center_margin)
-        moves = {up: p1.position.y -  CENTER  - center_margin, down:0}
-    else if (p1.position.y < CENTER + center_margin)
-        moves = {down:  CENTER - p1.position.y  - center_margin, up:0}
-    else      
-        moves = {stop: 0, up:0, down:0}
-    return (moves);
-}
+	function recoverToCenter(gameObjects, game){
+		let center_margin = -1 * getHeightPixels(20);
+		const CENTER = getHeightPixels(50);
+		if (game.p1.y > CENTER  - center_margin){
+			moves = {up: countHeightSteps(game.p1.y -  CENTER  - center_margin), down:0}
+			// console.log(`recovering to center up ${ countHeightSteps(game.p1.y -  CENTER  - center_margin)}`);
+		}
+		else if (game.p1.y < CENTER + center_margin){
+			moves = {down:  countHeightSteps(CENTER - game.p1.y), up:0}
+			// console.log(`recovering to center down ${countHeightSteps(CENTER - game.p1.y)}`);
 
-function AiPlay(gameObjects){
-    let move_margin = 10;
+		}
+		else      
+			moves = {stop: 0, up:0, down:0}
+		return (moves);
+	}
 
-    hitPoints.push(getHitPoint(gameObjects)) ;
-    let chosenHitPoint = getChosenPoint(hitPoints);
-    console.log(`[${hitPoints}] choosed ${chosenHitPoint}`);
-    if (p1.position.y > chosenHitPoint)
-        moves = {up: Math.floor((p1.position.y  - chosenHitPoint) / 0.83) 
-                    + move_margin + 3, down: 0}
-    else if (p1.position.y < chosenHitPoint)
-        moves = {down: Math.floor((chosenHitPoint - p1.position.y) / 0.83) 
-                    - move_margin, up: 0}
-    else
-        moves = {stop: 0, up:0, down:0};
-    gameObjects["lastMinute"] = gameObjects['currentMinute'];
-    return (moves);
-}
+	function    countHeightSteps(pixels){
+		return (Math.ceil(getHeightPercentage(pixels)));
+	}
 
-function getHitPoint(gameObjects){
-    let pos1 = {x: gameObjects["ballLastPosition"].x, y: gameObjects["ballLastPosition"].y}
-    let pos2 = {x: ball.position.x, y: ball.position.y}
-    let slope = (pos2.y  - pos1.y ) / (pos2.x - pos1.x ) 
-    let hit = Math.floor(pos2.y - slope * pos2.x);
-    hit = getFinalHit(pos1, pos2, slope ,hit);
+	function AiPlay(gameObjects, game, moves){
+		let move_margin = 10;
 
-    return hit;
-}
+		gameObjects["hitPoints"].push(getHitPoint(gameObjects, game));
+		let chosenHitPoint = getChosenPoint(gameObjects["hitPoints"]);
+		console.log(`[${gameObjects["hitPoints"]}] choosed ${chosenHitPoint} -> ${getHeightPercentage(chosenHitPoint)}`);
+		// showHitPoints(gameObjects["hitPoints"], chosenHitPoint);
+		if (game.p1.y > chosenHitPoint){
+			moves = {up: countHeightSteps(
+								game.p1.y  - chosenHitPoint
+										),down: 0}
+			console.log(`moving up ${moves.up}`)    
+		}
+		else if (game.p1.y < chosenHitPoint){
+			moves = {down: countHeightSteps(
+							chosenHitPoint - game.p1.y), up: 0};
+			console.log(`moving down ${moves.down}`)
+		}
+		else
+			moves = {stop: 0, up:0, down:0};
+		gameObjects["lastMinute"] = gameObjects['currentMinute'];
+		return (moves);
+	}
 
-function getChosenPoint(hitPoints){
-    let occurances = [];
-    for (let point in hitPoints){
-        let prop = 0;
-        for (let i in hitPoints){
-            if (hitPoints[point]+ 10  >= hitPoints[i] 
-                    && hitPoints[point] - 10 <= hitPoints[i])
-                prop++;
-        }
-        occurances.push(prop);
-    }
-    return hitPoints[occurances.indexOf(Math.max(...occurances))];
-}
+	function showHitPoints(hitpoints, chosenHitPoint){
+		let normalized_points = [];
+		for (point in hitpoints){
+			normalized_points.push(getHeightPercentage(point));
+		}
+		console.log(`${normalized_points} choose normalized ${getHeightPercentage(chosenHitPoint)}`);
+	}
+	function getHitPoint(gameObjects, game){
+		let pos1 = {x: gameObjects["ballLastPosition"].x, y: gameObjects["ballLastPosition"].y};
+		let pos2 = {x: game.ball.x, y: game.ball.y};
+		let slope = (pos2.y  - pos1.y ) / (pos2.x - pos1.x );
+		let hit = Math.floor(pos2.y - slope * pos2.x);
+		hit = getFinalHit(pos1, pos2, slope ,hit);
 
-function getFinalHit(pos1, pos2, slope ,hit){
-    if (hit > -1 && hit < 101)
-        return (hit);
-    if (hit < 0){
-        let new_pos1 = {...pos2}
-        let new_po2 = {x: -1 * (new_pos1.y / slope ) + new_pos1.x, y: 0};
-        let new_slope = -1 * slope;
-        let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
+		return hit;
+	}
 
-        return getFinalHit(new_pos1, new_po2, new_slope ,new_hit)
-    }
-    else if (hit > 99){
-        let new_pos1 = {...pos2}
-        let new_po2 = {x: (100 - new_pos1.y) / slope + new_pos1.x, y: 100};
-        let new_slope = -1 * slope;
-        let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
+	function getChosenPoint(hitPoints){
+		let occurances = [];
+		for (let point in hitPoints){
+			let prop = 0;
+			for (let i in hitPoints){
+				if (hitPoints[point]+ 10  >= hitPoints[i] 
+						&& hitPoints[point] - 10 <= hitPoints[i])
+					prop++;
+			}
+			occurances.push(prop);
+		}
+		return hitPoints[occurances.indexOf(Math.max(...occurances))];
+	}
 
-        return getFinalHit(new_pos1, new_po2, new_slope ,new_hit)
-    }
-    return (hit);
-}
+	function getFinalHit(pos1, pos2, slope ,hit){
+		if (hit > 0 && hit < canvas.height - 1)
+			return (hit);
+		if (hit < 0){
+			let new_pos1 = {...pos2}
+			let new_po2 = {x: -1 * (new_pos1.y / slope ) + new_pos1.x, y: 0};
+			let new_slope = -1 * slope;
+			let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
 
-function AiBlindMove(moves){
+			return getFinalHit(new_pos1, new_po2, new_slope ,new_hit)
+		}
+		else if (hit > canvas.height - 1){
+			let new_pos1 = {...pos2}
+			let new_po2 = {x: (canvas.height - new_pos1.y) / slope + new_pos1.x, y: canvas.height};
+			let new_slope = -1 * slope;
+			let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
 
-    if (moves && moves.up && moves.up > 0){
-            p1.moveUp();
-            moves.up--;
-    }
-    else if (moves && moves.down && moves.down > 0){
-        p1.moveDown();
-        moves.down--;
-    }
-    else
-        p1.stop();
-}
+			return getFinalHit(new_pos1, new_po2, new_slope ,new_hit)
+		}
+		return (hit);
+	}
 
-function AiHaveJustHitBall(gameObjects){
-    let receover_to = 50;
-    if (isAiTurn(gameObjects["ballLastPosition"].x, ball.position.x) 
-        && ball.position.x < receover_to)
-        return (true);
-    return (false);
-}
+	function AiBlindMove(p1, moves){
 
-function isAiTurn(previous, current){
-    if (previous * 1000  - current * 1000 <= 0.2){
-        hitPoints = [];
-        return (true);
-    }
-    else
-        return (false);
-}
+		if (moves && moves.up && moves.up > 0){
+				p1.moveUp();
+				moves.up--;
+		}
+		else if (moves && moves.down && moves.down > 0){
+			p1.moveDown();
+			moves.down--;
+		}
+		else
+			p1.stop();
+	}
 
-function    ballIsHeadingTowardHuman(gameObjects){
-    let fieldSecondHalf = 50;
-    
-    if (gameObjects["ball"].position.x > fieldSecondHalf)
-        return (true);
-    return (false);
-}
+	function AiHaveJustHitBall(gameObjects, game){
+		let receover_to = getWidthPixels(50);
+		// console.log(`last pos ${gameObjects["ballLastPosition"].x}, current ${game.ball.x}, recoverto ${receover_to}`)
+		if (isAiTurn(gameObjects["ballLastPosition"].x, game.ball.x) 
+			&& game.ball.x < receover_to)
+			return (true);
+		return (false);
+	}
 
-//---------------------END OF AI ALGORITHM----------------------------//
+	function isAiTurn(previous, current){
+		if (previous  - current  <= 0.2){
+			return (true);
+		}
+		else
+			return (false);
+	}
 
-function AiTrainer(p2, ball){
-    if (ball.position.y > p1.position.y)
-        p2.moveDown();
-    else if (ball.position.y < p1.position.y)
-        p2.moveUp();
-    else
-        p2.stop()
-}
+	function    ballIsHeadingTowardHuman(game){
+		let fieldSecondHalf = getWidthPixels(50);
+			// console.log("ball is heading toward human")
+		if (game.ball.x > fieldSecondHalf)
+			return (true);
+		return (false);
+	}
+
+	//---------------------END OF AI ALGORITHM----------------------------//
+
+	function AiTrainer(game){
+		if (game.ball.y > game.p2.y)
+			game.p2.moveDown();
+		else if (game.ball.y < game.p2.y)
+			game.p2.moveUp();
+		else
+			game.p2.stop()
+		// game.p2.moveUp();
+	}
+};
+
+AIgame();
