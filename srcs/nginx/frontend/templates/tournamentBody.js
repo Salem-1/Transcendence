@@ -54,7 +54,7 @@ function tournamentBody(){
 					  <div class="round round-three current">
 						<div class="round-details">FINALS<br/></div>     
 						<ul class="matchup">
-						  <li class="team team-top" id="final-t2">Team 1</li>
+						  <li class="team team-top" id="final-t2">Team 2</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND THREE -->    
@@ -74,7 +74,7 @@ function tournamentBody(){
 					  <div class="round round-three">
 						<div class="round-details">FINALS<br/></div>           
 						<ul class="matchup">
-						  <li class="team team-top" id="final-t1">Team 2</li>
+						  <li class="team team-top" id="final-t1">Team 1</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND THREE -->  
