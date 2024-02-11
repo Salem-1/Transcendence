@@ -63,7 +63,7 @@ async function testRegister(username, pass, repass, message, order)
 {
     let driver = await new Builder().forBrowser('chrome').build();
     try {
-        await driver.get('http://localhost:443/registration.html');
+        await driver.get('https://localhost:443/registration.html');
         await driver.findElement(By.id('username')).sendKeys(username);
         await driver.findElement(By.id('password')).sendKeys(pass);
         await driver.findElement(By.id('confirmpassword')).sendKeys(repass);
@@ -133,7 +133,7 @@ function generateRandomText(length) {
 
 /*
   https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d3951b4aa9c63bfcc57b80e22872c5b27607beb50bb6f5eb315114be173f0b83
-  &redirect_uri=http://localhost:443/api/auth/callback/42-school
+  &redirect_uri=https://localhost:443/api/auth/callback/42-school
   &response_type=code
   &scope=public
   &state=a_very_long_random_string_witchmust_be_unguessable'

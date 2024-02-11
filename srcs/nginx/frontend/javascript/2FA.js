@@ -8,7 +8,7 @@ init2FAButton();
 
 async function init2FAButton() {
 	try {
-		const response = await fetch("http://localhost:443/api/mfaState/", {
+		const response = await fetch("https://localhost:443/api/mfaState/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -42,7 +42,7 @@ toggleSwitch.addEventListener("change", function () {
 async function disable2FA() {
 	try {
 		const enable2fa = "false";
-		const response = await fetch("http://localhost:443/api/set_2fa/", {
+		const response = await fetch("https://localhost:443/api/set_2fa/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -126,7 +126,7 @@ async function verifyOTP() {
 // }
 
 async function sendEnable2faEmail(otp, email) {
-	const response = await fetch("http://localhost:443/api/enable_2fa_email/", {
+	const response = await fetch("https://localhost:443/api/enable_2fa_email/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -139,7 +139,7 @@ async function sendEnable2faEmail(otp, email) {
 	else throw new Error("Invalid otp");
 }
 async function submit2FaEmail(email) {
-	const response = await fetch("http://localhost:443/api/submit_2fa_email/", {
+	const response = await fetch("https://localhost:443/api/submit_2fa_email/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

@@ -10,7 +10,7 @@ async function intraAuthenticate() {
 			timedAlert(await getTranslation("reg or login failed"));
 			throw new Error("Erro while intra authentication");
 		}
-		const response = await fetch("http://localhost:443/api/auth/", {
+		const response = await fetch("https://localhost:443/api/auth/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -60,7 +60,7 @@ async function double_factor_authenticate(result) {
 	if (otpPattern.test(otp)) {
 		try {
 			const response = await fetch(
-				"http://localhost:443/api/double_factor_auth/",
+				"https://localhost:443/api/double_factor_auth/",
 				{
 					method: "POST",
 					headers: {
