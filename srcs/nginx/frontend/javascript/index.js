@@ -89,8 +89,6 @@ async function fetchAuthRedirection(){
 }
 
 async function tryRegisterUser(username, password){
-	console.log(username)
-	console.log(password)
 	const response = await fetch("http://localhost:8000/register/", {
 		method: "POST",
 		headers: {
