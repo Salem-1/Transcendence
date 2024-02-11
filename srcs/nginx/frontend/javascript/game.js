@@ -228,6 +228,8 @@ var game = () => {
 
     function handleResize(game) {
         window.addEventListener('resize', () => {
+			if (window.location.pathname !== "/game")
+				return;
             game.pause = true;
             const pauseElement = document.getElementById('pause');
             pauseElement.style.setProperty('display', 'block');
