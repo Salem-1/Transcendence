@@ -76,6 +76,7 @@ const urlRoutes = {
 		template: gamePageBody(),
 		title: "Game | " + urlPageTitle,
 		description: "This is the Game page",
+		theme: "/css/game.css",
 		script: ["/javascript/game.js"],
 		requiresAuth: true,
 	},
@@ -100,6 +101,7 @@ const urlRoutes = {
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
 		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js", "/javascript/greet.js"],
+		requiresAuth: true,
 	},
 	"/settings": {
 		template: settingsBody(),
@@ -119,106 +121,98 @@ const urlRoutes = {
 };
 
 async function callRoute(route) {
-	window.history.pushState({}, "", route);
-	urlLocationHandler();
+  window.history.pushState({}, "", route);
+  urlLocationHandler();
 }
 // create a function that watches the url and calls the urlLocationHandler
 const route = (event) => {
-	event = event || window.event; // get window.event if event argument not provided
-	event.preventDefault();
-	// window.history.pushState(state, unused, target link);
-	window.history.pushState({}, "", event.target.href);
-	urlLocationHandler();
+  event = event || window.event; // get window.event if event argument not provided
+  event.preventDefault();
+  // window.history.pushState(state, unused, target link);
+  window.history.pushState({}, "", event.target.href);
+  urlLocationHandler();
 };
 
 // create a function that handles the url location
 const urlLocationHandler = async () => {
-	const location = window.location.pathname; // get the url path
-	// if the path length is 0, set it to primary page route
-	if ((location.length = 0)) {
-		location = "/";
-	}
-	// get the route object from the urlRoutes object
-	const route = urlRoutes[location] || urlRoutes["404"];
-	if (route.requiresAuth && !(await isVerified())) {
-		fetch(`http://localhost:8000/${location}`, {
-			headers: { "X-Trans42-code": "401" },
-			method: "GET",
-		});
-		callRoute("/login");
-		return;
-	} else if (route.IntroPages && (await isLoggedIn())) {
-		callRoute("/home");
-		return;
-	}
-	if (route == urlRoutes[404]) {
-		fetch("http://localhost:8000/aaaa", {
-			headers: { "X-Trans42-code": "404" },
-			method: "GET",
-		});
-	}
-	// get the html from the template
-	const html = route.template;
-	// set the content of the content div to the html
-	document.getElementById("content").innerHTML = html;
-	// set the title of the document to the title of the route
-	document.title = route.title;
-	// set the description of the document to the description of the route
-	if (route.theme) theme.setAttribute("href", route.theme);
-	else theme.setAttribute("href", defaulttheme);
-	document
-		.querySelector('meta[name="description"]')
-		.setAttribute("content", route.description);
-	if (route.script) {
-		for (let i = 0; i < route.script.length; i++) {
-			const script = document.createElement("script");
-			script.src = route.script[i];
-			document.body.appendChild(script);
-		}
-	}
-	const userPreferredLanguage = localStorage.getItem("language") || "en";
-	const langData = await fetchLanguageData(userPreferredLanguage);
-	updateContent(langData);
+  const location = window.location.pathname; // get the url path
+  // if the path length is 0, set it to primary page route
+  if ((location.length = 0)) {
+    location = "/";
+  }
+  // get the route object from the urlRoutes object
+  const route = urlRoutes[location] || urlRoutes["404"];
+  if (route.requiresAuth && !(await isVerified())) {
+    fetch(`http://localhost:8000/${location}`, {
+      headers: { "X-Trans42-code": "401" },
+      method: "GET",
+    });
+    callRoute("/login");
+    return;
+  } else if (route.IntroPages && (await isLoggedIn())) {
+    callRoute("/home");
+    return;
+  }
+  if (route == urlRoutes[404]) {
+    fetch("http://localhost:8000/wrongUrl", {
+      headers: { "X-Trans42-code": "404" },
+      method: "GET",
+    });
+  }
+  // get the html from the template
+  const html = route.template;
+  // set the content of the content div to the html
+  document.getElementById("content").innerHTML = html;
+  // set the title of the document to the title of the route
+  document.title = route.title;
+  // set the description of the document to the description of the route
+  if (route.theme) theme.setAttribute("href", route.theme);
+  else theme.setAttribute("href", defaulttheme);
+  document
+    .querySelector('meta[name="description"]')
+    .setAttribute("content", route.description);
+  if (route.script) {
+    for (let i = 0; i < route.script.length; i++) {
+      const script = document.createElement("script");
+      script.src = route.script[i];
+      document.body.appendChild(script);
+    }
+  }
+  const userPreferredLanguage = localStorage.getItem("language") || "en";
+  const langData = await fetchLanguageData(userPreferredLanguage);
+  updateContent(langData);
 };
 
 async function isLoggedIn() {
-	return !(await isNotLoggedIn());
+  return !(await isNotLoggedIn());
 }
 
 const isVerified = async () => {
-	const response = await fetch(
-		"http://localhost:8000/api/loginVerfication/",
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include", // Add this line
-		}
-	);
+  const response = await fetch("http://localhost:8000/api/loginVerfication/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Add this line
+  });
+  if (response.ok) {
+    return true;
+  }
+  return false;
+};
+
+const isNotLoggedIn = async () => {
+	const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include", // Add this line
+	});
 	if (response.ok) {
 		return true;
 	}
 	return false;
-};
-
-const isNotLoggedIn = async () => {
-	try{
-		const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include", // Add this line
-		});
-		if (response.ok) {
-			return true;
-		}
-		return false;
-	}
-	catch (e){
-		return (false);
-	}
 };
 
 // add an event listener to the window that watches for url changes
