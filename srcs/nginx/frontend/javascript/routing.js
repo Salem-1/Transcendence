@@ -223,13 +223,13 @@ const isNotLoggedIn = async () => {
 
 // add an event listener to the window that watches for url changes
 window.onpopstate = route;
-// window.addEventListener('popstate', function(event){
-// 	var state = event.state;
-// 	if (state) {
-// 		document.title = state.pageTitle;
-// 	}
-// 	urlLocationHandler();
-// });
+window.addEventListener('popstate', function(event){
+	var state = event.state;
+	if (state) {
+		document.title = state.pageTitle;
+	}
+	urlLocationHandler();
+});
 // call the urlLocationHandler function to handle the initial url
 window.route = route;
 // call the urlLocationHandler function to handle the initial url
