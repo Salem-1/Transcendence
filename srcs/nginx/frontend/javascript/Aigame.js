@@ -328,6 +328,8 @@ var AIgame = () => {
 						alert(`Player ${winner} wins!`);
 						clearInterval(intervalId);
 						resolve(winner);
+						callRoute('/home'); 
+						return ;
 				}
 				}, 16 /* 1000 / 60*/ );
 		});
