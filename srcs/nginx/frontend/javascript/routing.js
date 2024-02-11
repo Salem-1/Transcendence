@@ -152,7 +152,7 @@ const urlLocationHandler = async () => {
 		return;
 	}
 	if (route == urlRoutes[404]) {
-		fetch("http://localhost:443/aaaa", {
+		fetch("http://localhost:443/api/aaaa", {
 			headers: { "X-Trans42-code": "404" },
 			method: "GET",
 		});

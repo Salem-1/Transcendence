@@ -10,7 +10,7 @@ async function    logout(){
 }
 
 async function  tryLogoutuser(){
-    const response = await fetch("http://localhost:443/logout/",{
+    const response = await fetch("http://localhost:443/api/logout/",{
         method: "GET",
         headers :{
             "Content-Type": "application/json",

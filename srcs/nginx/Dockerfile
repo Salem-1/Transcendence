@@ -8,6 +8,7 @@ ARG OWASP_TAG=v3.3.4
 
 WORKDIR /opt
 
+# apk add --no-cache --virtual general-dependencies \
 RUN echo "Installing Dependencies" && \
     apk add --no-cache --virtual general-dependencies \
     autoconf \
@@ -92,6 +93,7 @@ COPY ./frontend /var/www/html
 
 RUN chown -R nginx:nginx /var/www/html
 
+# RUN apk add --no-cache \
 RUN apk add --no-cache \
     curl-dev \
     libmaxminddb-dev \

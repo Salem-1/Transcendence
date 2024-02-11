@@ -11,7 +11,7 @@ async function register() {
   // let b = JSON.stringify({ username, password });
   // alert(b);
   try {
-    const response = await fetch('http://localhost:443/register/', {
+    const response = await fetch('http://localhost:443/api/register/', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

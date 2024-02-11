@@ -181,7 +181,7 @@ def redirect_uri(request):
             if (len(client_id) == 0):
                 intra_link = "#"
             else:
-                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A443%2Fauth&response_type=code"\
                     .format(client_id)
             return JsonResponse({"oauth_link": intra_link})
         except Exception as e:
@@ -323,3 +323,4 @@ def say_hello(request):
     except Exception as e:
         error = str(e)
         return JsonResponse({'error': error}, status=500)
+

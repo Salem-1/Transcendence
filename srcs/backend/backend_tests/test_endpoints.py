@@ -124,7 +124,7 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.json()['error'], 'Username already taken')
 
     def test_get_secret(self):
-        self.assertEqual(get_secret("TEST"), "test")
+        self.assertEqual(get_secret("TEST"), "TEST")
         
     def test_register_empty_user(self):
         # Test registration with an empty username

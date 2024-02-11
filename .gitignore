@@ -21,4 +21,4 @@ email_logs.txt
 src/backend/staticfiles
 staticfiles/*
 srcs/backend/backend_tests/email_logs.txt
-
+*.pem

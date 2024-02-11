@@ -20,7 +20,6 @@ try {
 catch (e){
     alert(`${e}`);
 	callRoute("/home");
-    // window.location.href = "http://localhost:3000/landing.html";
 
 }
 

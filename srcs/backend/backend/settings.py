@@ -68,6 +68,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:21000",  
     "http://localhost:443",  
     "http://127.0.0.1:443",  
+    "https://localhost:443",  
+    "https://127.0.0.1:443",  
+    "https://localhost",  
+    "https://127.0.0.1",  
+    "http://*",  
+    "https://*",  
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -102,6 +108,8 @@ TEMPLATES = [
         },
     },
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 

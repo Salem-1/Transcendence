@@ -14,7 +14,8 @@ RUN apk update \
   && apk add gcc libc-dev g++ libffi-dev libxml2 \
   && rm -rf /var/cache/apk/*
   
-RUN  pip install --no-cache-dir -r requirements.txt
+# RUN  pip install --no-cache-dir -r requirements.txt
+RUN  pip install  -r requirements.txt
 
 # Copy the project code into the container
 COPY . .
