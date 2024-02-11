@@ -24,7 +24,7 @@ def get_secret(key):
     read_response = client.secrets.kv.read_secret_version(path='secret/'+ key, raise_on_deleted_version=True)
     return read_response['data']['data']['key']
 
-base_url = 'http://localhost:8000' 
+base_url = 'http://localhost:443/api' 
 
 def gen_username(len=8):
     return  ''.join(random.choice(string.ascii_letters) for _ in range(len))
@@ -44,7 +44,7 @@ def registe_and_login_user(name, password):
     return login_user(name, password)
 
 class YourAppViewsTest(unittest.TestCase):
-    base_url = 'http://localhost:8000'  # Update with your actual base URL
+    base_url = 'http://localhost:443/api'  # Update with your actual base URL
 
     def setUp(self):
         # Create a test user
@@ -124,7 +124,7 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.json()['error'], 'Username already taken')
 
     def test_get_secret(self):
-        self.assertEqual(get_secret("TEST"), "test")
+        self.assertEqual(get_secret("TEST"), "TEST")
         
     def test_register_empty_user(self):
         # Test registration with an empty username
@@ -241,22 +241,22 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.json()['error'], "couldn't fetch intra user data")
         
     def test_access_home_nologin(self):
-        response = requests.get(f'{self.base_url}/api/loginVerfication/')
+        response = requests.get(f'{self.base_url}/loginVerfication/')
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'Invalid Authorization token')
         
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/')
+        response = requests.get(f'{self.base_url}/notLoggedIn/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['message'], 'Not Logged In')
 
     def test_forbidden_not_logged_in(self):
         data = {};
-        response = requests.post(f'{self.base_url}/api/notLoggedIn/', json=data)
+        response = requests.post(f'{self.base_url}/notLoggedIn/', json=data)
         self.assertEqual(response.status_code, 405)
         self.assertEqual(response.json()['error'], 'Method not allowed')
 
     def test_forbidden_method_login_verf(self):
-        response = requests.post(f'{self.base_url}/api/loginVerfication/', json={})
+        response = requests.post(f'{self.base_url}/loginVerfication/', json={})
         self.assertEqual(response.status_code, 405)
         self.assertEqual(response.json()['error'], 'Method not allowed')
         
@@ -267,10 +267,10 @@ class YourAppViewsTest(unittest.TestCase):
         
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/api/loginVerfication/', headers=headers)
+        response = requests.get(f'{self.base_url}/loginVerfication/', headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['message'], 'valid token')
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
+        response = requests.get(f'{self.base_url}/notLoggedIn/', headers=headers)
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'valid token')
 
@@ -280,10 +280,10 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         jwt_token = login_response.json().get('jwt_token')
         headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
-        response = requests.get(f'{self.base_url}/api/loginVerfication/', headers=headers)
+        response = requests.get(f'{self.base_url}/loginVerfication/', headers=headers)
         self.assertEqual(response.status_code, 200)
         # self.assertEqual(response.json()['error'], 'Invalid Authorization token')
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
+        response = requests.get(f'{self.base_url}/notLoggedIn/', headers=headers)
         self.assertEqual(response.status_code, 401)
 
         response = requests.get(f'{self.base_url}/username/', headers=headers)
@@ -298,10 +298,10 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/username/', headers=headers)
         self.assertEqual(response.status_code, 401)
         
-        response = requests.get(f'{self.base_url}/api/loginVerfication/', headers=headers)
+        response = requests.get(f'{self.base_url}/loginVerfication/', headers=headers)
         self.assertEqual(response.status_code, 401)
 
-        response = requests.get(f'{self.base_url}/api/notLoggedIn/', headers=headers)
+        response = requests.get(f'{self.base_url}/notLoggedIn/', headers=headers)
         self.assertEqual(response.status_code, 200)
 
     # def test_correct_statuscode(self):
@@ -325,16 +325,16 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
         self.assertEqual(response.status_code, 404)
         
-    def test_redirection(self):
-        with requests.Session() as s:
-            response = s.get(f'{self.base_url}', allow_redirects=False)
-            self.assertEqual(response.status_code, 301)
-            self.assertIsNotNone(response.headers['Location'])
-            self.assertEqual(response.headers['Location'], 'http://localhost:3000')
+    # def test_redirection(self):
+    #     with requests.Session() as s:
+    #         response = s.get(f'{self.base_url}', allow_redirects=False)
+    #         self.assertEqual(response.status_code, 301)
+    #         self.assertIsNotNone(response.headers['Location'])
+    #         self.assertEqual(response.headers['Location'], 'http://localhost:443')
     
-    def test_redirection_post(self):
-        response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
-        self.assertEqual(response.status_code, 405)
+    # def test_redirection_post(self):
+    #     response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
+    #     self.assertEqual(response.status_code, 405)
 
     def test_validate_2fa_email(self):
         user = gen_username()

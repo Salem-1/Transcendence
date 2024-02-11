@@ -69,7 +69,7 @@ const urlRoutes = {
 		title: "tournament | " + urlPageTitle,
 		description: "This is the tournament page",
 		theme: "/css/tournament_styles.css",
-		script: ["/javascript/tournament_algorithm.js", "/javascript/dropdown.js", "/javascript/greet.js"],
+		script: ["/javascript/tournament_algorithm.js", "/javascript/dropDown.js", "/javascript/greet.js"],
 		requiresAuth: true,
 	},
 	"/settings": {
@@ -112,18 +112,18 @@ const urlLocationHandler = async () => {
 	// get the route object from the urlRoutes object
 	const route = await urlRoutes[location] || urlRoutes["404"];
 	if (route.requiresAuth && !(await isVerified())) {
-		fetch(`http://localhost:8000${location}`, {
+		fetch(`https://localhost:443${location}`, {
 			headers: { "X-Trans42-code": "401" },
 			method: "GET",
 		});
-		 await callRoute("/login");
+		await callRoute("/login");
 		return;
 	} else if (route.IntroPages && (await isLoggedIn())) {
 		await callRoute("/home");
 		return;
 	}
 	if (route == urlRoutes[404]) {
-		await fetch(`http://localhost:8000${location}`, {
+		await fetch(`https://localhost:443${location}`, {
 			headers: { "X-Trans42-code": "404" },
 			method: "GET",
 		});
@@ -158,7 +158,7 @@ async function isLoggedIn() {
 
 const isVerified = async () => {
 	const response = await fetch(
-		"http://localhost:8000/api/loginVerfication/",
+		"https://localhost:443/api/loginVerfication/",
 		{
 			method: "GET",
 			headers: {
@@ -175,7 +175,7 @@ const isVerified = async () => {
 
 const isNotLoggedIn = async () => {
 	try{
-		const response = await fetch("http://localhost:8000/api/notLoggedIn/", {
+		const response = await fetch("https://localhost:443/api/notLoggedIn/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

@@ -205,6 +205,8 @@ var AIgame = () => {
 
 	function handleKeyUp(game) {
 		document.addEventListener('keyup', (event) => {
+			if (window.location.pathname !== "/AIgame")
+				return;
 			const key = event.key.length == 1 ?
 				event.key.toLowerCase() : event.key
 			switch (key) {
@@ -227,6 +229,8 @@ var AIgame = () => {
 
 	function handleResize(game) {
 		window.addEventListener('resize', () => {
+			if (window.location.pathname !== "/AIgame")
+				return;
 			game.pause = true;
 			const pauseElement = document.getElementById('pause');
 			pauseElement.style.setProperty('display', 'block');
