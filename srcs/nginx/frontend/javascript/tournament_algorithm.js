@@ -162,12 +162,13 @@ function playQuarterFinals(round) {
 
 function displayWinner(winner) {
   let winning_element = document.getElementById("winner");
-  showOnePlayer(winning_element, winner);
+  console.log(`winner is ${winner}`);
+  if (winner && winner.length > 0) {
+  	showOnePlayer(winning_element, winner);
+  }
 }
 function displayRound() {
   const levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
-  console.log(`levelRound -->\n`);
-  console.log(levelRound);
   displayWinner(getMatchWinner("0") || {});
   if (levelRound["1"] && levelRound["1"]["rounds"])
     displayFinals(levelRound["1"]["rounds"] || {});
