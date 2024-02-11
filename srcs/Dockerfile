@@ -5,7 +5,7 @@ FROM alpine:3.7
 ENV VAULT_VERSION 0.10.3
 
 # create a new directory
-RUN mkdir /vault /nginx
+RUN mkdir /vault
 
 # download dependencies
 RUN apk --no-cache add \
@@ -25,7 +25,6 @@ ENV PATH="PATH=$PATH:$PWD/vault"
 # add the config file
 COPY ./vault/config/vault-config.json /vault/config/vault-config.json
 COPY ./vault/entrypoint.sh .
-COPY ./nginx/conf/nginx /nginx
 RUN chmod +x entrypoint.sh
 # expose port 8200
 EXPOSE 8200

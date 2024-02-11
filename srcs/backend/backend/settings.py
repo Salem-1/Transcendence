@@ -28,7 +28,7 @@ SECRET_KEY = get_settings_credentials('SECRET_KEY')
 # DEBUG = True
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "*"]
 APPEND_SLASH = False
 
 # Application definition

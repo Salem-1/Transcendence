@@ -8,7 +8,6 @@ ARG OWASP_TAG=v3.3.4
 
 WORKDIR /opt
 
-# apk add --no-cache --virtual general-dependencies \
 RUN echo "Installing Dependencies" && \
     apk add --no-cache --virtual general-dependencies \
     autoconf \
@@ -78,6 +77,9 @@ COPY --from=base /usr/local/owasp-modsecurity-crs /usr/local/owasp-modsecurity-c
 COPY --from=base /usr/lib/nginx/modules/ /usr/lib/nginx/modules/
 
 # Copy local config files into the image
+RUN mkdir -p /etc/nginx/certs
+COPY conf/nginx/certs /etc/nginx/certs
+
 COPY errors /usr/share/nginx/errors
 COPY conf/nginx/ /etc/nginx/
 COPY conf/modsec/ /etc/nginx/modsec/
@@ -93,7 +95,6 @@ COPY ./frontend /var/www/html
 
 RUN chown -R nginx:nginx /var/www/html
 
-# RUN apk add --no-cache \
 RUN apk add --no-cache \
     curl-dev \
     libmaxminddb-dev \

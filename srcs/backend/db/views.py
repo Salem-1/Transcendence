@@ -181,7 +181,7 @@ def redirect_uri(request):
             if (len(client_id) == 0):
                 intra_link = "#"
             else:
-                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A443%2Fauth&response_type=code"\
+                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=https%3A%2F%2Flocalhost%3A443%2Fauth&response_type=code"\
                     .format(client_id)
             return JsonResponse({"oauth_link": intra_link})
         except Exception as e:
@@ -276,7 +276,7 @@ def error_code(request, exception=None):
 @csrf_exempt
 def go_to_frontend(request):
     if (request.method == "GET"):
-        return redirect("http://localhost:443", permanent=True)
+        return redirect("https://localhost:443", permanent=True)
     return HttpResponse("Method not allowed", status=405)
 
 
