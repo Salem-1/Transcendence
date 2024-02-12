@@ -89,8 +89,6 @@ async function fetchAuthRedirection(){
 }
 
 async function tryRegisterUser(username, password){
-	console.log(username)
-	console.log(password)
 	const response = await fetch("https://localhost:443/api/register/", {
 		method: "POST",
 		headers: {
