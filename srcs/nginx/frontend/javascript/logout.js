@@ -18,7 +18,7 @@ async function  tryLogoutuser(){
         credentials: "include",
     });
 if (response.ok) {
-    callRoute("/home");
+    callRoute("/");
     return;
 }
 timedAlert(`${await getTranslation("logout failed")}: ${error}`);
