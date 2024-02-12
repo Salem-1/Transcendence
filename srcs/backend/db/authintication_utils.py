@@ -31,7 +31,7 @@ def fetch_auth_token(url_auth_code):
         'client_id': get_secret('INTRA_CLIENT_ID'),
         'client_secret': get_secret('INTRA_CLIENT_SECRET'),
         'code': url_auth_code,
-        'redirect_uri': 'http://localhost:3000/auth',
+        'redirect_uri': 'https://localhost:443/auth',
     }
     return requests.post(url, data=data)
 

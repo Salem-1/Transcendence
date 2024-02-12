@@ -20,6 +20,7 @@ help:
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo "  logs	    	 : Show Django logs"
 	@echo "  lognginx        : Show Ngninx logs"
+	@echo "  logdjango        : Show Django logs"
 	@echo "  waflog          : Show firewall logs"
 	@echo ""
 
@@ -79,8 +80,17 @@ logs:
 lognginx:
 	@docker logs -f nginx
 
+logdjango:
+	@docker logs -f django
+
+ifeq ($(shell uname -s), Linux)
+	RMCOMMAND		= sudo rm -rf data
+else
+	RMCOMMAND		= rm -rf data
+endif
+
 fclean: down
-	rm -rf data
+	$(RMCOMMAND)
 	docker rmi -f transcendence-django
 	docker rmi -f transcendence-postgres
 	docker rmi -f transcendence-nginx

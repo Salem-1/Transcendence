@@ -15,7 +15,7 @@ async function enable2FA(email){
 }
 
 async function sendEnable2faEmail(otp, email){
-    const response = await fetch('http://localhost:8000/enable_2fa_email/',{
+    const response = await fetch('https://localhost:443/api/enable_2fa_email/',{
         method: "POST", 
         headers: {
             "Content-Type" : "application/json",

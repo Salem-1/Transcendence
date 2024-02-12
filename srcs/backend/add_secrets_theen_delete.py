@@ -12,7 +12,7 @@ client = hvac.Client(
 
 path = '/secret/'
 
-secrets_str = """TEST=test"""
+secrets_str = """TEST=TEST"""
 
 secrests_lines = secrets_str.split("\n")
 secrets_len = len(secrests_lines)
