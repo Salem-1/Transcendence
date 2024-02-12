@@ -198,7 +198,7 @@ def logout_user(request):
         user_2fa.save()
         return JsonResponse({"message": "You are logged out!"})
     except Exception as e:
-        return JsonResponse({"error": "internal server error logged out!"}, status=500)
+        return JsonResponse({"error": "Unauthorized logout request"}, status=401)
 
 
 
@@ -289,7 +289,6 @@ def set_winner(request):
         jwt_payload = validate_jwt(request)
         user, user_2fa, user_id =   fetch_user_data(jwt_payload)
         request_body = json.loads(request.body)
-
         if set_winner_on_smart_contract(request_body, user.username):
             return JsonResponse({'message': "successful stored on blockchain"})
     except Exception as e:
