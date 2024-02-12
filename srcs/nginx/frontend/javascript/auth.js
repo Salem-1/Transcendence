@@ -10,12 +10,18 @@ async function intraAuthenticate() {
 			timedAlert(await getTranslation("reg or login failed"));
 			throw new Error("Erro while intra authentication");
 		}
+		const controller = new AbortController();
+		const signal = controller.signal;
+		const timeout =  15000; // Timeout in milliseconds
+
+setTimeout(() => controller.abort(), timeout);
 		const response = await fetch("https://localhost:443/api/auth/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ code }),
+			signal,
 		});
 
 		const result = await response.json();
@@ -30,8 +36,8 @@ async function intraAuthenticate() {
 			);
 		}
 	} catch (error) {
-		console.error("Error during registration:", error);
-		timedAlert(`${await getTranslation("reg failed")}: ${result.error}`);
+		console.log("Error during registration:", error);
+		timedAlert(`${await getTranslation("reg failed")}: ${error}`);
 		callRoute("/");
 	}
 }
