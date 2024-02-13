@@ -308,9 +308,9 @@ def get_winners(request):
         return JsonResponse({'winners': winners})
     except Exception as e:
         print(e)
-        return JsonResponse({'error': "Failed to set winner"}, status=401)
+        return JsonResponse({'error': "Failed to get winner"}, status=401)
 
-    return JsonResponse({'error': "Failed to set winner"})
+    return JsonResponse({'error': "Failed to get winner"})
 
 
 @csrf_exempt
