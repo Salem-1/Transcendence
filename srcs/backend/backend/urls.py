@@ -24,7 +24,7 @@ from db.views import mfa_state, say_hello
 handler404 = error_code
 
 urlpatterns = [
-    path('api/admin/', admin.site.urls),
+    # path('api/admin/', admin.site.urls),
     path('api/register/', register_user, name="register_user"),
     path('api/login/', login_user, name="login_user"),
     path('api/logout/', logout_user, name="logout_user"),
