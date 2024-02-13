@@ -16,16 +16,12 @@ python manage.py makemigrations db
 python manage.py migrate db
 
 python manage.py collectstatic --no-input --clear
-# Create superuser
-# echo "Creating superuser"
-# check if superuser already exists
 
 cat << EOF | python manage.py shell
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-User.objects.filter(username='admin').exists() or \
-    User.objects.create_superuser('admin', 'admin@example.com', 'admin')
+
 EOF
 gunicorn backend.wsgi:application --bind 0.0.0.0:443 --workers 3 --reload

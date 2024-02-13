@@ -92,10 +92,28 @@ function playFinals(round) {
     updateLevelRound();
     localStorage.setItem("round", JSON.stringify({ 0: [winner, null] }));
     localStorage.setItem("level", 0);
+    storeWinnerOnBlockchain(winner);
     startTournament();
     return;
   }
   playTournamentGame(round[0][0], round[0][1]);
+}
+
+function  storeWinnerOnBlockchain(winner){
+  try{
+    const response =  fetch("https://localhost:443/api/set_winner/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ winner}),
+		});
+  }
+  catch (e){
+    console.log(e);
+  }
+  
 }
 
 function playSemiFinals(round) {
