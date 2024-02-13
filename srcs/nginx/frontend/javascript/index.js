@@ -1,4 +1,4 @@
-  // Get oauth link from auth service
+// Get oauth link from auth service
 async function oauthRedirect() {
 	try {
 		await fetchAuthRedirection();
@@ -12,7 +12,8 @@ async function register() {
 	const password = document.getElementById("password").value;
 	const confirmPassword = document.getElementById("confirmpassword").value;
 
-	if (!await isValidRegeistrationIput(username, password, confirmPassword)) return;
+	if (!(await isValidRegeistrationIput(username, password, confirmPassword)))
+		return;
 	try {
 		await tryRegisterUser(username, password);
 	} catch (error) {
@@ -24,7 +25,7 @@ async function login() {
 	const username = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
 
-	if (!await isValidLoginIput(username, password)) return;
+	if (!(await isValidLoginIput(username, password))) return;
 	try {
 		await tryLoginUser(username, password);
 	} catch (error) {
@@ -33,24 +34,54 @@ async function login() {
 	}
 }
 
+async function resendOtp() {
+	const response = await fetch("https://localhost:443/api/resendOtp/", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+	});
+	const result = await response.json();
+	if (response.ok) {
+		timedAlert(`${await getTranslation("email sent")}`, "success");
+		return true;
+	}
+	timedAlert(`${await getTranslation("login failed")}`);
+	return false;
+}
+
 async function double_factor_authenticate(result) {
 	await storeJWTInCookies(result);
-	const modal = new bootstrap.Modal(document.getElementById('otpModal'));
+	const max_resend = 3;
+	let resend_counter = 0;
+	const modal = new bootstrap.Modal(document.getElementById("otpModal"));
 	modal.show();
 
-	document.getElementById('otpModal').addEventListener('click', async (event) => {
-		if (event.target.id === "otpSubmit") {
-			event.preventDefault();
-			const otp = document.getElementById('otp').value;
-			await try2FactorAuthentication(otp);
-			modal.hide();
-		} 
-		// else if (event.target.id === "resendOtp") {
-		// 	await resendOtp();
-		// }
-	});
+	document
+		.getElementById("otpModal")
+		.addEventListener("click", async (event) => {
+			if (event.target.id === "otpSubmit") {
+				event.preventDefault();
+				const otp = document.getElementById("otp").value;
+				if (await try2FactorAuthentication(otp)) modal.hide();
+			} else if (event.target.id === "resendOtp") {
+				if (resend_counter++ >= max_resend) {
+					resend_button = document.getElementById("resendOtp");
+					event.target.disabled = true;
+					resend_button.style.display = "none";
+					timedAlert(await getTranslation("max resend"));
+					setTimeout(() => {
+						resend_counter = 0;
+						event.target.disabled = false;
+						resend_button.style.display = "block";
+					}, 10000);
+				} else if (!(await resendOtp()))
+					modal.hide();
+			}
+		});
 }
-async function tryLoginUser(username, password){
+async function tryLoginUser(username, password) {
 	const response = await fetch("https://localhost:443/api/login/", {
 		method: "POST",
 		headers: {
@@ -63,7 +94,12 @@ async function tryLoginUser(username, password){
 
 	if (response.status == 200 && result.jwt_token) {
 		await storeJWTInCookies(result);
-		timedAlert(`${await getTranslation("login success")}, ${await getTranslation("welcome")} ${username}.`, "success");
+		timedAlert(
+			`${await getTranslation("login success")}, ${await getTranslation(
+				"welcome"
+			)} ${username}.`,
+			"success"
+		);
 		callRoute("/home");
 	} else if (response.status == 302 && result.type == "otp") {
 		double_factor_authenticate(result);
@@ -72,7 +108,7 @@ async function tryLoginUser(username, password){
 	}
 }
 
-async function fetchAuthRedirection(){
+async function fetchAuthRedirection() {
 	const response = await fetch("https://localhost:443/api/redirect_uri/", {
 		method: "POST",
 		headers: {
@@ -87,7 +123,7 @@ async function fetchAuthRedirection(){
 	}
 }
 
-async function tryRegisterUser(username, password){
+async function tryRegisterUser(username, password) {
 	const response = await fetch("https://localhost:443/api/register/", {
 		method: "POST",
 		headers: {
@@ -108,28 +144,48 @@ async function tryRegisterUser(username, password){
 
 async function isValidRegeistrationIput(username, password, confirmPassword) {
 	if (username.length < 3 || username.length > 20)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username length")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid username length"
+			)}`
+		);
 	else if (password.length < 8 || password.length > 35)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password length")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password length"
+			)}`
+		);
 	else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username char")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid username char"
+			)}`
+		);
 	else if (
 		!(
 			/[A-Z]/.test(password) &&
 			/[a-z]/.test(password) &&
 			/\d/.test(password)
 		)
-	) 
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password char")}`);
-		else if (password !== confirmPassword)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password match")}`);
+	)
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password char"
+			)}`
+		);
+	else if (password !== confirmPassword)
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password match"
+			)}`
+		);
 	else return true;
 	return false;
 }
 
 async function isValidLoginIput(username, password) {
 	if (
-	!(
+		!(
 			username.length > 1 &&
 			username.length < 20 &&
 			password.length > 7 &&
@@ -171,9 +227,7 @@ function addJWTToRrequest() {
 	});
 }
 
-
-
-async function try2FactorAuthentication(otp){
+async function try2FactorAuthentication(otp) {
 	const response = await fetch(
 		"https://localhost:443/api/double_factor_auth/",
 		{
@@ -192,8 +246,7 @@ async function try2FactorAuthentication(otp){
 		await storeJWTInCookies(result);
 		timedAlert(`${await getTranslation("login success")}`, "success");
 		callRoute("/home");
-	} else {
-		timedAlert(`${await getTranslation("inavlid otp")}`);
-	}
-
+		return true;
+	} else timedAlert(`${await getTranslation("invalid otp")}`);
+	return false;
 }

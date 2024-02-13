@@ -1,7 +1,12 @@
 // Get the switch element
 var toggleSwitch = document.getElementById("toggle2FA");
 var mfa = document.getElementById("MFAModal");
+var otp = document.getElementById("otpModal");
+var OTPModal = new bootstrap.Modal(otp || null);
 var MFAModal = new bootstrap.Modal(mfa || null);
+var email = "";
+var max_resend = 3;
+var resend_counter = 0;
 
 init2FAButton();
 
@@ -76,50 +81,52 @@ async function disable2FA() {
 	}
 }
 
+async function hadleOTPModal(event) {
+	if (event.target.id === "otpSubmit") {
+		event.preventDefault();
+		const otp = document.getElementById("otp").value;
+		if (await verifyOTP(otp, email)) MFAModal.hide();
+	} else if (event.target.id === "resendOtp") {
+		if (resend_counter++ < max_resend)
+		{
+			if (await submit2FaEmail(email))
+				timedAlert(await getTranslation("email sent"), "info");
+			else 
+				timedAlert(await getTranslation("invalid email"), "warning");
+		} else {
+			let resend_button = event.target;
+			resend_button.disabled = true;
+			event.target.style.display = "none";
+			timedAlert(await getTranslation("max resend"));
+			setTimeout(() => {
+				resend_counter = 0;
+				resend_button.disabled = false;
+				event.target.style.display = "block";
+			}, 10000);
+		}
+	}
+}
+
 async function verifyEmail() {
 	try {
-		var otp = document.getElementById("otpModal");
-		var OTPModal = new bootstrap.Modal(otp || null);
-		var email = document.getElementById("email").value;
+		let emailInput = document.getElementById("email");
+		email = emailInput.value;
 
-		if (!email || notValidEmail(email))
+		if (!email || notValidEmail(email) || !(await submit2FaEmail(email))) {
 			timedAlert(await getTranslation("invalid email"), "warning");
-		if (!(await submit2FaEmail(email))) {
-			timedAlert(await getTranslation("invalid email"), "warning");
+			emailInput.focus();
 			return;
 		}
 
 		MFAModal.hide();
 		OTPModal.show();
 
-		let resend_counter = 0;
-		const max_resend = 2;
-		otp.addEventListener("click", async (event) => {
-			if (event.target.id === "otpSubmit") {
-				event.preventDefault();
-				const otp = document.getElementById("otp").value;
-				if (await verifyOTP(otp, email)) OTPModal.hide();
-			} else if (event.target.id === "resendOtp") {
-				if (resend_counter++ > max_resend) {
-
-					resend_button = document.getElementById("resendOtp");
-					event.target.disabled = true;
-					resend_button.style.display = 'none';
-					timedAlert(await getTranslation("max resend"));
-					setTimeout(() => {
-						resend_counter = 0;
-						event.target.disabled = false;
-						resend_button.style.display = 'block';
-					}, 6000);
-				} else if (await submit2FaEmail(email))
-					timedAlert(await getTranslation("email sent"), "info");
-				else
-					timedAlert(
-						await getTranslation("invalid email"),
-						"warning"
-					);
-			}
+		otp.addEventListener("click", hadleOTPModal);
+		otp.addEventListener("hidden.bs.modal",  function (e) {
+			emailInput.value = "";
+			otp.removeEventListener("click", hadleOTPModal);
 		});
+		
 	} catch (error) {
 		console.log(`Error: ${error}`);
 		MFAModal.hide();

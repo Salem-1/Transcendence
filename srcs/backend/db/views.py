@@ -60,6 +60,20 @@ def login_user(request):
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
+def resend_otp(request):
+	if request.method == "GET":
+		try:
+			decoded_payload = validate_jwt(request)
+			user, user_2fa, user_id =   fetch_user_data(decoded_payload)
+			if user_2fa.enabled_2fa:
+				send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
+				return JsonResponse({"message": "otp resent"})
+			return JsonResponse({"error": "2fa not enabled"}, status=401)
+		except Exception as e:
+			return JsonResponse({"error": "Invalid Authorization token"}, status=401)
+	return JsonResponse({"error": "Method not allowed"}, status=405)
+
+@csrf_exempt
 def mfa_state(request):
 	if request.method == "GET":
 		try:
