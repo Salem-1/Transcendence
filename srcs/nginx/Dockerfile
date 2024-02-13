@@ -77,6 +77,9 @@ COPY --from=base /usr/local/owasp-modsecurity-crs /usr/local/owasp-modsecurity-c
 COPY --from=base /usr/lib/nginx/modules/ /usr/lib/nginx/modules/
 
 # Copy local config files into the image
+RUN mkdir -p /etc/nginx/certs
+COPY conf/nginx/certs /etc/nginx/certs
+
 COPY errors /usr/share/nginx/errors
 COPY conf/nginx/ /etc/nginx/
 COPY conf/modsec/ /etc/nginx/modsec/

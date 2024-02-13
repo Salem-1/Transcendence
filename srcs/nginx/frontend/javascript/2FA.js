@@ -8,7 +8,7 @@ init2FAButton();
 // Get the current 2fa state
 async function get2FAState() {
 	try {
-		const response = await fetch("http://localhost:8000/api/mfaState/", {
+		const response = await fetch("https://localhost:443/api/mfaState/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -48,7 +48,7 @@ toggleSwitch.addEventListener("change", async function () {
 async function disable2FA() {
 	try {
 		const enable2fa = "false";
-		const response = await fetch("http://localhost:8000/set_2fa/", {
+		const response = await fetch("https://localhost:443/api/set_2fa/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -145,7 +145,7 @@ async function verifyOTP(otp, email) {
 }
 
 async function sendEnable2faEmail(otp, email) {
-	const response = await fetch("http://localhost:8000/enable_2fa_email/", {
+	const response = await fetch("https://localhost:443/api/enable_2fa_email/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -158,7 +158,7 @@ async function sendEnable2faEmail(otp, email) {
 	else return false;
 }
 async function submit2FaEmail(email) {
-	const response = await fetch("http://localhost:8000/submit_2fa_email/", {
+	const response = await fetch("https://localhost:443/api/submit_2fa_email/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

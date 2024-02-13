@@ -28,7 +28,7 @@ SECRET_KEY = get_settings_credentials('SECRET_KEY')
 # DEBUG = True
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "*"]
 APPEND_SLASH = False
 
 # Application definition
@@ -66,6 +66,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",  
     "http://localhost:21000",  
     "http://127.0.0.1:21000",  
+    "http://localhost:443",  
+    "http://127.0.0.1:443",  
+    "https://localhost:443",  
+    "https://127.0.0.1:443",  
+    "https://localhost",  
+    "https://127.0.0.1",  
+    "http://*",  
+    "https://*",  
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -100,6 +108,8 @@ TEMPLATES = [
         },
     },
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 

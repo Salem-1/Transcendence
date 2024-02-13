@@ -181,7 +181,7 @@ def redirect_uri(request):
             if (len(client_id) == 0):
                 intra_link = "#"
             else:
-                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code"\
+                intra_link="https://api.intra.42.fr/oauth/authorize?client_id={}&redirect_uri=https%3A%2F%2Flocalhost%3A443%2Fauth&response_type=code"\
                     .format(client_id)
             return JsonResponse({"oauth_link": intra_link})
         except Exception as e:
@@ -198,7 +198,7 @@ def logout_user(request):
         user_2fa.save()
         return JsonResponse({"message": "You are logged out!"})
     except Exception as e:
-        return JsonResponse({"error": "internal server error logged out!"}, status=500)
+        return JsonResponse({"error": "Unauthorized logout request"}, status=401)
 
 
 
@@ -276,7 +276,7 @@ def error_code(request, exception=None):
 @csrf_exempt
 def go_to_frontend(request):
     if (request.method == "GET"):
-        return redirect("http://localhost:3000", permanent=True)
+        return redirect("https://localhost:443", permanent=True)
     return HttpResponse("Method not allowed", status=405)
 
 
@@ -289,7 +289,6 @@ def set_winner(request):
         jwt_payload = validate_jwt(request)
         user, user_2fa, user_id =   fetch_user_data(jwt_payload)
         request_body = json.loads(request.body)
-
         if set_winner_on_smart_contract(request_body, user.username):
             return JsonResponse({'message': "successful stored on blockchain"})
     except Exception as e:
@@ -309,6 +308,18 @@ def get_winners(request):
         return JsonResponse({'winners': winners})
     except Exception as e:
         print(e)
-        return JsonResponse({'error': "Failed to set winner"}, status=401)
+        return JsonResponse({'error': "Failed to get winner"}, status=401)
 
-    return JsonResponse({'error': "Failed to set winner"})
+    return JsonResponse({'error': "Failed to get winner"})
+
+
+@csrf_exempt
+def say_hello(request):
+    if request.method != "GET":
+        return JsonResponse({'error': "Failed to set winner"}, status=405)
+    try:
+        return JsonResponse({'Message': "Hello ya Asta"})
+    except Exception as e:
+        error = str(e)
+        return JsonResponse({'error': error}, status=500)
+

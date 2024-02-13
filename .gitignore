@@ -16,3 +16,5 @@ migrations
 email_logs.txt
 src/backend/staticfiles
 staticfiles/*
+*.pem
+src/nginx/modsec-shared-collections

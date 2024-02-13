@@ -23,9 +23,9 @@ services:
       - ./src/nginx:/usr/share/nginx/html
       - ./srcs/backend/staticfiles:/app/backend/staticfiles
       - ./srcs/nginx/frontend:/var/www/html
+      - ./srcs/nginx/conf/nginx/certs:/etc/nginx/certs
     ports:
-      - 8000:21000
-      - 3000:80
+      - 443:443
     networks: 
       - services-network
     init: true
@@ -54,7 +54,7 @@ services:
   vault:
     container_name: vault
     build:
-      context: ./srcs/vault
+      context: ./srcs
       dockerfile: Dockerfile
     # ports:
     #   - 8200:8200
@@ -66,6 +66,7 @@ services:
       - ./srcs/vault/policies:/vault/policies
       - ./srcs/vault/data:/vault/data
       - ./srcs/vault/logs:/vault/logs
+      - ./srcs/nginx/conf/nginx/certs:/nginx
     environment:
       - VAULT_ADDR=http://localhost:8200
     command: server -config=/vault/config/vault-config.json
