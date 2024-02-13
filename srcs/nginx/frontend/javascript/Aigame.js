@@ -307,7 +307,7 @@ var AIgame = () => {
 				if (window.location.pathname !== "/AIgame") 
 				{
 					clearInterval(intervalId);
-					callRoute('/home');
+					return;
 				}
 				draw(game);
 				timestamp = Date.now();

@@ -90,13 +90,12 @@ const urlRoutes = {
 };
 
 async function callRoute(path) {
-	if (!path.startsWith("/"))
-	{
-		console.error("Path must start with /");
-		return
-	}
-	url = window.location.origin + path;
-	window.history.pushState({}, "", url);
+	// if (!path.startsWith("/"))
+	// {
+	// 	console.error("Path must start with /");
+	// 	return
+	// }
+	window.history.pushState({}, "", path);
 	await urlLocationHandler();
 }
 // create a function that watches the url and calls the urlLocationHandler
