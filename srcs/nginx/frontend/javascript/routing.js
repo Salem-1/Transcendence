@@ -90,7 +90,8 @@ const urlRoutes = {
 };
 
 async function callRoute(path) {
-	window.history.pushState({}, "", path);
+	url = window.location.origin + path;
+	window.history.pushState({}, "", url);
 	await urlLocationHandler();
 }
 // create a function that watches the url and calls the urlLocationHandler
