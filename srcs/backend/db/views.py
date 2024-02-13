@@ -233,7 +233,8 @@ def enable_2fa_email(request):
         user, user_2fa, user_id =   fetch_user_data(validate_jwt(request))
         request_body = json.loads(request.body)
         if not request_body or "otp" not in request_body \
-            or "email" not in request_body or len(request_body) != 2:
+            or "email" not in request_body or len(request_body) != 2 \
+                or len(request_body["otp"]) > 6:
             return JsonResponse({'error': "bad request body"}, status=400)
         if not verify_OTP(user_2fa.two_factor_secret, request_body["otp"]):
             return JsonResponse({"error": "failed to enable 2FA  invalid otp"}, status=401)
@@ -315,11 +316,5 @@ def get_winners(request):
 
 @csrf_exempt
 def say_hello(request):
-    if request.method != "GET":
-        return JsonResponse({'error': "Failed to set winner"}, status=405)
-    try:
-        return JsonResponse({'Message': "Hello ya Asta"})
-    except Exception as e:
-        error = str(e)
-        return JsonResponse({'error': error}, status=500)
+    return JsonResponse({'Message': "Hello ya Asta"})
 
