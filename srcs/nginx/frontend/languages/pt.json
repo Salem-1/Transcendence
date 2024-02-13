@@ -81,5 +81,9 @@
 	"enter otp": "Por favor, insira o OTP enviado para o seu e-mail!",
 	"email": "e-mail",
 	"otp": "OTP",
-	"max resend": "Reenviar OTP em"
+	"max resend": "Reenviar OTP em",
+	"enable": "Habilitar",
+	"close": "Fechar",
+	"resend": "Reenviar",
+	"unavailable": "Indisponível"
 }

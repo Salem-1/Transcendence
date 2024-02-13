@@ -81,5 +81,9 @@
 	"enter otp": "Please enter the OTP sent to your Email!",
 	"email": "Email",
 	"otp": "OTP" ,
-	"max resend": "Maximum number of OTP requests reached, Please try again later!"
+	"max resend": "Maximum number of OTP requests reached, Please try again later!",
+	"enable": "Enable",
+	"clsoe": "Close",
+	"resend": "Resend",
+	"unavailable": "Unavailable"
 }

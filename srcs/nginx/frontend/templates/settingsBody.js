@@ -97,8 +97,8 @@ function settingsBody() {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" onclick="verifyEmail()">Enable</button>
+					<button type="button" class="btn btn-secondary" data=i18n="close" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" data=i18n="enable" onclick="verifyEmail()">Enable</button>
 				</div>
 			</div>
 		</div>
@@ -127,9 +127,9 @@ function settingsBody() {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-info" id="resendOtp">resend otp</button>
-					<button type="button" class="btn btn-primary" id="otpSubmit">Enable</button>
+					<button type="button" class="btn btn-secondary" data=i18n="close" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-info" data=i18n="resend" id="resendOtp">resend otp</button>
+					<button type="button" class="btn btn-primary" data=i18n="close" id="otpSubmit">Enable</button>
 				</div>
 			</div>
 		</div>

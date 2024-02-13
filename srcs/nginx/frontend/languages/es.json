@@ -82,5 +82,9 @@
 	"enter otp": "¡Por favor entra el OTP enviado a tu correo electrónico!",
 	"email": "correo electrónico",
 	"otp": "OTP",
-	"max resend": "¡Has alcanzado el número máximo de reenvíos de correo electrónico!"
+	"max resend": "¡Has alcanzado el número máximo de reenvíos de correo electrónico!",
+	"enable": "Habilitar",
+	"close": "Cerrar",
+	"resend": "Reenviar",
+	"unavailable": "Indisponible"
 }
