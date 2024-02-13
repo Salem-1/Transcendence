@@ -85,5 +85,6 @@
 	"enable": "Enable",
 	"clsoe": "Close",
 	"resend": "Resend",
-	"unavailable": "Unavailable"
+	"unavailable": "Unavailable",
+	"verify": "Verify"
 }

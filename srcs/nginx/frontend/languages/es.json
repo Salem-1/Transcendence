@@ -58,7 +58,6 @@
 	"invalid username char": "El nombre de usuario debe contener solamente letras, números y guiones bajos",
 	"invalid username exists": "El nombre de usuario ya existe",
 	"invalid login": "No se puede inicar la sesion, nombre de usuario o contraseña inválidos",
-
 	"logout failed": "No se puede terminar la sesión",
 
 	"zero players": "No se han añadido jugadores, añade al menos 2 jugadores para comenzar el juego",
@@ -86,5 +85,6 @@
 	"enable": "Habilitar",
 	"close": "Cerrar",
 	"resend": "Reenviar",
-	"unavailable": "Indisponible"
+	"unavailable": "Indisponible",
+	"verify": "Verificar"
 }

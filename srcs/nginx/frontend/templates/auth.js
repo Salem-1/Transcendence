@@ -27,9 +27,9 @@ function auth() {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-info" id="resendOtp">resend otp</button>
-					<button type="button" class="btn btn-primary" id="otpSubmit">Submit</button>
+					<button type="button" class="btn btn-secondary" data-i18n="close" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-info" data-i18n="resend" id="resendOtp">resend otp</button>
+					<button type="button" class="btn btn-primary" data-i18n="verify" id="otpSubmit">Submit</button>
 				</div>
 			</div>
 		</div>

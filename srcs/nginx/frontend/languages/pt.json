@@ -85,5 +85,6 @@
 	"enable": "Habilitar",
 	"close": "Fechar",
 	"resend": "Reenviar",
-	"unavailable": "Indisponível"
+	"unavailable": "Indisponível",
+	"verify": "Verificar"
 }
