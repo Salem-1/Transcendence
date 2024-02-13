@@ -46,7 +46,7 @@ def record_winner(w3, contract, private_key, winner, owner, address):
     transaction = {
         'to': contract.address,
         'data': encoded_data,
-        'gas': 75200,  # Adjust gas limit accordingly
+        'gas': 190000,  # Adjust gas limit accordingly
         'gasPrice': w3.to_wei('75', 'gwei'), # Increase gas price to 75 Gwei
         'nonce': w3.eth.get_transaction_count(address),  # Add nonce to prevent replay attacks
     }
@@ -64,16 +64,18 @@ def load_contract(w3, contract_address, contract_abi):
     return contract
 
 def get_winner_owner(request_body, owner):
+    print("request body is:")
+    print(request_body);
     if len(request_body) != 1 or ("winner" not in request_body):
         raise RuntimeError("Bad request body")
     winner = request_body["winner"]
     print(winner)
     print(owner)
-    if len(winner) < 1 or len(winner) > 14 or \
-        len(owner) < 1 or len(owner) > 14 or \
-             (not has_alpha(winner)) or (not has_alpha(owner)):
+    if len(winner) < 1 or len(winner) > 20 or (not has_alpha(winner)):
         raise RuntimeError("Failed to get winners")
-    return winner, owner
+    final_winner = "(winner: " + winner + ")"
+    organizer = "  (organizer: " + owner + ")"
+    return final_winner , organizer
 
 
 def set_winner_on_smart_contract(request_body, owner):
@@ -84,8 +86,11 @@ def set_winner_on_smart_contract(request_body, owner):
     private_key = get_secret("WALLET_PVT_KEY")
     wallet_address = get_secret("WALLET_ADDRESS")
     get_account_balance(w3, wallet_address)
+    #comment the line below if you don't want to consume gas
     # record_winner(w3, contract, private_key, winner, owner, get_secret("WALLET_ADDRESS"))
     return True
+
+
 
 
 
