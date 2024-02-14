@@ -1,14 +1,13 @@
 function registration_body() {
 	return `
-	<img
-		id="logo"
-		src="/assets/logo1.png"
-		alt="yellow 42 Abu dhabi logo"
-		onclick="callRoute('/')"
-	/>
 	<form action="javascript:;" onsubmit="register()">
 		<div class="btns">
-			<img id="Person" src="/assets/Person.png" alt="Character" />
+		<img
+			id="logo"
+			src="/assets/logo1.png"
+			alt="yellow 42 Abu dhabi logo"
+			onclick="callRoute('/')"
+		/>
 			<div class="form-floating mb-2 regPageInput">			
 				<input
 					type="text"

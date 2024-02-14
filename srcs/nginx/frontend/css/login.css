@@ -158,8 +158,8 @@ label.form-label {
 
 #logo {
 	cursor: pointer;
-	margin-top: 20px;
-	margin-left: 20px;
+	/* margin-top: 20px; */
+	margin-left: 90px;
 	width: 140px;
 	height: 130px;
 	border-radius: 20%;

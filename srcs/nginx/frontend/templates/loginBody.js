@@ -1,9 +1,8 @@
 function loginBody() {
 	return `
-		<img id="logo" src="/assets/logo1.png" alt="" onclick="callRoute('/')" />
 		<form action="javascript:;" onsubmit="login()">
 			<div class="btns">
-				<img id="Person" src="/assets/Person.png" alt="Character" />
+				<img id="logo" src="/assets/logo1.png" alt="" onclick="callRoute('/')" />
 				<div class="form-floating mb-3">
 					<input
 						type="text"

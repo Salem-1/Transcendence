@@ -153,18 +153,14 @@ label.form-label {
 	line-height: 60px;
 }
 
-#Person {
-	margin-left: 120px;
-	margin-bottom: 10px;
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-}
 
 #logo {
-	margin-top: 20px;
-	margin-left: 20px;
+	margin-left: 130px;
+	/* margin-top: 20px; */
+	/* margin-left: 20px; */
+	margin-bottom: -30px;
 	width: 140px;
 	height: 130px;
 	border-radius: 20%;
+	cursor: pointer;
 }
