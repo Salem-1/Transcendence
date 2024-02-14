@@ -29,7 +29,7 @@ def is_2fa_enabled(user):
     return User_2fa.objects.get(user=user).enabled_2fa
 
 def authenticate_otp_redirect(username):
-    otp_jwt = gen_jwt_token(username, "otp", 1)
+    otp_jwt = gen_jwt_token(username, "otp", 2)
     response_data = {
         'jwt_token': otp_jwt,
         'username': username,

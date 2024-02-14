@@ -52,72 +52,62 @@ html {
   
 #registration-button {
 	cursor: pointer;
-	margin-top: 220px;
-	margin-left: 25px;
+	margin-top: 70px;
+	margin-left: 50%;
 	position: absolute;
 }
 
 #register-div {
     margin: 0;
 	position: absolute;
-	top: 30%;
+	top: 40%;
 	left: 45%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 }
 
-#username{
+.form-floating {
 	color: black;
 	font-size: 20px;
 	font-family: 'Poetsen One', sans-serif;
 	font-weight: 400;
-    padding-left: 20px;
-    width: 300px;
-    height: 50px;
-    position: absolute;
-    background: #514949;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    border: 4px #78B5DD solid;
+	width: 320px;
+	height: 50px;
+	left: 34%;
+	top: 20px;
+}
+.form-control:focus {
+	font-size: 20px;
 }
 
-#password{
-	color: black;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-    padding-left: 20px;
-    margin-top: 70px;
-    width: 300px;
-    height: 50px;
-    position: absolute;
-    background: #514949;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    border: 4px #78B5DD solid;
-}
-#confirmpassword{
-	color: black;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-    padding-left: 20px;
-    margin-top: 140px;
-    width: 300px;
-    height: 50px;
-    position: absolute;
-    background: #514949;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    border: 4px #78B5DD solid;
+.form-floating>.form-control-plaintext~label::after, .form-floating>.form-control:focus~label::after, .form-floating>.form-control:not(:placeholder-shown)~label::after, .form-floating>.form-select~label::after {
+	background: #514949;
 }
 
-::placeholder {
-    color: gray;
-	font-size: 20px;
-	font-family: 'Poetsen One', sans-serif;
-	font-weight: 400;
-    /* padding-left: 10px; */
+.form-floating>.form-control-plaintext~label, .form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-select~label {
+	color: #b6a5a5;
+	font-size: 14px;
+}
+
+.form-floating input{
+	border: 4px solid #78B5DD;
+	border-radius: 15px;
+	background: #514949;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.form-floating input.form-control {
+	color: black;
+	background: #514949;
+	height: 70px;
+}
+
+label.form-label {
+	color: black;
+}
+
+.regPageInput {
+	margin: 40px;
 }
 
 .button-div-one {
