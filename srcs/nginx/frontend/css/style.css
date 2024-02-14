@@ -101,10 +101,6 @@ html {
 
 
 .btns {
-	border: solid 10px gold;
-	padding: 40px;
-	border-radius: 20px;
-	background-color: rgba(0,0,0,0.8);
 	position: absolute;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
