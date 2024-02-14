@@ -39,17 +39,16 @@ html {
 #login {
 	cursor: pointer;
 	margin-top: 50px;
-	margin-left: 130px;
+	margin-left: 20px;
     position: absolute;
 }
 
-#logindiv {
-    margin: 0;
+.btns {
 	position: absolute;
-	top: 40%;
-	left: 45%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
 }
 
 .form-floating {
@@ -59,7 +58,6 @@ html {
 	font-weight: 400;
 	width: 320px;
 	height: 70px;
-	left: 34%;
 	top: 20px;
 }
 .form-control:focus {
@@ -145,8 +143,8 @@ label.form-label {
 }
 
 #Person {
-	margin-left: 60%;
-	margin-bottom: 10px;
+	margin-left: 80px;
+	/* margin-bottom: 10px; */
 	width: 150px;
 	height: 150px;
 	border-radius: 50%;
@@ -154,8 +152,8 @@ label.form-label {
 
 #logo {
 	cursor: pointer;
-	margin-top: 20px;
-	margin-left: 20px;
+	/* margin-top: 20px; */
+	margin-left: 90px;
 	width: 140px;
 	height: 130px;
 	border-radius: 20%;

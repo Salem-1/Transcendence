@@ -197,7 +197,7 @@ function displayRound() {
 }
 
 function showOnePlayer(player_place, playername) {
-  if (!playername) playername = "";
+  if (!playername) playername = "-";
 
   player_place.innerText = playername;
   player_place.style.display = "inline";
