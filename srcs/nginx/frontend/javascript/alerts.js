@@ -27,16 +27,6 @@ function timedAlert(
 
 	alertDivID = alertdivID + Math.floor(Math.random() * 1000000);
 	// remove old alerts
-	alertList = document.querySelectorAll(".alert");
-	if (alertList.length > 0) {
-		alertList.forEach((alert) => {
-			let opp = alert.getAttribute("style").split(":")[1].split("%")[0];
-			console.log(opp);
-			let newopp = opp * 0.8;
-			if (newopp < 50) alert.remove();
-			else alert.setAttribute("style", `opacity: ${newopp}%;`);
-		});
-	}
 
 	// alert body
 	let alertDiv = document.createElement("div");
@@ -84,12 +74,12 @@ function timedAlert(
 		let currentTime = Date.now() - startTime;
 		let prec = currentTime / timeout;
 		let opacity = 1 - prec;
+		alertDiv.setAttribute("style", "opacity: " + opacity + ";");
 
 		if (currentTime >= timeout) {
 			clearInterval(intervalId); // Stop the interval once the timeout has been reached
 			let alertelement = document.getElementById(alertdivID);
 			if (alertelement) alertelement.remove();
-			else alertDiv.style.opacity = 100;
 		}
-	}, 250);
+	}, 100);
 }
