@@ -10,11 +10,13 @@ function initTournament() {
 		startTournament();
 		return;
 	}
-	if (window.location.pathname != "/tournament") {
+	let players = localStorage.getItem("players");
+	console.log(`players are ${players == null}`);
+	if (players == null || window.location.pathname != "/tournament") {
 		callRoute("/home");
 		return;
 	}
-	let players = JSON.parse(localStorage.getItem("players")) || [];
+	players = JSON.parse(players);
 	let round = fillRound(players);
 	let level = getLevel(round);
 	let roundJSON = JSON.stringify(round);
