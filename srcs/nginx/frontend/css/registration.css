@@ -1,17 +1,3 @@
-/* body {
-	background-color: #000;
-	margin: 0px;
-}
-
-.hero{
-	background-image: url(../assets/hero.svg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	width: 100%;
-	height: 100vh;
-} */
-
 html {
 	height:100%;
   }
@@ -52,19 +38,19 @@ html {
   
 #registration-button {
 	cursor: pointer;
-	margin-top: 70px;
-	margin-left: 50%;
+	margin-top: 60px;
+	margin-left: 60px;
 	position: absolute;
 }
 
-#register-div {
-    margin: 0;
+.btns {
 	position: absolute;
-	top: 40%;
-	left: 45%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
 }
+
 
 .form-floating {
 	color: black;
@@ -73,8 +59,7 @@ html {
 	font-weight: 400;
 	width: 320px;
 	height: 50px;
-	left: 34%;
-	top: 20px;
+	top: 10px;
 }
 .form-control:focus {
 	font-size: 20px;
@@ -162,18 +147,14 @@ label.form-label {
 	line-height: 60px;
 }
 
-#Person {
-	margin-left: 60%;
-	margin-bottom: 10px;
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-}
 
 #logo {
-	margin-top: 20px;
-	margin-left: 20px;
+	margin-left: 130px;
+	/* margin-top: 20px; */
+	/* margin-left: 20px; */
+	margin-bottom: -30px;
 	width: 140px;
 	height: 130px;
 	border-radius: 20%;
+	cursor: pointer;
 }

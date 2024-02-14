@@ -1,4 +1,10 @@
 
+function xIcon(){
+	return(`
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+ 		<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+		</svg>
+	`)};
 function tournamentBody(){
 	return(`
 	<div class="hero">
@@ -32,12 +38,12 @@ function tournamentBody(){
 					  <div class="round round-one current">
 						<div class="round-details" data-i18n="quarter finals">QUARTER FINALS - 1<br/></div>
 						<ul class="matchup">
-						  <li class="team team-top" id="quarter-final-t1">Team 1</li>
-						  <li class="team team-bottom" id="quarter-final-t2">Team 2</li>
+						  <li class="team team-top" id="quarter-final-t1">${xIcon()}</li>
+						  <li class="team team-bottom" id="quarter-final-t2">${xIcon()}</li>
 						</ul>
 						<ul class="matchup">
-						  <li class="team team-top" id="quarter-final-t3">Team 3</li>
-						  <li class="team team-bottom" id="quarter-final-t4">Team 4</li>
+						  <li class="team team-top" id="quarter-final-t3">${xIcon()}</li>
+						  <li class="team team-bottom" id="quarter-final-t4">${xIcon()}</li>
 						</ul>
 					  </div>  
 					  <!-- END ROUND ONE -->
@@ -45,8 +51,8 @@ function tournamentBody(){
 					  <div class="round round-two current">
 						<div class="round-details" data-i18n="semi finals">SEMI FINALS - 1<br/></div>     
 						<ul class="matchup">
-						  <li class="team team-top" id="semi-final-t1">Team 1</li>
-						  <li class="team team-bottom" id="semi-final-t2">Team 2</li>
+						  <li class="team team-top" id="semi-final-t1">${xIcon()}</li>
+						  <li class="team team-bottom" id="semi-final-t2">${xIcon()}</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND TWO -->
@@ -54,7 +60,7 @@ function tournamentBody(){
 					  <div class="round round-three current">
 						<div class="round-details" data-i18n="finals">FINALS<br/></div>     
 						<ul class="matchup">
-						  <li class="team team-top" id="final-t2">Team 2</li>
+						  <li class="team team-top" id="final-t2">${xIcon()}</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND THREE -->    
@@ -74,7 +80,7 @@ function tournamentBody(){
 					  <div class="round round-three">
 						<div class="round-details">FINALS<br/></div>           
 						<ul class="matchup">
-						  <li class="team team-top" id="final-t1">Team 1</li>
+						  <li class="team team-top" id="final-t1">${xIcon()}</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND THREE -->  
@@ -90,12 +96,12 @@ function tournamentBody(){
 					  <div class="round round-one current">
  						<div class="round-details" data-i18n="quarter finals">QUARTER FINALS - 2<br/></div>
 						<ul class="matchup">
-						  <li class="team team-top" id="quarter-final-t5">Team 5</li>
-						  <li class="team team-bottom" id="quarter-final-t6">Team 6</li>
+						  <li class="team team-top" id="quarter-final-t5">${xIcon()}</li>
+						  <li class="team team-bottom" id="quarter-final-t6">${xIcon()}</li>
 						</ul>
 						<ul class="matchup">
-						  <li class="team team-top" id="quarter-final-t7">Team 7</li>
-						  <li class="team team-bottom" id="quarter-final-t8">Team 8</li>
+						  <li class="team team-top" id="quarter-final-t7">${xIcon()}</li>
+						  <li class="team team-bottom" id="quarter-final-t8">${xIcon()}</li>
 						</ul>
 					  </div>  
 					  <!-- END ROUND ONE -->                  

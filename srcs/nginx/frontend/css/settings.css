@@ -96,11 +96,12 @@ html {
 }
 
 #greet:active {
-	margin-right: 45px;
+	margin-right: 40px;
 	margin-top: 52px;
-	width: 135px;
+	width: 155px;
 	height: 65;
 }
+
 .button-text {
 	cursor: pointer;
 	text-align: center;
