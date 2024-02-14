@@ -332,8 +332,9 @@ var game = () => {
 				const location = window.location.pathname;
 				if (location !== "/game") {
 					clearInterval(intervalId);
-					callRoute("/home");
-					return -1;
+					if (location === "/tournament")
+						callRoute('/home');
+					return ;
 				}
 				draw(game);
 				const winner = getWinner(game);
