@@ -83,7 +83,7 @@
 	"otp": "OTP" ,
 	"max resend": "Maximum number of OTP requests reached, Please try again later!",
 	"enable": "Enable",
-	"clsoe": "Close",
+	"close": "Close",
 	"resend": "Resend",
 	"unavailable": "Unavailable",
 	"verify": "Verify"
