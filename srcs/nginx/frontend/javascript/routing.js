@@ -90,11 +90,6 @@ const urlRoutes = {
 };
 
 async function callRoute(path) {
-	// if (!path.startsWith("/"))
-	// {
-	// 	console.error("Path must start with /");
-	// 	return
-	// }
 	window.history.pushState({}, "", path);
 	await urlLocationHandler();
 }
@@ -108,6 +103,7 @@ const route = (event) => {
 
 // create a function that handles the url location
 const urlLocationHandler = async () => {
+	clearIfNotTourOrGame();
 	const location = window.location.pathname; // get the url path
 	// if the path length is 0, set it to primary page route
 	if ((location.length = 0)) {
@@ -195,6 +191,16 @@ const isNotLoggedIn = async () => {
 		return (false);
 	}
 };
+
+function clearIfNotTourOrGame() {
+	if (window.location.pathname != "/tournament" && window.location.pathname != "/game") {
+		localStorage.removeItem("players");
+		localStorage.removeItem("round");
+		localStorage.removeItem("roundWinners");
+		localStorage.removeItem("levelRound");
+		localStorage.removeItem("level");
+	}
+}
 
 // add an event listener to the window that watches for url changes
 window.onpopstate = urlLocationHandler;
