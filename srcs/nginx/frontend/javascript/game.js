@@ -329,9 +329,10 @@ var game = () => {
 		handleResize(game);
 		return await new Promise((resolve) => {
 			const intervalId = setInterval(() => {
-				const location = window.location.pathname; // get the url path
+				const location = window.location.pathname;
 				if (location !== "/game") {
 					clearInterval(intervalId);
+					callRoute("/home");
 					return -1;
 				}
 				draw(game);
@@ -355,13 +356,16 @@ var game = () => {
 
 	async function main() {
 		const { isTournament, player1, player2 } = readQueryParams();
+
 		if (!isTournament) {
 			await playGame();
+			// Disply winner here
 			callRoute("/home");
 		} else {
 			if (player1) document.getElementById("player1").innerText = player1;
 			if (player2) document.getElementById("player2").innerText = player2;
 			const winner = await playGame();
+			// Disply winner here
 			if (winner === -1) return;
 			const round = JSON.parse(localStorage.getItem("round"));
 			const level = JSON.parse(localStorage.getItem("level"));
