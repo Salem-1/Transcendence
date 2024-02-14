@@ -85,14 +85,12 @@ async function hadleOTPModal(event) {
 	if (event.target.id === "otpSubmit") {
 		event.preventDefault();
 		const otp = document.getElementById("otp").value;
-		if (await verifyOTP(otp, email)) MFAModal.hide();
+		if (await verifyOTP(otp, email)) OTPModal.hide();
 	} else if (event.target.id === "resendOtp") {
-		if (resend_counter++ < max_resend)
-		{
+		if (resend_counter++ < max_resend) {
 			if (await submit2FaEmail(email))
 				timedAlert(await getTranslation("email sent"), "info");
-			else 
-				timedAlert(await getTranslation("invalid email"), "warning");
+			else timedAlert(await getTranslation("invalid email"), "warning");
 		} else {
 			let resend_button = event.target;
 			resend_button.disabled = true;
@@ -122,11 +120,10 @@ async function verifyEmail() {
 		OTPModal.show();
 
 		otp.addEventListener("click", hadleOTPModal);
-		otp.addEventListener("hidden.bs.modal",  function (e) {
+		otp.addEventListener("hidden.bs.modal", function (e) {
 			emailInput.value = "";
 			otp.removeEventListener("click", hadleOTPModal);
 		});
-		
 	} catch (error) {
 		console.log(`Error: ${error}`);
 		MFAModal.hide();

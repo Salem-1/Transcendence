@@ -52,7 +52,7 @@ function loginBody() {
 				</div>
 			</div>
 		</form>
-		<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">

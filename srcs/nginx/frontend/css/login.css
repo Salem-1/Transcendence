@@ -1,17 +1,3 @@
-/* body {
-	background-color: #000;
-	margin: 0px;
-}
-
-.hero{
-	background-image: url(../assets/hero.svg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	width: 100%;
-	height: 100vh;
-} */
-
 html {
 	height:100%;
   }
@@ -175,3 +161,11 @@ label.form-label {
 	border-radius: 20%;
 }
 
+.form-switch.form-check-reverse .form-check-input{
+	margin-top: 1em !important;
+}
+
+p {
+	text-align: center;
+	margin-top: 1rem;
+}
