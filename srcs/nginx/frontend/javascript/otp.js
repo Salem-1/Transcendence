@@ -1,4 +1,3 @@
-const { get } = require("selenium-webdriver/http");
 
 var login_max_resend = 3;
 var login_resend_counter = 0;

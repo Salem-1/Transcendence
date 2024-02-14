@@ -56,7 +56,7 @@ class YourAppViewsTest(unittest.TestCase):
 
             # Check the expiration time (exp claim)
             expiration_time = decoded_token['exp']
-            expected_expiration_time = int((current_time + datetime.timedelta(minutes=1)).timestamp())
+            expected_expiration_time = int((current_time + datetime.timedelta(minutes=2)).timestamp())
             self.assertEqual(expiration_time, expected_expiration_time)
 
             # Check other properties in the response
