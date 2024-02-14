@@ -4,7 +4,7 @@ function loginBody() {
 		<form action="javascript:;" onsubmit="login()">
 			<div class="btns">
 				<img id="Person" src="/assets/Person.png" alt="Character" />
-				<div class="form-floating mb-3" id ='test'>
+				<div class="form-floating mb-3">
 					<input
 						type="text"
 						class="form-control"
@@ -18,7 +18,7 @@ function loginBody() {
 					/>
 					<label for="username" data-i18n="username"></label>
 				</div>
-				<div class="form-floating">
+				<div class="form-floating mb-3">
 					<input
 						type="password"
 						class="form-control"
@@ -52,5 +52,6 @@ function loginBody() {
 				</div>
 			</div>
 		</form>
-	`; 
+		${genModal()};
+	`;
 }
