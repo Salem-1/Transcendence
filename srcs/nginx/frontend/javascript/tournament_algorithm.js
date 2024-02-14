@@ -23,6 +23,8 @@ function initTournament() {
 }
 
 async function startTournament() {
+	const launchButton = document.getElementById("launch-tournamet");
+	launchButton.style.display = "none";
 	let players = JSON.parse(localStorage.getItem("players")) || [];
 	let storedRoundJSON = localStorage.getItem("round");
 	let storedLevelString = localStorage.getItem("level");

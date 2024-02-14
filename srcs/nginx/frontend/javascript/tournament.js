@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
 });
 
-async function launchTournament(){
+async function launchTournament() {
+	const launchButton = document.getElementById("launch-tournamet");
+	launchButton.style.display = "block";
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length <  2)
     {
