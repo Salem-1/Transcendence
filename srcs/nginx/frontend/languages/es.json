@@ -65,13 +65,13 @@
 	"invalid player name": "Nombre de jugador no es válido",
 	"max players": "Máximo de 8 jugadores esta permitidos",
 	"player exists": "Jugador ya esta añadido",
-	"starting tournament": "Comienza al torneo",
+	"starting tournament": "COMIENZA AL TORNEO",
 
-	"launch tournament": "Iniciar Torneo",
-	"quarter finals": "Cuartos de Final",
-	"semi finals": "Semifinales",
-	"finals": "Finales",
-	"winner": "Ganador",
+	"launch tournament": "INICIAR TORNEO",
+	"quarter finals": "CUARTOS DE FINAL",
+	"semi finals": "SEMIFINALES",
+	"finals": "FINALES",
+	"winner": "GANADOR",
 
 	"language": "IDIOMA",
 
@@ -86,5 +86,21 @@
 	"close": "Cerrar",
 	"resend": "Reenviar",
 	"unavailable": "Indisponible",
-	"verify": "Verificar"
+	"verify": "Verificar",
+
+	"loading": "CARGANDO...",
+	"please wait": "POR FAVOR, ESPERA MIENTRAS SE CARGA",
+
+	"player": "¡El JUGADOR",
+	"player 1": "JUGADOR 1",
+	"player 2": "JUGADOR 2",
+	"paused": "PAUSADO",
+	"game paused": "EL JUEGO ESTÁ PAUSADO",
+	"wins": "TRIUNFA CON ESTILO",
+	"left wins": "¡EL JUGADOR IZQUIERDO GANA!",
+	"right wins": "¡EL JUGADOR DERECHO GANA!",
+
+	"chill": "TÓMATE LAS COSAS CON CALMA",
+	"42 abu dhabi": "42 ABU DHABI",
+	"main menu": "MENÚ PRINCIPAL"
 }

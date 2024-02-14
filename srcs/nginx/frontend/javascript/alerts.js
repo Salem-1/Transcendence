@@ -71,12 +71,15 @@ function timedAlert(
 	// Set an interval to update the progress bar every second
 	let startTime = Date.now();
 	let intervalId = setInterval(function () {
-		let currentTime = Date.now() - startTime;
-		let prec = currentTime / timeout / 4;
-		let opacity = 1 - prec;
-		alertDiv.setAttribute("style", "opacity: " + opacity + ";");
+		let ellapsedtTime = Date.now() - startTime;
+		if (ellapsedtTime > timeout/4)
+		{
+			let prec = ellapsedtTime / (timeout*1.5);
+			let opacity = 1 - prec;
+			alertDiv.setAttribute("style", "opacity: " + opacity + ";");
+		}
 
-		if (currentTime >= timeout) {
+		if (ellapsedtTime >= timeout) {
 			clearInterval(intervalId); // Stop the interval once the timeout has been reached
 			let alertelement = document.getElementById(alertdivID);
 			if (alertelement) alertelement.remove();

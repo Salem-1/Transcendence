@@ -30,12 +30,12 @@ setTimeout(() => controller.abort(), timeout);
 			double_factor_authenticate(result);
 		} else {
 			timedAlert(
-				`${await getTranslation("login failed")}: ${result.error}`
+				`${await getTranslation("login failed")}`
 			);
 		}
 	} catch (error) {
 		console.log("Error during registration:", error);
-		timedAlert(`${await getTranslation("reg failed")}: ${error}`);
+		timedAlert(`${await getTranslation("reg failed")}`);
 		callRoute("/");
 	}
 }

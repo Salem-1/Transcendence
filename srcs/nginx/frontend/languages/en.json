@@ -65,13 +65,13 @@
 	"invalid player name": "Invalid player name",
 	"max players": "Maximum 8 players allowed",
 	"player exists": "Player already added",
-	"starting tournament": "Starting tournament",
+	"starting tournament": "STARTING TOURNAMENT",
 
-	"launch tournament": "Launch Tournament",
-	"quarter finals": "Quarter Finals",
-	"semi finals": "Semi Finals",
-	"finals": "Finals",
-	"winner": "Winner",
+	"launch tournament": "LAUNCH TOURNAMENT",
+	"quarter finals": "QUARTER FINALS",
+	"semi finals": "SEMI FINALS",
+	"finals": "FINALS",
+	"winner": "WINNER",
 
 	"language": "LANGUAGE",
 
@@ -86,5 +86,21 @@
 	"close": "Close",
 	"resend": "Resend",
 	"unavailable": "Unavailable",
-	"verify": "Verify"
+	"verify": "Verify",
+
+	"loading": "LOADING...",
+	"please wait": "PLEASE WAIT WHILE WE IMMERSE YOU IN THE GAMING EXPERIENCE!",
+
+	"player": "PLAYER",
+	"player 1:": "PLAYER 1:",
+	"player 2:": "PLAYER 2:",
+	"paused": "PAUSED",
+	"game paused": "GAME PAUSED",
+	"wins": "DOMINATES THE GAME",
+	"left wins": "LEFT PLAYER WINS",
+	"right wins": "RIGHT PLAYER WINS",
+
+	"chill": "TAKE A CHILL PILL",
+	"42 abu dhabi": "42 ABU DHABI",
+	"main menu": "MAIN MENU"
 }

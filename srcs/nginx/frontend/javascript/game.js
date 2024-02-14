@@ -296,7 +296,7 @@ var game = () => {
         handleKeyPress(game);
         handleResize(game);
         return await new Promise(resolve => {
-            const intervalId = setInterval(() => {
+            const intervalId = setInterval(async () => {
 				const location = window.location.pathname; // get the url path
 				if (location !== '/game')
 				{
@@ -306,7 +306,7 @@ var game = () => {
                 draw(game);
                 const winner = getWinner(game);
                 if (winner != 0) {
-                    timedAlert(`${winner === 1 ? 'Left' : 'Right'} side won!`, "success");
+                    timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success");
                     clearInterval(intervalId);
                     resolve(winner);
 					
