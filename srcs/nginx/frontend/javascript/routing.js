@@ -89,15 +89,19 @@ const urlRoutes = {
 	},
 };
 
-async function callRoute(route) {
-	window.history.pushState({}, "", route);
+async function callRoute(path) {
+	// if (!path.startsWith("/"))
+	// {
+	// 	console.error("Path must start with /");
+	// 	return
+	// }
+	window.history.pushState({}, "", path);
 	await urlLocationHandler();
 }
 // create a function that watches the url and calls the urlLocationHandler
 const route = (event) => {
 	event = event || window.event; // get window.event if event argument not provided
 	event.preventDefault();
-	// window.history.pushState(state, unused, target link);
 	window.history.pushState({}, "", event.target.href);
 	urlLocationHandler();
 };
@@ -193,7 +197,7 @@ const isNotLoggedIn = async () => {
 };
 
 // add an event listener to the window that watches for url changes
-window.onpopstate = route;
+window.onpopstate = urlLocationHandler;
 // call the urlLocationHandler function to handle the initial url
 window.route = route;
 // call the urlLocationHandler function to handle the initial url
