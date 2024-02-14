@@ -1,15 +1,14 @@
 function registration_body() {
 	return `
-	<img
-		id="logo"
-		src="/assets/logo1.png"
-		alt="yellow 42 Abu dhabi logo"
-		onclick="callRoute('/')"
-	/>
 	<form action="javascript:;" onsubmit="register()">
-		<div id="register-div">
-			<img id="Person" src="/assets/Person.png" alt="Character" />
-			<div class="form-floating mb-3 regPageInput">			
+		<div class="btns">
+		<img
+			id="logo"
+			src="/assets/logo1.png"
+			alt="yellow 42 Abu dhabi logo"
+			onclick="callRoute('/')"
+		/>
+			<div class="form-floating mb-2 regPageInput">			
 				<input
 					type="text"
 					class="form-control"
@@ -22,7 +21,7 @@ function registration_body() {
 				/>
 				<label for="username" data-i18n="username"></label>
 			</div>
-			<div class="form-floating mb-3 regPageInput">
+			<div class="form-floating mb-2 regPageInput">
 				<input
 					type="password"
 					class="form-control"
@@ -35,7 +34,7 @@ function registration_body() {
 				/>
 				<label for="password" data-i18n="password"></label>
 			</div>
-			<div class="form-floating mb-3 regPageInput">
+			<div class="form-floating mb-2 regPageInput">
 				<input
 					type="password"
 					class="form-control"
