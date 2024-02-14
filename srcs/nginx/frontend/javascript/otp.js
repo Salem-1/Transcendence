@@ -1,3 +1,5 @@
+const { get } = require("selenium-webdriver/http");
+
 var login_max_resend = 3;
 var login_resend_counter = 0;
 
@@ -83,6 +85,12 @@ async function otpModalHandler(event) {
 
 async function double_factor_authenticate(result) {
 	let tempLoginModal = document.getElementById("loginModal");
+	if (!tempLoginModal)
+	{
+		timedAlert(await getTranslation("login failed"));
+		callRoute("/")
+		return;
+	}
 	let loginModal = new bootstrap.Modal(tempLoginModal);
 	await storeJWTInCookies(result);
 	loginModal.show();
