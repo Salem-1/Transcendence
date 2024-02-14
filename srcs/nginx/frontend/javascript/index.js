@@ -1,4 +1,4 @@
-  // Get oauth link from auth service
+// Get oauth link from auth service
 async function oauthRedirect() {
 	try {
 		await fetchAuthRedirection();
@@ -12,7 +12,8 @@ async function register() {
 	const password = document.getElementById("password").value;
 	const confirmPassword = document.getElementById("confirmpassword").value;
 
-	if (!await isValidRegeistrationIput(username, password, confirmPassword)) return;
+	if (!(await isValidRegeistrationIput(username, password, confirmPassword)))
+		return;
 	try {
 		await tryRegisterUser(username, password);
 	} catch (error) {
@@ -24,7 +25,7 @@ async function login() {
 	const username = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
 
-	if (!await isValidLoginIput(username, password)) return;
+	if (!(await isValidLoginIput(username, password))) return;
 	try {
 		await tryLoginUser(username, password);
 	} catch (error) {
@@ -33,25 +34,7 @@ async function login() {
 	}
 }
 
-async function double_factor_authenticate(result) {
-	await storeJWTInCookies(result);
-	const otp = prompt(
-		await getTranslation("enter otp"),
-		"000000"
-	);
-	const otpPattern = /^\d{6}$/;
-	if (otpPattern.test(otp)) {
-		try {
-			await try2FactorAuthentication(otp);
-		} catch (error) {
-			console.log("Error during registration:", error);
-			timedAlert(`${await getTranslation("reg failed")}: ${error}`);
-		}
-	} else {
-		timedAlert(`${await getTranslation("inavlid otp")}`);
-	}
-}
-async function tryLoginUser(username, password){
+async function tryLoginUser(username, password) {
 	const response = await fetch("https://localhost:443/api/login/", {
 		method: "POST",
 		headers: {
@@ -64,7 +47,12 @@ async function tryLoginUser(username, password){
 
 	if (response.status == 200 && result.jwt_token) {
 		await storeJWTInCookies(result);
-		timedAlert(`${await getTranslation("login success")}, ${await getTranslation("welcome")} ${username}.`, "success");
+		timedAlert(
+			`${await getTranslation("login success")}, ${await getTranslation(
+				"welcome"
+			)} ${username}.`,
+			"success"
+		);
 		callRoute("/home");
 	} else if (response.status == 302 && result.type == "otp") {
 		double_factor_authenticate(result);
@@ -73,7 +61,7 @@ async function tryLoginUser(username, password){
 	}
 }
 
-async function fetchAuthRedirection(){
+async function fetchAuthRedirection() {
 	const response = await fetch("https://localhost:443/api/redirect_uri/", {
 		method: "POST",
 		headers: {
@@ -88,7 +76,7 @@ async function fetchAuthRedirection(){
 	}
 }
 
-async function tryRegisterUser(username, password){
+async function tryRegisterUser(username, password) {
 	const response = await fetch("https://localhost:443/api/register/", {
 		method: "POST",
 		headers: {
@@ -109,28 +97,48 @@ async function tryRegisterUser(username, password){
 
 async function isValidRegeistrationIput(username, password, confirmPassword) {
 	if (username.length < 3 || username.length > 20)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username length")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid username length"
+			)}`
+		);
 	else if (password.length < 8 || password.length > 35)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password length")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password length"
+			)}`
+		);
 	else if (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username))
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username char")}`);
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid username char"
+			)}`
+		);
 	else if (
 		!(
 			/[A-Z]/.test(password) &&
 			/[a-z]/.test(password) &&
 			/\d/.test(password)
 		)
-	) 
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password char")}`);
-		else if (password !== confirmPassword)
-		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid password match")}`);
+	)
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password char"
+			)}`
+		);
+	else if (password !== confirmPassword)
+		timedAlert(
+			`${await getTranslation("reg failed")}: ${await getTranslation(
+				"invalid password match"
+			)}`
+		);
 	else return true;
 	return false;
 }
 
 async function isValidLoginIput(username, password) {
 	if (
-	!(
+		!(
 			username.length > 1 &&
 			username.length < 20 &&
 			password.length > 7 &&
@@ -153,15 +161,6 @@ async function isValidLoginIput(username, password) {
 	return true;
 }
 
-async function storeJWTInCookies(result) {
-	// Assuming 'response' is your fetch response
-	//extract "jwt_token" from response body
-	const jwt_token = result.jwt_token;
-	if (!jwt_token) return false;
-	document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
-	return true;
-}
-
 function addJWTToRrequest() {
 	const token = localStorage.getItem("jwtToken");
 	fetch("/some-protected-endpoint", {
@@ -170,31 +169,4 @@ function addJWTToRrequest() {
 			"Content-Type": "application/json",
 		},
 	});
-}
-
-
-
-async function try2FactorAuthentication(otp){
-	const response = await fetch(
-		"https://localhost:443/api/double_factor_auth/",
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ otp }),
-			credentials: "include",
-		}
-	);
-
-	const result = await response.json();
-
-	if (response.ok) {
-		await storeJWTInCookies(result);
-		timedAlert(`${await getTranslation("login success")}`, "success");
-		callRoute("/home");
-	} else {
-		timedAlert(`${await getTranslation("inavlid otp")}`);
-	}
-
 }

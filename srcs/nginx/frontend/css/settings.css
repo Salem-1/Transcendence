@@ -112,11 +112,6 @@ html {
 	line-height: 80px;
 }
 
-/* .button-text:active {
-	font-size: 28px;
-	line-height: 35px !important;
-} */
-
 .drrp {
 	margin: 20px;
 }
@@ -202,4 +197,9 @@ hr {
 }
 .form-switch.form-check-reverse .form-check-input{
 	margin-top: 1em !important;
+}
+
+p {
+	text-align: center;
+	margin-top: 1rem;
 }

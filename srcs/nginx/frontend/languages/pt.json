@@ -41,7 +41,7 @@
 	"reg failed": "Registro falhou",
 	"reg success": "Registro bem-sucedido",
 	"login success": "Login bem-sucedido",
-	"invalid OTP": "OTP inserido é inválido",
+	"invalid otp": "OTP inserido é inválido",
 	"error": "Erro",
 	"error username": "Erro ao buscar nome de usuário",
 	"2fa": "Autenticação de duas etapas",
@@ -58,8 +58,6 @@
 	"invalid username char": "O nome de usuário deve conter apenas letras, números e sublinhados",
 	"invalid username exists": "Nome de usuário já existe",
 	"invalid login": "Login falhou, nome de usuário ou senha inválidos",
-	"invalid otp": "OTP incorreto",
-
 	"logout failed": "Falha ao fazer logout",
 
 	"zero players": "Nenhum jogador adicionado, adicione jogadores para iniciar o jogo",
@@ -78,7 +76,15 @@
 	"language": "LÍNGUA",
 
 	"enter email": "Por favor, insira seu e-mail!",
+	"email sent": "E-mail enviado!",
+	"invalid email": "E-mail inválido, por favor, insira um e-mail válido!",
 	"enter otp": "Por favor, insira o OTP enviado para o seu e-mail!",
 	"email": "e-mail",
-	"otp": "OTP"
+	"otp": "OTP",
+	"max resend": "Reenviar OTP em",
+	"enable": "Habilitar",
+	"close": "Fechar",
+	"resend": "Reenviar",
+	"unavailable": "Indisponível",
+	"verify": "Verificar"
 }
