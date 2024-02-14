@@ -329,7 +329,7 @@ var AIgame = () => {
 				lastTimestamp = timestamp;
 				const winner = getWinner(game);
 				if (winner != 0) {
-						alert(`Player ${winner} wins!`);
+						timedAlert(`Player ${winner} wins!`, "success");
 						clearInterval(intervalId);
 						resolve(winner);
 						callRoute('/home'); 

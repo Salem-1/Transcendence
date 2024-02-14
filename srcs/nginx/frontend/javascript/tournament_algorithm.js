@@ -1,7 +1,7 @@
 try {
   initTournament();
 } catch (e) {
-  alert(`${e}`);
+  timedAlert(e);
   callRoute("/home");
 }
 

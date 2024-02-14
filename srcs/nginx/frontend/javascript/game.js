@@ -306,7 +306,7 @@ var game = () => {
                 draw(game);
                 const winner = getWinner(game);
                 if (winner != 0) {
-                    alert(`${winner === 1 ? 'Left' : 'Right'} side won!`);
+                    timedAlert(`${winner === 1 ? 'Left' : 'Right'} side won!`, "success");
                     clearInterval(intervalId);
                     resolve(winner);
 					

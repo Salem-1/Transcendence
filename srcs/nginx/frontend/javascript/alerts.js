@@ -72,7 +72,7 @@ function timedAlert(
 	let startTime = Date.now();
 	let intervalId = setInterval(function () {
 		let currentTime = Date.now() - startTime;
-		let prec = currentTime / timeout;
+		let prec = currentTime / timeout / 4;
 		let opacity = 1 - prec;
 		alertDiv.setAttribute("style", "opacity: " + opacity + ";");
 
