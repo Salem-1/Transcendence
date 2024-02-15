@@ -30,6 +30,7 @@ function registration_body() {
 					required
 					placeholder="Password"
 					data-i18n="password"
+					autoComplete="new-password"
 					maxlength="35"
 				/>
 				<label for="password" data-i18n="password"></label>
@@ -43,6 +44,7 @@ function registration_body() {
 					required
 					placeholder="Confirm password"
 					data-i18n="confirmpassword"
+					autoComplete="new-password"
 					maxlength="35"
 				/>
 				<label for="confirmpassword" data-i18n="confirm password"></label>

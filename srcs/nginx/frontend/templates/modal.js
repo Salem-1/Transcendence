@@ -26,7 +26,7 @@ function genModal() {
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-i18n="close" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-info" data=i18n="resend" id="resendOtp">resend otp</button>
+						<button type="button" class="btn btn-info" data-i18n="resend" id="resendOtp">resend otp</button>
 						<button type="button" class="btn btn-primary" data-i18n="verify" id="otpSubmit">Verify</button>
 					</div>
 				</div>

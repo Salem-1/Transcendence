@@ -75,9 +75,10 @@ async function disable2FA() {
 		}
 	} catch (error) {
 		timedAlert(
-			`${await getTranslation("error 2fa disable")}: ${error}`,
+			`${await getTranslation("error 2fa disable")}`,
 			"warning"
 		);
+		console.log(`Error: ${error}`);
 	}
 }
 

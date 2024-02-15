@@ -30,7 +30,7 @@ async function login() {
 		await tryLoginUser(username, password);
 	} catch (error) {
 		console.error("Error during registration:", error);
-		timedAlert(`${await getTranslation("reg failed")}: ${error}`);
+		timedAlert(`${await getTranslation("login failed")}`);
 	}
 }
 
@@ -57,7 +57,7 @@ async function tryLoginUser(username, password) {
 	} else if (response.status == 302 && result.type == "otp") {
 		double_factor_authenticate(result);
 	} else {
-		timedAlert(`${await getTranslation("login failed")}: ${result.error}`);
+		timedAlert(`${await getTranslation("login failed")}:`);
 	}
 }
 
@@ -91,7 +91,7 @@ async function tryRegisterUser(username, password) {
 		timedAlert(await getTranslation("reg success"), "success");
 		callRoute("/login");
 	} else {
-		timedAlert(`${await getTranslation("reg failed")}: ${result.error}`);
+		timedAlert(`${await getTranslation("reg failed")}: ${await getTranslation("invalid username exists")}`);
 	}
 }
 
