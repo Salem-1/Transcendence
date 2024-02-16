@@ -1,17 +1,16 @@
 try {
 	initTournament();
 } catch (e) {
-	alert(`${e}`);
+	console.log(e);
 	callRoute("/home");
 }
 
 function initTournament() {
 	if (localStorage.getItem("round") !== null) {
-		startTournament();
+		displayRound();
 		return;
 	}
 	let players = localStorage.getItem("players");
-	console.log(`players are ${players == null}`);
 	if (players == null || window.location.pathname != "/tournament") {
 		callRoute("/home");
 		return;
