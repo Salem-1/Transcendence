@@ -1,7 +1,5 @@
 
-// window.onpopstate = deleteStoredPlayers;
-
-function deleteStoredPlayers(){
+function deleteStoredPlayers() {
     var players = [];
     localStorage.setItem('players', JSON.stringify(players));
 }
@@ -31,8 +29,7 @@ async function launchTournament() {
 			alert(`${await getTranslation("one player")}`)
 		return;
     }
-	// alert(`${await getTranslation("starting tournament")}`)
-	callRoute("/tournament");
+	callRoute("/tournament?init=true");
 }
 
 function getPlayers() {

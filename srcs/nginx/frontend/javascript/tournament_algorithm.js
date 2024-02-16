@@ -7,8 +7,11 @@ try {
 
 function initTournament() {
 	if (localStorage.getItem("round") !== null) {
-		startTournament();
-		return;
+		const query = new URLSearchParams(window.location.search);
+		if (!query.has("init")) {
+			startTournament();
+			return ;
+		}
 	}
 	let players = localStorage.getItem("players");
 	if (players == null || window.location.pathname != "/tournament") {
