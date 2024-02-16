@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function launchTournament() {
-	const launchButton = document.getElementById("launch-tournamet");
-	launchButton.style.display = "block";
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length <  2)
     {
@@ -33,7 +31,7 @@ async function launchTournament() {
 			alert(`${await getTranslation("one player")}`)
 		return;
     }
-	alert(`${await getTranslation("starting tournament")}`)
+	// alert(`${await getTranslation("starting tournament")}`)
 	callRoute("/tournament");
 }
 

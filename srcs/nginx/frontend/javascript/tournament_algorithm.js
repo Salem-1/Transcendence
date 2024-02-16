@@ -7,7 +7,7 @@ try {
 
 function initTournament() {
 	if (localStorage.getItem("round") !== null) {
-		displayRound();
+		startTournament();
 		return;
 	}
 	let players = localStorage.getItem("players");
