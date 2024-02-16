@@ -13,7 +13,7 @@ async function storeJWTInCookies(result) {
 
 async function try2FactorAuthentication(otp) {
 	const response = await fetch(
-		"https://localhost:443/api/double_factor_auth/",
+		`${window.location.origin}/api/double_factor_auth/`,
 		{
 			method: "POST",
 			headers: {
@@ -47,7 +47,7 @@ async function try2FactorAuthentication(otp) {
 }
 
 async function resendOtp() {
-	const response = await fetch("https://localhost:443/api/resendOtp/", {
+	const response = await fetch(`${window.location.origin}/api/resendOtp/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -103,6 +103,13 @@ async function double_factor_authenticate(result) {
 	let loginModal = new bootstrap.Modal(tempLoginModal);
 	await storeJWTInCookies(result);
 	loginModal.show();
+
+	window.addEventListener('popstate', function () {
+		loginModal.hide();
+		window.removeEventListener('popstate', function () {
+			loginModal.hide();
+		});
+	});
 
 	tempLoginModal.addEventListener("click", otpModalHandler);
 	tempLoginModal.addEventListener("hidden.bs.modal", function (e) {
