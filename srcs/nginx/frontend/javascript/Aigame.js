@@ -1,4 +1,4 @@
-var AIgame = () => {
+var AIgame = async () => {
 	const canvas = document.getElementById("canvas");
 	const ctx = canvas.getContext("2d");
 
@@ -303,7 +303,7 @@ var AIgame = () => {
 		handleKeyPress(game);
 		handleResize(game);
 		return await new Promise(resolve => {
-			const intervalId = setInterval(() => {
+			const intervalId = setInterval(async () => {
 				if (window.location.pathname !== "/AIgame") 
 				{
 					clearInterval(intervalId);
@@ -329,7 +329,7 @@ var AIgame = () => {
 				lastTimestamp = timestamp;
 				const winner = getWinner(game);
 				if (winner != 0) {
-						alert(`Player ${winner} wins!`);
+						timedAlert(` ${await getTranslation("player")} ${winner} ${await getTranslation("wins")}`, "success");
 						clearInterval(intervalId);
 						resolve(winner);
 						callRoute('/home'); 

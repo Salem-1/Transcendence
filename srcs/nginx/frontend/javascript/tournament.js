@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var players = JSON.parse(localStorage.getItem('players')) || [];
     }
     catch (e){
-        alert (e);
+        timedAlert (e);
     }
     var players = [];
     localStorage.setItem('players', JSON.stringify(players));
@@ -24,11 +24,12 @@ async function launchTournament() {
     if (players.length <  2)
     {
         if (players.length == 0)
-			alert(`${await getTranslation("zero players")}`)
+			timedAlert(`${await getTranslation("zero players")}`)
 		if (players.length == 1)
-			alert(`${await getTranslation("one player")}`)
+			timedAlert(`${await getTranslation("one player")}`)
 		return;
     }
+	timedAlert(`${await getTranslation("starting tournament")}`)
 	callRoute("/tournament?init=true");
 }
 
@@ -42,11 +43,11 @@ async function addPlayer() {
         var players = JSON.parse(localStorage.getItem('players')) || [];
     }
     catch (e){
-        alert (e);
+        timedAlert (e);
     }
     if (! players ||  players.length > 7)
     {
-		alert(`${await getTranslation("max players")}`)
+		timedAlert(`${await getTranslation("max players")}`)
         return;
     }
     var playerNameInput = document.getElementById("player-name");
@@ -100,12 +101,12 @@ async function isvalidPlayerName(players, playerName){
         !playerName || playerName === '' || playerName.length > 14
         || (/[ !@#$%^&*(),.;?":{}|<>' ]/.test(playerName))
         ) {
-		alert(`${await getTranslation("invalid player name")}`)
+		timedAlert(`${await getTranslation("invalid player name")}`)
         return (false) ;
     }
     if (players.indexOf(playerName) !== -1)
     {
-		alert(`${await getTranslation("player exists")}`)
+		timedAlert(`${await getTranslation("player exists")}`)
         return (false) ;
     }
     return (true);
@@ -149,5 +150,5 @@ try{
     observer.observe(targetNode, config);
 }
 catch (e){
-    alert(e)
+    timedAlert(e)
 }

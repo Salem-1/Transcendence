@@ -1,8 +1,8 @@
 try {
 	initTournament();
 } catch (e) {
-	console.log(e);
-	callRoute("/home");
+  timedAlert(e);
+  callRoute("/home");
 }
 
 function initTournament() {

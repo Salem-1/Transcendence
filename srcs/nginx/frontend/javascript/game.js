@@ -1,4 +1,4 @@
-var game = () => {
+var game = async () => {
 	const canvas = document.getElementById("canvas");
 	const ctx = canvas.getContext("2d");
 
@@ -315,37 +315,39 @@ var game = () => {
 			"#fff"
 		);
 
-		const game = {
-			ball,
-			paddle1,
-			paddle2,
-			pause: false,
-			score: {
-				player1: 0,
-				player2: 0,
-			},
-		};
-		handleKeyPress(game);
-		handleResize(game);
-		return await new Promise((resolve) => {
-			const intervalId = setInterval(() => {
-				const location = window.location.pathname;
-				if (location !== "/game") {
+        const game = {
+            ball,
+            paddle1,
+            paddle2,
+            pause: false,
+            score: {
+                player1: 0,
+                player2: 0
+            }
+        };
+        handleKeyPress(game);
+        handleResize(game);
+        return await new Promise(resolve => {
+            const intervalId = setInterval(async () => {
+				const location = window.location.pathname; // get the url path
+				if (location !== '/game')
+				{
 					clearInterval(intervalId);
 					if (location === "/tournament")
 						callRoute('/home');
 					return ;
 				}
-				draw(game);
-				const winner = getWinner(game);
-				if (winner != 0) {
-					alert(`${winner === 1 ? "Left" : "Right"} side won!`);
-					clearInterval(intervalId);
-					resolve(winner);
-				}
-			}, 16 /* 1000 / 60*/);
-		});
-	}
+                draw(game);
+                const winner = getWinner(game);
+                if (winner != 0) {
+                    timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success");
+                    clearInterval(intervalId);
+                    resolve(winner);
+					
+                }
+            }, 16 /* 1000 / 60*/ );
+        });
+    }
 
 	function readQueryParams() {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -357,16 +359,17 @@ var game = () => {
 
 	async function main() {
 		const { isTournament, player1, player2 } = readQueryParams();
-
 		if (!isTournament) {
 			await playGame();
-			// Disply winner here
 			callRoute("/home");
 		} else {
-			if (player1) document.getElementById("player1").innerText = player1;
-			if (player2) document.getElementById("player2").innerText = player2;
+			// setTimeout(() => {
+				if (player1 && player2) {
+					document.getElementById("player1").innerText = player1;
+					document.getElementById("player2").innerText = player2;
+				}
+			// }, 0);
 			const winner = await playGame();
-			// Disply winner here
 			if (winner === -1) return;
 			const round = JSON.parse(localStorage.getItem("round"));
 			const level = JSON.parse(localStorage.getItem("level"));
@@ -403,7 +406,7 @@ var game = () => {
 		}
 	}
 
-	main();
+	await main();
 };
 
 game();
