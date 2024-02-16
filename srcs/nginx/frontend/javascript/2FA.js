@@ -47,6 +47,12 @@ toggleSwitch.addEventListener("change", async function () {
 	} else {
 		disable2FA();
 	}
+	window.addEventListener('popstate', function () {
+		MFAModal.hide();
+		window.removeEventListener('popstate', function () {
+			MFAModal.hide();
+		});
+	});
 });
 
 async function disable2FA() {
@@ -118,6 +124,13 @@ async function verifyEmail() {
 
 		MFAModal.hide();
 		OTPModal.show();
+
+		window.addEventListener('popstate', function () {
+			OTPModal.hide();
+			window.removeEventListener('popstate', function () {
+				OTPModal.hide();
+			});
+		});
 
 		otp.addEventListener("click", hadleOTPModal);
 		otp.addEventListener("hidden.bs.modal", function (e) {
