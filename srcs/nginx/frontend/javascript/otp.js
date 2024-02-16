@@ -31,7 +31,18 @@ async function try2FactorAuthentication(otp) {
 		timedAlert(`${await getTranslation("login success")}`, "success");
 		callRoute("/home");
 		return true;
-	} else timedAlert(`${await getTranslation("invalid otp")}`);
+	} else 
+	{
+		if (result.error === "Invalid OTP")
+		{
+			timedAlert(`${await getTranslation("invalid otp")}`);
+			return false;
+		}
+		if (window.location.pathname.includes("/auth"))
+			callRoute("/");
+		timedAlert(`${await getTranslation("login failed")}`);
+		return true;
+	}
 	return false;
 }
 
@@ -55,7 +66,6 @@ async function resendOtp() {
 async function otpModalHandler(event) {
 	let loginModal = document.getElementById("loginModal");
 	let modal = bootstrap.Modal.getInstance(loginModal);
-	// let loginModal = new bootstrap.Modal(tempLoginModal || null);
 	if (event.target.id === "otpSubmit") {
 		event.preventDefault();
 		const otp = document.getElementById("otp").value;
@@ -97,5 +107,7 @@ async function double_factor_authenticate(result) {
 	tempLoginModal.addEventListener("click", otpModalHandler);
 	tempLoginModal.addEventListener("hidden.bs.modal", function (e) {
 		tempLoginModal.removeEventListener("click", otpModalHandler);
+		if (window.location.pathname.includes("/auth"))
+			callRoute("/");
 	});
 }
