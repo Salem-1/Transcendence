@@ -112,7 +112,7 @@ const urlLocationHandler = async () => {
 	// get the route object from the urlRoutes object
 	const route = await urlRoutes[location] || urlRoutes["404"];
 	if (route.requiresAuth && !(await isVerified())) {
-		fetch(`https://localhost:443${location}`, {
+		fetch(`${window.location.origin}${location}`, {
 			headers: { "X-Trans42-code": "401" },
 			method: "GET",
 		});
@@ -123,7 +123,7 @@ const urlLocationHandler = async () => {
 		return;
 	}
 	if (route == urlRoutes[404]) {
-		await fetch(`https://localhost:443${location}`, {
+		await fetch(`${window.location.origin}${location}`, {
 			headers: { "X-Trans42-code": "404" },
 			method: "GET",
 		});
@@ -158,7 +158,7 @@ async function isLoggedIn() {
 
 const isVerified = async () => {
 	const response = await fetch(
-		"https://localhost:443/api/loginVerfication/",
+		`${window.location.origin}/api/loginVerfication/`,
 		{
 			method: "GET",
 			headers: {
@@ -175,7 +175,7 @@ const isVerified = async () => {
 
 const isNotLoggedIn = async () => {
 	try{
-		const response = await fetch("https://localhost:443/api/notLoggedIn/", {
+		const response = await fetch(`${window.location.origin}/api/notLoggedIn/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

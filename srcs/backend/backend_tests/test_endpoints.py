@@ -304,11 +304,11 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/notLoggedIn/', headers=headers)
         self.assertEqual(response.status_code, 200)
 
-    # def test_correct_statuscode(self):
-    #     for num in range(101, 600):
-    #         pack = {"X-Trans42-code": str(num)}
-    #         response = requests.get(f'{self.base_url}/wrong url/', headers=pack)
-    #         self.assertEqual(response.status_code, int(num))
+    def test_correct_statuscode(self):
+        for num in range(101, 600):
+            pack = {"X-Trans42-code": str(num)}
+            response = requests.get(f'{self.base_url}/wrongUrl/', headers=pack)
+            self.assertEqual(response.status_code, int(num))
     
     def test_wrong_statuscode(self):
         pack = {"X-Trans42-code": "50"}
@@ -325,16 +325,16 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{self.base_url}/wrongurl/', headers=pack)
         self.assertEqual(response.status_code, 404)
         
-    # def test_redirection(self):
-    #     with requests.Session() as s:
-    #         response = s.get(f'{self.base_url}', allow_redirects=False)
-    #         self.assertEqual(response.status_code, 301)
-    #         self.assertIsNotNone(response.headers['Location'])
-    #         self.assertEqual(response.headers['Location'], 'http://localhost:443')
+    def test_redirection(self):
+        with requests.Session() as s:
+            response = s.get(f'{self.base_url}/', allow_redirects=False)
+            self.assertEqual(response.status_code, 301)
+            self.assertIsNotNone(response.headers['Location'])
+            self.assertEqual(response.headers['Location'], 'https://localhost:443')
     
-    # def test_redirection_post(self):
-    #     response = requests.post(f'{self.base_url}', json={"ahmed": "ahmed"})
-    #     self.assertEqual(response.status_code, 405)
+    def test_redirection_post(self):
+        response = requests.post(f'{self.base_url}/', json={"ahmed": "ahmed"})
+        self.assertEqual(response.status_code, 405)
 
     def test_validate_2fa_email(self):
         user = gen_username()
@@ -404,6 +404,41 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.json()["message"], "2FA enabled!");
         self.assertEqual(response.status_code, 200);
     
+    def test_mfaState(self):
+        
+        # test 2fa before login
+        mfaState = requests.get(f'{self.base_url}/mfaState/')
+        self.assertEqual(mfaState.status_code, 401)
+        
+        user = gen_username()
+        login_response = registe_and_login_user(user, self.test_user["password"])
+        self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        # test 2fa state after login
+        mfaState = requests.get(f'{self.base_url}/mfaState/', headers=headers)
+        self.assertEqual(mfaState.json().get('mfa') , "disabled")
+        
+        
+        response = register_email_in_2fa("pong@null.net", self.base_url, headers)
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()["message"], "One time password sent to your email")
+
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong@null.net"}
+        response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
+        self.assertEqual(response.json()["message"], "2FA enabled!");
+
+        # test 2fa state after  enabiling it
+        mfaState = requests.get(f'{self.base_url}/mfaState/', headers=headers)
+        self.assertEqual(mfaState.json().get('mfa') , "enabled")
+        
+        data = {"enable2fa": "false"}
+        response = requests.post(f'{self.base_url}/set_2fa/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        # test 2fa state after  disabeling it
+        mfaState = requests.get(f'{self.base_url}/mfaState/', headers=headers)
+        self.assertEqual(mfaState.json().get('mfa') , "disabled")
+    
     def test_otp_half_login(self):
         user = gen_username()
         password = self.test_user["password"]
@@ -433,6 +468,44 @@ class YourAppViewsTest(unittest.TestCase):
         request_data = {"otp": generate_otp(generate_otp_secret(user))}
         response  = requests.post(f'{base_url}/double_factor_auth/', json=request_data, headers=headers)
         self.assertEqual(response.status_code, 200)
+        
+    def test_resendOTP(self):
+        user = gen_username()
+        password = self.test_user["password"]
+        login_response = registe_and_login_user(user, password)
+        self.assertEqual(login_response.status_code, 200)
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        response = register_email_in_2fa("pong42abudhabi@gmail.com", self.base_url, headers)
+        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.json()["message"], "One time password sent to your email")
+
+        data = {"otp": generate_otp(generate_otp_secret(user)), "email": "pong42abudhabi@gmail.com"}
+        response  = requests.post(f'{base_url}/enable_2fa_email/', json=data, headers=headers)
+        self.assertEqual(response.json()["message"], "2FA enabled!");
+        self.assertEqual(response.status_code, 200);
+
+        login_data = {'username': user, 'password': password}
+        login_response = requests.post(f'{self.base_url}/login/', json=login_data)
+        self.assertEqual(login_response.status_code, 302)
+
+        # test resend otp wuth half jwt 
+        jwt_token = login_response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        resendOTP  = requests.get(f'{base_url}/resendOtp/', headers=headers)
+        self.assertEqual(resendOTP.status_code, 200)
+        
+        request_data = {"otp": generate_otp(generate_otp_secret(user))}
+        response  = requests.post(f'{base_url}/double_factor_auth/', json=request_data, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        
+        # test resend otp wuth full jwt
+        jwt_token_old = jwt_token
+        jwt_token = response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        resendOTP  = requests.get(f'{base_url}/resendOtp/', headers=headers)
+        self.assertEqual(resendOTP.status_code, 401)
+        
 
 
 
