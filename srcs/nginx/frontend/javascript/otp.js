@@ -65,11 +65,15 @@ async function resendOtp() {
 
 async function otpModalHandler(event) {
 	let loginModal = document.getElementById("loginModal");
-	let modal = bootstrap.Modal.getInstance(loginModal);
+	let modal = bootstrap.Modal.getOrCreateInstance(loginModal);
 	if (event.target.id === "otpSubmit") {
 		event.preventDefault();
 		const otp = document.getElementById("otp").value;
-		if (await try2FactorAuthentication(otp)) {
+		const otpPattern = /^\d{6}$/;
+		if (!otpPattern.test(otp)) {
+			timedAlert(await getTranslation("invalid otp"), "warning");
+		}
+		else if (await try2FactorAuthentication(otp)) {
 			login_resend_counter = 0;
 			modal.hide();
 		}
@@ -100,7 +104,7 @@ async function double_factor_authenticate(result) {
 		callRoute("/")
 		return;
 	}
-	let loginModal = new bootstrap.Modal(tempLoginModal);
+	let loginModal = bootstrap.Modal.getOrCreateInstance(tempLoginModal);
 	await storeJWTInCookies(result);
 	loginModal.show();
 

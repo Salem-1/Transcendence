@@ -2,8 +2,8 @@
 var toggleSwitch = document.getElementById("toggle2FA");
 var mfa = document.getElementById("MFAModal");
 var otp = document.getElementById("otpModal");
-var OTPModal = new bootstrap.Modal(otp || null);
-var MFAModal = new bootstrap.Modal(mfa || null);
+var OTPModal = bootstrap.Modal.getOrCreateInstance(otp || null);
+var MFAModal = bootstrap.Modal.getOrCreateInstance(mfa || null);
 var email = "";
 var max_resend = 3;
 var resend_counter = 0;
