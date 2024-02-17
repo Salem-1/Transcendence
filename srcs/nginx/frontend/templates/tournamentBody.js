@@ -88,8 +88,8 @@ function tournamentBody(){
 					  <div class="round round-two current">
 						<div class="round-details" data-i18n="semi finals">SEMI FINALS - 2</div>           
 						<ul class="matchup">
-						  <li class="team team-top" id="semi-final-t3">Team3</li>
-						  <li class="team team-bottom" id="semi-final-t4">Team4	</li>
+						  <li class="team team-top" id="semi-final-t3">${xIcon()}</li>
+						  <li class="team team-bottom" id="semi-final-t4">${xIcon()}</li>
 						</ul> 
 					  </div>  
 					  <!-- END ROUND TWO -->

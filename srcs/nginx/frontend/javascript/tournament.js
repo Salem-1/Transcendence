@@ -1,7 +1,5 @@
 
-// window.onpopstate = deleteStoredPlayers;
-
-function deleteStoredPlayers(){
+function deleteStoredPlayers() {
     var players = [];
     localStorage.setItem('players', JSON.stringify(players));
 }
@@ -21,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
 });
 
-async function launchTournament(){
+async function launchTournament() {
     var players = JSON.parse(localStorage.getItem('players')) || [];
     if (players.length <  2)
     {
@@ -32,7 +30,7 @@ async function launchTournament(){
 		return;
     }
 	timedAlert(`${await getTranslation("starting tournament")}`)
-	callRoute("/tournament");
+	callRoute("/tournament?init=true");
 }
 
 function getPlayers() {

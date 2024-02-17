@@ -1,6 +1,5 @@
 help:
 	@echo "Usage:"
-	@echo "- make [help|up|down|build|rebuild|restart|clean|reset|fclean|fresh|ps]"
 	@echo ""
 	@echo "Commands:"
 	@echo "  help            : Show this help"
@@ -20,15 +19,15 @@ help:
 	@echo "  test_frontend   : Run  frontend tests using selenium (make sure node is installed first)"
 	@echo "  logs	    	 : Show Django logs"
 	@echo "  lognginx        : Show Ngninx logs"
-	@echo "  logdjango        : Show Django logs"
+	@echo "  logdjango       : Show Django logs"
 	@echo "  waflog          : Show firewall logs"
 	@echo ""
 
 unseal:
-	@echo please use key to run the project
+	@echo Please use key to run the project
 	@docker exec -it vault bash
 
-up: run unseal 
+up: run unseal
 
 run:
 	@docker compose up -d
@@ -67,8 +66,6 @@ test_mini:
 test_frontend:
 	@node srcs/tester/seleniumTest.js
 
-
-
 ps:
 	@docker compose ps
 
@@ -84,9 +81,9 @@ logdjango:
 	@docker logs -f django
 
 ifeq ($(shell uname -s), Linux)
-	RMCOMMAND		= sudo rm -rf data
+	RMCOMMAND = sudo rm -rf data
 else
-	RMCOMMAND		= rm -rf data
+	RMCOMMAND = rm -rf data
 endif
 
 fclean: down
