@@ -20,7 +20,7 @@ from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
 from .smart_contract import set_winner_on_smart_contract, get_all_winners
 from .get_secret import get_secret
-
+from .error_pages import error_404, error_500
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
@@ -282,9 +282,9 @@ def error_code(request, exception=None):
             num = int(status)	
             if (num > 100 and num < 600 and num != 404):
                 if (http_responses.get(num)):
-                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
-                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
-        return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status=num)
+                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status=request.headers.get("X-Trans42-code"))
+        return HttpResponseNotFound(error_404)
     except Exception as e:
         print(e)
     return JsonResponse({'error': "bad request"}, status=400)
