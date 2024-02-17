@@ -64,6 +64,8 @@ def resend_otp(request):
 	if request.method == "GET":
 		try:
 			decoded_payload = validate_jwt(request)
+			if decoded_payload.get('type') != 'otp':
+				raise jwt.exceptions.InvalidTokenError()
 			user, user_2fa, user_id =   fetch_user_data(decoded_payload)
 			if user_2fa.enabled_2fa:
 				send_otp_email(user.email, generate_otp(user_2fa.two_factor_secret))
