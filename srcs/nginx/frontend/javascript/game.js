@@ -402,7 +402,15 @@ var game = async () => {
 				}
 			}
 			localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
-			callRoute('/tournament');
+			try {
+				if (level === 1)
+					callRoute('/tournament');
+				else
+					initTournament();
+			} catch (e) {
+			  timedAlert(e);
+			  callRoute("/home");
+			}
 		}
 	}
 
