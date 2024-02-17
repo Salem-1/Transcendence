@@ -20,17 +20,21 @@ from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
 from .smart_contract import set_winner_on_smart_contract, get_all_winners
 from .get_secret import get_secret
+from .langs import isAcceptedLanguage
 
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
         try:
+            language = (json.loads(request.body)).get('language') or 'en'
+            if not isAcceptedLanguage(language):
+                 language = 'en'
             valid_input , username, password, error_message = get_registration_data(request);
             if not valid_input:
                 return error_message
             elif User.objects.filter(username=username).exists():
                 return JsonResponse({'error': "Username already taken"}, status=401)
-            create_new_user(username, password)
+            create_new_user(username, password, language)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
             print(e)
@@ -335,7 +339,7 @@ def set_languagePreference(request):
 		jwt_payload = validate_jwt(request)
 		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
 		request_body = json.loads(request.body)
-		if "language" not in request_body:
+		if "language" not in request_body or isAcceptedLanguage(request_body["language"]) == False:
 			return JsonResponse({'error': "bad request"}, status=400)
 		user_2fa.language = request_body["language"]
 		user_2fa.save()

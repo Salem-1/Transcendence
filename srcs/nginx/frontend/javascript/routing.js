@@ -151,7 +151,11 @@ const urlLocationHandler = async () => {
 			document.body.appendChild(script);
 		}
 	}
-	const userPreferredLanguage = localStorage.getItem("language") || "en";
+	let userPreferredLanguage = localStorage.getItem("language") || "en";
+	if (!isAllowedLang(userPreferredLanguage)) {
+		userPreferredLanguage = "en";
+		localStorage.setItem("language", "en");
+	}
 	const langData = await fetchLanguageData(userPreferredLanguage);
 	updateContent(langData);
 };

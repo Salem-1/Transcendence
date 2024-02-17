@@ -557,6 +557,14 @@ class YourAppViewsTest(unittest.TestCase):
         response  = requests.get(f'{base_url}/getLanguagePreference/', headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get("language"), "ar")
+        # Test setting lang to invalid lang
+        data = {"language": "Hassan"}
+        response  = requests.post(f'{base_url}/setLanguagePreference/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 400)
+        # Test getting lang to invalid lang
+        response = requests.get(f'{base_url}/getLanguagePreference/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get("language"), "ar")
 
 def generate_otp(secret):
     totp = pyotp.TOTP(secret)
