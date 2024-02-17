@@ -9,7 +9,7 @@ var game = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(0.5);
+	let BALL_SPEED = getWidthPixels(0.7);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 	let PADDLE_SPEED = getWidthPixels(1);
 	let PADDLE_WIDTH = getWidthPixels(1);
@@ -104,7 +104,7 @@ var game = async () => {
 	}
 
 	function isColliding(ball, paddle) {
-		const effectivePaddleHeight = paddle.height * 1.5; // Adjust the multiplier as needed
+		const effectivePaddleHeight = paddle.height; // Adjust the multiplier as needed
 
 		// Check for collision between ball and paddle
 		return (
@@ -117,14 +117,14 @@ var game = async () => {
 
 	function handlePaddleCollision(ball, paddle) {
 		// Where the ball hit the paddle
-		let collidePoint = ball.y - (paddle.y + (paddle.height * 1.5) / 2);
+		let collidePoint = ball.y - (paddle.y + (paddle.height) / 2);
 
 		// Normalize the value between -1 and 1
 		collidePoint = collidePoint / (paddle.height / 2);
 
 		// To Rad
 		let angleRad = collidePoint * (Math.PI / 4);
-		ball.speedX = -ball.speedX;
+		ball.speedX = -ball.speedX;	
 		ball.speedY = ball.speedX * Math.tan(angleRad);
 	}
 
@@ -349,7 +349,7 @@ var game = async () => {
         });
     }
 
-	async function readQueryParams() {
+	function readQueryParams() {
 		const urlParams = new URLSearchParams(window.location.search);
 		const isTournament = Boolean(urlParams.get("tournament"));
 		const player1 = urlParams.get("player1");
@@ -358,7 +358,7 @@ var game = async () => {
 	}
 
 	async function main() {
-		const { isTournament, player1, player2 } = await readQueryParams();
+		const { isTournament, player1, player2 } = readQueryParams();
 		if (!isTournament) {
 			await playGame();
 			callRoute("/home");
@@ -402,7 +402,7 @@ var game = async () => {
 				}
 			}
 			localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
-			initTournament();
+			callRoute('/tournament');
 		}
 	}
 
