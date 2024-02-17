@@ -4,7 +4,7 @@ async function greetUser() {
 	const greetElement = document.getElementById("greet");
 	if (!greetElement) return;
 	try {
-		const response = await fetch("https://localhost:443/api/username/", {
+		const response = await fetch(`${window.location.origin}/api/username/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

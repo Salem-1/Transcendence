@@ -13,7 +13,7 @@ async function intraAuthenticate() {
 		const timeout =  15000; // Timeout in milliseconds
 
 setTimeout(() => controller.abort(), timeout);
-		const response = await fetch("https://localhost:443/api/auth/", {
+		const response = await fetch(`${window.location.origin}/api/auth/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

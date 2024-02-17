@@ -2,18 +2,17 @@
 var toggleSwitch = document.getElementById("toggle2FA");
 var mfa = document.getElementById("MFAModal");
 var otp = document.getElementById("otpModal");
-var OTPModal = new bootstrap.Modal(otp || null);
-var MFAModal = new bootstrap.Modal(mfa || null);
+var OTPModal = bootstrap.Modal.getOrCreateInstance(otp || null);
+var MFAModal = bootstrap.Modal.getOrCreateInstance(mfa || null);
 var email = "";
 var max_resend = 3;
 var resend_counter = 0;
 
 init2FAButton();
-
 // Get the current 2fa state
 async function get2FAState() {
 	try {
-		const response = await fetch("https://localhost:443/api/mfaState/", {
+		const response = await fetch(`${window.location.origin}/api/mfaState/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -48,12 +47,18 @@ toggleSwitch.addEventListener("change", async function () {
 	} else {
 		disable2FA();
 	}
+	window.addEventListener('popstate', function () {
+		MFAModal.hide();
+		window.removeEventListener('popstate', function () {
+			MFAModal.hide();
+		});
+	});
 });
 
 async function disable2FA() {
 	try {
 		const enable2fa = "false";
-		const response = await fetch("https://localhost:443/api/set_2fa/", {
+		const response = await fetch(`${window.location.origin}/api/set_2fa/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -120,6 +125,13 @@ async function verifyEmail() {
 		MFAModal.hide();
 		OTPModal.show();
 
+		window.addEventListener('popstate', function () {
+			OTPModal.hide();
+			window.removeEventListener('popstate', function () {
+				OTPModal.hide();
+			});
+		});
+
 		otp.addEventListener("click", hadleOTPModal);
 		otp.addEventListener("hidden.bs.modal", function (e) {
 			emailInput.value = "";
@@ -153,7 +165,7 @@ async function verifyOTP(otp, email) {
 
 async function sendEnable2faEmail(otp, email) {
 	const response = await fetch(
-		"https://localhost:443/api/enable_2fa_email/",
+		`${window.location.origin}/api/enable_2fa_email/`,
 		{
 			method: "POST",
 			headers: {
@@ -169,7 +181,7 @@ async function sendEnable2faEmail(otp, email) {
 }
 async function submit2FaEmail(email) {
 	const response = await fetch(
-		"https://localhost:443/api/submit_2fa_email/",
+		`${window.location.origin}/api/submit_2fa_email/`,
 		{
 			method: "POST",
 			headers: {
