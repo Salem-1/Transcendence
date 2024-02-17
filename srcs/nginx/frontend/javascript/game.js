@@ -349,7 +349,7 @@ var game = async () => {
         });
     }
 
-	function readQueryParams() {
+	async function readQueryParams() {
 		const urlParams = new URLSearchParams(window.location.search);
 		const isTournament = Boolean(urlParams.get("tournament"));
 		const player1 = urlParams.get("player1");
@@ -358,13 +358,15 @@ var game = async () => {
 	}
 
 	async function main() {
-		const { isTournament, player1, player2 } = readQueryParams();
+		const { isTournament, player1, player2 } = await readQueryParams();
 		if (!isTournament) {
 			await playGame();
 			callRoute("/home");
 		} else {
 			// setTimeout(() => {
 				if (player1 && player2) {
+					document.getElementById("player1").removeAttribute('data-i18n');
+					document.getElementById("player2").removeAttribute('data-i18n');
 					document.getElementById("player1").innerText = player1;
 					document.getElementById("player2").innerText = player2;
 				}

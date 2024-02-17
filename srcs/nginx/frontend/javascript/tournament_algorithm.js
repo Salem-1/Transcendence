@@ -201,8 +201,8 @@ function playQuarterFinals(round) {
 
 function displayWinner(winner) {
 	let winning_element = document.getElementById("winner");
-	console.log(`winner is ${winner}`);
 	if (winner && winner.length > 0) {
+		document.getElementById("winner").removeAttribute('data-i18n');
 		showOnePlayer(winning_element, winner);
 	}
 }
