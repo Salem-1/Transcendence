@@ -533,6 +533,30 @@ class YourAppViewsTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         response  = requests.post(f'{base_url}/get_winners/', headers=headers)
         self.assertEqual(response.status_code, 405)
+        
+    def test_LanguagePreference(self):
+        response  = registe_and_login_user(gen_username(), self.test_user["password"])
+        self.assertEqual(response.status_code, 200)
+        jwt_token = response.json().get('jwt_token')
+        headers = {'Cookie': f'Authorization=Bearer {jwt_token}'}
+        # Test getting default lang
+        response  = requests.get(f'{base_url}/getLanguagePreference/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get("language"), "en")
+        response  = requests.post(f'{base_url}/getLanguagePreference/', headers=headers)
+        self.assertEqual(response.status_code, 405)
+        # Test setting lang
+        data = {"language": "ar"}
+        response  = requests.post(f'{base_url}/setLanguagePreference/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        response  = requests.post(f'{base_url}/setLanguagePreference/', json=data)
+        self.assertEqual(response.status_code, 401)
+        response  = requests.get(f'{base_url}/setLanguagePreference/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 405)
+        # Test getting lang after a set
+        response  = requests.get(f'{base_url}/getLanguagePreference/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get("language"), "ar")
 
 def generate_otp(secret):
     totp = pyotp.TOTP(secret)

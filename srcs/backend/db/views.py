@@ -327,6 +327,39 @@ def get_winners(request):
 
     return JsonResponse({'error': "Failed to get winner"})
 
+@csrf_exempt
+def set_languagePreference(request):
+	if request.method != "POST":
+		return JsonResponse({'error': "Method not allowed"}, status=405)
+	try:
+		jwt_payload = validate_jwt(request)
+		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+		request_body = json.loads(request.body)
+		if "language" not in request_body:
+			return JsonResponse({'error': "bad request"}, status=400)
+		user_2fa.language = request_body["language"]
+		user_2fa.save()
+		return JsonResponse({'message': "language preference set"})
+	except Exception as e:
+		print(e)
+		return JsonResponse({'error': "Failed to set language preference"}, status=401)
+
+	return JsonResponse({'error': "Failed to set language preference"})
+
+@csrf_exempt
+def get_languagePreference(request):
+	if request.method != "GET":
+		return JsonResponse({'error': "Method not allowed"}, status=405)
+	try:
+		jwt_payload = validate_jwt(request)
+		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+		return JsonResponse({'language': user_2fa.language})
+	except Exception as e:
+		print(e)
+		return JsonResponse({'error': "Failed to get language preference"}, status=401)
+
+	return JsonResponse({'error': "Failed to get language preference"})
+
 
 @csrf_exempt
 def say_hello(request):
