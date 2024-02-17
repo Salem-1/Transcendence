@@ -363,14 +363,12 @@ var game = async () => {
 			await playGame();
 			callRoute("/home");
 		} else {
-			// setTimeout(() => {
-				if (player1 && player2) {
-					document.getElementById("player1").removeAttribute('data-i18n');
-					document.getElementById("player2").removeAttribute('data-i18n');
-					document.getElementById("player1").innerText = player1;
-					document.getElementById("player2").innerText = player2;
-				}
-			// }, 0);
+			if (player1 && player2) {
+				document.getElementById("player1").removeAttribute('data-i18n');
+				document.getElementById("player2").removeAttribute('data-i18n');
+				document.getElementById("player1").innerText = player1;
+				document.getElementById("player2").innerText = player2;
+			}
 			const winner = await playGame();
 			if (winner === -1) return;
 			const round = JSON.parse(localStorage.getItem("round"));
@@ -404,7 +402,7 @@ var game = async () => {
 				}
 			}
 			localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
-			callRoute("/tournament");
+			initTournament();
 		}
 	}
 
