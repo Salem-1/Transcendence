@@ -35,7 +35,7 @@ async function login() {
 }
 
 async function tryLoginUser(username, password) {
-	const response = await fetch("https://localhost:443/api/login/", {
+	const response = await fetch(`${window.location.origin}/api/login/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -62,7 +62,7 @@ async function tryLoginUser(username, password) {
 }
 
 async function fetchAuthRedirection() {
-	const response = await fetch("https://localhost:443/api/redirect_uri/", {
+	const response = await fetch(`${window.location.origin}/api/redirect_uri/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -82,7 +82,7 @@ function regLang() {
 
 async function tryRegisterUser(username, password) {
 	let language = regLang();
-	const response = await fetch("https://localhost:443/api/register/", {
+	const response = await fetch(`${window.location.origin}/api/register/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -164,14 +164,4 @@ async function isValidLoginIput(username, password) {
 		return false;
 	}
 	return true;
-}
-
-function addJWTToRrequest() {
-	const token = localStorage.getItem("jwtToken");
-	fetch("/some-protected-endpoint", {
-		headers: {
-			Authorization: `Bearer ${token}`,
-			"Content-Type": "application/json",
-		},
-	});
 }

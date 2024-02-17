@@ -13,7 +13,7 @@ async function storeJWTInCookies(result) {
 
 async function try2FactorAuthentication(otp) {
 	const response = await fetch(
-		"https://localhost:443/api/double_factor_auth/",
+		`${window.location.origin}/api/double_factor_auth/`,
 		{
 			method: "POST",
 			headers: {
@@ -31,12 +31,23 @@ async function try2FactorAuthentication(otp) {
 		timedAlert(`${await getTranslation("login success")}`, "success");
 		callRoute("/home");
 		return true;
-	} else timedAlert(`${await getTranslation("invalid otp")}`);
+	} else 
+	{
+		if (result.error === "Invalid OTP")
+		{
+			timedAlert(`${await getTranslation("invalid otp")}`);
+			return false;
+		}
+		if (window.location.pathname.includes("/auth"))
+			callRoute("/");
+		timedAlert(`${await getTranslation("login failed")}`);
+		return true;
+	}
 	return false;
 }
 
 async function resendOtp() {
-	const response = await fetch("https://localhost:443/api/resendOtp/", {
+	const response = await fetch(`${window.location.origin}/api/resendOtp/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -54,12 +65,15 @@ async function resendOtp() {
 
 async function otpModalHandler(event) {
 	let loginModal = document.getElementById("loginModal");
-	let modal = bootstrap.Modal.getInstance(loginModal);
-	// let loginModal = new bootstrap.Modal(tempLoginModal || null);
+	let modal = bootstrap.Modal.getOrCreateInstance(loginModal);
 	if (event.target.id === "otpSubmit") {
 		event.preventDefault();
 		const otp = document.getElementById("otp").value;
-		if (await try2FactorAuthentication(otp)) {
+		const otpPattern = /^\d{6}$/;
+		if (!otpPattern.test(otp)) {
+			timedAlert(await getTranslation("invalid otp"), "warning");
+		}
+		else if (await try2FactorAuthentication(otp)) {
 			login_resend_counter = 0;
 			modal.hide();
 		}
@@ -90,12 +104,21 @@ async function double_factor_authenticate(result) {
 		callRoute("/")
 		return;
 	}
-	let loginModal = new bootstrap.Modal(tempLoginModal);
+	let loginModal = bootstrap.Modal.getOrCreateInstance(tempLoginModal);
 	await storeJWTInCookies(result);
 	loginModal.show();
+
+	window.addEventListener('popstate', function () {
+		loginModal.hide();
+		window.removeEventListener('popstate', function () {
+			loginModal.hide();
+		});
+	});
 
 	tempLoginModal.addEventListener("click", otpModalHandler);
 	tempLoginModal.addEventListener("hidden.bs.modal", function (e) {
 		tempLoginModal.removeEventListener("click", otpModalHandler);
+		if (window.location.pathname.includes("/auth"))
+			callRoute("/");
 	});
 }
