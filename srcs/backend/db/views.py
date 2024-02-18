@@ -22,6 +22,7 @@ from .smart_contract import set_winner_on_smart_contract, get_all_winners
 from .get_secret import get_secret
 from .langs import isAcceptedLanguage
 
+from .error_pages import error_404, error_500
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
@@ -37,7 +38,6 @@ def register_user(request):
             create_new_user(username, password, language)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
-            print(e)
             return JsonResponse({'error': "Bad request"}, status=400)  
     return JsonResponse({'error': "Method not allowed"}, status=405)  
 
@@ -115,7 +115,6 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
             return JsonResponse({'error': f"Internal server error couldn't login with intra {e}"}, status=500)
-    print(e)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
 @csrf_exempt
@@ -153,9 +152,6 @@ def not_logged_in(request):
         except Exception as e:
             return JsonResponse({"message": "Not Logged In"})
     return JsonResponse({"error": "Method not allowed"}, status=405)
-
-
-    
 
 @csrf_exempt
 def double_factor_auth(request):
@@ -220,8 +216,6 @@ def logout_user(request):
     except Exception as e:
         return JsonResponse({"error": "Unauthorized logout request"}, status=401)
 
-
-
 @csrf_exempt
 def submit_2fa_email(request):
     if request.method == "POST":
@@ -264,7 +258,6 @@ def enable_2fa_email(request):
         user_2fa.save()
         return JsonResponse({"message": "2FA enabled!"})
     except Exception as e:
-        print(e)
         return JsonResponse({"error": "Invalid authorization token"}, status=401)
     return JsonResponse({"error": "failed to enable 2FA"}, status=401)
 
@@ -286,9 +279,9 @@ def error_code(request, exception=None):
             num = int(status)	
             if (num > 100 and num < 600 and num != 404):
                 if (http_responses.get(num)):
-                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status = num)
-                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status = request.headers.get("X-Trans42-code"))
-        return HttpResponseNotFound("<html><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>")
+                    return HttpResponse(f'<html><body><h1>{http_responses.get(num)}</h1><body></html>', status=num)
+                return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status=request.headers.get("X-Trans42-code"))
+        return HttpResponseNotFound(error_404)
     except Exception as e:
         print(e)
     return JsonResponse({'error': "bad request"}, status=400)
@@ -349,7 +342,6 @@ def set_languagePreference(request):
 	except Exception as e:
 		print(e)
 		return JsonResponse({'error': "Failed to set language preference"}, status=401)
-
 	return JsonResponse({'error': "Failed to set language preference"})
 
 @csrf_exempt
@@ -361,7 +353,6 @@ def get_languagePreference(request):
 		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
 		return JsonResponse({'language': user_2fa.language})
 	except Exception as e:
-		print(e)
 		return JsonResponse({'error': "Failed to get language preference"}, status=401)
 
 	return JsonResponse({'error': "Failed to get language preference"})

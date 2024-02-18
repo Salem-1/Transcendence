@@ -638,6 +638,10 @@ class YourAppViewsTest(unittest.TestCase):
         response = requests.get(f'{base_url}/getLanguagePreference/', headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get("language"), "ar")
+        # Test setting lang
+        data = {"language": "ar", "language": "she3bi"}
+        response  = requests.post(f'{base_url}/setLanguagePreference/', json=data, headers=headers)
+        self.assertEqual(response.status_code, 400)
 
 def generate_otp(secret):
     totp = pyotp.TOTP(secret)
