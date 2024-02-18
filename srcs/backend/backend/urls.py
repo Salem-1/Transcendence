@@ -19,7 +19,7 @@ from django.urls import path
 from db.views import register_user, login_user, auth_intra, fetch_username, double_factor_auth, set_double_factor_auth
 
 from db.views import login_verf, redirect_uri, not_logged_in, logout_user, submit_2fa_email, enable_2fa_email, test_send_otp, error_code, go_to_frontend,set_winner, get_winners
-from db.views import mfa_state, say_hello, resend_otp
+from db.views import mfa_state, say_hello, resend_otp, set_languagePreference, get_languagePreference
 
 handler404 = error_code
 
@@ -43,5 +43,7 @@ urlpatterns = [
 	path('api/',go_to_frontend, name='go_to_frontend'),
 	path('api/mfaState/', mfa_state, name='mfa_state'),
 	path('api/resendOtp/', resend_otp, name='resend_otp'),
+	path('api/setLanguagePreference/', set_languagePreference, name='set_languagePreference'),
+	path('api/getLanguagePreference/', get_languagePreference, name='get_languagePreference'),
 	path('api/hello/', say_hello, name='say_hello'),
 ]

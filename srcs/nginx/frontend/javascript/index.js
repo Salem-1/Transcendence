@@ -76,13 +76,18 @@ async function fetchAuthRedirection() {
 	}
 }
 
+function regLang() {
+	return localStorage.getItem("language") || "en";
+}
+
 async function tryRegisterUser(username, password) {
+	let language = regLang();
 	const response = await fetch(`${window.location.origin}/api/register/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ username, password }),
+		body: JSON.stringify({ username, password, language}),
 	});
 
 	const result = await response.json();

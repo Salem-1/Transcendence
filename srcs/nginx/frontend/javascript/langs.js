@@ -1,3 +1,9 @@
+
+function isAllowedLang(lang) {
+	const allowedlangs = ["en", "es", "pt", "ar"];
+	return allowedlangs.includes(lang);
+}
+
 // Function to update content based on selected language
 function updateContent(langData) {
 	document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -11,6 +17,19 @@ function updateContent(langData) {
 
 // Function to set the language preference
 function setLanguagePreference(lang) {
+	// get jwt token from cookie
+	const jwt = document.cookie.includes("Authorization");
+	if (jwt) {
+		// send jwt token to server to update language preference
+		fetch(`${window.location.origin}/api/setLanguagePreference/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include", // Add this line
+			body: JSON.stringify({ language: lang }),
+		});
+	}
 	localStorage.setItem("language", lang);
 }
 
@@ -22,6 +41,7 @@ async function fetchLanguageData(lang) {
 
 // Function to change language
 async function changeLanguage(lang) {
+	if (!isAllowedLang(lang)) return;
 	await setLanguagePreference(lang);
 
 	const langData = await fetchLanguageData(lang);
@@ -31,21 +51,8 @@ async function changeLanguage(lang) {
 
 //Function to get translation
 async function getTranslation(key) {
-	const lang = localStorage.getItem("language") || "en";
+	let lang = localStorage.getItem("language") || "en";
+	if (!isAllowedLang(lang)) lang = "en";
 	const langData = await fetchLanguageData(lang);
 	return langData[key];
 }
-
-// Function to make alert in any language
-async function alertInLang(key) {
-	message = await await getTranslation(key);
-	timedAlert(message);
-}
-
-// // Call updateContent() on page load
-// window.addEventListener("DOMContentLoaded", async () => {
-// 	const userPreferredLanguage = localStorage.getItem("language") || "en";
-// 	const langData = await fetchLanguageData(userPreferredLanguage);
-// 	updateContent(langData);
-// 	document.documentElement.setAttribute("lang", userPreferredLanguage);
-// });

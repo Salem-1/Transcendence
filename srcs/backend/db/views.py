@@ -20,20 +20,24 @@ from .responses import http_responses
 from .fetch_user_data import fetch_user_data, create_new_user, get_registration_data
 from .smart_contract import set_winner_on_smart_contract, get_all_winners
 from .get_secret import get_secret
+from .langs import isAcceptedLanguage
+
 from .error_pages import error_404, error_500
 @csrf_exempt
 def register_user(request):
     if request.method =='POST':
         try:
+            language = (json.loads(request.body)).get('language') or 'en'
+            if not isAcceptedLanguage(language):
+                 language = 'en'
             valid_input , username, password, error_message = get_registration_data(request);
             if not valid_input:
                 return error_message
             elif User.objects.filter(username=username).exists():
                 return JsonResponse({'error': "Username already taken"}, status=401)
-            create_new_user(username, password)
+            create_new_user(username, password, language)
             return JsonResponse({'message': "Registration successful"})
         except Exception as e:
-            print(e)
             return JsonResponse({'error': "Bad request"}, status=400)  
     return JsonResponse({'error': "Method not allowed"}, status=405)  
 
@@ -111,7 +115,6 @@ def auth_intra(request):
                 return JsonResponse({'error': "couldn't register or login!"}, status=400)
         except Exception as e:  
             return JsonResponse({'error': f"Internal server error couldn't login with intra {e}"}, status=500)
-    print(e)
     return JsonResponse({'error': "Internal server error"}, status=500)
 
 @csrf_exempt
@@ -149,9 +152,6 @@ def not_logged_in(request):
         except Exception as e:
             return JsonResponse({"message": "Not Logged In"})
     return JsonResponse({"error": "Method not allowed"}, status=405)
-
-
-    
 
 @csrf_exempt
 def double_factor_auth(request):
@@ -216,8 +216,6 @@ def logout_user(request):
     except Exception as e:
         return JsonResponse({"error": "Unauthorized logout request"}, status=401)
 
-
-
 @csrf_exempt
 def submit_2fa_email(request):
     if request.method == "POST":
@@ -260,7 +258,6 @@ def enable_2fa_email(request):
         user_2fa.save()
         return JsonResponse({"message": "2FA enabled!"})
     except Exception as e:
-        print(e)
         return JsonResponse({"error": "Invalid authorization token"}, status=401)
     return JsonResponse({"error": "failed to enable 2FA"}, status=401)
 
@@ -328,6 +325,37 @@ def get_winners(request):
         return JsonResponse({'error': "Failed to get winner"}, status=401)
 
     return JsonResponse({'error': "Failed to get winner"})
+
+@csrf_exempt
+def set_languagePreference(request):
+	if request.method != "POST":
+		return JsonResponse({'error': "Method not allowed"}, status=405)
+	try:
+		jwt_payload = validate_jwt(request)
+		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+		request_body = json.loads(request.body)
+		if "language" not in request_body or isAcceptedLanguage(request_body["language"]) == False:
+			return JsonResponse({'error': "bad request"}, status=400)
+		user_2fa.language = request_body["language"]
+		user_2fa.save()
+		return JsonResponse({'message': "language preference set"})
+	except Exception as e:
+		print(e)
+		return JsonResponse({'error': "Failed to set language preference"}, status=401)
+	return JsonResponse({'error': "Failed to set language preference"})
+
+@csrf_exempt
+def get_languagePreference(request):
+	if request.method != "GET":
+		return JsonResponse({'error': "Method not allowed"}, status=405)
+	try:
+		jwt_payload = validate_jwt(request)
+		user, user_2fa, user_id =   fetch_user_data(jwt_payload)
+		return JsonResponse({'language': user_2fa.language})
+	except Exception as e:
+		return JsonResponse({'error': "Failed to get language preference"}, status=401)
+
+	return JsonResponse({'error': "Failed to get language preference"})
 
 
 @csrf_exempt
