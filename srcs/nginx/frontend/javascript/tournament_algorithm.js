@@ -6,7 +6,7 @@ try {
   callRoute("/home");
 }
 
-function initTournament() {
+async function initTournament() {
 	if (localStorage.getItem("round") !== null) {
 		const query = new URLSearchParams(window.location.search);
 		if (!query.has("init")) {
@@ -26,7 +26,7 @@ function initTournament() {
 	localStorage.setItem("level", level.toString());
 	localStorage.setItem("roundWinners", JSON.stringify({}));
 	localStorage.setItem("levelRound", JSON.stringify({}));
-	updateLevelRound();
+	await updateLevelRound();
 	displayRound();
 }
 
@@ -86,10 +86,10 @@ function playTournamentGame(player1, player2) {
 function getMatchWinner(round) {
 	let roundWinners = getRoundWinners();
 	let rounds = getProtectdRound();
-	if (!roundWinners || Object.keys(roundWinners).length < 1 ||  !rounds[round][0] || !rounds[round][1]) {
-		roundWinners[round] = rounds[round][0]
-			? rounds[round][0]
-			: rounds[round][1];
+	if (!roundWinners || Object.keys(roundWinners).length < 1)
+		return (null);
+	if (!rounds[round][0] || !rounds[round][1]) {
+		roundWinners[round] = rounds[round][0] ? rounds[round][0] : rounds[round][1];
 		localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
 		return roundWinners[round];
 	}
@@ -99,7 +99,7 @@ function getMatchWinner(round) {
 	return null;
 }
 
-function updateLevelRound() {
+async function updateLevelRound() {
 	let levelRound = getLevelRound();
 	levelRound[localStorage.getItem("level")] = {
 		rounds: { ...JSON.parse(localStorage.getItem("round")) },
@@ -213,6 +213,12 @@ function displayWinner(winner) {
 		document.getElementById("winner").removeAttribute('data-i18n');
 		showOnePlayer(winning_element, winner);
 	}
+}
+
+function debugRoundWinner(message){
+	console.log(message);
+	let roundwinners = getRoundWinners();
+	console.log({roundwinners});
 }
 function displayRound() {
 	const levelRound = getLevelRound();
