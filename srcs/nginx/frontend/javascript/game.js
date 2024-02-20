@@ -93,7 +93,7 @@ var game = async () => {
 		game.ball.x = canvas.width / 2;
 		game.ball.y = canvas.height / 2;
 		game.ball.speedX = BALL_SPEED;
-		game.ball.speedY = BALL_SPEED;
+		game.ball.speedY = 0;
 	}
 
 	function updateScore(game) {
@@ -301,19 +301,19 @@ var game = async () => {
 			y: canvas.height / 2,
 			radius: BALL_RADIUS,
 			speedX: BALL_SPEED,
-			speedY: BALL_SPEED,
+			speedY: 0,
 			color: "#fff",
 		};
 		const paddle1 = new Paddle(
 			0,
-			canvas.height / 2 - 60,
+			canvas.height / 2 - PADDLE_HEIGHT / 2,
 			PADDLE_WIDTH,
 			PADDLE_HEIGHT,
 			"#fff"
 		);
 		const paddle2 = new Paddle(
 			canvas.width - PADDLE_WIDTH,
-			canvas.height / 2 - 60,
+			canvas.height / 2 - PADDLE_HEIGHT / 2,
 			PADDLE_WIDTH,
 			PADDLE_HEIGHT,
 			"#fff"
