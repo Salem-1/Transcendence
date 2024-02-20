@@ -105,28 +105,30 @@ var AIgame = async () => {
 	}
 
 	function isColliding(ball, paddle) {
-		const effectivePaddleHeight = paddle.height * 1.5; // Adjust the multiplier as needed
-
-		// Check for collision between ball and paddle
+		const newPaddleY = paddle.y - 0.85;
+		const newPaddleHeight = paddle.height;
 		return (
 			ball.x - ball.radius < paddle.x + paddle.width &&
 			ball.x + ball.radius > paddle.x &&
-			ball.y - ball.radius < paddle.y + effectivePaddleHeight &&
-			ball.y + ball.radius > paddle.y
+			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius > newPaddleY
 		);
 	}
 
 	function handlePaddleCollision(ball, paddle) {
-		// Where the ball hit the paddle
-		let collidePoint = ball.y - (paddle.y + (paddle.height * 1.5) / 2);
-
-		// Normalize the value between -1 and 1
+		let collidePoint = ball.y - (paddle.y + (paddle.height) / 2);
+		// Normalize
 		collidePoint = collidePoint / (paddle.height / 2);
+		if (collidePoint > 1) collidePoint = 1;
+		if (collidePoint < -1) collidePoint = -1;
 
-		// To Rad
-		let angleRad = collidePoint * (Math.PI / 4);
-		ball.speedX = -ball.speedX;
-		ball.speedY = ball.speedX * Math.tan(angleRad);
+		console.log(collidePoint);
+		const angleRad = collidePoint * (Math.PI / 4);
+		ball.speedX = -ball.speedX; // Reverse horizontal direction
+	
+		// Calculate new vertical speed based on collision angle
+		ball.speedY = BALL_SPEED * Math.sin(angleRad);
+		ball.speedY = ball.speedY * Math.tan(angleRad);
 	}
 
 	function draw(game) {
