@@ -104,8 +104,10 @@ var game = async () => {
 	}
 
 	function isColliding(ball, paddle) {
-		const newPaddleY = paddle.y - 0.85;
-		const newPaddleHeight = paddle.height;
+		const newPaddleY = paddle.y - 0.10 * paddle.height;
+		const newPaddleHeight = 1.20 * paddle.height;
+		// ctx.fillStyle = "rgba(255,0,0,0.3)";
+		// ctx.fillRect(paddle.x, newPaddleY, paddle.width, newPaddleHeight);
 		return (
 			ball.x - ball.radius < paddle.x + paddle.width &&
 			ball.x + ball.radius > paddle.x &&
@@ -115,9 +117,11 @@ var game = async () => {
 	}
 
 	function handlePaddleCollision(ball, paddle) {
-		let collidePoint = ball.y - (paddle.y + (paddle.height) / 2);
+		const newPaddleY = paddle.y - 0.10 * paddle.height;
+		const newPaddleHeight = 1.20 * paddle.height;
+		let collidePoint = ball.y - (newPaddleY+ (newPaddleHeight) / 2);
 		// Normalize
-		collidePoint = collidePoint / (paddle.height / 2);
+		collidePoint = collidePoint / (newPaddleHeight / 2);
 		if (collidePoint > 1) collidePoint = 1;
 		if (collidePoint < -1) collidePoint = -1;
 
@@ -127,7 +131,8 @@ var game = async () => {
 	
 		// Calculate new vertical speed based on collision angle
 		ball.speedY = BALL_SPEED * Math.sin(angleRad);
-		ball.speedY = ball.speedY * Math.tan(angleRad);
+		ball.speedY = BALL_SPEED * Math.tan(angleRad);
+		console.log(ball.speedX, ball.speedY);
 	}
 
 	function draw(game) {
@@ -149,7 +154,10 @@ var game = async () => {
 		} else if (isColliding(ball, paddle2)) {
 			handlePaddleCollision(ball, paddle2);
 		}
-
+		game.ball.x += game.ball.speedX;
+		game.ball.y += game.ball.speedY;
+		game.paddle1.update();
+		game.paddle2.update();
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
@@ -159,12 +167,6 @@ var game = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
-
-		game.ball.x += game.ball.speedX;
-		game.ball.y += game.ball.speedY;
-
-		game.paddle1.update();
-		game.paddle2.update();
 	}
 
 	function handleKeyDown(game) {
