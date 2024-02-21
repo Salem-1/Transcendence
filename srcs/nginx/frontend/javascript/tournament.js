@@ -19,8 +19,22 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('players', JSON.stringify(players));
 });
 
+function getProtectedPlayers(){
+	let players = [];
+	try{
+		players = JSON.parse(localStorage.getItem("players")) || [];
+	}
+	catch (e){
+        localStorage.setItem('players', JSON.stringify(players));
+        callRoute('/home');
+		return players;
+	}
+	return (players);
+
+}
+
 async function launchTournament() {
-    var players = JSON.parse(localStorage.getItem('players')) || [];
+    let players = getProtectedPlayers();
     if (players.length <  2)
     {
         if (players.length == 0)
@@ -39,12 +53,9 @@ function getPlayers() {
 
 
 async function addPlayer() {
-    try{
-        var players = JSON.parse(localStorage.getItem('players')) || [];
-    }
-    catch (e){
-        timedAlert (e);
-    }
+    
+        var players = getProtectedPlayers();
+  
     if (! players ||  players.length > 7)
     {
 		timedAlert(`${await getTranslation("max players")}`)
@@ -120,12 +131,12 @@ callback = function (MutationList, observer){
             let parent_node = this.parentElement;
             let row = parent_node.parentElement;
             let playerName = parent_node.previousElementSibling.textContent;
-            let players = JSON.parse(localStorage.getItem('players')) || [];
+            let players = getProtectedPlayers();
+            if (players.length < 2)
+                return ;
             let playerIndex = players.indexOf(playerName);
             if (playerIndex == -1)
-            {
                 return ;
-            }
             players.splice(playerIndex, 1);
             localStorage.setItem('players', JSON.stringify(players));
             row.parentElement.removeChild(row);
