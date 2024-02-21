@@ -258,7 +258,7 @@ var AIgame = async () => {
 				canvas.height = window.innerHeight * 0.8;
 				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 			}
-			BALL_SPEED = getWidthPixels(0.5);
+			BALL_SPEED = getWidthPixels(1);
 			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 			PADDLE_SPEED = getWidthPixels(0.7);
 			PADDLE_WIDTH = getWidthPixels(1);
@@ -277,14 +277,14 @@ var AIgame = async () => {
 				PADDLE_HEIGHT,
 				"#fff"
 			);
-			game.ball = {
-				x: getWidthPixels(oldBallPosistion.x),
-				y: getHeightPixels(oldBallPosistion.y),
-				radius: BALL_RADIUS,
-				speedX: BALL_SPEED,
-				speedY: BALL_SPEED,
-				color: "#fff",
-			};
+			
+			game.ball.x = getWidthPixels(oldBallPosistion.x);
+			game.ball.y = getHeightPixels(oldBallPosistion.y);
+			game.ball.radius = BALL_RADIUS;
+			game.ball.speedX = BALL_SPEED;
+			game.ball.speedY = BALL_SPEED;
+			game.ball.color = "#fff";
+			
 		});
 	}
 
@@ -351,6 +351,7 @@ var AIgame = async () => {
 					return;
 				}
 				draw(game);
+				gameObjects["ball"] = game.ball;
 				timestamp = Date.now();
 				const deltaTime = (timestamp - lastTimestamp) / 1000;
 				gameObjects["deltaTime"] = deltaTime;
@@ -365,7 +366,7 @@ var AIgame = async () => {
 					gameObjects["ballLastPosition"] = { x: ball.x, y: ball.y };
 				}
 				AiBlindMove(game.p1, moves);
-				// AiTrainer(game);
+				AiTrainer(game);
 				lastTimestamp = timestamp;
 				const winner = getWinner(game);
 				if (winner != 0) {
@@ -486,6 +487,7 @@ var AIgame = async () => {
 			moves = { down: countHeightSteps(CENTER - game.p1.y), up: 0 };
 			// console.log(`recovering to center down ${countHeightSteps(CENTER - game.p1.y)}`);
 		} else moves = { stop: 0, up: 0, down: 0 };
+		gameObjects["lastMinute"] = gameObjects["currentMinute"];
 		return moves;
 	}
 
@@ -495,8 +497,13 @@ var AIgame = async () => {
 
 	function AiPlay(gameObjects, game, moves) {
 		let move_margin = 10;
-
-		gameObjects["hitPoints"].push(getHitPoint(gameObjects, game));
+		let nominated_hitpoint = getHitPoint(gameObjects, game);
+		if (nominated_hitpoint === NaN)
+		{
+			console.log("its ", nominated_hitpoint);
+			return ;
+		}
+		gameObjects["hitPoints"].push(nominated_hitpoint);
 		let chosenHitPoint = getChosenPoint(gameObjects["hitPoints"]);
 		console.log(
 			`[${
@@ -542,7 +549,7 @@ var AIgame = async () => {
 		let pos2 = { x: game.ball.x, y: game.ball.y };
 		let slope = (pos2.y - pos1.y) / (pos2.x - pos1.x);
 		let hit = Math.floor(pos2.y - slope * pos2.x);
-		hit = getFinalHit(pos1, pos2, slope, hit);
+		hit = getFinalHit(pos1, pos2, slope, hit, 5);
 
 		return hit;
 	}
@@ -614,7 +621,7 @@ var AIgame = async () => {
 	}
 
 	function ballIsHeadingTowardHuman(game) {
-		let fieldSecondHalf = getWidthPixels(50);
+		let fieldSecondHalf = getWidthPixels(70);
 		// console.log("ball is heading toward human")
 		if (game.ball.x > fieldSecondHalf) return true;
 		return false;
