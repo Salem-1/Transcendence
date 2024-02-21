@@ -148,7 +148,7 @@ var AIgame = async () => {
 		if (game.pause) {
 			return;
 		}
-		const { ball, paddle1, paddle2 } = game;
+		const { ball, p1: paddle1, p2: paddle2 } = game;
 
 		if (isColliding(ball, paddle1)) {
 			handlePaddleCollision(ball, paddle1);
@@ -161,8 +161,8 @@ var AIgame = async () => {
 			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
 			ball.speedY *= -1;
 		}
-		game.paddle1.update();
-		game.paddle2.update();
+		paddle1.update();
+		paddle2.update();
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
