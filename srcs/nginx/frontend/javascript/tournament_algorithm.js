@@ -1,11 +1,12 @@
 try {
 	initTournament();
 } catch (e) {
+	console.log(e)
   timedAlert(e);
   callRoute("/home");
 }
 
-function initTournament() {
+async function initTournament() {
 	if (localStorage.getItem("round") !== null) {
 		const query = new URLSearchParams(window.location.search);
 		if (!query.has("init")) {
@@ -13,12 +14,11 @@ function initTournament() {
 			return ;
 		}
 	}
-	let players = localStorage.getItem("players");
-	if (players == null || window.location.pathname != "/tournament") {
+	let players = getProtectedPlayers();
+	if (players == null || players.length < 2|| window.location.pathname != "/tournament") {
 		callRoute("/home");
 		return;
 	}
-	players = JSON.parse(players);
 	let round = fillRound(players);
 	let level = getLevel(round);
 	let roundJSON = JSON.stringify(round);
@@ -26,18 +26,19 @@ function initTournament() {
 	localStorage.setItem("level", level.toString());
 	localStorage.setItem("roundWinners", JSON.stringify({}));
 	localStorage.setItem("levelRound", JSON.stringify({}));
-	updateLevelRound();
+	await updateLevelRound();
 	displayRound();
 }
 
+
 async function startTournament() {
+	console.log("starting tournament");
 	const launchButton = document.getElementById("launch-tournamet");
 	if (launchButton)
 		launchButton.style.display = "none";
-	let players = JSON.parse(localStorage.getItem("players")) || [];
-	let storedRoundJSON = localStorage.getItem("round");
+	let players = getProtectedPlayers();
 	let storedLevelString = localStorage.getItem("level");
-	let round = JSON.parse(storedRoundJSON);
+	let round = getProtectdRound();
 	let level = parseInt(storedLevelString);
 
 	if (
@@ -46,8 +47,11 @@ async function startTournament() {
 		players.length > 8 ||
 		!round ||
 		level === null
-	)
-		throw new Error("error: fetching players for the tournament");
+	){
+		timedAlert("Error fetching player data");
+		callRoute("/home");
+		return;
+	}
 
 	if (level == 0) {
 		displayRound();
@@ -55,7 +59,11 @@ async function startTournament() {
 	} else if (level == 1) playFinals(round);
 	else if (level == 2) playSemiFinals(round);
 	else if (level == 3) playQuarterFinals(round);
-	else throw new Error("Invalid number of players");
+	else{
+		timedAlert("Error Player index out of range, how could you manage add this one?");
+		callRoute("/home");
+		return;
+	}
 }
 
 /**
@@ -76,13 +84,12 @@ function playTournamentGame(player1, player2) {
 }
 
 function getMatchWinner(round) {
-	let roundWinners = JSON.parse(localStorage.getItem("roundWinners")) || {};
-	let rounds = JSON.parse(localStorage.getItem("round")) || {};
-
+	let roundWinners = getRoundWinners();
+	let rounds = getProtectdRound();
+	if (!roundWinners || Object.keys(roundWinners).length < 1)
+		return (null);
 	if (!rounds[round][0] || !rounds[round][1]) {
-		roundWinners[round] = rounds[round][0]
-			? rounds[round][0]
-			: rounds[round][1];
+		roundWinners[round] = rounds[round][0] ? rounds[round][0] : rounds[round][1];
 		localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
 		return roundWinners[round];
 	}
@@ -92,8 +99,8 @@ function getMatchWinner(round) {
 	return null;
 }
 
-function updateLevelRound() {
-	const levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
+async function updateLevelRound() {
+	let levelRound = getLevelRound();
 	levelRound[localStorage.getItem("level")] = {
 		rounds: { ...JSON.parse(localStorage.getItem("round")) },
 		roundWinners: { ...JSON.parse(localStorage.getItem("roundWinners")) },
@@ -102,7 +109,7 @@ function updateLevelRound() {
 }
 
 function playFinals(round) {
-	const winner = getMatchWinner("0");
+	let winner = getMatchWinner("0");
 	if (winner) {
 		updateLevelRound();
 		localStorage.setItem("round", JSON.stringify({ 0: [winner, null] }));
@@ -207,8 +214,15 @@ function displayWinner(winner) {
 		showOnePlayer(winning_element, winner);
 	}
 }
+
+function debugRoundWinner(message){
+	console.log(message);
+	let roundwinners = getRoundWinners();
+	console.log({roundwinners});
+}
 function displayRound() {
-	const levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
+	const levelRound = getLevelRound();
+
 	displayWinner(getMatchWinner("0") || {});
 	if (levelRound["1"] && levelRound["1"]["rounds"])
 		displayFinals(levelRound["1"]["rounds"] || {});
@@ -226,8 +240,11 @@ function showOnePlayer(player_place, playername) {
 }
 
 function fillRound(players) {
-	if (!players || players.length < 2 || players.length > 8)
-		throw new Error("Invalid players array size");
+	if (!players || players.length < 2 || players.length > 8){
+		timedAlert("Error fetching player data");
+		callRoute("/home");
+		return;
+	}
 	let local_players = [...players];
 	let match = [];
 	let rounds = {};
@@ -246,8 +263,11 @@ function fillRound(players) {
 
 function getLevel(rounds) {
 	let num_rounds = Object.keys(rounds).length;
-	if (num_rounds < 1 || num_rounds > 4)
-		throw new Error("incorrect number of matches in the round");
+	if (num_rounds < 1 || num_rounds > 4){
+		timedAlert("Error fetching player data");
+		callRoute("/home");
+		return;
+	}
 	return num_rounds == 4 ? 3 : num_rounds;
 }
 
@@ -256,8 +276,11 @@ function allocatePlayer(local_players, match, index) {
 	random_player = Math.floor(Math.random() * local_players.length);
 	match[index] = local_players[random_player];
 	local_players.splice(random_player, 1);
-	if (local_players.includes(match[index]))
-		throw new Error("Repeated player!");
+	if (local_players.includes(match[index])){
+		timedAlert("Error fetching player data");
+		callRoute("/home");
+		return;
+	}
 }
 
 function showAllPlayers() {
@@ -274,7 +297,7 @@ function showAllPlayers() {
 }
 
 function showPlayerName(playerName) {
-	var players = JSON.parse(localStorage.getItem("players")) || [];
+	var players = getProtectedPlayers();
 	var table = document.querySelector("table tbody");
 	var row = table.insertRow(-1);
 	row.id = "playerRow-" + playerName;
@@ -324,4 +347,58 @@ function displayFinals(round) {
 	let player2 = document.getElementById("final-t2");
 	showOnePlayer(player1, round[0][1]);
 	showOnePlayer(player2, round[0][0]);
+}
+
+
+function getProtectedPlayers(){
+	let players = [];
+	try{
+		players = JSON.parse(localStorage.getItem("players")) || [];
+	}
+	catch (e){
+		console.log(e);
+		return players;
+	}
+	return (players);
+
+}
+function getProtectdRound(){
+	let round = {};
+	try {
+		let storedRoundJSON = localStorage.getItem("round");
+		round = JSON.parse(storedRoundJSON);
+	}
+	catch (e){
+		timedAlert("Invalid round parsing, data is tempered");
+		callRoute("/home");
+		return;
+	}
+	return (round);
+}
+
+function getLevelRound(){
+	let levelRound = {};
+	try{
+		levelRound = JSON.parse(localStorage.getItem("levelRound")) || {};
+	}
+	catch (e){
+		timedAlert("Level round data tampered, terminating tournament");
+		callRoute("/home");
+		return ;
+	}
+	return (levelRound);
+
+}
+
+function getRoundWinners(){
+	let roundWinners = {};
+	try{
+		roundWinners = JSON.parse(localStorage.getItem("roundWinners")) || {};
+	}
+	catch (e){
+		timedAlert("Round winner data tampered, terminating tournament.");
+		callRoute("/home");
+		return ;
+	}
+	return (roundWinners);
 }
