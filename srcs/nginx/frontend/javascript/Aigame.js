@@ -440,13 +440,16 @@ var AIgame = async () => {
 		if (AiHaveJustHitBall(gameObjects, game)) {
 			if (game.ball.x > 20) gameObjects["hitPoints"] = [];
 			moves = recoverToCenter(gameObjects, game);
-		} else if (
+		}
+		else if (
 			isAiTurn(gameObjects["ballLastPosition"].x, game.ball.x) &&
 			ballIsHeadingTowardHuman(game)
-		) {
+			) {
 			gameObjects["hitPoints"] = [];
 			moves = counterHumanPaddel(moves, game);
-		} else moves = AiPlay(gameObjects, game, moves);
+		}
+		else
+			moves = AiPlay(gameObjects, game, moves);
 		return moves;
 	}
 
@@ -498,11 +501,10 @@ var AIgame = async () => {
 	function AiPlay(gameObjects, game, moves) {
 		let move_margin = 10;
 		let nominated_hitpoint = getHitPoint(gameObjects, game);
-		if (nominated_hitpoint === NaN)
-		{
-			console.log("its ", nominated_hitpoint);
-			return ;
-		}
+		if (isNaN(nominated_hitpoint) || nominated_hitpoint < 0 
+				|| nominated_hitpoint > getHeightPixels(100)){
+					return ;
+				}
 		gameObjects["hitPoints"].push(nominated_hitpoint);
 		let chosenHitPoint = getChosenPoint(gameObjects["hitPoints"]);
 		console.log(
@@ -525,7 +527,8 @@ var AIgame = async () => {
 				up: 0,
 			};
 			console.log(`moving down ${moves.down}`);
-		} else moves = { stop: 0, up: 0, down: 0 };
+		} else
+			moves = { stop: 0, up: 0, down: 0 };
 		gameObjects["lastMinute"] = gameObjects["currentMinute"];
 		return moves;
 	}
@@ -549,7 +552,7 @@ var AIgame = async () => {
 		let pos2 = { x: game.ball.x, y: game.ball.y };
 		let slope = (pos2.y - pos1.y) / (pos2.x - pos1.x);
 		let hit = Math.floor(pos2.y - slope * pos2.x);
-		hit = getFinalHit(pos1, pos2, slope, hit, 5);
+		hit = getFinalHit(pos1, pos2, slope, hit, 7);
 
 		return hit;
 	}
@@ -570,7 +573,12 @@ var AIgame = async () => {
 		return hitPoints[occurances.indexOf(Math.max(...occurances))];
 	}
 
-	function getFinalHit(pos1, pos2, slope, hit) {
+	function getFinalHit(pos1, pos2, slope, hit, max_hit) {
+		if (max_hit < 1){
+			console.log("reached final hit");
+			return (hit);
+		}
+		max_hit -= 1;
 		if (hit > 0 && hit < canvas.height - 1) return hit;
 		if (hit < 0) {
 			let new_pos1 = { ...pos2 };
@@ -578,7 +586,7 @@ var AIgame = async () => {
 			let new_slope = -1 * slope;
 			let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
 
-			return getFinalHit(new_pos1, new_po2, new_slope, new_hit);
+			return getFinalHit(new_pos1, new_po2, new_slope, new_hit, max_hit);
 		} else if (hit > canvas.height - 1) {
 			let new_pos1 = { ...pos2 };
 			let new_po2 = {
@@ -588,7 +596,7 @@ var AIgame = async () => {
 			let new_slope = -1 * slope;
 			let new_hit = Math.floor(new_po2.y - new_slope * new_po2.x);
 
-			return getFinalHit(new_pos1, new_po2, new_slope, new_hit);
+			return getFinalHit(new_pos1, new_po2, new_slope, new_hit, max_hit);
 		}
 		return hit;
 	}
