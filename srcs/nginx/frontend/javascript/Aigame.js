@@ -140,22 +140,21 @@ var AIgame = async () => {
 		if (game.pause) {
 			return;
 		}
+		const { ball, paddle1, paddle2 } = game;
 
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawBall(game);
-		drawPaddles(game);
-
-		const { ball, p1, p2 } = game;
+		if (isColliding(ball, paddle1)) {
+			handlePaddleCollision(ball, paddle1);
+		} else if (isColliding(ball, paddle2)) {
+			handlePaddleCollision(ball, paddle2);
+		}
+		game.ball.x += game.ball.speedX;
+		game.ball.y += game.ball.speedY;
 		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
 			ball.speedY *= -1;
 		}
-
-		if (isColliding(ball, p1)) {
-			handlePaddleCollision(ball, p1);
-		} else if (isColliding(ball, p2)) {
-			handlePaddleCollision(ball, p2);
-		}
-
+		game.paddle1.update();
+		game.paddle2.update();
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
@@ -165,12 +164,9 @@ var AIgame = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
-
-		game.ball.x += game.ball.speedX;
-		game.ball.y += game.ball.speedY;
-
-		game.p1.update();
-		game.p2.update();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBall(game);
+		drawPaddles(game);
 	}
 
 	function handleKeyDown(game) {

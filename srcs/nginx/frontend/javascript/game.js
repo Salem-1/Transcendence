@@ -139,15 +139,7 @@ var game = async () => {
 		if (game.pause) {
 			return;
 		}
-
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawBall(game);
-		drawPaddles(game);
-
 		const { ball, paddle1, paddle2 } = game;
-		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-			ball.speedY *= -1;
-		}
 
 		if (isColliding(ball, paddle1)) {
 			handlePaddleCollision(ball, paddle1);
@@ -156,6 +148,10 @@ var game = async () => {
 		}
 		game.ball.x += game.ball.speedX;
 		game.ball.y += game.ball.speedY;
+		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
+			ball.speedY *= -1;
+		}
 		game.paddle1.update();
 		game.paddle2.update();
 		if (ball.x - ball.radius < 0) {
@@ -167,6 +163,9 @@ var game = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBall(game);
+		drawPaddles(game);
 	}
 
 	function handleKeyDown(game) {
