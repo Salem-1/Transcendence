@@ -11,7 +11,7 @@ var AIgame = async () => {
 
 	let BALL_SPEED = getWidthPixels(1);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-	let PADDLE_SPEED = getWidthPixels(0.3);
+	let PADDLE_SPEED = getWidthPixels(0.4);
 	let PADDLE_WIDTH = getWidthPixels(1);
 	let PADDLE_HEIGHT = getHeightPixels(20);
 
@@ -267,7 +267,7 @@ var AIgame = async () => {
 			}
 			BALL_SPEED = getWidthPixels(1);
 			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.3);
+			PADDLE_SPEED = getWidthPixels(0.4);
 			PADDLE_WIDTH = getWidthPixels(1);
 			PADDLE_HEIGHT = getHeightPixels(20);
 			game.p1 = new Paddle(
