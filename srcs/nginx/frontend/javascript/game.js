@@ -9,9 +9,9 @@ var game = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(0.7);
+	let BALL_SPEED = getWidthPixels(1);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-	let PADDLE_SPEED = getWidthPixels(1);
+	let PADDLE_SPEED = getWidthPixels(0.5);
 	let PADDLE_WIDTH = getWidthPixels(1);
 	let PADDLE_HEIGHT = getHeightPixels(20);
 
@@ -90,8 +90,6 @@ var game = async () => {
 	}
 
 	function resetBall(game) {
-		game.ball.x = canvas.width / 2;
-		game.ball.y = canvas.height / 2;
 	
 		const minSlope = Math.tan(Math.PI / 6); // 30 degrees
 		const maxSlope = Math.tan((5 * Math.PI) / 6); // 150 degrees
@@ -104,6 +102,15 @@ var game = async () => {
 		// Calculate the initial velocity components based on the slope and directions
 		game.ball.speedX = directionX * BALL_SPEED / Math.sqrt(1 + slope * slope);
 		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
+		if (directionX < 0){
+			game.ball.x = canvas.width / 1.2;
+			game.ball.y = canvas.height / 2;
+		}
+		else{
+			game.ball.x = canvas.width / 4;
+			game.ball.y = canvas.height / 2;
+
+		}
 	}
 	
 
@@ -259,9 +266,9 @@ var game = async () => {
 				canvas.height = window.innerHeight * 0.8;
 				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 			}
-			BALL_SPEED = getWidthPixels(0.5);
+			BALL_SPEED = getWidthPixels(1);
 			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.7);
+			PADDLE_SPEED = getWidthPixels(0.5);
 			PADDLE_WIDTH = getWidthPixels(1);
 			PADDLE_HEIGHT = getHeightPixels(20);
 			game.paddle1 = new Paddle(
