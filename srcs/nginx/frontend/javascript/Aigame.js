@@ -90,11 +90,20 @@ var AIgame = async () => {
 	}
 
 	function resetBall(game) {
-		let testAIstartDelete = 20;
-		game.ball.x = canvas.width / (2 + testAIstartDelete);
+		game.ball.x = canvas.width / 2;
 		game.ball.y = canvas.height / 2;
-		game.ball.speedX = BALL_SPEED;
-		game.ball.speedY = 0;
+	
+		const minSlope = Math.tan(Math.PI / 6); // 30 degrees
+		const maxSlope = Math.tan((5 * Math.PI) / 6); // 150 degrees
+	
+		// Generate a random slope within the defined range
+		const slope = Math.random() * (maxSlope - minSlope) + minSlope;
+		const directionX = Math.random() < 0.5 ? -1 : 1;
+		const directionY = Math.random() < 0.5 ? -1 : 1;
+
+		// Calculate the initial velocity components based on the slope and directions
+		game.ball.speedX = directionX * BALL_SPEED / Math.sqrt(1 + slope * slope);
+		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
 	}
 
 	function updateScore(game) {
@@ -132,7 +141,6 @@ var AIgame = async () => {
 	
 		// Calculate new vertical speed based on collision angle
 		ball.speedY = BALL_SPEED * Math.sin(angleRad);
-		ball.speedY = BALL_SPEED * Math.tan(angleRad);
 		console.log(ball.speedX, ball.speedY);
 	}
 
