@@ -25,7 +25,6 @@ def get_user_id(username):
 
 def fetch_auth_token(url_auth_code):
     url = "https://api.intra.42.fr/oauth/token"
-    # print(f"clientid={get_secret('INTRA_CLIENT_ID')}\nclient_secret={get_secret('INTRA_CLIENT_SECRET')}")
     data = {
         'grant_type': 'authorization_code',
         'client_id': get_secret('INTRA_CLIENT_ID'),

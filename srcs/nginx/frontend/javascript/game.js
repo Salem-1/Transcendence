@@ -143,13 +143,11 @@ var game = async () => {
 		if (collidePoint > 1) collidePoint = 1;
 		if (collidePoint < -1) collidePoint = -1;
 
-		console.log(collidePoint);
 		const angleRad = collidePoint * (Math.PI / 4);
 		ball.speedX = -ball.speedX; // Reverse horizontal direction
 	
 		// Calculate new vertical speed based on collision angle
 		ball.speedY = BALL_SPEED * Math.sin(angleRad);
-		console.log(ball.speedX, ball.speedY);
 	}
 
 	function draw(game) {
@@ -166,7 +164,6 @@ var game = async () => {
 		game.ball.x += game.ball.speedX;
 		game.ball.y += game.ball.speedY;
 		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
 			ball.speedY *= -1;
 		}
 		game.paddle1.update();

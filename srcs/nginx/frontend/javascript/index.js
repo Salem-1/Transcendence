@@ -3,7 +3,7 @@ async function oauthRedirect() {
 	try {
 		await fetchAuthRedirection();
 	} catch (error) {
-		console.log("Error during oauth redirect:", error);
+		;
 	}
 }
 
@@ -17,7 +17,7 @@ async function register() {
 	try {
 		await tryRegisterUser(username, password);
 	} catch (error) {
-		console.log(`${await getTranslation("reg failed")}: ${error}`);
+		;
 	}
 }
 
@@ -29,7 +29,7 @@ async function login() {
 	try {
 		await tryLoginUser(username, password);
 	} catch (error) {
-		console.error("Error during registration:", error);
+		;
 		timedAlert(`${await getTranslation("login failed")}`);
 	}
 }
@@ -72,7 +72,7 @@ async function fetchAuthRedirection() {
 	if (response.ok) {
 		window.location.href = result.oauth_link;
 	} else {
-		console.log(`Failed to get oauth link: ${result.error}`);
+		;
 	}
 }
 

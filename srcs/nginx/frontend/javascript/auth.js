@@ -35,7 +35,6 @@ async function intraAuthenticate() {
 				callRoute("/home");
 		}
 	} catch (error) {
-		console.log("Error during registration:", error);
 		timedAlert(`${await getTranslation("reg failed")}`);
 		callRoute("/");
 	}

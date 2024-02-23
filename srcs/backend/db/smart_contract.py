@@ -46,7 +46,7 @@ def record_winner(w3, contract, private_key, winner, owner, address):
     transaction = {
         'to': contract.address,
         'data': encoded_data,
-        'gas': 190000,  # Adjust gas limit accordingly
+        'gas': 2900000,  # Adjust gas limit accordingly
         'gasPrice': w3.to_wei('75', 'gwei'), # Increase gas price to 75 Gwei
         'nonce': w3.eth.get_transaction_count(address),  # Add nonce to prevent replay attacks
     }
@@ -87,7 +87,7 @@ def set_winner_on_smart_contract(request_body, owner):
     wallet_address = get_secret("WALLET_ADDRESS")
     get_account_balance(w3, wallet_address)
     #comment the line below if you don't want to consume gas
-    # record_winner(w3, contract, private_key, winner, owner, get_secret("WALLET_ADDRESS"))
+    record_winner(w3, contract, private_key, winner, owner, get_secret("WALLET_ADDRESS"))
     return True
 
 
