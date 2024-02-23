@@ -1,7 +1,6 @@
 try {
 	initTournament();
 } catch (e) {
-	console.log(e)
   timedAlert(e);
   callRoute("/home");
 }
@@ -32,7 +31,6 @@ async function initTournament() {
 
 
 async function startTournament() {
-	console.log("starting tournament");
 	const launchButton = document.getElementById("launch-tournamet");
 	if (launchButton)
 		launchButton.style.display = "none";
@@ -132,7 +130,7 @@ function storeWinnerOnBlockchain(winner) {
 			body: JSON.stringify({ winner }),
 		});
 	} catch (e) {
-		console.log(e);
+		;
 	}
 }
 
@@ -215,11 +213,6 @@ function displayWinner(winner) {
 	}
 }
 
-function debugRoundWinner(message){
-	console.log(message);
-	let roundwinners = getRoundWinners();
-	console.log({roundwinners});
-}
 function displayRound() {
 	const levelRound = getLevelRound();
 
@@ -307,7 +300,6 @@ function showPlayerName(playerName) {
 	var button = document.createElement("button");
 	button.textContent = "X";
 	button.classList.add("delete-button");
-	console.log(`players now [${players}]'n`);
 	cell2.appendChild(button);
 }
 
@@ -356,7 +348,6 @@ function getProtectedPlayers(){
 		players = JSON.parse(localStorage.getItem("players")) || [];
 	}
 	catch (e){
-		console.log(e);
 		return players;
 	}
 	return (players);

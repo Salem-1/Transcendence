@@ -33,7 +33,6 @@ def send_message(service, sender, to, subject, body):
     message = create_message(sender, to, subject, body)
     try:
         message = service.users().messages().send(userId=sender_email, body=message).execute()
-        print(f"Message sent! Message Id: {message['id']}")
         return message
     except Exception as error:
         print(f"An error occurred: {error}")

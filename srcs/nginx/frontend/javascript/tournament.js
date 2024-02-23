@@ -86,7 +86,6 @@ function showPlayerName(playerName) {
     button.classList.add("delete-button")
     button.classList.add("btn")
     button.classList.add("btn-danger")
-    console.log(`players now [${players}]'n`)
     cell2.appendChild(button);
 	var tablebody = document.querySelector("table tbody");
 	tablebody.scrollTop = tablebody.scrollHeight;

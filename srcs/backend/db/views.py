@@ -59,7 +59,6 @@ def login_user(request):
             else:
                 return JsonResponse({'error': 'Invalid request username or password'}, status=401)
         except Exception as e:
-            print(f"{e}")
             return JsonResponse({"error": "Internal server error while login"}, status=500)  
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
@@ -201,7 +200,7 @@ def redirect_uri(request):
                     .format(client_id)
             return JsonResponse({"oauth_link": intra_link})
         except Exception as e:
-            print(e)
+            return JsonResponse({"error": "Bad request"}, status=400)
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
 @csrf_exempt
@@ -235,7 +234,6 @@ def submit_2fa_email(request):
             user.save()
             return JsonResponse({'message': "One time password sent to your email"}, status=response.status_code)
         except Exception as e:
-            print(e)
             return JsonResponse({'error': "Unauthorized acces"}, status=401)
     return JsonResponse({'error': "Method not allowed"}, status=405)
 
@@ -283,7 +281,7 @@ def error_code(request, exception=None):
                 return HttpResponse("<html><body><h1>Unknown Status Code</h1><body></html>", status=request.headers.get("X-Trans42-code"))
         return HttpResponseNotFound(error_404)
     except Exception as e:
-        print(e)
+        return JsonResponse({'error': "bad request"}, status=400)
     return JsonResponse({'error': "bad request"}, status=400)
 
 
@@ -306,7 +304,6 @@ def set_winner(request):
         if set_winner_on_smart_contract(request_body, user.username):
             return JsonResponse({'message': "successful stored on blockchain"})
     except Exception as e:
-        print(e)
         return JsonResponse({'error': "Failed to set winner"}, status=401)
 
     return JsonResponse({'error': "Failed to set winner"})
@@ -321,7 +318,6 @@ def get_winners(request):
         winners = get_all_winners()
         return JsonResponse({'winners': winners})
     except Exception as e:
-        print(e)
         return JsonResponse({'error': "Failed to get winner"}, status=401)
 
     return JsonResponse({'error': "Failed to get winner"})
@@ -340,7 +336,6 @@ def set_languagePreference(request):
 		user_2fa.save()
 		return JsonResponse({'message': "language preference set"})
 	except Exception as e:
-		print(e)
 		return JsonResponse({'error': "Failed to set language preference"}, status=401)
 	return JsonResponse({'error': "Failed to set language preference"})
 

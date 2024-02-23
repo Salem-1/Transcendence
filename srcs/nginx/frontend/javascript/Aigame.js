@@ -388,7 +388,7 @@ var AIgame = async () => {
 
 	playGame().then((winner) => {
 		// fix this
-		console.log(`Player ${winner} wins!`);
+	;
 	});
 
 	function initGameObjects(gameObjects, game) {

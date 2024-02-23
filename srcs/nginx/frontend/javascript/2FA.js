@@ -22,7 +22,7 @@ async function get2FAState() {
 		const result = await response.json();
 		return result.mfa === "enabled";
 	} catch (error) {
-		console.log("getting 2fa state failed", error);
+		;
 	}
 }
 
@@ -30,7 +30,7 @@ async function init2FAButton() {
 	try {
 		toggleSwitch.checked = await get2FAState();
 	} catch (error) {
-		console.log("getting 2fa state failed", error);
+		;
 	}
 }
 
@@ -83,7 +83,6 @@ async function disable2FA() {
 			`${await getTranslation("error 2fa disable")}`,
 			"warning"
 		);
-		console.log(`Error: ${error}`);
 	}
 }
 
@@ -138,7 +137,6 @@ async function verifyEmail() {
 			otp.removeEventListener("click", hadleOTPModal);
 		});
 	} catch (error) {
-		console.log(`Error: ${error}`);
 		MFAModal.hide();
 	}
 }
@@ -158,7 +156,7 @@ async function verifyOTP(otp, email) {
 			timedAlert(await getTranslation("invalid otp"), "warning");
 		}
 	} catch (error) {
-		console.log(`Error: ${error}`);
+		;
 	}
 	return false;
 }
