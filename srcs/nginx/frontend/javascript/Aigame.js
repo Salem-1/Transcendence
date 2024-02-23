@@ -179,56 +179,45 @@ var AIgame = async () => {
 		drawPaddles(game);
 	}
 
-	function handleKeyDown(game) {
-		document.addEventListener("keydown", (event) => {
-			if (window.location.pathname !== "/AIgame") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "p":
-				case " ":
-					game.pause = !game.pause;
-					const pauseElement = document.getElementById("pause");
-					if (game.pause) {
-						pauseElement.style.setProperty("display", "block");
-					} else {
-						pauseElement.style.setProperty("display", "none");
-					}
-					break;
-				case "w":
-					game.p1.moveUp();
-					break;
-				case "s":
-					game.p1.moveDown();
-					break;
-				case "ArrowUp":
-					game.p2.moveUp();
-					break;
-				case "ArrowDown":
-					game.p2.moveDown();
-					break;
-				default:
-					break;
+	function handleKeyDown(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		if (event.key === "p" || event.key === " ")
+		{
+			game.pause = !game.pause;
+			const pauseElement = document.getElementById("pause");
+			if (game.pause) {
+				pauseElement.style.setProperty("display", "block");
+			} else {
+				pauseElement.style.setProperty("display", "none");
 			}
-		});
+		} else if (event.key === "w") {
+			game.p1.moveUp();
+		} else if (event.key === "s") {
+			game.p1.moveDown();
+		} else if (event.key === "ArrowUp") {
+			game.p2.moveUp();
+		} else if (event.key === "ArrowDown") {
+			game.p2.moveDown();
+		}
 	}
 
-	function handleKeyUp(game) {
-		document.addEventListener("keyup", (event) => {
-			if (window.location.pathname !== "/AIgame") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "w":
-				case "s":
-					game.p1.stop();
-					break;
-				case "ArrowUp":
-				case "ArrowDown":
-					game.p2.stop();
-					break;
-			}
-		});
+	function handleKeyUp(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		if (event.key === "w" || event.key === "s") game.p1.stop();
+		if (event.key === "ArrowUp" || event.key === "ArrowDown") game.p2.stop();
+
+		// console.log(event.key);
+		// const key = event.key;
+		// switch (key) {
+		// 	case "w":
+		// 	case "s":
+		// 		game.p1.stop();
+		// 		break;
+		// 	case "ArrowUp":
+		// 	case "ArrowDown":
+		// 		game.p2.stop();
+		// 		break;
+		// }
 	}
 
 	function handleKeyPress(game) {
@@ -236,58 +225,55 @@ var AIgame = async () => {
 		handleKeyUp(game);
 	}
 
-	function handleResize(game) {
-		window.addEventListener("resize", () => {
-			if (window.location.pathname !== "/AIgame") return;
-			game.pause = true;
-			const pauseElement = document.getElementById("pause");
-			pauseElement.style.setProperty("display", "block");
-			const oldP1Posistion = {
-				x: getWidthPercentage(game.p1.x),
-				y: getHeightPercentage(game.p1.y),
-			};
-			const oldP2Posistion = {
-				x: getWidthPercentage(game.p2.x),
-				y: getHeightPercentage(game.p2.y),
-			};
-			const oldBallPosistion = {
-				x: getWidthPercentage(game.ball.x),
-				y: getHeightPercentage(game.ball.y),
-			};
-			canvas.width = window.innerWidth * 0.8;
-			canvas.height = (9 / 16) * canvas.width;
-			if (canvas.height > window.innerHeight * 0.8) {
-				canvas.height = window.innerHeight * 0.8;
-				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
-			}
-			BALL_SPEED = getWidthPixels(1.1);
-			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.5);
-			PADDLE_WIDTH = getWidthPixels(1);
-			PADDLE_HEIGHT = getHeightPixels(20);
-			game.p1 = new Paddle(
-				getWidthPixels(oldP1Posistion.x),
-				getHeightPixels(oldP1Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			game.p2 = new Paddle(
-				getWidthPixels(oldP2Posistion.x),
-				getHeightPixels(oldP2Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			
-			game.ball.x = getWidthPixels(oldBallPosistion.x);
-			game.ball.y = getHeightPixels(oldBallPosistion.y);
-			game.ball.radius = BALL_RADIUS;
-			game.ball.speedX = BALL_SPEED;
-			game.ball.speedY = BALL_SPEED;
-			game.ball.color = "#fff";
-			
-		});
+	function handleResize(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		game.pause = true;
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");
+		const oldP1Posistion = {
+			x: getWidthPercentage(game.p1.x),
+			y: getHeightPercentage(game.p1.y),
+		};
+		const oldP2Posistion = {
+			x: getWidthPercentage(game.p2.x),
+			y: getHeightPercentage(game.p2.y),
+		};
+		const oldBallPosistion = {
+			x: getWidthPercentage(game.ball.x),
+			y: getHeightPercentage(game.ball.y),
+		};
+		canvas.width = window.innerWidth * 0.8;
+		canvas.height = (9 / 16) * canvas.width;
+		if (canvas.height > window.innerHeight * 0.8) {
+			canvas.height = window.innerHeight * 0.8;
+			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+		}
+		BALL_SPEED = getWidthPixels(1.1);
+		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+		PADDLE_SPEED = getWidthPixels(0.5);
+		PADDLE_WIDTH = getWidthPixels(1);
+		PADDLE_HEIGHT = getHeightPixels(20);
+		game.p1 = new Paddle(
+			getWidthPixels(oldP1Posistion.x),
+			getHeightPixels(oldP1Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		game.p2 = new Paddle(
+			getWidthPixels(oldP2Posistion.x),
+			getHeightPixels(oldP2Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		
+		game.ball.x = getWidthPixels(oldBallPosistion.x);
+		game.ball.y = getHeightPixels(oldBallPosistion.y);
+		game.ball.radius = BALL_RADIUS;
+		game.ball.speedX = BALL_SPEED;
+		game.ball.speedY = BALL_SPEED;
+		game.ball.color = "#fff";	
 	}
 
 	function getWinner(game) {
@@ -344,12 +330,16 @@ var AIgame = async () => {
 		let lastTimestamp = 0;
 		let moves = {};
 		let timestamp = Date.now();
-		handleKeyPress(game);
-		handleResize(game);
+		window.addEventListener("resize", handleResize.bind(null, game));
+		window.addEventListener("keydown", handleKeyDown.bind(null, game));
+		window.addEventListener("keyup", handleKeyUp.bind(null, game));
 		return await new Promise((resolve) => {
 			const intervalId = setInterval(async () => {
 				if (window.location.pathname !== "/AIgame") {
 					clearInterval(intervalId);
+					window.removeEventListener("resize", handleResize.bind(null, game));
+					window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+					window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 					return;
 				}
 				draw(game);
@@ -377,8 +367,11 @@ var AIgame = async () => {
 						)} ${winner} ${await getTranslation("wins")}`,
 						"success"
 					);
-					clearInterval(intervalId);
-					resolve(winner);
+					// clearInterval(intervalId);
+					// resolve(winner);
+					window.removeEventListener("resize", handleResize.bind(null, game));
+					window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+					window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 					callRoute("/home");
 					return;
 				}
