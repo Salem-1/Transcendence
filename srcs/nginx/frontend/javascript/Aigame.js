@@ -15,8 +15,6 @@ var AIgame = async () => {
 	let PADDLE_WIDTH = getWidthPixels(1);
 	let PADDLE_HEIGHT = getHeightPixels(20);
 
-	// px = percentage * canvas.width / 100
-	// percentage = px * 100 / canvas.width
 	function getWidthPixels(percentage) {
 		return canvas.width * (percentage / 100);
 	}
@@ -136,19 +134,17 @@ var AIgame = async () => {
 	function handlePaddleCollision(ball, paddle) {
 		const newPaddleY = paddle.y - 0.10 * paddle.height;
 		const newPaddleHeight = 1.20 * paddle.height;
-		let collidePoint = ball.y - (newPaddleY+ (newPaddleHeight) / 2);
+		let collidePoint = ball.y - (newPaddleY + (newPaddleHeight) / 2);
 		// Normalize
 		collidePoint = collidePoint / (newPaddleHeight / 2);
 		if (collidePoint > 1) collidePoint = 1;
 		if (collidePoint < -1) collidePoint = -1;
 
-		console.log(collidePoint);
 		const angleRad = collidePoint * (Math.PI / 4);
 		ball.speedX = -ball.speedX; // Reverse horizontal direction
-	
 		// Calculate new vertical speed based on collision angle
 		ball.speedY = BALL_SPEED * Math.sin(angleRad);
-		console.log(ball.speedX, ball.speedY);
+
 	}
 
 	function draw(game) {
@@ -165,7 +161,6 @@ var AIgame = async () => {
 		game.ball.x += game.ball.speedX;
 		game.ball.y += game.ball.speedY;
 		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
 			ball.speedY *= -1;
 		}
 		paddle1.update();
@@ -367,7 +362,6 @@ var AIgame = async () => {
 					try {
 						moves = decideNextMoves(gameObjects, moves, game);
 					} catch (e) {
-						console.log(e);
 						moves = { up: 1 };
 					}
 					gameObjects["ballLastPosition"] = { x: ball.x, y: ball.y };
@@ -447,14 +441,12 @@ var AIgame = async () => {
 	
 		if (AiHaveJustHitBall(gameObjects, game)) {
 			gameObjects["hitPoints"] = [];
-			console.log("ai just hit the ball")
 			moves = recoverToCenter(gameObjects, game);
 		}
 		else if (
 			isAiTurn(gameObjects["ballLastPosition"].x, game.ball.x) &&
 			ballIsHeadingTowardHuman(game)
 			) {
-				console.log("I want to remove this");
 			gameObjects["hitPoints"] = [];
 			moves = counterHumanPaddel(moves, game);
 		}
@@ -492,10 +484,8 @@ var AIgame = async () => {
 				up: countHeightSteps(game.p1.y - CENTER - center_margin),
 				down: 0,
 			};
-			// console.log(`recovering to center up ${ countHeightSteps(game.p1.y -  CENTER  - center_margin)}`);
 		} else if (game.p1.y < CENTER + center_margin) {
 			moves = { down: countHeightSteps(CENTER - game.p1.y), up: 0 };
-			// console.log(`recovering to center down ${countHeightSteps(CENTER - game.p1.y)}`);
 		} else moves = { stop: 0, up: 0, down: 0 };
 		gameObjects["lastMinute"] = gameObjects["currentMinute"];
 		return moves;
@@ -514,26 +504,16 @@ var AIgame = async () => {
 				}
 		gameObjects["hitPoints"].push(nominated_hitpoint);
 		let chosenHitPoint = getChosenPoint(gameObjects["hitPoints"]);
-		console.log(
-			`[${
-				gameObjects["hitPoints"]
-			}] choosed ${chosenHitPoint} -> ${getHeightPercentage(
-				chosenHitPoint
-			)}`
-		);
-		// showHitPoints(gameObjects["hitPoints"], chosenHitPoint);
 		if (game.p1.y > chosenHitPoint) {
 			moves = {
 				up: countHeightSteps(game.p1.y - chosenHitPoint),
 				down: 0,
 			};
-			console.log(`moving up ${moves.up}`);
 		} else if (game.p1.y < chosenHitPoint) {
 			moves = {
 				down: countHeightSteps(chosenHitPoint - game.p1.y),
 				up: 0,
 			};
-			console.log(`moving down ${moves.down}`);
 		} else
 			moves = { stop: 0, up: 0, down: 0 };
 		gameObjects["lastMinute"] = gameObjects["currentMinute"];
@@ -545,11 +525,6 @@ var AIgame = async () => {
 		for (point in hitpoints) {
 			normalized_points.push(getHeightPercentage(point));
 		}
-		console.log(
-			`${normalized_points} choose normalized ${getHeightPercentage(
-				chosenHitPoint
-			)}`
-		);
 	}
 	function getHitPoint(gameObjects, game) {
 		let pos1 = {
@@ -582,7 +557,6 @@ var AIgame = async () => {
 
 	function getFinalHit(pos1, pos2, slope, hit, max_hit) {
 		if (max_hit < 1){
-			console.log("reached final hit");
 			return (hit);
 		}
 		max_hit -= 1;
@@ -636,7 +610,6 @@ var AIgame = async () => {
 
 	function ballIsHeadingTowardHuman(game) {
 		let fieldSecondHalf = getWidthPixels(70);
-		// console.log("ball is heading toward human")
 		if (game.ball.x > fieldSecondHalf) return true;
 		return false;
 	}
