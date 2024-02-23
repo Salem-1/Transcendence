@@ -12,7 +12,7 @@ async function intraAuthenticate() {
 		const signal = controller.signal;
 		const timeout =  15000; // Timeout in milliseconds
 
-setTimeout(() => controller.abort(), timeout);
+		setTimeout(() => controller.abort(), timeout);
 		const response = await fetch(`${window.location.origin}/api/auth/`, {
 			method: "POST",
 			headers: {
@@ -31,7 +31,8 @@ setTimeout(() => controller.abort(), timeout);
 		} else {
 			timedAlert(
 				`${await getTranslation("login failed")}`
-			);
+				);
+				callRoute("/home");
 		}
 	} catch (error) {
 		console.log("Error during registration:", error);

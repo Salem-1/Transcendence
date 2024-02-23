@@ -43,7 +43,7 @@ async function launchTournament() {
 			timedAlert(`${await getTranslation("one player")}`)
 		return;
     }
-	timedAlert(`${await getTranslation("starting tournament")}`)
+	timedAlert(`${await getTranslation("starting tournament")}`, "info")
 	callRoute("/tournament?init=true");
 }
 

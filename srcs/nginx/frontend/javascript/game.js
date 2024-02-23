@@ -9,9 +9,9 @@ var game = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(0.7);
+	let BALL_SPEED = getWidthPixels(1);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-	let PADDLE_SPEED = getWidthPixels(1);
+	let PADDLE_SPEED = getWidthPixels(0.5);
 	let PADDLE_WIDTH = getWidthPixels(1);
 	let PADDLE_HEIGHT = getHeightPixels(20);
 
@@ -90,11 +90,29 @@ var game = async () => {
 	}
 
 	function resetBall(game) {
-		game.ball.x = canvas.width / 2;
-		game.ball.y = canvas.height / 2;
-		game.ball.speedX = BALL_SPEED;
-		game.ball.speedY = BALL_SPEED;
+	
+		const minSlope = Math.tan(Math.PI / 6); // 30 degrees
+		const maxSlope = Math.tan((5 * Math.PI) / 6); // 150 degrees
+	
+		// Generate a random slope within the defined range
+		const slope = Math.random() * (maxSlope - minSlope) + minSlope;
+		const directionX = Math.random() < 0.5 ? -1 : 1;
+		const directionY = Math.random() < 0.5 ? -1 : 1;
+
+		// Calculate the initial velocity components based on the slope and directions
+		game.ball.speedX = directionX * BALL_SPEED / Math.sqrt(1 + slope * slope);
+		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
+		if (directionX < 0){
+			game.ball.x = canvas.width / 1.2;
+			game.ball.y = canvas.height / 2;
+		}
+		else{
+			game.ball.x = canvas.width / 4;
+			game.ball.y = canvas.height / 2;
+
+		}
 	}
+	
 
 	function updateScore(game) {
 		const score1 = document.getElementById("score1");
@@ -104,50 +122,55 @@ var game = async () => {
 	}
 
 	function isColliding(ball, paddle) {
-		const effectivePaddleHeight = paddle.height; // Adjust the multiplier as needed
-
-		// Check for collision between ball and paddle
+		const newPaddleY = paddle.y - 0.10 * paddle.height;
+		const newPaddleHeight = 1.20 * paddle.height;
+		// ctx.fillStyle = "rgba(255,0,0,0.3)";
+		// ctx.fillRect(paddle.x, newPaddleY, paddle.width, newPaddleHeight);
 		return (
 			ball.x - ball.radius < paddle.x + paddle.width &&
 			ball.x + ball.radius > paddle.x &&
-			ball.y - ball.radius < paddle.y + effectivePaddleHeight &&
-			ball.y + ball.radius > paddle.y
+			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius > newPaddleY
 		);
 	}
 
 	function handlePaddleCollision(ball, paddle) {
-		// Where the ball hit the paddle
-		let collidePoint = ball.y - (paddle.y + (paddle.height) / 2);
+		const newPaddleY = paddle.y - 0.10 * paddle.height;
+		const newPaddleHeight = 1.20 * paddle.height;
+		let collidePoint = ball.y - (newPaddleY+ (newPaddleHeight) / 2);
+		// Normalize
+		collidePoint = collidePoint / (newPaddleHeight / 2);
+		if (collidePoint > 1) collidePoint = 1;
+		if (collidePoint < -1) collidePoint = -1;
 
-		// Normalize the value between -1 and 1
-		collidePoint = collidePoint / (paddle.height / 2);
-
-		// To Rad
-		let angleRad = collidePoint * (Math.PI / 4);
-		ball.speedX = -ball.speedX;	
-		ball.speedY = ball.speedX * Math.tan(angleRad);
+		console.log(collidePoint);
+		const angleRad = collidePoint * (Math.PI / 4);
+		ball.speedX = -ball.speedX; // Reverse horizontal direction
+	
+		// Calculate new vertical speed based on collision angle
+		ball.speedY = BALL_SPEED * Math.sin(angleRad);
+		console.log(ball.speedX, ball.speedY);
 	}
 
 	function draw(game) {
 		if (game.pause) {
 			return;
 		}
-
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawBall(game);
-		drawPaddles(game);
-
 		const { ball, paddle1, paddle2 } = game;
-		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-			ball.speedY *= -1;
-		}
 
 		if (isColliding(ball, paddle1)) {
 			handlePaddleCollision(ball, paddle1);
 		} else if (isColliding(ball, paddle2)) {
 			handlePaddleCollision(ball, paddle2);
 		}
-
+		game.ball.x += game.ball.speedX;
+		game.ball.y += game.ball.speedY;
+		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+			console.log(game.ball.y + game.ball.radius, canvas.height, game.ball.radius);
+			ball.speedY *= -1;
+		}
+		game.paddle1.update();
+		game.paddle2.update();
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
@@ -157,12 +180,9 @@ var game = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
-
-		game.ball.x += game.ball.speedX;
-		game.ball.y += game.ball.speedY;
-
-		game.paddle1.update();
-		game.paddle2.update();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBall(game);
+		drawPaddles(game);
 	}
 
 	function handleKeyDown(game) {
@@ -246,9 +266,9 @@ var game = async () => {
 				canvas.height = window.innerHeight * 0.8;
 				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 			}
-			BALL_SPEED = getWidthPixels(0.5);
+			BALL_SPEED = getWidthPixels(1);
 			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.7);
+			PADDLE_SPEED = getWidthPixels(0.5);
 			PADDLE_WIDTH = getWidthPixels(1);
 			PADDLE_HEIGHT = getHeightPixels(20);
 			game.paddle1 = new Paddle(
@@ -279,8 +299,8 @@ var game = async () => {
 	function getWinner(game) {
 		const score = game.score;
 		if (
-			(score.player1 == 1 || score.player2 == 1) &&
-			Math.abs(score.player1 - score.player2) == 1
+			(score.player1 == 7 || score.player2 == 7) &&
+			Math.abs(score.player1 - score.player2) == 7
 		)
 			return score.player1 > score.player2 ? 1 : 2;
 		if (
@@ -297,19 +317,19 @@ var game = async () => {
 			y: canvas.height / 2,
 			radius: BALL_RADIUS,
 			speedX: BALL_SPEED,
-			speedY: BALL_SPEED,
+			speedY: 0,
 			color: "#fff",
 		};
 		const paddle1 = new Paddle(
 			0,
-			canvas.height / 2 - 60,
+			canvas.height / 2 - PADDLE_HEIGHT / 2,
 			PADDLE_WIDTH,
 			PADDLE_HEIGHT,
 			"#fff"
 		);
 		const paddle2 = new Paddle(
 			canvas.width - PADDLE_WIDTH,
-			canvas.height / 2 - 60,
+			canvas.height / 2 - PADDLE_HEIGHT / 2,
 			PADDLE_WIDTH,
 			PADDLE_HEIGHT,
 			"#fff"
@@ -325,6 +345,7 @@ var game = async () => {
                 player2: 0
             }
         };
+		resetBall(game);
         handleKeyPress(game);
         handleResize(game);
         return await new Promise(resolve => {
