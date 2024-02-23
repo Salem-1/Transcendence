@@ -18,7 +18,7 @@ function getSVGIcon(type) {
 function timedAlert(
 	message,
 	alerttype = "warning",
-	timeout = 2000,
+	timeout = 3000,
 	icon = null,
 	alertplaceholder = "liveAlertPlaceholder",
 	alertdivID = "alertdiv"
@@ -72,10 +72,10 @@ function timedAlert(
 	let startTime = Date.now();
 	let intervalId = setInterval(function () {
 		let ellapsedtTime = Date.now() - startTime;
-		if (ellapsedtTime > timeout/3)
+		if (ellapsedtTime > timeout / 3.0)
 		{
-			let prec = ellapsedtTime / (timeout*1.5);
-			let opacity = 1 - prec;
+			let prec = ellapsedtTime / (timeout);
+			let opacity = 1 - prec + 0.333;
 			alertDiv.setAttribute("style", "opacity: " + opacity + ";");
 		}
 

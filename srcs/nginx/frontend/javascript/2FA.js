@@ -128,6 +128,10 @@ async function hadleOTPModal(event) {
 	}
 }
 
+async function handleOTPKeydown(event) {
+	if (event.key === "Enter") (document.getElementById("otpSubmit")).click();
+}
+
 async function verifyEmail() {
 	try {
 		let emailInput = document.getElementById("email");
@@ -142,6 +146,7 @@ async function verifyEmail() {
 		MFAModal.hide();
 		OTPModal.show();
 		OTPModal._element.addEventListener('shown.bs.modal', function () {
+			document.getElementById("otp").value = "";
 			document.getElementById("otp").focus();
 		});
 		window.addEventListener('popstate', function () {
@@ -151,14 +156,12 @@ async function verifyEmail() {
 			});
 		});
 
-		otp.addEventListener("keydown", function (e) {
-			if (e.key === "Enter") 
-				(document.getElementById("otpSubmit")).click();
-		});
+		otp.addEventListener("keydown", handleOTPKeydown);
 		otp.addEventListener("click", hadleOTPModal);
 		otp.addEventListener("hidden.bs.modal", function (e) {
 			emailInput.value = "";
 			otp.removeEventListener("click", hadleOTPModal);
+			otp.removeEventListener("keydown", handleOTPKeydown);
 		});
 	} catch (error) {
 		console.log(`Error: ${error}`);
