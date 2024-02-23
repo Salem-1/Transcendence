@@ -8,6 +8,10 @@ var email = "";
 var max_resend = 3;
 var resend_counter = 0;
 
+document.getElementById("MFAModal").addEventListener("keydown", function (e) {
+	if (e.key === "Enter") verifyEmail();
+});
+
 init2FAButton();
 // Get the current 2fa state
 async function get2FAState() {
@@ -44,6 +48,10 @@ toggleSwitch.addEventListener("change", async function () {
 	this.checked = !is2FAEnabled;
 	if (is2FAEnabled) {
 		MFAModal.show();
+		document.getElementById("email").value = "";
+		MFAModal._element.addEventListener('shown.bs.modal', function () {
+			document.getElementById("email").focus();
+		});
 	} else {
 		disable2FA();
 	}
@@ -88,10 +96,17 @@ async function disable2FA() {
 }
 
 async function hadleOTPModal(event) {
+	otpfield = document.getElementById("otp");
 	if (event.target.id === "otpSubmit") {
 		event.preventDefault();
 		const otp = document.getElementById("otp").value;
-		if (await verifyOTP(otp, email)) OTPModal.hide();
+		if (await verifyOTP(otp, email)) 
+			OTPModal.hide();
+		else
+		{
+			otpfield.value = "";
+			otpfield.focus()
+		}
 	} else if (event.target.id === "resendOtp") {
 		if (resend_counter++ < max_resend) {
 			if (await submit2FaEmail(email))
@@ -108,6 +123,8 @@ async function hadleOTPModal(event) {
 				event.target.style.display = "block";
 			}, 10000);
 		}
+		otpfield.value = "";
+		otpfield.focus();
 	}
 }
 
@@ -124,7 +141,9 @@ async function verifyEmail() {
 
 		MFAModal.hide();
 		OTPModal.show();
-
+		OTPModal._element.addEventListener('shown.bs.modal', function () {
+			document.getElementById("otp").focus();
+		});
 		window.addEventListener('popstate', function () {
 			OTPModal.hide();
 			window.removeEventListener('popstate', function () {
@@ -132,6 +151,10 @@ async function verifyEmail() {
 			});
 		});
 
+		otp.addEventListener("keydown", function (e) {
+			if (e.key === "Enter") 
+				(document.getElementById("otpSubmit")).click();
+		});
 		otp.addEventListener("click", hadleOTPModal);
 		otp.addEventListener("hidden.bs.modal", function (e) {
 			emailInput.value = "";

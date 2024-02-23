@@ -72,7 +72,7 @@ function timedAlert(
 	let startTime = Date.now();
 	let intervalId = setInterval(function () {
 		let ellapsedtTime = Date.now() - startTime;
-		if (ellapsedtTime > timeout/4)
+		if (ellapsedtTime > timeout/3)
 		{
 			let prec = ellapsedtTime / (timeout*1.5);
 			let opacity = 1 - prec;
