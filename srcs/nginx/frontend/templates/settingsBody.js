@@ -88,6 +88,7 @@ function settingsBody() {
 							class="form-control"
 							name="email"
 							id="email"
+							autoFocus
 							required
 							placeholder="email"
 							autocomplete="email"
@@ -98,7 +99,7 @@ function settingsBody() {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-i18n="close" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" data-i18n="enable" onclick="verifyEmail()">Enable</button>
+					<button type="button" class="btn btn-primary" data-i18n="enable" type="submit" onclick="verifyEmail()">Enable</button>
 				</div>
 			</div>
 		</div>
@@ -130,7 +131,7 @@ function settingsBody() {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-i18n="close" data-bs-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-info" data-i18n="resend" id="resendOtp">resend otp</button>
-					<button type="button" class="btn btn-primary" data-i18n="enable" id="otpSubmit">Enable</button>
+					<button type="button" class="btn btn-primary" type="submit" data-i18n="enable" id="otpSubmit">Enable</button>
 				</div>
 			</div>
 		</div>

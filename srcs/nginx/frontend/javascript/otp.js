@@ -63,7 +63,14 @@ async function resendOtp() {
 	return false;
 }
 
+async function modalEnterHandler(event) {
+	if (event.key === "Enter") {
+		document.getElementById("otpSubmit").click();
+	}
+}
+
 async function otpModalHandler(event) {
+	let otpInput = document.getElementById("otp");
 	let loginModal = document.getElementById("loginModal");
 	let modal = bootstrap.Modal.getOrCreateInstance(loginModal);
 	if (event.target.id === "otpSubmit") {
@@ -72,10 +79,15 @@ async function otpModalHandler(event) {
 		const otpPattern = /^\d{6}$/;
 		if (!otpPattern.test(otp)) {
 			timedAlert(await getTranslation("invalid otp"), "warning");
+			otpInput.value = "";
+			otpInput.focus();
 		}
 		else if (await try2FactorAuthentication(otp)) {
 			login_resend_counter = 0;
 			modal.hide();
+		} else {
+			otpInput.value = "";
+			otpInput.focus();
 		}
 	} else if (event.target.id === "resendOtp") {
 		if (login_resend_counter++ >= login_max_resend) {
@@ -92,6 +104,9 @@ async function otpModalHandler(event) {
 			modal.hide();
 			if (window.location.pathname.includes("/auth"));
 			callRoute("/");
+		} else {
+			otpInput.value = "";
+			otpInput.focus();
 		}
 	}
 }
@@ -107,6 +122,10 @@ async function double_factor_authenticate(result) {
 	let loginModal = bootstrap.Modal.getOrCreateInstance(tempLoginModal);
 	await storeJWTInCookies(result);
 	loginModal.show();
+	loginModal._element.addEventListener('shown.bs.modal', function () {
+		document.getElementById("otp").value = "";
+		document.getElementById("otp").focus();
+	});
 
 	window.addEventListener('popstate', function () {
 		loginModal.hide();
@@ -115,9 +134,11 @@ async function double_factor_authenticate(result) {
 		});
 	});
 
+	tempLoginModal.addEventListener("keydown", modalEnterHandler);
 	tempLoginModal.addEventListener("click", otpModalHandler);
 	tempLoginModal.addEventListener("hidden.bs.modal", function (e) {
 		tempLoginModal.removeEventListener("click", otpModalHandler);
+		tempLoginModal.removeEventListener("keydown", modalEnterHandler);
 		if (window.location.pathname.includes("/auth"))
 			callRoute("/");
 	});
