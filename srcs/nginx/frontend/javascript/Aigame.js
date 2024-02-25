@@ -9,7 +9,7 @@ var AIgame = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(0.3);
+	let BALL_SPEED = getWidthPixels(1.0);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 	let PADDLE_SPEED = getWidthPixels(0.5);
 	let PADDLE_WIDTH = getWidthPixels(1);
@@ -122,8 +122,8 @@ var AIgame = async () => {
 		const newPaddleY = paddle.y - 0.10 * paddle.height;
 		const newPaddleHeight = 1.20 * paddle.height;
 		return (
-			ball.x - ball.radius < paddle.x + paddle.width &&
-			ball.x + ball.radius > paddle.x &&
+			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
+			ball.x + ball.radius + ball.speedX> paddle.x &&
 			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
 			ball.y + ball.radius > newPaddleY
 		);
@@ -189,9 +189,9 @@ var AIgame = async () => {
 			} else {
 				pauseElement.style.setProperty("display", "none");
 			}
-		} else if (event.key === "ArrowUp" || event.key === "w") {
+		} else if (event.key === "ArrowUp" || event.key === "w" || event.key === "Right") {
 			game.p2.moveUp();
-		} else if (event.key === "ArrowDown" || event.key === "s") {
+		} else if (event.key === "ArrowDown" || event.key === "s" || event.key === "Left") {
 			game.p2.moveDown();
 		}
 	}
@@ -225,7 +225,7 @@ var AIgame = async () => {
 			canvas.height = window.innerHeight * 0.8;
 			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 		}
-		BALL_SPEED = getWidthPixels(0.3);
+		BALL_SPEED = getWidthPixels(1.0);
 		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 		PADDLE_SPEED = getWidthPixels(0.5);
 		PADDLE_WIDTH = getWidthPixels(1);
@@ -261,7 +261,7 @@ var AIgame = async () => {
 		)
 			return score.player1 > score.player2 ? 1 : 2;
 		if (
-			(score.player1 >= 11 || score.player2 >= 11) &&
+			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
 		)
 			return score.player1 > score.player2 ? 1 : 2;
@@ -270,10 +270,14 @@ var AIgame = async () => {
 
 	async function gameLoop(game, gameObjects, lastTimestamp, ball) {
 		draw(game);
+		// gravity
 		// game.ball.speedX += BALL_SPEED * 0.01;
 		// game.ball.speedY += BALL_SPEED * 0.01;
-		// game.ball.speed += BALL_SPEED * 1.01;
-		// ball.speed += BALL_SPEED * 1.01;
+		
+		// speed up
+		game.ball.speedX += game.ball.speedX  * 0.001;
+		game.ball.speedY += game.ball.speedY * 0.001;
+
 		gameObjects["ball"] = game.ball;
 		timestamp = Date.now();
 		const deltaTime = (timestamp - lastTimestamp) / 1000;
