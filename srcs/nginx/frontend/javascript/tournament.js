@@ -131,8 +131,9 @@ callback = function (MutationList, observer){
             let row = parent_node.parentElement;
             let playerName = parent_node.previousElementSibling.textContent;
             let players = getProtectedPlayers();
-            if (players.length < 2)
+            if (players.length < 1){
                 return ;
+            }
             let playerIndex = players.indexOf(playerName);
             if (playerIndex == -1)
                 return ;
