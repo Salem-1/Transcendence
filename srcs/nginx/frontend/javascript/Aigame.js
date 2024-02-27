@@ -123,9 +123,9 @@ var AIgame = async () => {
 		const newPaddleHeight = 1.20 * paddle.height;
 		return (
 			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
-			ball.x + ball.radius + ball.speedX> paddle.x &&
-			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
-			ball.y + ball.radius > newPaddleY
+			ball.x + ball.radius + ball.speedX > paddle.x &&
+			ball.y - ball.radius + ball.speedY < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius + ball.speedY > newPaddleY
 		);
 	}
 
@@ -172,6 +172,8 @@ var AIgame = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
+		if (getWinner(game) != 0)
+			return;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall(game);
 		drawPaddles(game);
@@ -255,11 +257,11 @@ var AIgame = async () => {
 
 	function getWinner(game) {
 		const score = game.score;
-		if (
-			(score.player1 == 7 || score.player2 == 7) &&
-			Math.abs(score.player1 - score.player2) == 7
-		)
-			return score.player1 > score.player2 ? 1 : 2;
+		// if (
+		// 	(score.player1 == 7 || score.player2 == 7) &&
+		// 	Math.abs(score.player1 - score.player2) == 7
+		// )
+		// 	return score.player1 > score.player2 ? 1 : 2;
 		if (
 			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
@@ -269,14 +271,14 @@ var AIgame = async () => {
 	}
 
 	async function gameLoop(game, gameObjects, lastTimestamp, ball) {
+		game.ball.speedX += game.ball.speedX  * 0.001;
+		game.ball.speedY += game.ball.speedY * 0.001;
 		draw(game);
 		// gravity
 		// game.ball.speedX += BALL_SPEED * 0.01;
 		// game.ball.speedY += BALL_SPEED * 0.01;
 		
 		// speed up
-		game.ball.speedX += game.ball.speedX  * 0.001;
-		game.ball.speedY += game.ball.speedY * 0.001;
 
 		gameObjects["ball"] = game.ball;
 		timestamp = Date.now();
@@ -302,7 +304,7 @@ var AIgame = async () => {
 				)} ${winner} ${await getTranslation("wins")}`,
 				"success"
 			);
-			callRoute("/home");
+			// callRoute("/home");
 			return;
 		}
 		requestAnimationFrame(gameLoop.bind(null, game, gameObjects, lastTimestamp, ball));
@@ -356,6 +358,7 @@ var AIgame = async () => {
 		window.removeEventListener("resize", handleResize.bind(null, game));
 		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
+		callRoute("/home");
 	}
 
 	playGame()

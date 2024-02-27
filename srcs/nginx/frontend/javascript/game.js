@@ -127,10 +127,10 @@ var game = async () => {
 		// ctx.fillStyle = "rgba(255,0,0,0.3)";
 		// ctx.fillRect(paddle.x, newPaddleY, paddle.width, newPaddleHeight);
 		return (
-			ball.x - ball.radius < paddle.x + paddle.width &&
-			ball.x + ball.radius > paddle.x &&
-			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
-			ball.y + ball.radius > newPaddleY
+			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
+			ball.x + ball.radius + ball.speedX > paddle.x &&
+			ball.y - ball.radius + ball.speedY < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius + ball.speedY > newPaddleY
 		);
 	}
 
@@ -177,135 +177,140 @@ var game = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
+		if (getWinner(game) != 0)
+			return;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall(game);
 		drawPaddles(game);
 	}
 
-	function handleKeyDown(game) {
-		document.addEventListener("keydown", (event) => {
-			if (window.location.pathname !== "/game") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "p":
-				case " ":
-					game.pause = !game.pause;
-					const pauseElement = document.getElementById("pause");
-					if (game.pause) {
-						pauseElement.style.setProperty("display", "block");
-					} else {
-						pauseElement.style.setProperty("display", "none");
-					}
-					break;
-				case "w":
-					game.paddle1.moveUp();
-					break;
-				case "s":
-					game.paddle1.moveDown();
-					break;
-				case "ArrowUp":
-					game.paddle2.moveUp();
-					break;
-				case "ArrowDown":
-					game.paddle2.moveDown();
-					break;
-				default:
-					break;
-			}
-		});
+	function handleKeyDown(game, event) {
+		if (window.location.pathname !== "/game") return;
+		const key =
+			event.key.length == 1 ? event.key.toLowerCase() : event.key;
+		switch (key) {
+			case "p":
+			case " ":
+				game.pause = !game.pause;
+				const pauseElement = document.getElementById("pause");
+				if (game.pause) {
+					pauseElement.style.setProperty("display", "block");
+				} else {
+					pauseElement.style.setProperty("display", "none");
+				}
+				break;
+			case "w":
+				game.paddle1.moveUp();
+				break;
+			case "s":
+				game.paddle1.moveDown();
+				break;
+			case "ArrowUp":
+				game.paddle2.moveUp();
+				break;
+			case "ArrowDown":
+				game.paddle2.moveDown();
+				break;
+			default:
+				break;
+		}
 	}
 
-	function handleKeyUp(game) {
-		document.addEventListener("keyup", (event) => {
-			if (window.location.pathname !== "/game") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "w":
-				case "s":
-					game.paddle1.stop();
-					break;
-				case "ArrowUp":
-				case "ArrowDown":
-					game.paddle2.stop();
-					break;
-			}
-		});
-	}
-
-	function handleKeyPress(game) {
-		handleKeyDown(game);
-		handleKeyUp(game);
+	function handleKeyUp(game, event) {
+		if (window.location.pathname !== "/game") return;
+		const key =
+			event.key.length == 1 ? event.key.toLowerCase() : event.key;
+		switch (key) {
+			case "w":
+			case "s":
+				game.paddle1.stop();
+				break;
+			case "ArrowUp":
+			case "ArrowDown":
+				game.paddle2.stop();
+				break;
+		}
 	}
 
 	function handleResize(game) {
-		window.addEventListener("resize", () => {
-			if (window.location.pathname !== "/game") return;
-			game.pause = true;
-			const pauseElement = document.getElementById("pause");
-			pauseElement.style.setProperty("display", "block");
-			const oldP1Posistion = {
-				x: getWidthPercentage(game.paddle1.x),
-				y: getHeightPercentage(game.paddle1.y),
-			};
-			const oldP2Posistion = {
-				x: getWidthPercentage(game.paddle2.x),
-				y: getHeightPercentage(game.paddle2.y),
-			};
-			const oldBallPosistion = {
-				x: getWidthPercentage(game.ball.x),
-				y: getHeightPercentage(game.ball.y),
-			};
-			canvas.width = window.innerWidth * 0.8;
-			canvas.height = (9 / 16) * canvas.width;
-			if (canvas.height > window.innerHeight * 0.8) {
-				canvas.height = window.innerHeight * 0.8;
-				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
-			}
-			BALL_SPEED = getWidthPixels(1);
-			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.5);
-			PADDLE_WIDTH = getWidthPixels(1);
-			PADDLE_HEIGHT = getHeightPixels(20);
-			game.paddle1 = new Paddle(
-				getWidthPixels(oldP1Posistion.x),
-				getHeightPixels(oldP1Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			game.paddle2 = new Paddle(
-				getWidthPixels(oldP2Posistion.x),
-				getHeightPixels(oldP2Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			game.ball = {
-				x: getWidthPixels(oldBallPosistion.x),
-				y: getHeightPixels(oldBallPosistion.y),
-				radius: BALL_RADIUS,
-				speedX: BALL_SPEED,
-				speedY: BALL_SPEED,
-				color: "#fff",
-			};
-		});
+		if (window.location.pathname !== "/game") return;
+		game.pause = true;
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");
+		const oldP1Posistion = {
+			x: getWidthPercentage(game.paddle1.x),
+			y: getHeightPercentage(game.paddle1.y),
+		};
+		const oldP2Posistion = {
+			x: getWidthPercentage(game.paddle2.x),
+			y: getHeightPercentage(game.paddle2.y),
+		};
+		const oldBallPosistion = {
+			x: getWidthPercentage(game.ball.x),
+			y: getHeightPercentage(game.ball.y),
+		};
+		canvas.width = window.innerWidth * 0.8;
+		canvas.height = (9 / 16) * canvas.width;
+		if (canvas.height > window.innerHeight * 0.8) {
+			canvas.height = window.innerHeight * 0.8;
+			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+		}
+		BALL_SPEED = getWidthPixels(1);
+		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+		PADDLE_SPEED = getWidthPixels(0.5);
+		PADDLE_WIDTH = getWidthPixels(1);
+		PADDLE_HEIGHT = getHeightPixels(20);
+		game.paddle1 = new Paddle(
+			getWidthPixels(oldP1Posistion.x),
+			getHeightPixels(oldP1Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		game.paddle2 = new Paddle(
+			getWidthPixels(oldP2Posistion.x),
+			getHeightPixels(oldP2Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		game.ball = {
+			x: getWidthPixels(oldBallPosistion.x),
+			y: getHeightPixels(oldBallPosistion.y),
+			radius: BALL_RADIUS,
+			speedX: BALL_SPEED,
+			speedY: BALL_SPEED,
+			color: "#fff",
+		};
 	}
 
 	function getWinner(game) {
 		const score = game.score;
+		// if (
+		// 	(score.player1 == 7 || score.player2 == 7) &&
+		// 	Math.abs(score.player1 - score.player2) == 7
+		// )
+		// 	return score.player1 > score.player2 ? 1 : 2;
 		if (
-			(score.player1 == 7 || score.player2 == 7) &&
-			Math.abs(score.player1 - score.player2) == 7
-		)
-			return score.player1 > score.player2 ? 1 : 2;
-		if (
-			(score.player1 >= 11 || score.player2 >= 11) &&
+			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
 		)
 			return score.player1 > score.player2 ? 1 : 2;
 		return 0;
+	}
+
+	async function gameLoop(game)
+	{
+		draw(game);
+		game.ball.speedX += game.ball.speedX  * 0.001;
+		game.ball.speedY += game.ball.speedY * 0.001;
+		const winner = getWinner(game);
+		if (winner != 0) {
+			timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success");
+			// callRoute("/home");
+			return;
+		}
+		requestAnimationFrame(gameLoop.bind(null, game));
 	}
 
 	async function playGame() {
@@ -343,28 +348,22 @@ var game = async () => {
             }
         };
 		resetBall(game);
-        handleKeyPress(game);
-        handleResize(game);
-        return await new Promise(resolve => {
-            const intervalId = setInterval(async () => {
-				const location = window.location.pathname; // get the url path
-				if (location !== '/game')
-				{
-					clearInterval(intervalId);
-					if (location === "/tournament")
-						callRoute('/home');
-					return ;
-				}
-                draw(game);
-                const winner = getWinner(game);
-                if (winner != 0) {
-                    timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success");
-                    clearInterval(intervalId);
-                    resolve(winner);
-					
-                }
-            }, 16 /* 1000 / 60*/ );
-        });
+		window.addEventListener("resize", handleResize.bind(null, game));
+		window.addEventListener("keydown", handleKeyDown.bind(null, game));
+		window.addEventListener("keyup", handleKeyUp.bind(null, game));
+		window.addEventListener("popstate", () => {
+			window.removeEventListener("resize", handleResize.bind(null, game));
+			window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
+		});
+		requestAnimationFrame(gameLoop.bind(null, game));
+		while (getWinner(game) == 0) {
+			await new Promise(resolve => setTimeout(resolve, 200));
+		}
+		// return new Promise(resolve => requestAnimationFrame(gameLoop.bind(null, game)));
+		window.removeEventListener("resize", handleResize.bind(null, game));
+		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
     }
 
 	function readQueryParams() {
