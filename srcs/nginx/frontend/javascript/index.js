@@ -147,7 +147,7 @@ async function isValidLoginIput(username, password) {
 			username.length > 1 &&
 			username.length < 20 &&
 			password.length > 7 &&
-			password.length < 35 &&
+			password.length <= 35 &&
 			!/[ !@#$%^&*(),.;?":{}|<>' ]/.test(username)
 		)
 	) {
