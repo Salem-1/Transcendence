@@ -9,7 +9,7 @@ var AIgame = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(1.0);
+	let BALL_SPEED = getWidthPixels(1.125);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 	let PADDLE_SPEED = getWidthPixels(0.5);
 	let PADDLE_WIDTH = getWidthPixels(1);
@@ -124,8 +124,8 @@ var AIgame = async () => {
 		return (
 			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
 			ball.x + ball.radius + ball.speedX > paddle.x &&
-			ball.y - ball.radius + ball.speedY < newPaddleY + newPaddleHeight &&
-			ball.y + ball.radius + ball.speedY > newPaddleY
+			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius > newPaddleY
 		);
 	}
 
@@ -180,7 +180,6 @@ var AIgame = async () => {
 	}
 
 	function handleKeyDown(game, event) {
-		console.log(window.location.pathname);
 		if (window.location.pathname !== "/AIgame") return;
 		if (event.key === "p" || event.key === " ")
 		{
@@ -227,7 +226,7 @@ var AIgame = async () => {
 			canvas.height = window.innerHeight * 0.8;
 			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 		}
-		BALL_SPEED = getWidthPixels(1.0);
+		BALL_SPEED = getWidthPixels(1.125);
 		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 		PADDLE_SPEED = getWidthPixels(0.5);
 		PADDLE_WIDTH = getWidthPixels(1);
@@ -257,11 +256,6 @@ var AIgame = async () => {
 
 	function getWinner(game) {
 		const score = game.score;
-		// if (
-		// 	(score.player1 == 7 || score.player2 == 7) &&
-		// 	Math.abs(score.player1 - score.player2) == 7
-		// )
-		// 	return score.player1 > score.player2 ? 1 : 2;
 		if (
 			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
@@ -270,16 +264,32 @@ var AIgame = async () => {
 		return 0;
 	}
 
+	async function countDown(game) {
+		game.pause = !game.pause;
+		const pauseText = await getTranslation("game paused");
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");			
+		let i = 4
+		while (i > 0) {
+			pauseElement.textContent = `${i}`;
+			await new Promise((resolve) => setTimeout(resolve, 750));
+			i--;
+		}
+		game.pause = !game.pause;
+		pauseElement.style.setProperty("display", "none");
+		pauseElement.textContent = pauseText;
+	}
+
 	async function gameLoop(game, gameObjects, lastTimestamp, ball) {
-		game.ball.speedX += game.ball.speedX  * 0.001;
-		game.ball.speedY += game.ball.speedY * 0.001;
+		if (window.location.pathname !== "/AIgame") return;
 		draw(game);
 		// gravity
 		// game.ball.speedX += BALL_SPEED * 0.01;
 		// game.ball.speedY += BALL_SPEED * 0.01;
 		
 		// speed up
-
+		// game.ball.speedX += game.ball.speedX  * 0.0001;
+		// game.ball.speedY += game.ball.speedY * 0.0001;
 		gameObjects["ball"] = game.ball;
 		timestamp = Date.now();
 		const deltaTime = (timestamp - lastTimestamp) / 1000;
@@ -302,9 +312,9 @@ var AIgame = async () => {
 				` ${await getTranslation(
 					"player"
 				)} ${winner} ${await getTranslation("wins")}`,
-				"success"
+				"success", 4000
 			);
-			// callRoute("/home");
+			callRoute("/home");
 			return;
 		}
 		requestAnimationFrame(gameLoop.bind(null, game, gameObjects, lastTimestamp, ball));
@@ -346,6 +356,8 @@ var AIgame = async () => {
 		let gameObjects = {};
 		initGameObjects(gameObjects, game);
 		let lastTimestamp = 0;
+		draw(game);
+		await countDown(game);
 		window.addEventListener("resize", handleResize.bind(null, game));
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
@@ -358,7 +370,6 @@ var AIgame = async () => {
 		window.removeEventListener("resize", handleResize.bind(null, game));
 		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
-		callRoute("/home");
 	}
 
 	playGame()

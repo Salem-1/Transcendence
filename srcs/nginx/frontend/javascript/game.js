@@ -129,8 +129,8 @@ var game = async () => {
 		return (
 			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
 			ball.x + ball.radius + ball.speedX > paddle.x &&
-			ball.y - ball.radius + ball.speedY < newPaddleY + newPaddleHeight &&
-			ball.y + ball.radius + ball.speedY > newPaddleY
+			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
+			ball.y + ball.radius > newPaddleY
 		);
 	}
 
@@ -286,11 +286,6 @@ var game = async () => {
 
 	function getWinner(game) {
 		const score = game.score;
-		// if (
-		// 	(score.player1 == 7 || score.player2 == 7) &&
-		// 	Math.abs(score.player1 - score.player2) == 7
-		// )
-		// 	return score.player1 > score.player2 ? 1 : 2;
 		if (
 			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
@@ -299,15 +294,34 @@ var game = async () => {
 		return 0;
 	}
 
+	async function countDown(game) {
+		game.pause = !game.pause;
+		const pauseText = await getTranslation("game paused");
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");			
+		let i = 4
+		while (i > 0) {
+			pauseElement.textContent = `${i}`;
+			await new Promise((resolve) => setTimeout(resolve, 750));
+			i--;
+		}
+		game.pause = !game.pause;
+		pauseElement.style.setProperty("display", "none");
+		pauseElement.textContent = pauseText;
+	}
+
 	async function gameLoop(game)
 	{
+		if (window.location.pathname !== "/game") return;
 		draw(game);
-		game.ball.speedX += game.ball.speedX  * 0.001;
-		game.ball.speedY += game.ball.speedY * 0.001;
+		if (game.pause == false)
+		{
+			game.ball.speedX += game.ball.speedX  * 0.001;
+			game.ball.speedY += game.ball.speedY * 0.001;
+		}
 		const winner = getWinner(game);
 		if (winner != 0) {
-			timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success");
-			// callRoute("/home");
+			timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success", 3000);
 			return;
 		}
 		requestAnimationFrame(gameLoop.bind(null, game));
@@ -348,6 +362,8 @@ var game = async () => {
             }
         };
 		resetBall(game);
+		draw(game);
+		await countDown(game);
 		window.addEventListener("resize", handleResize.bind(null, game));
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
