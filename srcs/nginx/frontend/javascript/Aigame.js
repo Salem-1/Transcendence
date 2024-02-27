@@ -101,11 +101,11 @@ var AIgame = async () => {
 		game.ball.speedX = (directionX * BALL_SPEED) / Math.sqrt(1 + slope * slope);
 		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
 		if (directionX < 0){
-			game.ball.x = canvas.width  * 9 / 10;
+			game.ball.x = canvas.width  * 39 / 40;
 			game.ball.y = canvas.height / 2;
 		}
 		else{
-			game.ball.x = canvas.width / 10;
+			game.ball.x = canvas.width / 40;
 			game.ball.y = canvas.height / 2;
 
 		}
