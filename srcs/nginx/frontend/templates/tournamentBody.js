@@ -69,7 +69,7 @@ function tournamentBody(){
 				  <div class="champion current">
 					  <div class="final">
 						<i class="fa fa-trophy"></i>
-						<div class="round-details">WINNER <br/></div>    
+						<div class="round-details" data-i18n="winner">WINNER <br/></div>    
 						<ul class ="matchup championship">
 						  <li class="team team-top" id="winner" data-i18n="winner">Winner place holder</li>
 						</ul>
@@ -78,7 +78,7 @@ function tournamentBody(){
 
 					<div class="split split-two current">
 					  <div class="round round-three">
-						<div class="round-details">FINALS<br/></div>           
+						<div class="round-details" data-i18n="finals">FINALS<br/></div>           
 						<ul class="matchup">
 						  <li class="team team-top" id="final-t1">${xIcon()}</li>
 						</ul> 

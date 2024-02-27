@@ -9,7 +9,7 @@ var AIgame = async () => {
 		canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
 	}
 
-	let BALL_SPEED = getWidthPixels(1.1);
+	let BALL_SPEED = getWidthPixels(1.125);
 	let BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
 	let PADDLE_SPEED = getWidthPixels(0.5);
 	let PADDLE_WIDTH = getWidthPixels(1);
@@ -101,11 +101,11 @@ var AIgame = async () => {
 		game.ball.speedX = (directionX * BALL_SPEED) / Math.sqrt(1 + slope * slope);
 		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
 		if (directionX < 0){
-			game.ball.x = canvas.width / 1.2;
+			game.ball.x = canvas.width  * 39 / 40;
 			game.ball.y = canvas.height / 2;
 		}
 		else{
-			game.ball.x = canvas.width / 4;
+			game.ball.x = canvas.width / 40;
 			game.ball.y = canvas.height / 2;
 
 		}
@@ -121,11 +121,9 @@ var AIgame = async () => {
 	function isColliding(ball, paddle) {
 		const newPaddleY = paddle.y - 0.10 * paddle.height;
 		const newPaddleHeight = 1.20 * paddle.height;
-		// ctx.fillStyle = "rgba(255,0,0,0.3)";
-		// ctx.fillRect(paddle.x, newPaddleY, paddle.width, newPaddleHeight);
 		return (
-			ball.x - ball.radius < paddle.x + paddle.width &&
-			ball.x + ball.radius > paddle.x &&
+			ball.x - ball.radius + ball.speedX < paddle.x + paddle.width &&
+			ball.x + ball.radius + ball.speedX > paddle.x &&
 			ball.y - ball.radius < newPaddleY + newPaddleHeight &&
 			ball.y + ball.radius > newPaddleY
 		);
@@ -174,139 +172,155 @@ var AIgame = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
+		if (getWinner(game) != 0)
+			return;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall(game);
 		drawPaddles(game);
 	}
 
-	function handleKeyDown(game) {
-		document.addEventListener("keydown", (event) => {
-			if (window.location.pathname !== "/AIgame") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "p":
-				case " ":
-					game.pause = !game.pause;
-					const pauseElement = document.getElementById("pause");
-					if (game.pause) {
-						pauseElement.style.setProperty("display", "block");
-					} else {
-						pauseElement.style.setProperty("display", "none");
-					}
-					break;
-				case "w":
-					game.p1.moveUp();
-					break;
-				case "s":
-					game.p1.moveDown();
-					break;
-				case "ArrowUp":
-					game.p2.moveUp();
-					break;
-				case "ArrowDown":
-					game.p2.moveDown();
-					break;
-				default:
-					break;
-			}
-		});
-	}
-
-	function handleKeyUp(game) {
-		document.addEventListener("keyup", (event) => {
-			if (window.location.pathname !== "/AIgame") return;
-			const key =
-				event.key.length == 1 ? event.key.toLowerCase() : event.key;
-			switch (key) {
-				case "w":
-				case "s":
-					game.p1.stop();
-					break;
-				case "ArrowUp":
-				case "ArrowDown":
-					game.p2.stop();
-					break;
-			}
-		});
-	}
-
-	function handleKeyPress(game) {
-		handleKeyDown(game);
-		handleKeyUp(game);
-	}
-
-	function handleResize(game) {
-		window.addEventListener("resize", () => {
-			if (window.location.pathname !== "/AIgame") return;
-			game.pause = true;
+	function handleKeyDown(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		if (event.key === "p" || event.key === " ")
+		{
+			game.pause = !game.pause;
 			const pauseElement = document.getElementById("pause");
-			pauseElement.style.setProperty("display", "block");
-			const oldP1Posistion = {
-				x: getWidthPercentage(game.p1.x),
-				y: getHeightPercentage(game.p1.y),
-			};
-			const oldP2Posistion = {
-				x: getWidthPercentage(game.p2.x),
-				y: getHeightPercentage(game.p2.y),
-			};
-			const oldBallPosistion = {
-				x: getWidthPercentage(game.ball.x),
-				y: getHeightPercentage(game.ball.y),
-			};
-			canvas.width = window.innerWidth * 0.8;
-			canvas.height = (9 / 16) * canvas.width;
-			if (canvas.height > window.innerHeight * 0.8) {
-				canvas.height = window.innerHeight * 0.8;
-				canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+			if (game.pause) {
+				pauseElement.style.setProperty("display", "block");
+			} else {
+				pauseElement.style.setProperty("display", "none");
 			}
-			BALL_SPEED = getWidthPixels(1.1);
-			BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
-			PADDLE_SPEED = getWidthPixels(0.5);
-			PADDLE_WIDTH = getWidthPixels(1);
-			PADDLE_HEIGHT = getHeightPixels(20);
-			game.p1 = new Paddle(
-				getWidthPixels(oldP1Posistion.x),
-				getHeightPixels(oldP1Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			game.p2 = new Paddle(
-				getWidthPixels(oldP2Posistion.x),
-				getHeightPixels(oldP2Posistion.y),
-				PADDLE_WIDTH,
-				PADDLE_HEIGHT,
-				"#fff"
-			);
-			
-			game.ball.x = getWidthPixels(oldBallPosistion.x);
-			game.ball.y = getHeightPixels(oldBallPosistion.y);
-			game.ball.radius = BALL_RADIUS;
-			game.ball.speedX = BALL_SPEED;
-			game.ball.speedY = BALL_SPEED;
-			game.ball.color = "#fff";
-			
-		});
+		} else if (event.key === "ArrowUp" || event.key === "w" || event.key === "Right") {
+			game.p2.moveUp();
+		} else if (event.key === "ArrowDown" || event.key === "s" || event.key === "Left") {
+			game.p2.moveDown();
+		}
+	}
+
+	function handleKeyUp(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		if (event.key === "w" || event.key === "s") game.p2.stop();
+		if (event.key === "ArrowUp" || event.key === "ArrowDown") game.p2.stop();
+	}
+
+	function handleResize(game, event) {
+		if (window.location.pathname !== "/AIgame") return;
+		game.pause = true;
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");
+		const oldP1Posistion = {
+			x: getWidthPercentage(game.p1.x),
+			y: getHeightPercentage(game.p1.y),
+		};
+		const oldP2Posistion = {
+			x: getWidthPercentage(game.p2.x),
+			y: getHeightPercentage(game.p2.y),
+		};
+		const oldBallPosistion = {
+			x: getWidthPercentage(game.ball.x),
+			y: getHeightPercentage(game.ball.y),
+		};
+		canvas.width = window.innerWidth * 0.8;
+		canvas.height = (9 / 16) * canvas.width;
+		if (canvas.height > window.innerHeight * 0.8) {
+			canvas.height = window.innerHeight * 0.8;
+			canvas.width = (16 / 9) * canvas.height; //(16 / 9) * 80vh
+		}
+		BALL_SPEED = getWidthPixels(1.125);
+		BALL_RADIUS = Math.min(getWidthPixels(2), getHeightPixels(2));
+		PADDLE_SPEED = getWidthPixels(0.5);
+		PADDLE_WIDTH = getWidthPixels(1);
+		PADDLE_HEIGHT = getHeightPixels(20);
+		game.p1 = new Paddle(
+			getWidthPixels(oldP1Posistion.x),
+			getHeightPixels(oldP1Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		game.p2 = new Paddle(
+			getWidthPixels(oldP2Posistion.x),
+			getHeightPixels(oldP2Posistion.y),
+			PADDLE_WIDTH,
+			PADDLE_HEIGHT,
+			"#fff"
+		);
+		
+		game.ball.x = getWidthPixels(oldBallPosistion.x);
+		game.ball.y = getHeightPixels(oldBallPosistion.y);
+		game.ball.radius = BALL_RADIUS;
+		game.ball.speedX = BALL_SPEED;
+		game.ball.speedY = BALL_SPEED;
+		game.ball.color = "#fff";	
 	}
 
 	function getWinner(game) {
 		const score = game.score;
 		if (
-			(score.player1 == 7 || score.player2 == 7) &&
-			Math.abs(score.player1 - score.player2) == 7
-		)
-			return score.player1 > score.player2 ? 1 : 2;
-		if (
-			(score.player1 >= 11 || score.player2 >= 11) &&
+			(score.player1 >= 5 || score.player2 >= 5) &&
 			Math.abs(score.player1 - score.player2) >= 2
 		)
 			return score.player1 > score.player2 ? 1 : 2;
 		return 0;
 	}
 
-	async function playGame() {
+	async function countDown(game) {
+		game.pause = !game.pause;
+		const pauseText = await getTranslation("game paused");
+		const pauseElement = document.getElementById("pause");
+		pauseElement.style.setProperty("display", "block");			
+		let i = 4
+		while (i > 0) {
+			pauseElement.textContent = `${i}`;
+			await new Promise((resolve) => setTimeout(resolve, 750));
+			i--;
+		}
+		game.pause = !game.pause;
+		pauseElement.style.setProperty("display", "none");
+		pauseElement.textContent = pauseText;
+	}
+
+	async function gameLoop(game, gameObjects, lastTimestamp, ball) {
 		if (window.location.pathname !== "/AIgame") return;
+		draw(game);
+		// gravity
+		// game.ball.speedX += BALL_SPEED * 0.01;
+		// game.ball.speedY += BALL_SPEED * 0.01;
+		
+		// speed up
+		// game.ball.speedX += game.ball.speedX  * 0.0001;
+		// game.ball.speedY += game.ball.speedY * 0.0001;
+		gameObjects["ball"] = game.ball;
+		timestamp = Date.now();
+		const deltaTime = (timestamp - lastTimestamp) / 1000;
+		gameObjects["deltaTime"] = deltaTime;
+		gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
+		if (gameObjects["currentMinute"] > gameObjects["lastMinute"]) {
+			try {
+				moves = decideNextMoves(gameObjects, moves, game);
+			} catch (e) {
+				moves = { up: 1 };
+			}
+			gameObjects["ballLastPosition"] = { x: ball.x, y: ball.y };
+		}
+		AiBlindMove(game.p1, moves);
+		// AiTrainer(game);
+		lastTimestamp = timestamp;
+		const winner = getWinner(game);
+		if (winner != 0) {
+			timedAlert(
+				` ${await getTranslation(
+					"player"
+				)} ${winner} ${await getTranslation("wins")}`,
+				"success", 4000
+			);
+			callRoute("/home");
+			return;
+		}
+		requestAnimationFrame(gameLoop.bind(null, game, gameObjects, lastTimestamp, ball));
+	}
+
+	async function playGame() {
 		const ball = {
 			x: canvas.width / 2,
 			y: canvas.height / 2,
@@ -342,54 +356,23 @@ var AIgame = async () => {
 		let gameObjects = {};
 		initGameObjects(gameObjects, game);
 		let lastTimestamp = 0;
-		let moves = {};
-		let timestamp = Date.now();
-		handleKeyPress(game);
-		handleResize(game);
-		return await new Promise((resolve) => {
-			const intervalId = setInterval(async () => {
-				if (window.location.pathname !== "/AIgame") {
-					clearInterval(intervalId);
-					return;
-				}
-				draw(game);
-				gameObjects["ball"] = game.ball;
-				timestamp = Date.now();
-				const deltaTime = (timestamp - lastTimestamp) / 1000;
-				gameObjects["deltaTime"] = deltaTime;
-				gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
-				if (gameObjects["currentMinute"] > gameObjects["lastMinute"]) {
-					try {
-						moves = decideNextMoves(gameObjects, moves, game);
-					} catch (e) {
-						moves = { up: 1 };
-					}
-					gameObjects["ballLastPosition"] = { x: ball.x, y: ball.y };
-				}
-				AiBlindMove(game.p1, moves);
-				// AiTrainer(game);
-				lastTimestamp = timestamp;
-				const winner = getWinner(game);
-				if (winner != 0) {
-					timedAlert(
-						` ${await getTranslation(
-							"player"
-						)} ${winner} ${await getTranslation("wins")}`,
-						"success"
-					);
-					clearInterval(intervalId);
-					resolve(winner);
-					callRoute("/home");
-					return;
-				}
-			}, 16 /* 1000 / 60*/);
+		draw(game);
+		await countDown(game);
+		window.addEventListener("resize", handleResize.bind(null, game));
+		window.addEventListener("keydown", handleKeyDown.bind(null, game));
+		window.addEventListener("keyup", handleKeyUp.bind(null, game));
+		window.addEventListener("popstate", function () {
+			window.removeEventListener("resize", handleResize.bind(null, game));
+			window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 		});
+		requestAnimationFrame(gameLoop.bind(null, game, gameObjects, lastTimestamp, ball));
+		window.removeEventListener("resize", handleResize.bind(null, game));
+		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 	}
 
-	playGame().then((winner) => {
-		// fix this
-	;
-	});
+	playGame()
 
 	function initGameObjects(gameObjects, game) {
 		gameObjects["p1"] = game.p1;
@@ -401,42 +384,9 @@ var AIgame = async () => {
 		gameObjects["hitPoints"] = [];
 	}
 
-	//--------------------------AI Alogrith------------------------------------//
-	// let gameObjects = {};
-	// let lastTimestamp = 0;
-	// gameObjects["p1"] = p1;
-	// gameObjects["p2"] = p2;
-	// gameObjects["ball"] = ball;
-	// gameObjects["lastMinute"] = 0;
-	// gameObjects["currentMinute"] = 0;
-	// gameObjects["ballLastPosition"] = ball_position
-	// const CENTER = 40;
-	// let moves = {};
-	// let hitPoints = [];
 
-	// function gameLoop(timestamp) {
-	// const deltaTime = (timestamp - lastTimestamp) / 1000;
-	// gameObjects["deltaTime"] = deltaTime;
-	// gameObjects["currentMinute"] = Math.floor(timestamp / 1000);
-	// if (!pause)
-	// {
-	//     updatePositions(gameObjects);
-	//     if (gameObjects["currentMinute"] > gameObjects["lastMinute"]){
-	//         try{
-	//             moves = decideNextMoves(gameObjects);
-	//         }
-	//         catch {
-	//             moves = {up:1};
-	//         }
-	//         gameObjects["ballLastPosition"] = {...ball_position}
-	//     }
-	//     // AiTrainer(gameObjects["p2"], gameObjects["ball"]);
-	//     AiBlindMove(moves);
-	// }
-	// lastTimestamp = timestamp;
-	//     window.requestAnimationFrame(gameLoop);
-	// }
-
+	//---------------------AI ALGORITHM----------------------------//
+	
 	function decideNextMoves(gameObjects, moves, game) {
 	
 		if (AiHaveJustHitBall(gameObjects, game)) {
