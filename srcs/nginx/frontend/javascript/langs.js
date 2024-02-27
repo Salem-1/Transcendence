@@ -4,7 +4,6 @@ function isAllowedLang(lang) {
 	return allowedlangs.includes(lang);
 }
 
-// Function to update content based on selected language
 function updateContent(langData) {
 	document.querySelectorAll("[data-i18n]").forEach((element) => {
 		const key = element.getAttribute("data-i18n");
@@ -15,12 +14,12 @@ function updateContent(langData) {
 	});
 }
 
-// Function to set the language preference
 function setLanguagePreference(lang) {
 	// get jwt token from cookie
 	const jwt = document.cookie.includes("Authorization");
 	if (jwt) {
-		// send jwt token to server to update language preference
+		try{
+			
 		fetch(`${window.location.origin}/api/setLanguagePreference/`, {
 			method: "POST",
 			headers: {
@@ -29,30 +28,33 @@ function setLanguagePreference(lang) {
 			credentials: "include", // Add this line
 			body: JSON.stringify({ language: lang }),
 		});
+		}
+		catch (e){
+			localStorage.setItem("language", lang);
+			return ;
+		}
 	}
 	localStorage.setItem("language", lang);
 }
 
-// Function to fetch language data
-async function fetchLanguageData(lang) {
+async function getLanguageData(lang) {
 	const response = await fetch(`/languages/${lang}.json`);
 	return response.json();
 }
 
-// Function to change language
 async function changeLanguage(lang) {
-	if (!isAllowedLang(lang)) return;
+	if (!isAllowedLang(lang))
+		return;
 	await setLanguagePreference(lang);
 
-	const langData = await fetchLanguageData(lang);
+	const langData = await getLanguageData(lang);
 	document.documentElement.setAttribute("lang", lang);
 	updateContent(langData);
 }
 
-//Function to get translation
 async function getTranslation(key) {
 	let lang = localStorage.getItem("language") || "en";
 	if (!isAllowedLang(lang)) lang = "en";
-	const langData = await fetchLanguageData(lang);
+	const langData = await getLanguageData(lang);
 	return langData[key];
 }

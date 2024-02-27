@@ -110,8 +110,10 @@ async function hadleOTPModal(event) {
 		if (resend_counter++ < max_resend) {
 			if (await submit2FaEmail(email))
 				timedAlert(await getTranslation("email sent"), "info");
-			else timedAlert(await getTranslation("invalid email"), "warning");
-		} else {
+			else
+				timedAlert(await getTranslation("invalid email"), "warning");
+		} 
+		else {
 			let resend_button = event.target;
 			resend_button.disabled = true;
 			event.target.style.display = "none";
@@ -188,36 +190,47 @@ async function verifyOTP(otp, email) {
 }
 
 async function sendEnable2faEmail(otp, email) {
-	const response = await fetch(
-		`${window.location.origin}/api/enable_2fa_email/`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-			body: JSON.stringify({ otp, email }),
-		}
-	);
-	await response.json();
-	if (response.ok) return true;
-	else return false;
+	try{
+		const response = await fetch(
+			`${window.location.origin}/api/enable_2fa_email/`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include",
+				body: JSON.stringify({ otp, email }),
+			}
+		);
+		await response.json();
+		if (response.ok) return true;
+		else 
+			return false;
+	}
+	catch (e){
+		return false;
+	}
 }
 async function submit2FaEmail(email) {
-	const response = await fetch(
-		`${window.location.origin}/api/submit_2fa_email/`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-			body: JSON.stringify({ email }),
-		}
-	);
-	await response.json();
-	if (response.status == 202) return true;
-	return false;
+	try{	
+		const response = await fetch(
+			`${window.location.origin}/api/submit_2fa_email/`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include",
+				body: JSON.stringify({ email }),
+			}
+		);
+		await response.json();
+		if (response.status == 202) return true;
+		return false;
+	}
+	catch (e){
+		return (false);
+	}
 }
 
 function notValidEmail(email) {

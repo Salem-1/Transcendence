@@ -3,50 +3,55 @@ var login_max_resend = 3;
 var login_resend_counter = 0;
 
 async function storeJWTInCookies(result) {
-	// Assuming 'response' is your fetch response
-	//extract "jwt_token" from response body
 	const jwt_token = result.jwt_token;
-	if (!jwt_token) return false;
+	if (!jwt_token)
+		return false;
 	document.cookie = `Authorization=Bearer ${jwt_token}; Secure; SameSite=Strict`;
 	return true;
 }
 
 async function try2FactorAuthentication(otp) {
-	const response = await fetch(
-		`${window.location.origin}/api/double_factor_auth/`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ otp }),
-			credentials: "include",
-		}
-	);
+	try{
+		const response = await fetch(
+			`${window.location.origin}/api/double_factor_auth/`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ otp }),
+				credentials: "include",
+			}
+		);
 
-	const result = await response.json();
+		const result = await response.json();
 
-	if (response.ok) {
-		await storeJWTInCookies(result);
-		timedAlert(`${await getTranslation("login success")}`, "success");
-		callRoute("/home");
-		return true;
-	} else 
-	{
-		if (result.error === "Invalid OTP")
+		if (response.ok) {
+			await storeJWTInCookies(result);
+			timedAlert(`${await getTranslation("login success")}`, "success");
+			callRoute("/home");
+			return true;
+		} else 
 		{
-			timedAlert(`${await getTranslation("invalid otp")}`);
-			return false;
+			if (result.error === "Invalid OTP")
+			{
+				timedAlert(`${await getTranslation("invalid otp")}`);
+				return false;
+			}
+			if (window.location.pathname.includes("/auth"))
+				callRoute("/");
+			timedAlert(`${await getTranslation("login failed")}`);
+			return true;
 		}
-		if (window.location.pathname.includes("/auth"))
-			callRoute("/");
-		timedAlert(`${await getTranslation("login failed")}`);
-		return true;
+		return false;
 	}
-	return false;
+	catch (e){
+		return (false);
+	}
 }
 
 async function resendOtp() {
+	try {
 	const response = await fetch(`${window.location.origin}/api/resendOtp/`, {
 		method: "GET",
 		headers: {
@@ -61,6 +66,11 @@ async function resendOtp() {
 	}
 	timedAlert(`${await getTranslation("login failed")}`);
 	return false;
+
+	}
+	catch (e){
+		return (false);
+	}
 }
 
 async function modalEnterHandler(event) {

@@ -121,7 +121,7 @@ function playFinals(round) {
 
 function storeWinnerOnBlockchain(winner) {
 	try {
-		const response = fetch("https://localhost:443/api/set_winner/", {
+		const response = fetch(`${window.location.origin}/api/set_winner/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

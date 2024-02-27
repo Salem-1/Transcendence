@@ -152,7 +152,7 @@ const urlLocationHandler = async () => {
 		userPreferredLanguage = "en";
 		localStorage.setItem("language", "en");
 	}
-	const langData = await fetchLanguageData(userPreferredLanguage);
+	const langData = await getLanguageData(userPreferredLanguage);
 	updateContent(langData);
 };
 
@@ -161,6 +161,7 @@ async function isLoggedIn() {
 }
 
 const isVerified = async () => {
+	try {
 	const response = await fetch(
 		`${window.location.origin}/api/loginVerfication/`,
 		{
@@ -175,6 +176,10 @@ const isVerified = async () => {
 		return true;
 	}
 	return false;
+	}
+	catch (e){
+		return (false);
+	}
 };
 
 const isNotLoggedIn = async () => {
