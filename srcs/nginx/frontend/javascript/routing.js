@@ -111,13 +111,16 @@ const urlLocationHandler = async () => {
 	}
 	// get the route object from the urlRoutes object
 	const route = await urlRoutes[location] || urlRoutes["404"];
-	if (route.requiresAuth && !(await isVerified())) {
-		fetch(`${window.location.origin}${location}`, {
-			headers: { "X-Trans42-code": "401" },
-			method: "GET",
-		});
-		await callRoute("/login");
-		return;
+	if (route.requiresAuth) {
+		let verified_user = await isVerified() || false;
+		if (!verified_user) {
+			fetch(`${window.location.origin}${location}`, {
+				headers: { "X-Trans42-code": "401" },
+				method: "GET",
+			});
+			await callRoute("/login");
+			return;
+		}
 	} else if (route.IntroPages && (await isLoggedIn())) {
 		await callRoute("/home");
 		return;
@@ -162,20 +165,23 @@ async function isLoggedIn() {
 
 const isVerified = async () => {
 	try {
-	const response = await fetch(
-		`${window.location.origin}/api/loginVerfication/`,
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include", // Add this line
+		if (!document.cookie.includes("Authorization"))
+			return false;
+		const response = await fetch(
+			`${window.location.origin}/api/loginVerfication/`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include", // Add this line
+			}
+		);
+		const responseData = await response.json();
+		if (response.ok) {
+			return true;
 		}
-	);
-	if (response.ok) {
-		return true;
-	}
-	return false;
+		return false;
 	}
 	catch (e){
 		return (false);
@@ -183,6 +189,8 @@ const isVerified = async () => {
 };
 
 const isNotLoggedIn = async () => {
+	if (!document.cookie.includes("Authorization"))
+		return true;
 	try{
 		const response = await fetch(`${window.location.origin}/api/notLoggedIn/`, {
 			method: "GET",
