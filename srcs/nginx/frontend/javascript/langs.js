@@ -8,9 +8,9 @@ function updateContent(langData) {
 	document.querySelectorAll("[data-i18n]").forEach((element) => {
 		const key = element.getAttribute("data-i18n");
 		// element.textContent = langData[key];
-		element.innerText = langData[key];
+		element.innerText = langData[key] || key;
 		if (element.getAttribute("placeholder"))
-			element.setAttribute("placeholder", langData[key]);
+			element.setAttribute("placeholder", langData[key] || key);
 	});
 }
 
@@ -56,5 +56,5 @@ async function getTranslation(key) {
 	let lang = localStorage.getItem("language") || "en";
 	if (!isAllowedLang(lang)) lang = "en";
 	const langData = await getLanguageData(lang);
-	return langData[key];
+	return langData[key] || key;
 }

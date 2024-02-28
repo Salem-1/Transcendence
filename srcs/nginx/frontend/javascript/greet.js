@@ -50,7 +50,7 @@ async function loginLanguage() {
 		}
 	}
 	catch (e){
-		let lang = "en";
+		let lang = localStorage.getItem("language") || "en";
 		const langData = await getLanguageData(lang);
 		document.documentElement.setAttribute("lang", lang);
 		updateContent(langData);
