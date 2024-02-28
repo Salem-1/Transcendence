@@ -1,5 +1,19 @@
+async function handlepopstate() {
+	path = window.location.pathname;
+	// window.history.pushState({}, "", "/home");
+	if (path === "/tournament" || path === "/game"){
+		callRoute("/home");
+		if (window.location.pathname !== "/home")
+			callRoute("/home");
+		timedAlert(await getTranslation("chill"));
+		// window.history.pushState({}, "", "/home");
+	}
+	window.removeEventListener("popstate", handlepopstate);
+}
+
 try {
 	initTournament();
+	window.addEventListener("popstate", handlepopstate);
 } catch (e) {
   timedAlert(e);
   callRoute("/home");
@@ -15,7 +29,8 @@ async function initTournament() {
 	}
 	let players = getProtectedPlayers();
 	if (players == null || players.length < 2|| window.location.pathname != "/tournament") {
-		callRoute("/home");
+		if (window.location.pathname != "/home")
+			callRoute("/home");
 		return;
 	}
 	let round = fillRound(players);
@@ -58,7 +73,7 @@ async function startTournament() {
 	else if (level == 2) playSemiFinals(round);
 	else if (level == 3) playQuarterFinals(round);
 	else{
-		timedAlert("Error Player index out of range, how could you manage add this one?");
+		timedAlert("Error Player index out of range, how could you manage to add this one?");
 		callRoute("/home");
 		return;
 	}
