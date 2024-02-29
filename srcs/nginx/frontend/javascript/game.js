@@ -1,4 +1,5 @@
 var game = async () => {
+	if (window.location.pathname !== "/game") return;
 	const canvas = document.getElementById("canvas");
 	const ctx = canvas.getContext("2d");
 
@@ -301,8 +302,8 @@ var game = async () => {
 		pauseElement.style.setProperty("display", "block");			
 		let i = 4
 		while (i > 0) {
-			pauseElement.textContent = `${i}`;
-			await new Promise((resolve) => setTimeout(resolve, 750));
+				pauseElement.textContent = `GO 😎`;
+			await new Promise((resolve) => setTimeout(resolve, 50));
 			i--;
 		}
 		game.pause = !game.pause;
@@ -312,7 +313,8 @@ var game = async () => {
 
 	async function gameLoop(game)
 	{
-		if (window.location.pathname !== "/game") return;
+		if (window.location.pathname !== "/game" || !game.running) 
+			return;
 		draw(game);
 		if (game.pause == false)
 		{
@@ -356,6 +358,7 @@ var game = async () => {
             paddle1,
             paddle2,
             pause: false,
+			running: true,
             score: {
                 player1: 0,
                 player2: 0
@@ -368,9 +371,11 @@ var game = async () => {
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
 		window.addEventListener("popstate", () => {
+			game.running = false;
 			window.removeEventListener("resize", handleResize.bind(null, game));
 			window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
+			return
 		});
 		requestAnimationFrame(gameLoop.bind(null, game));
 		while (getWinner(game) == 0) {
@@ -404,6 +409,12 @@ var game = async () => {
 			}
 			const winner = await playGame();
 			if (winner === -1) return;
+			if ( localStorage.getItem("players").includes(player1) == false || localStorage.getItem("players").includes(player2) == false)
+			{
+				timedAlert( await getTranslation("invalid player name"), "danger");
+				callRoute("/home");
+				return;
+			}
 			const round = JSON.parse(localStorage.getItem("round"));
 			const level = JSON.parse(localStorage.getItem("level"));
 			const roundWinners =
