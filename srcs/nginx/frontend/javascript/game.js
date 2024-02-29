@@ -302,8 +302,8 @@ var game = async () => {
 		pauseElement.style.setProperty("display", "block");			
 		let i = 4
 		while (i > 0) {
-			pauseElement.textContent = `${i}`;
-			await new Promise((resolve) => setTimeout(resolve, 750));
+			pauseElement.textContent = `GO 😎`;
+			await new Promise((resolve) => setTimeout(resolve, 50));
 			i--;
 		}
 		game.pause = !game.pause;
