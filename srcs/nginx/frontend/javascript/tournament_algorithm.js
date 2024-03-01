@@ -1,13 +1,11 @@
 async function handlepopstate() {
 	path = window.location.pathname;
-	// window.history.pushState({}, "", "/home");
 	if (path === "/tournament" || path === "/game"){
 		window.removeEventListener("popstate", handlepopstate);
 		callRoute("/login");
 		if (window.location.pathname !== "/home")
 			callRoute("/login");
 		timedAlert(await getTranslation("chill"));
-		// window.history.pushState({}, "", "/home");
 	}
 }
 
