@@ -302,8 +302,8 @@ var game = async () => {
 		pauseElement.style.setProperty("display", "block");			
 		let i = 4
 		while (i > 0) {
-				pauseElement.textContent = `GO 😎`;
-			await new Promise((resolve) => setTimeout(resolve, 50));
+			pauseElement.textContent = `${i}`;
+			await new Promise((resolve) => setTimeout(resolve, 750));
 			i--;
 		}
 		game.pause = !game.pause;
@@ -364,9 +364,6 @@ var game = async () => {
                 player2: 0
             }
         };
-		resetBall(game);
-		draw(game);
-		await countDown(game);
 		window.addEventListener("resize", handleResize.bind(null, game));
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
@@ -377,6 +374,9 @@ var game = async () => {
 			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 			return
 		});
+		resetBall(game);
+		draw(game);
+		await countDown(game);
 		requestAnimationFrame(gameLoop.bind(null, game));
 		while (getWinner(game) == 0) {
 			await new Promise(resolve => setTimeout(resolve, 200));

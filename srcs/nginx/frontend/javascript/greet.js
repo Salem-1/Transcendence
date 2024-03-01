@@ -29,22 +29,30 @@ async function greetUser() {
 }
 
 async function loginLanguage() {
-	const response = await fetch("https://localhost:443/api/getLanguagePreference/", {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include",
-	});
-	if (response.ok) {
-		const responseData = await response.json();
-		const lang = responseData.language;
-		if (lang != localStorage.getItem("language"))
-		{
-			await setLanguagePreference(lang);
-			const langData = await fetchLanguageData(lang);
-			document.documentElement.setAttribute("lang", lang);
-			updateContent(langData);
+	try{
+		const response = await fetch(`${window.location.origin}/api/getLanguagePreference/`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		});
+		if (response.ok) {
+			const responseData = await response.json();
+			const lang = responseData.language;
+			if (lang != localStorage.getItem("language"))
+			{
+				await setLanguagePreference(lang);
+				const langData = await getLanguageData(lang);
+				document.documentElement.setAttribute("lang", lang);
+				updateContent(langData);
+			}
 		}
+	}
+	catch (e){
+		let lang = localStorage.getItem("language") || "en";
+		const langData = await getLanguageData(lang);
+		document.documentElement.setAttribute("lang", lang);
+		updateContent(langData);
 	}
 }

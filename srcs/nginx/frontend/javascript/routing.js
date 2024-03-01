@@ -155,7 +155,7 @@ const urlLocationHandler = async () => {
 		userPreferredLanguage = "en";
 		localStorage.setItem("language", "en");
 	}
-	const langData = await fetchLanguageData(userPreferredLanguage);
+	const langData = await getLanguageData(userPreferredLanguage);
 	updateContent(langData);
 };
 

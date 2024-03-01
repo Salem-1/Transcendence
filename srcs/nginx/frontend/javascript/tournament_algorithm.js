@@ -1,13 +1,11 @@
 async function handlepopstate() {
 	path = window.location.pathname;
-	// window.history.pushState({}, "", "/home");
 	if (path === "/tournament" || path === "/game"){
 		window.removeEventListener("popstate", handlepopstate);
 		callRoute("/login");
 		if (window.location.pathname !== "/home")
 			callRoute("/login");
 		timedAlert(await getTranslation("chill"));
-		// window.history.pushState({}, "", "/home");
 	}
 }
 
@@ -136,7 +134,7 @@ function playFinals(round) {
 
 function storeWinnerOnBlockchain(winner) {
 	try {
-		const response = fetch("https://localhost:443/api/set_winner/", {
+		const response = fetch(`${window.location.origin}/api/set_winner/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
