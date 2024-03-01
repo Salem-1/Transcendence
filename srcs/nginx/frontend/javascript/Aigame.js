@@ -271,8 +271,8 @@ var AIgame = async () => {
 		pauseElement.style.setProperty("display", "block");			
 		let i = 4
 		while (i > 0) {
-			pauseElement.textContent = `GO 😎`;
-			await new Promise((resolve) => setTimeout(resolve, 50));
+			pauseElement.textContent = `${i}`;
+			await new Promise((resolve) => setTimeout(resolve, 750));
 			i--;
 		}
 		game.pause = !game.pause;
@@ -281,7 +281,7 @@ var AIgame = async () => {
 	}
 
 	async function gameLoop(game, gameObjects, lastTimestamp, ball) {
-		if (window.location.pathname !== "/AIgame") return;
+		if (window.location.pathname !== "/AIgame" || game.running === false) return;
 		draw(game);
 		// gravity
 		// game.ball.speedX += BALL_SPEED * 0.01;
@@ -348,6 +348,7 @@ var AIgame = async () => {
 			p1,
 			p2,
 			pause: false,
+			running: true,
 			score: {
 				player1: 0,
 				player2: 0,
@@ -356,16 +357,17 @@ var AIgame = async () => {
 		let gameObjects = {};
 		initGameObjects(gameObjects, game);
 		let lastTimestamp = 0;
-		draw(game);
-		await countDown(game);
 		window.addEventListener("resize", handleResize.bind(null, game));
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
 		window.addEventListener("popstate", function () {
+			game.running = false;
 			window.removeEventListener("resize", handleResize.bind(null, game));
 			window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
 		});
+		draw(game);
+		await countDown(game);
 		requestAnimationFrame(gameLoop.bind(null, game, gameObjects, lastTimestamp, ball));
 		window.removeEventListener("resize", handleResize.bind(null, game));
 		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
