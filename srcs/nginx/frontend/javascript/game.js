@@ -399,6 +399,7 @@ var game = async () => {
 		window.removeEventListener("resize", handleResize.bind(null, game));
 		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
+		return (getWinner(game));
 	}
 
 	function readQueryParams() {
@@ -407,6 +408,17 @@ var game = async () => {
 		const player1 = urlParams.get("player1");
 		const player2 = urlParams.get("player2");
 		return { isTournament, player1, player2 };
+	}
+	function getProtectedPlayers(){
+		let players = [];
+		try{
+			players = JSON.parse(localStorage.getItem("players")) || [];
+		}
+		catch (e){
+			return players;
+			callRoute("/home");
+		}
+		return (players);
 	}
 
 	async function main() {
@@ -422,11 +434,21 @@ var game = async () => {
 				document.getElementById("player2").innerText = player2;
 			}
 			const winner = await playGame();
-			if (winner === -1) return;
-			if (
-				localStorage.getItem("players").includes(player1) == false ||
-				localStorage.getItem("players").includes(player2) == false
-			) {
+			console.log(`winner: ${winner}`);
+			if (winner === -1)
+				return;
+			let players = getProtectedPlayers();
+			players = localStorage.getItem("players");
+			if (!players) {
+				timedAlert(
+					await getTranslation("invalid player name"),
+					"danger"
+				);
+				callRoute("/home");
+				return ;
+			}
+			if (localStorage.getItem("players").includes(player1) == false ||
+					localStorage.getItem("players").includes(player2) == false) {
 				timedAlert(
 					await getTranslation("invalid player name"),
 					"danger"
