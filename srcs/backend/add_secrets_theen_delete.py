@@ -12,7 +12,7 @@ client = hvac.Client(
 
 path = '/secret/'
 
-secrets_str = """CONTRACT_ADDRESS=0xc18201610fCbEF03CAd1F62E34BEA7e6e62274D8"""
+secrets_str = """DEBUG=0"""
 
 secrests_lines = secrets_str.split("\n")
 secrets_len = len(secrests_lines)

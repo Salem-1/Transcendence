@@ -156,13 +156,21 @@ var AIgame = async () => {
 		} else if (isColliding(ball, paddle2)) {
 			handlePaddleCollision(ball, paddle2);
 		}
+
 		game.ball.x += game.ball.speedX;
 		game.ball.y += game.ball.speedY;
-		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+
+		if (ball.y - ball.radius < 0) {
+			ball.y = 0 + ball.radius;
+			ball.speedY *= -1;
+		} else if (ball.y + ball.radius > canvas.height) {
+			ball.y = canvas.height - ball.radius;
 			ball.speedY *= -1;
 		}
-		paddle1.update();
-		paddle2.update();
+
+		game.p1.update();
+		game.p2.update();
+
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
@@ -172,8 +180,9 @@ var AIgame = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
-		if (getWinner(game) != 0)
-			return;
+
+		if (getWinner(game) != 0) return;
+
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall(game);
 		drawPaddles(game);
