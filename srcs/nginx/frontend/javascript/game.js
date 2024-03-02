@@ -91,29 +91,28 @@ var game = async () => {
 	}
 
 	function resetBall(game) {
-	
 		const minSlope = Math.tan(Math.PI / 6); // 30 degrees
 		const maxSlope = Math.tan((5 * Math.PI) / 6); // 150 degrees
-	
+
 		// Generate a random slope within the defined range
 		const slope = Math.random() * (maxSlope - minSlope) + minSlope;
 		const directionX = Math.random() < 0.5 ? -1 : 1;
 		const directionY = Math.random() < 0.5 ? -1 : 1;
 
 		// Calculate the initial velocity components based on the slope and directions
-		game.ball.speedX = directionX * BALL_SPEED / Math.sqrt(1 + slope * slope);
-		game.ball.speedY = directionY * BALL_SPEED * Math.abs(slope) / Math.sqrt(1 + slope * slope);
-		if (directionX < 0){
+		game.ball.speedX =
+			(directionX * BALL_SPEED) / Math.sqrt(1 + slope * slope);
+		game.ball.speedY =
+			(directionY * BALL_SPEED * Math.abs(slope)) /
+			Math.sqrt(1 + slope * slope);
+		if (directionX < 0) {
 			game.ball.x = canvas.width / 1.2;
 			game.ball.y = canvas.height / 2;
-		}
-		else{
+		} else {
 			game.ball.x = canvas.width / 4;
 			game.ball.y = canvas.height / 2;
-
 		}
 	}
-	
 
 	function updateScore(game) {
 		const score1 = document.getElementById("score1");
@@ -123,8 +122,8 @@ var game = async () => {
 	}
 
 	function isColliding(ball, paddle) {
-		const newPaddleY = paddle.y - 0.10 * paddle.height;
-		const newPaddleHeight = 1.20 * paddle.height;
+		const newPaddleY = paddle.y - 0.1 * paddle.height;
+		const newPaddleHeight = 1.2 * paddle.height;
 		// ctx.fillStyle = "rgba(255,0,0,0.3)";
 		// ctx.fillRect(paddle.x, newPaddleY, paddle.width, newPaddleHeight);
 		return (
@@ -136,9 +135,9 @@ var game = async () => {
 	}
 
 	function handlePaddleCollision(ball, paddle) {
-		const newPaddleY = paddle.y - 0.10 * paddle.height;
-		const newPaddleHeight = 1.20 * paddle.height;
-		let collidePoint = ball.y - (newPaddleY+ (newPaddleHeight) / 2);
+		const newPaddleY = paddle.y - 0.1 * paddle.height;
+		const newPaddleHeight = 1.2 * paddle.height;
+		let collidePoint = ball.y - (newPaddleY + newPaddleHeight / 2);
 		// Normalize
 		collidePoint = collidePoint / (newPaddleHeight / 2);
 		if (collidePoint > 1) collidePoint = 1;
@@ -146,7 +145,7 @@ var game = async () => {
 
 		const angleRad = collidePoint * (Math.PI / 4);
 		ball.speedX = -ball.speedX; // Reverse horizontal direction
-	
+
 		// Calculate new vertical speed based on collision angle
 		ball.speedY = BALL_SPEED * Math.sin(angleRad);
 	}
@@ -162,13 +161,21 @@ var game = async () => {
 		} else if (isColliding(ball, paddle2)) {
 			handlePaddleCollision(ball, paddle2);
 		}
+
 		game.ball.x += game.ball.speedX;
 		game.ball.y += game.ball.speedY;
-		if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+
+		if (ball.y - ball.radius < 0) {
+			ball.y = 0 + ball.radius;
+			ball.speedY *= -1;
+		} else if (ball.y + ball.radius > canvas.height) {
+			ball.y = canvas.height - ball.radius;
 			ball.speedY *= -1;
 		}
+
 		game.paddle1.update();
 		game.paddle2.update();
+
 		if (ball.x - ball.radius < 0) {
 			game.score.player2++;
 			resetBall(game);
@@ -178,8 +185,9 @@ var game = async () => {
 			resetBall(game);
 			updateScore(game);
 		}
-		if (getWinner(game) != 0)
-			return;
+
+		if (getWinner(game) != 0) return;
+
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall(game);
 		drawPaddles(game);
@@ -187,8 +195,7 @@ var game = async () => {
 
 	function handleKeyDown(game, event) {
 		if (window.location.pathname !== "/game") return;
-		const key =
-			event.key.length == 1 ? event.key.toLowerCase() : event.key;
+		const key = event.key.length == 1 ? event.key.toLowerCase() : event.key;
 		switch (key) {
 			case "p":
 			case " ":
@@ -219,8 +226,7 @@ var game = async () => {
 
 	function handleKeyUp(game, event) {
 		if (window.location.pathname !== "/game") return;
-		const key =
-			event.key.length == 1 ? event.key.toLowerCase() : event.key;
+		const key = event.key.length == 1 ? event.key.toLowerCase() : event.key;
 		switch (key) {
 			case "w":
 			case "s":
@@ -299,8 +305,8 @@ var game = async () => {
 		game.pause = !game.pause;
 		const pauseText = await getTranslation("game paused");
 		const pauseElement = document.getElementById("pause");
-		pauseElement.style.setProperty("display", "block");			
-		let i = 4
+		pauseElement.style.setProperty("display", "block");
+		let i = 4;
 		while (i > 0) {
 			pauseElement.textContent = `${i}`;
 			await new Promise((resolve) => setTimeout(resolve, 750));
@@ -311,19 +317,24 @@ var game = async () => {
 		pauseElement.textContent = pauseText;
 	}
 
-	async function gameLoop(game)
-	{
-		if (window.location.pathname !== "/game" || !game.running) 
-			return;
+	async function gameLoop(game) {
+		if (window.location.pathname !== "/game" || !game.running) return;
 		draw(game);
-		if (game.pause == false)
-		{
-			game.ball.speedX += game.ball.speedX  * 0.001;
+		if (game.pause == false) {
+			game.ball.speedX += game.ball.speedX * 0.001;
 			game.ball.speedY += game.ball.speedY * 0.001;
 		}
 		const winner = getWinner(game);
 		if (winner != 0) {
-			timedAlert(`${winner === 1 ? await getTranslation("left wins") : await getTranslation("right wins")}`, "success", 3000);
+			timedAlert(
+				`${
+					winner === 1
+						? await getTranslation("left wins")
+						: await getTranslation("right wins")
+				}`,
+				"success",
+				3000
+			);
 			return;
 		}
 		requestAnimationFrame(gameLoop.bind(null, game));
@@ -353,39 +364,42 @@ var game = async () => {
 			"#fff"
 		);
 
-        const game = {
-            ball,
-            paddle1,
-            paddle2,
-            pause: false,
+		const game = {
+			ball,
+			paddle1,
+			paddle2,
+			pause: false,
 			running: true,
-            score: {
-                player1: 0,
-                player2: 0
-            }
-        };
+			score: {
+				player1: 0,
+				player2: 0,
+			},
+		};
 		window.addEventListener("resize", handleResize.bind(null, game));
 		window.addEventListener("keydown", handleKeyDown.bind(null, game));
 		window.addEventListener("keyup", handleKeyUp.bind(null, game));
 		window.addEventListener("popstate", () => {
 			game.running = false;
 			window.removeEventListener("resize", handleResize.bind(null, game));
-			window.removeEventListener("keydown", handleKeyDown.bind(null, game));
+			window.removeEventListener(
+				"keydown",
+				handleKeyDown.bind(null, game)
+			);
 			window.removeEventListener("keyup", handleKeyUp.bind(null, game));
-			return
+			return;
 		});
 		resetBall(game);
 		draw(game);
 		await countDown(game);
 		requestAnimationFrame(gameLoop.bind(null, game));
 		while (getWinner(game) == 0) {
-			await new Promise(resolve => setTimeout(resolve, 200));
+			await new Promise((resolve) => setTimeout(resolve, 200));
 		}
 		// return new Promise(resolve => requestAnimationFrame(gameLoop.bind(null, game)));
 		window.removeEventListener("resize", handleResize.bind(null, game));
 		window.removeEventListener("keydown", handleKeyDown.bind(null, game));
 		window.removeEventListener("keyup", handleKeyUp.bind(null, game));
-    }
+	}
 
 	function readQueryParams() {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -402,16 +416,21 @@ var game = async () => {
 			callRoute("/home");
 		} else {
 			if (player1 && player2) {
-				document.getElementById("player1").removeAttribute('data-i18n');
-				document.getElementById("player2").removeAttribute('data-i18n');
+				document.getElementById("player1").removeAttribute("data-i18n");
+				document.getElementById("player2").removeAttribute("data-i18n");
 				document.getElementById("player1").innerText = player1;
 				document.getElementById("player2").innerText = player2;
 			}
 			const winner = await playGame();
 			if (winner === -1) return;
-			if ( localStorage.getItem("players").includes(player1) == false || localStorage.getItem("players").includes(player2) == false)
-			{
-				timedAlert( await getTranslation("invalid player name"), "danger");
+			if (
+				localStorage.getItem("players").includes(player1) == false ||
+				localStorage.getItem("players").includes(player2) == false
+			) {
+				timedAlert(
+					await getTranslation("invalid player name"),
+					"danger"
+				);
 				callRoute("/home");
 				return;
 			}
@@ -447,13 +466,11 @@ var game = async () => {
 			}
 			localStorage.setItem("roundWinners", JSON.stringify(roundWinners));
 			try {
-				if (level === 1)
-					callRoute('/tournament');
-				else
-					initTournament();
+				if (level === 1) callRoute("/tournament");
+				else initTournament();
 			} catch (e) {
-			  timedAlert(e);
-			  callRoute("/home");
+				timedAlert(e);
+				callRoute("/home");
 			}
 		}
 	}
