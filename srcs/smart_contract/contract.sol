@@ -1,15 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.24;
 
 contract SimpleContract {
     struct WinnerRecord {
         string tournamentOrganizer;
         string winner;
     }
+    address creator;
 
     WinnerRecord[] private winnersLedger;
 
-    function setWinner(string memory winner, string memory tournamentOrganizer) public {
+    constructor() {
+        creator = msg.sender;
+        winnersLedger.push(WinnerRecord("Initial Organizer", "Initial Winner"));
+    }
+
+    modifier onlyCreator() {
+        require(msg.sender == creator, "you are not a creator");
+        _;
+    }
+
+    function setWinner(string memory winner, string memory tournamentOrganizer) public onlyCreator {
+
         winnersLedger.push(WinnerRecord(winner, tournamentOrganizer));
     }
 
