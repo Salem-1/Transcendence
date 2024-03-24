@@ -2,7 +2,6 @@ ARG NGINX_VER=1.23.3
 
 FROM nginx:${NGINX_VER}-alpine as base
 
-ARG GEO_DB_RELEASE=2024-01
 ARG MODSEC_TAG=v3.0.8
 ARG OWASP_TAG=v3.3.4
 
@@ -49,10 +48,7 @@ RUN echo 'Cloning Modsec Nginx Connector, GeoIP, ModSec OWASP Rules, and downloa
     git clone -b master --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git && \
     git clone -b master --depth 1 https://github.com/leev/ngx_http_geoip2_module.git && \
     git clone -b ${OWASP_TAG} --depth 1 https://github.com/coreruleset/coreruleset.git /usr/local/owasp-modsecurity-crs && \
-    wget -O - https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | tar -xz && \
-    mkdir -p /etc/nginx/geoip && \
-    wget -O - https://download.db-ip.com/free/dbip-country-lite-${GEO_DB_RELEASE}.mmdb.gz | gzip -d > /etc/nginx/geoip/dbip-city-lite.mmdb && \
-    wget -O - https://download.db-ip.com/free/dbip-country-lite-${GEO_DB_RELEASE}.mmdb.gz | gzip -d > /etc/nginx/geoip/dbip-country-lite.mmdb
+    wget -O - https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | tar -xz 
 
 RUN echo 'Installing Nginx Modules' && \
     (cd "/opt/nginx-$NGINX_VERSION" && \
